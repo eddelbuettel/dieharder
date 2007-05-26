@@ -1,0 +1,26 @@
+dieharder (2.24.4-1) unstable; urgency=low
+
+  * New upstream release -- and first Debian upload
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 26 May 2007 15:23:14 -0500
+
+dieharder (2.24.3-1) unstable; urgency=low
+
+  * New upstream release
+  
+  * dieharder/add_my_types.c:  Enable the GNU R generators 
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun,  6 May 2007 13:29:59 -0500
+
+dieharder (2.24.2-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 27 Feb 2007 22:24:31 -0600
+
+dieharder (2.4.24-1) unstable; urgency=low
+
+  * Initial Debian packaging
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 17 Feb 2007 00:02:59 -0600
+
