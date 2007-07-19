@@ -67,6 +67,9 @@ build: configure build-stamp
 build-stamp:
 	dh_testdir
 	$(MAKE)	
+
+        # manually call for manual build
+	(cd manual && make && cd -)
 	touch build-stamp
 
 clean:
@@ -75,8 +78,7 @@ clean:
 	rm -f build-stamp configure-stamp
 
 #	# Add here commands to clean up after the build process.
-	-$(MAKE) clean
-	-$(MAKE) distclean
+	[ ! -f Makefile ] || $(MAKE) clean distclean
 
 	rm -rf buildroot
 	rm -f dieharder.pdf
@@ -102,6 +104,9 @@ install: build
 
 	dh_movefiles --sourcedir=debian/dieharder \
 				-plibdieharder2 -plibdieharder-dev
+
+	install -m 0644 manual/dieharder.pdf \
+		`pwd`/debian/libdieharder-dev/usr/share/doc/libdieharder-dev/
 
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will

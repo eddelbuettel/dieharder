@@ -1,3 +1,10 @@
+dieharder (2.24.4-2) unstable; urgency=low
+
+  * debian/rules: Manually call for build of pdf manual and install
+    it in the libdieharder-dev package			(Closes: #433810)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 19 Jul 2007 11:22:16 -0500
+
 dieharder (2.24.4-1) unstable; urgency=low
 
   * New upstream release -- and first Debian upload
