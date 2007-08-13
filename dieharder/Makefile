@@ -416,12 +416,13 @@ clean :
 # specfile for the dieharder package, in precisely the right locations.
 #========================================================================
 install : $(PROGRAM)
-	(strip $(PROGRAM);\
-	install -d $(prefix)/bin; \
+	(install -d $(prefix)/bin; \
 	install -m 755 $(PROGRAM) $(prefix)/bin; \
 	install -d $(prefix)/share/man/man1; \
 	gzip -c -9 $(PROGRAM).1 > $(PROGRAM).1.gz; \
 	install -m 644 $(PROGRAM).1.gz $(prefix)/share/man/man1)
+
+# edd 13 Aug 2007 commented out re Debian bug #436768	(strip $(PROGRAM);
 
 #========================================================================
 # We give all generic rules below.  Currently we only need a rule for 

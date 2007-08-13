@@ -1,3 +1,10 @@
+dieharder (2.24.4-3) unstable; urgency=low
+
+  * dieharder/Makefile*: Comment out unconditional strip call, which will
+    also be removed upstream				(Closes: #436768)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 13 Aug 2007 05:51:03 -0500
+
 dieharder (2.24.4-2) unstable; urgency=low
 
   * debian/rules: Manually call for build of pdf manual and install
