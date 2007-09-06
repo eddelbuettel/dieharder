@@ -1,3 +1,10 @@
+dieharder (2.24.4-4) unstable; urgency=low
+
+  * manual/Makefile*: Switch to pdflatex instead of ps2pdf which 
+    crashed on a few non-Intel architectures
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 05 Sep 2007 19:31:40 -0500
+
 dieharder (2.24.4-3) unstable; urgency=low
 
   * dieharder/Makefile*: Comment out unconditional strip call, which will
