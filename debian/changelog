@@ -1,3 +1,10 @@
+dieharder (2.24.4-5) unstable; urgency=low
+
+  * debian/rules: Remove manual/dieharder.{pdf,dvi} in clean target
+  							(Closes: #442547)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 17 Sep 2007 16:53:17 -0500
+
 dieharder (2.24.4-4) unstable; urgency=low
 
   * manual/Makefile*: Switch to pdflatex instead of ps2pdf which 

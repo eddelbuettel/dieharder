@@ -33,7 +33,6 @@ endif
 # edd 18 Nov 2006:  add -fexceptions, but don't use -O3 as 
 #                   'make check' as gcc hangs in cblas/ after test_ger.c
 CFLAGS	   :=-Wall -pipe -fexceptions -D_REENTRANT $(DEBUGFLAGS)
-CFLAGSnog  :=-Wall -pipe -fexceptions -D_REENTRANT -O2 
 # edd 29 Sep 2005   alpha needs -mieee with gcc 4.0
 ifeq ($(arch),alpha)
 CFLAGS	+= -mieee
@@ -49,7 +48,6 @@ configure-stamp:
 	rm -f config.cache
 	./autogen.sh
 
-#	ls -ltr
 	./configure 	CFLAGS="$(CFLAGS)" 		\
 			--prefix=/usr 			\
 			$(CONFFLAGS) 			
@@ -83,6 +81,10 @@ clean:
 	rm -rf buildroot
 	rm -f dieharder.pdf
 	rm -f config.guess config.sub
+
+        # extra cleanup in manual/
+	rm -vf manual/dieharder.dvi manual/dieharder.pdf
+
 	dh_clean
 
 install: DH_OPTIONS=
