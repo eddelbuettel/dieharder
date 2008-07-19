@@ -12,14 +12,13 @@ static Dtest diehard_rank_32x32_dtest = {
   "\n\
 #==================================================================\n\
 #                Diehard 32x32 Binary Rank Test\n\
-# This is the BINARY RANK TEST for 31x31 matrices. The leftmost \n\
-# 31 bits of 31 random integers from the test sequence are used \n\
-# to form a 31x31 binary matrix over the field {0,1}. The rank  \n\
-# is determined. That rank can be from 0 to 31, but ranks< 28   \n\
-# are rare, and their counts are pooled with those for rank 28. \n\
-# Ranks are found for (default) 40,000 such random matrices and\n\
-# a chisquare test is performed on counts for ranks 31,30,29 and\n\
-# <=28.\n\
+# This is the BINARY RANK TEST for 32x32 matrices. A random 32x\n\
+# 32 binary matrix is formed, each row a 32-bit random integer.\n\
+# The rank is determined. That rank can be from 0 to 32, ranks\n\
+# less than 29 are rare, and their counts are pooled with those\n\
+# for rank 29.  Ranks are found for 40,000 such random matrices\n\
+# and a chisquare test is performed on counts for ranks  32,31,\n\
+# 30 and <=29.\n\
 #\n\
 # As always, the test is repeated and a KS test applied to the\n\
 # resulting p-values to verify that they are approximately uniform.\n\

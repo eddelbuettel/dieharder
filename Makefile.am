@@ -51,9 +51,8 @@ SVNPATH = $(SVNTREE)/$(PROJECT)
 SVNTIME = $(PROJECT:=.svn.time)
 
 #========================================================================
-# This is revision information that MUST be set here and ONLY here.  
-# It will automagically set the related information in $(SPEC) and the
-# subsidiary Makefiles in the source subdirectories.
+# This is revision information, automagically set from autoconf.  The
+# actual version information is set ONLY in configure.ac
 #========================================================================
 VERSION=@VERSION@
 RELEASE=@RELEASE@
@@ -166,6 +165,7 @@ SSRPM = $(PROJECT)-src-$(VERSION)-$(RELEASE).src.rpm
 SRPM = $(PROJECT)-$(VERSION)-$(RELEASE).src.rpm
 LRPM = libdieharder-$(VERSION)-$(RELEASE).$(ARCH).rpm
 PRPM = dieharder-$(VERSION)-$(RELEASE).$(ARCH).rpm
+
 $(TGZ): tgz
 $(SRPM): rpm
 $(LRPM): rpm

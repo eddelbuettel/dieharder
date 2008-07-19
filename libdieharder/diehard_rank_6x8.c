@@ -65,24 +65,10 @@ void diehard_rank_6x8(Test **test, int irun)
      if(verbose == D_DIEHARD_RANK_6x8 || verbose == D_ALL){
        printf("# ");
      }
-     /*
-      * random offset from 0 to rmax_bits-1
-      */
-     offset = gsl_rng_uniform_int(rng,rmax_bits);
-     /*
-      * Get a random integer
-      */
-     bitstring = gsl_rng_get(rng);
- 
-     /*
-      * Get one byte starting at the random offset
-      */
-     diehard_rank_6x8_mtx[i][0] = get_bit_ntuple(&bitstring,1,8,offset);
-     /*
-      * Shift it left until it is lined up in the leftmost
-      * byte.
-     diehard_rank_6x8_mtx[i][0] <<= 24;
-      */
+
+     get_rand_bits(&bitstring,sizeof(uint),8,rng);
+     diehard_rank_6x8_mtx[i][0] = bitstring;
+
      if(verbose == D_DIEHARD_RANK_6x8 || verbose == D_ALL){
        dumpbits(diehard_rank_6x8_mtx[i],32);
      }

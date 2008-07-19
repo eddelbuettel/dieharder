@@ -955,7 +955,7 @@ uint get_uint_rand(gsl_rng *gsl_rng)
    bl = bu - rmax_bits;
    /* For the first call, we start with bits_rand[1] all or partially filled */
    bits_rand[0] = 0;
-   bits_rand[1] = gsl_rng_get(rng);
+   bits_rand[1] = gsl_rng_get(gsl_rng);
    /* This is how many bits we still need. */
    bleft = bu - rmax_bits;
    /*
@@ -983,7 +983,7 @@ uint get_uint_rand(gsl_rng *gsl_rng)
   */
  while(bleft > rmax_bits){
    /* Get a bits_rand's worth (rmax_bits) into bits_rand[0] */
-   bits_rand[0] = gsl_rng_get(rng);
+   bits_rand[0] = gsl_rng_get(gsl_rng);
    MYDEBUG(D_BITS) {
      printf("before %2d: |",bleft);
      dumpbits(&bits_rand[0],bu);
@@ -1007,7 +1007,7 @@ uint get_uint_rand(gsl_rng *gsl_rng)
   * We are now in range.  We get just the number of bits we need, from
   * the right of course, and add them to bits_rand[1].
   */
- bits_rand[0] = gsl_rng_get(rng);
+ bits_rand[0] = gsl_rng_get(gsl_rng);
  MYDEBUG(D_BITS) {
    printf("before %2d: |",bleft);
    dumpbits(&bits_rand[0],bu);
@@ -1117,6 +1117,7 @@ void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng)
     */
    for(i=BRBUF-1;i>=0;i--) {
      bits_randbuf[i] = get_uint_rand(gsl_rng);
+     /* printf("bits_randbuf[%d] = %u\n",i,bits_randbuf[i]); */
    }
    /*
     * Set the pointers to point to the last line, and the bit AFTER the

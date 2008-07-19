@@ -110,6 +110,12 @@ install: build
 	install -m 0644 manual/dieharder.pdf \
 		`pwd`/debian/libdieharder-dev/usr/share/doc/libdieharder-dev/
 
+        # cleanups to make lintian happy
+	rmdir -v `pwd`/debian/dieharder/usr/lib 		\
+		 `pwd`/debian/dieharder/usr/share/man/man3 	\
+		 `pwd`/debian/dieharder/usr/include/dieharder	\
+		 `pwd`/debian/dieharder/usr/include/
+
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will
 # affect _all_ packages. Anything you want to only affect one package

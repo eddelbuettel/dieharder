@@ -23,8 +23,9 @@ void Vtest_create(Vtest *vtest, unsigned int nvec)
 {
 
  int i;
- if(verbose == D_BTEST || verbose == D_ALL){
-   printf("Vtest_create(): Creating test struct for %u nvec.\n",nvec);
+ MYDEBUG(D_BTEST){
+   printf("#==================================================================\n");
+   printf("# Vtest_create(): Creating test struct for %u nvec.\n",nvec);
  }
  vtest->x = (double *) malloc(sizeof(double)*nvec);       /* sample results */
  vtest->y = (double *) malloc(sizeof(double)*nvec);       /* expected sample results */
@@ -36,8 +37,8 @@ void Vtest_create(Vtest *vtest, unsigned int nvec)
  vtest->nvec = nvec;
  vtest->chisq = 0.0;
  vtest->pvalue = 0.0;
- if(verbose == D_BTEST || verbose == D_ALL){
-   printf("Vtest_create(): Created test structure for %d points.\n",vtest->nvec);
+ MYDEBUG(D_BTEST){
+   printf("# Vtest_create(): Done.\n");
  }
 
 

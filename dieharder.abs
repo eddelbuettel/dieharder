@@ -1,5 +1,5 @@
 <center><H1>DieHarder: A Random Number Test Suite</H1></center>
-<center><H2>Version 2.24.4</H2></center>
+<center><H2>Version 2.24.7</H2></center>
 
 <center><H3>Robert G. Brown (rgb)</H3></center>
 <center><H3>Dirk Eddelbuettel</H3></center>
@@ -99,14 +99,16 @@ proceed as there are some documentation goodies in the ./doc
 subdirectory and the ./manual subdirectory of the source tarball (such
 as the original diehard test descriptions and the STS white paper).
 
-<p>Also, George Marsaglia retired from FSU in 1996, and diehard appears
-to have finally disappeared from FSU webspace.  However, the diehard
-CDROM is still mirrored <a
-href="http://www.csis.hku.hk/~diehard/cdrom/">here</a> in what appears
-to be an authorized copy.  The source code of diehard itself is (of
-course) Copyright George Marsaglia but Marsaglia did not incorporate an
-explicit <i>license</i> into his code which muddles the issue of how and
-when it can be distributed, freely or otherwise.  Existing diehard
+<p>George Marsaglia retired from FSU in 1996.  For a brief time diehard
+appeared to have finally disappeared from FSU webspace, but what had
+really happened is google's favorite path to it had disappeared when his
+personal home directory was removed.  Diehard is still there, at the URL
+<a
+href="http://www.stat.fsu.edu/pub/diehard">http://www.stat.fsu.edu/pub/diehard!
+as well as at a Hong Kong website.  The source code of diehard itself is
+(of course) Copyright George Marsaglia but Marsaglia did not incorporate
+an explicit <i>license</i> into his code which muddles the issue of how
+and when it can be distributed, freely or otherwise.  Existing diehard
 sources are <i>not directly incorporated into dieharder in source
 form</i> for that reason, to keep authorship and GPL licensing issues
 clear.</p>

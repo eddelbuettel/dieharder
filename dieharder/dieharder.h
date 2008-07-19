@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: dieharder.h 324 2007-05-21 23:46:44Z rgb $
+ * $Id: dieharder.h 326 2007-05-23 01:12:07Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -197,12 +197,6 @@
  int filenumbits;	/* number of bits per integer */
  uint filecount;	/* number of rands in file */
  char filetype;         /* file type */
-
- /*
-  * rng global vectors and variables for setup and tests.
-  */
- const gsl_rng_type **types;    /* where all the rng types go */
- gsl_rng *rng;                  /* global gsl random number generator */
 
  void show_test_header(Dtest *dtest,Test **test);
  void show_test_header_debug(Dtest *dtest,Test **test);

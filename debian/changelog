@@ -1,3 +1,11 @@
+dieharder (2.24.7-1) unstable; urgency=low
+
+  * New upstream release
+  
+  * debian/watch: Added watch file, after hint from Robert re locations
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 19 Jul 2008 11:14:06 -0500
+
 dieharder (2.24.4-5) unstable; urgency=low
 
   * debian/rules: Remove manual/dieharder.{pdf,dvi} in clean target

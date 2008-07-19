@@ -30,7 +30,7 @@ void diehard_rank_32x32(Test **test, int irun)
 
  int i,j,k,t,rank;
  double r,smax,s;
- uint bitstring,rmask,mask;
+ uint bitstring;
  Vtest vtest;
 
  Vtest_create(&vtest,33,"diehard_rank_32x32",gsl_rng_name(rng));
@@ -46,12 +46,16 @@ void diehard_rank_32x32(Test **test, int irun)
  vtest.y[31] = test[0]->tsamples*0.5775761902e+00;
  vtest.x[32] = 0.0;
  vtest.y[32] = test[0]->tsamples*0.2887880952e+00;
- 
+
  for(t=0;t<test[0]->tsamples;t++){
 
    /*
-    * We generate 32 x 32 random integers and put their leftmost
-    * (most significant) bit into each bit slot of the diehard_rank_32x32_mtx.
+    * We've tried a variety of things here.  For example, we've used
+    * a single most significant bit from each of 32x32 consecutive integers
+    * but that is very "expensive" in integers.
+    *
+    * The original diehard would use 32 bit uints at a time.  We'll now
+    * do the same.  This is easy with get_rand_bits().
     */
    if(verbose == D_DIEHARD_RANK_32x32 || verbose == D_ALL){
      printf("# diehard_rank_32x32(): Input random matrix = \n");
@@ -60,14 +64,10 @@ void diehard_rank_32x32(Test **test, int irun)
      if(verbose == D_DIEHARD_RANK_32x32 || verbose == D_ALL){
        printf("# ");
      }
-     diehard_rank_32x32_mtx[i][0] = 0;
-     for(j=0;j<32;j++){
-       bitstring = gsl_rng_get(rng);
-       bitstring = get_bit_ntuple(&bitstring,1,1,31);
-       diehard_rank_32x32_mtx[i][0] <<= 1;
-       diehard_rank_32x32_mtx[i][0] += bitstring;
-       mask <<= 1;
-     }
+
+     get_rand_bits(&bitstring,sizeof(uint),32,rng);
+     diehard_rank_32x32_mtx[i][0] = bitstring;
+
      if(verbose == D_DIEHARD_RANK_32x32 || verbose == D_ALL){
        dumpbits(diehard_rank_32x32_mtx[i],32);
      }
@@ -84,7 +84,6 @@ void diehard_rank_32x32(Test **test, int irun)
      vtest.x[rank]++;
    }
  }
-
  /* for(i=0;i<33;i++) printf("vtest.x[%d] =  %f\n",i,vtest.x[i]); */
 
  Vtest_eval(&vtest);

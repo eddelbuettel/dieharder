@@ -401,11 +401,8 @@ install: $(PDF)
 	dvips -Pamz -Pcmz -o $@ $<
 
 # Rule for making pdf image
-#%.pdf:%.ps
-#	ps2pdf $<
-%.pdf:%.tex $(SOURCES)
-	pdflatex $< $@
-	pdflatex $< $@
+%.pdf:%.ps
+	ps2pdf $<
 
 # Rule for making postscript image
 %.a4.ps:%.dvi
