@@ -57,6 +57,8 @@
 
 #include <dieharder/libdieharder.h>
 
+#include "static_get_bits.c"
+
 void rgb_bitdist(Test **test,int irun)
 {
 
@@ -65,6 +67,7 @@ void rgb_bitdist(Test **test,int irun)
  uint value_max;   /* 2^{nb}, basically (max size of nb bit word + 1) */
  uint bsamples;    /* The number of non-overlapping samples in buffer */
  uint value;       /* value of sampled ntuple (as a uint) */
+ uint mask;
 
  /* Look for cruft below */
 
@@ -133,13 +136,67 @@ void rgb_bitdist(Test **test,int irun)
    printf("# rgb_bitdist():            vtest table\n");
    printf("# rgb_bitdist(): Outcome   bit          x           y       sigma\n");
  }
+   
+ tsamples = test[0]->tsamples;
+
+ /*
+  * Set the mask for bits to be returned.  I think that I want to
+  * change routines here over to the sliding window routine.
+  *
+  * The following mask will work OK, but John says that it won't
+  * work unless nb != CHAR_BIT*sizeof(uint), so the loop is a bit
+  * more robust.
+  *
+  *  mask = ((1u << nb) - 1);
+  */
+ mask = 0;
+ for(i = 0; i < nb; i++){
+   mask |= (1u << nb);
+ }
+ mask = ((1u << nb) - 1);
+
+ /*
+  * OK, I'm getting to where I think I can manage to fix this test once
+  * and for all.  I want to make this test evaluate a counter:
+  *   freq[ntup][irun]
+  * that counts how many times ntup occurs in the irunth sample.  The
+  * test is then performed on the DISTRIBUTION of this count over all
+  * irun samples.  For each irun, we expect to get a binomial
+  * distribution around the expected value of tsamples*ntuple_probl.
+  *
+  * We cannot quite do a straight chisq on this, however.  For one
+  * thing, we do not know a priori what the number of degrees of
+  * freedom is for any given ntuple or number of samples.  For another,
+  * the asymptotic tails of the distribution have too few member for
+  * Pearson's chisq to be very accurate, although we have just learned
+  * of the "G-test" that is supposedly valid here if we can compute
+  * or estimate the number of degrees of freedom.  Or we can do what
+  * Marsaglia frequently does and bundle all counts outside of a
+  * suitable cutoff to be a single bin with the sum probability of the
+  * tail -- which we should be able to compute with the binomial CDF,
+  * I think -- and then either compute chisq using it as a single bin
+  * or (in the case of many of the monkey tests) make this tail the
+  * FOCUS of the test and check to see if the tail is correctly occupied
+  * as a simple normal with the binomial probability.
+  *
+  * In any of the chisq cases, though, I have to have some way of estimating
+  * or computing the number of degrees of freedom.  That's the one thing
+  * that is missing, so far.  If I get that, the rest should be pretty
+  * easy to do several ways.
+  */
+
  for(i=0;i<value_max;i++){
    Vtest_create(&vtest[i],bsamples+1,"rgb_bitdist",gsl_rng_name(rng));
+   /*
+    * We will experiment a bit with a cutoff that cleans up our degree of
+    * freedom problem.
+    */
+   vtest[i].cutoff = 20.0;
    for(b=0;b<=bsamples;b++){
      if(i==0){
        pbin = gsl_ran_binomial_pdf(b,ntuple_prob,bsamples);
        vtest[i].x[b] = 0.0;
-       vtest[i].y[b] = test[0]->tsamples*pbin;
+       vtest[i].y[b] = tsamples*pbin;
      } else {
        vtest[i].x[b] = 0.0;
        vtest[i].y[b] = vtest[0].y[b];
@@ -148,6 +205,7 @@ void rgb_bitdist(Test **test,int irun)
        printf("# rgb_bitdist():  %3u     %3u   %10.5f  %10.5f\n",
          i,b,vtest[i].x[b],vtest[i].y[b]);
      }
+     vtest[i].x[0] = tsamples;
    }
    MYDEBUG(D_RGB_BITDIST){
      printf("# rgb_bitdist():=====================================================\n");
@@ -160,13 +218,13 @@ void rgb_bitdist(Test **test,int irun)
   * with the bitcount as an index as a trial that generated that
   * bitcount.
   */
- for(t=0;t<test[0]->tsamples;t++){
+ memset(count,0,value_max*sizeof(uint));
+ for(t=0;t<tsamples;t++){
 
    /*
     * Clear the count vector for this sample.
     */
-   memset(count,0,value_max*sizeof(uint));
-
+    
    for(b=0;b<bsamples;b++){
 
      /*
@@ -175,7 +233,7 @@ void rgb_bitdist(Test **test,int irun)
       * skipping bits.  Then increment the count of this ntuple value's
       * occurrence out of bsamples tries.
       */
-     get_rand_bits(&value,sizeof(uint),nb,rng);
+     value = get_rand_bits_uint (nb, mask, rng);
      count[value]++;
 
      MYDEBUG(D_RGB_BITDIST) {
@@ -190,10 +248,16 @@ void rgb_bitdist(Test **test,int irun)
     */
    ctotal = 0;
    for(i=0;i<value_max;i++){
-     vtest[i].x[count[i]]++;
-     ctotal += count[i];
-     MYDEBUG(D_RGB_BITDIST){
-       printf("# rgb_bitdist(): vtest[%u].x[%u] = %u\n",i,count[i],(uint)vtest[i].x[count[i]]);
+      uint count_i = count[i];
+      if (count_i)
+	{
+	   count[i] = 0;		       /* performs memset */
+	   ctotal += count_i;
+	   vtest[i].x[count_i]++;
+	   vtest[i].x[0]--;
+	}
+      MYDEBUG(D_RGB_BITDIST){
+	 printf("# rgb_bitdist(): vtest[%u].x[%u] = %u\n",i,count[i],(uint)vtest[i].x[count[i]]);
      }
    }
    MYDEBUG(D_RGB_BITDIST){

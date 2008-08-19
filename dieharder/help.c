@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: help.c 361 2007-12-06 19:39:53Z rgb $
+ * $Id: help.c 414 2008-08-15 18:14:45Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -25,6 +25,8 @@ void help()
    printf("%s",rgb_bitdist_dtest.description);
    fflush(stdout);
    printf("%s",rgb_minimum_distance_dtest.description);
+   fflush(stdout);
+   printf("%s",rgb_permutations_dtest.description);
    fflush(stdout);
    printf("%s",diehard_birthdays_dtest.description);
    fflush(stdout);
@@ -65,6 +67,8 @@ void help()
    printf("%s",sts_monobit_dtest.description);
    fflush(stdout);
    printf("%s",sts_runs_dtest.description);
+   fflush(stdout);
+   printf("%s",sts_serial_dtest.description);
    fflush(stdout);
    help_user_template();
    fflush(stdout);
@@ -169,6 +173,10 @@ void help()
      printf("%s",rgb_minimum_distance_dtest.description);
      fflush(stdout);
      break;
+   case RGB_PERMUTATIONS:
+     printf("%s",rgb_permutations_dtest.description);
+     fflush(stdout);
+     break;
    case RGB_LMN:
      break;
    default:
@@ -181,6 +189,10 @@ void help()
      break;
    case STS_RUNS:
      printf("%s",sts_runs_dtest.description);
+     fflush(stdout);
+     break;
+   case STS_SERIAL:
+     printf("%s",sts_serial_dtest.description);
      fflush(stdout);
      break;
    default:
@@ -208,11 +220,12 @@ void help()
 
 }
 
-
 void Usage()
 {
 
  fprintf(stdout, "\n\
+dieharder version %s Copyright 2003 Robert G. Brown\n\
+ \n\
 Usage:\n\
   dieharder [-a] [-b bits] [-d diehard test number] [-f filename]\n\
            [-g generator number] [-h] [-i iterations] [-l] \n\
@@ -275,7 +288,7 @@ Usage:\n\
   and may not be even approximately correct in your context.  Also, the\n\
   quality assessment(s) for the rngs may, in fact, be completely incorrect\n\
   or misleading.  Use them at your Own Risk!  Be Warned!\n\
-\n");
+\n",QUOTEME(VERSION));
 
  exit(0);
 

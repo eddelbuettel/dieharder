@@ -208,59 +208,14 @@ void dumpbits(uint *data, unsigned int nbits)
 }
 
 /*
- * dumpbitwin goes to bit address offset and prints out nbits bits.
- * Once again this is a real PITA -- one can easily parse past the end
- * of data[] unless we indicate its length.
+ * dumpbitwin is being rewritten to dump the rightmost nbits
+ * from a uint, only.
  */
-void dumpbitwin(char *data, int len, uint offset, uint nbits)
+void dumpbitwin(uint data, uint nbits)
 {
 
- int i,j;
- char bit,tmp,c;
-
- printf("\noffset = %d  nbits = %d\n",offset,nbits);
-
- /*
-  * index of LAST byte
-  */
- i = (offset + nbits)/CHAR_BIT;
- /*
-  * Address of last bit
-  */
- j = (offset + nbits)%CHAR_BIT ;
- printf("i = %d  j = %d\n",i,j);
- /*
-  * Fix for overrun.  if j is 0, i is one too high.  Otherwise we
-  * make j the amount to right shift the rightmost byte.
-  */
- if(j == 0){
-   i--;
- } else {
-   j = CHAR_BIT - j;
- }
- printf("i = %d  j = %d\n",i,j);
- tmp = data[i];
- printf("data[%d] = %hhx tmp = %hhx\n",i,data[i],tmp);
- tmp = tmp >> j;  /* shift to last bit in window */
- j = CHAR_BIT - j; /* Number of bits left to get in byte. */
- printf("data[%d] = %hhx SHIFTED tmp = %hhx\n",i,data[i],tmp);
- while(nbits > 0){
-
-/*
-DANG!  I'm doing this in a cosmically incorrect order.  I've now got
-the correct byte but am doing it backwards.  I DO need to push it off
-to the left and grab the overlapping bit...
-*/
- 
-   bit = (1 & tmp);  /* grab bit */
-   printf("%1u",bit);         /* print bit */
-   tmp = tmp >> 1;            /* shift byte */
-   j++;
-   if(j%CHAR_BIT == 0) {
-     tmp = data[i--];
-     printf("\n");
-     exit(0);
-   }
+ while (nbits > 0){
+   printf("%d",(data >> (nbits-1)) & 1);
    nbits--;
  }
 
@@ -695,6 +650,26 @@ uint b_rotate_right(uint input, uint shift)
  * We have to pack the answer into the LEAST significant bits in the
  * output vector, BTW, not the MOST.  That is, we have to fill the
  * output window all the way to the rightmost bit.  Tricky.
+ *
+ * I think that I can make this 2-3 times faster than it is by using
+ * John E. Davis's double buffering trick.  In context, it would be:
+ *   1) Limit return size to e.g. 32 bits.  I think that this is fair;
+ * for the moment I can't see needing more than a uint return, but it
+ * would be easy enough to generate an unsigned long long (64 bit)
+ * uint return if we ever get to where it would help.  For example,
+ * by calling this routine twice if nothing else.
+ *   2) Pad the input buffer by cloning the first uint onto the end
+ * to easily manage the wraparound.
+ *   3) Use a dynamic buffer to rightshift directly into alignment
+ * with rightmost part of output.
+ *   4) IF NECESSARY Use a dynamic buffer to leftshift from the previous
+ * word into alignment with the rightmost in the output.
+ *   5) Mask the two parts and add (or logical and) them.
+ *   6) Return.  Note that the contents of the starting buffer do not
+ * change, and the two dynamic buffers are transient.
+ *
+ * BUT, we're not going to mess with that NOW unless we must.  The routine
+ * below is AFAIK tested and reliable, if not optimal.
  */
 void get_ntuple_cyclic(uint *input,uint ilen,
     uint *output,uint jlen,uint ntuple,uint offset)
@@ -751,7 +726,7 @@ void get_ntuple_cyclic(uint *input,uint ilen,
   */
 
  /*
-  * Start will all cases where the input lives on a single line and runs
+  * Start with all cases where the input lives on a single line and runs
   * precisely to the end (be = bu).  Apply Rule 2 to terminate.  That way
   * Rule 2 below can be CERTAIN that it is being invoked after a right
   * fill (only).

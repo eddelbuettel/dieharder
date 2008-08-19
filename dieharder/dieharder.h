@@ -1,12 +1,15 @@
 /*
  *========================================================================
- * $Id: dieharder.h 326 2007-05-23 01:12:07Z rgb $
+ * $Id: dieharder.h 420 2008-08-18 18:29:17Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
  */
 
 #include "copyright.h"
+
+/* To enable large file support */
+#define _FILE_OFFSET_BITS 64
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,6 +61,14 @@
  * and let's one test on a in other ways to avoid leaking memory.
  */
 #define nullfree(a) {free(a);a = 0;}
+
+/*
+ * This is how one gets a macro into quotes; an important one to keep
+ * in all program templates.
+ */
+#define _QUOTEME(x) #x
+#define QUOTEME(x) _QUOTEME(x)
+
 
  /*
   *========================================================================
@@ -150,7 +161,7 @@
  int rgb;               /* rgb test number */
  int sts;               /* sts test number */
  uint Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
- uint tsamples;         /* Generally should be "a lot". */
+ off_t tsamples;        /* Generally should be "a lot".  off_t is u_int64_t. */
  int user;              /* user defined test number */
  int verbose;           /* Default is not to be verbose. */
  double x_user;         /* General purpose command line inputs for use */
@@ -195,7 +206,11 @@
  char filename[K];      /* Input file name */
  int fromfile;		/* set true if file is used for rands */
  int filenumbits;	/* number of bits per integer */
- uint filecount;	/* number of rands in file */
+ /*
+  * If we have large files, we can have a lot of rands.  off_t is
+  * automagically set to u_int64_t if FILE_OFFSET_BITS is set to 64.
+  */
+ off_t filecount;	/* number of rands in file */
  char filetype;         /* file type */
 
  void show_test_header(Dtest *dtest,Test **test);
@@ -204,4 +219,14 @@
  void show_test_results(Dtest *dtest,Test **test);
  void show_test_results_debut(Dtest *dtest,Test **test);
  void test_footer(Dtest *dtest, double pvalue, double *pvalues);
+
+/*
+ * List new rng types to be added in startup.c.  Use "empty" or
+ * libdieharder rng sources as template, uncomment/clone the lines that
+ * add your own type(s) in startup.c.  Consider sending "good" generators
+ * that pass all or most tests or "classic" generators good or bad that
+ * people might want to test back to me to include in libdieharder.
+ */
+ GSL_VAR const gsl_rng_type *gsl_rng_empty_random;
+ /* GSL_VAR const gsl_rng_type *gsl_rng_my_new_random; */
 

@@ -1,0 +1,55 @@
+From davis@space.mit.edu Tue Mar 11 12:57:02 2008
+Date: Tue, 11 Mar 2008 12:56:57 -0400
+From: John E. Davis <davis@space.mit.edu>
+To: rgb@phy.duke.edu
+Subject: get_bit_ntuple patch
+
+Hi Robert,  
+
+Here is a uint-specific implementation of get_bit_ntuple that may be
+used when in place of, e.g., code in diehard_dna.c such as
+
+    r = get_bit_ntuple(&r0,1,2,boffset);
+
+The replacement for the above is
+
+    r = get_bit_ntuple_from_uint (r0,2,mask,boffset);
+
+Here mask is a pre-computed quantity equal to ((nbits << 1)-1), which
+is 0x3 for this particular example.  Using this function in
+diehard_dna.c cuts the execution time for this test in half.
+
+Rather than making a single global instance of
+get_bit_ntuple_from_uint, because of its small size I chose to put it
+in an include file and included it where used.  The reason for this is
+that on my system libdieharder is a shared library with pic code.  As
+such calling a global object requires the compiler to generate an
+additional dereference, which can add a slight performance hit for
+small functions.
+
+Here is the function.  Hopefully it is equivalent to get_bit_ntuple
+for the case of a uint.   Let me know if you have questions about it.
+Thanks, --John
+
+static uint get_bit_ntuple_from_uint (uint bitstr, uint nbits, 
+                                      uint mask, uint boffset)
+{
+   uint result;
+   uint len;
+   
+   /* Only rmax_bits in bitstr are meaningful */
+   boffset = boffset % rmax_bits;
+   result = bitstr >> boffset;
+   
+   if (boffset + nbits <= rmax_bits)
+     return result & mask;
+   
+   /* Need to wrap */
+   len = rmax_bits - boffset;
+   while (len < nbits)
+     {
+	result |= (bitstr << len);
+	len += rmax_bits;
+     }
+   return result & mask;
+}

@@ -1,18 +1,18 @@
-<center><H1>DieHarder: A Random Number Test Suite</H1></center>
-<center><H2>Version 2.24.7</H2></center>
+<center><H1>Dieharder: A Random Number Test Suite</H1></center>
+<center><H2>Version 2.27.12</H2></center>
 
 <center><H3>Robert G. Brown (rgb)</H3></center>
 <center><H3>Dirk Eddelbuettel</H3></center>
 
 <p>At the suggestion of Linas Vepstas on the Gnu Scientific Library
 (GSL) list this GPL'd suite of random number tests will be named
-"DieHarder".  Using a movie sequel pun for the name is a double tribute
+"Dieharder".  Using a movie sequel pun for the name is a double tribute
 to George Marsaglia, whose <a
 href="http://stat.fsu.edu/~geo/diehard.html">"Diehard battery of
 tests"</a> of random number generators has enjoyed years of enduring
 usefulness as a test suite.</p>
 
-<p>The DieHarder suite is more than just the diehard tests cleaned up
+<p>The dieharder suite is more than just the diehard tests cleaned up
 and given a pretty GPL'd source face in native C.  Tests from the <a
 href="http://csrc.nist.gov/rng/">Statistical Test Suite (STS)</a>
 developed by the National Institute for Standards and Technology (NIST)
@@ -27,13 +27,13 @@ the test process and placed in usable form.  For example, the
 bit-distribution tests should (eventually) be able to display the actual
 histogram for the different bit ntuplets.</p>
 
-<p>DieHarder is by design extensible.  It is intended to be the "Swiss
-Army Knife of random number test suites", or if you prefer, "the last
+<p>Dieharder is by design extensible.  It is intended to be the "Swiss
+army knife of random number test suites", or if you prefer, "the last
 suite you'll ever ware" for testing random numbers.</p>
 
 <hr>
 
-<center><h2><a href="./dieharder">DieHarder Download
+<center><h2><a href="./dieharder">Dieharder Download
 Area</a></h2></center>
 
 <p>The version numbers have the following meaning:
@@ -63,13 +63,13 @@ which e.g. yum upgrades rely.
 </ul>
 
 <p> The single-tree dieharder sources (.tgz and .src.rpm) files can be
-downloaded from this directory.  In addition, i386 binary rpm's built on
-top of Fedora Core 6 are present. Be warned: the GSL is a build
-dependency.  The current packaging builds both the library and the
-dieharder UI from a single source rpm, or from running "make" in the
-toplevel directory of the source tarball.  With a bit of effort (making
-a private rpm building tree), "make rpm" should work for you as well in
-this toplevel directory.</p>
+downloaded from this directory.  In addition, binary rpm's built on top
+of Fedora Core whatever (for either i386 or x86_64 may be present. Be
+warned: the GSL is a build <i>requirement</i>.  The current packaging
+builds both the library and the dieharder UI from a single source rpm,
+or from running "make" in the toplevel directory of the source tarball.
+With a bit of effort (making a private rpm building tree), "make rpm"
+should work for you as well in this toplevel directory.</p>
 
 <p> This project is under very active development.  Considerable effort
 is being expended so that the suite will "run out of the box" to produce
@@ -104,7 +104,7 @@ appeared to have finally disappeared from FSU webspace, but what had
 really happened is google's favorite path to it had disappeared when his
 personal home directory was removed.  Diehard is still there, at the URL
 <a
-href="http://www.stat.fsu.edu/pub/diehard">http://www.stat.fsu.edu/pub/diehard!
+href="http://www.stat.fsu.edu/pub/diehard">http://www.stat.fsu.edu/pub/diehard</a>
 as well as at a Hong Kong website.  The source code of diehard itself is
 (of course) Copyright George Marsaglia but Marsaglia did not incorporate
 an explicit <i>license</i> into his code which muddles the issue of how
@@ -175,74 +175,103 @@ error.  Your Mileage May Vary.  Be Warned.</p>
 
 <hr>
 
-<center><h2>About DieHarder</h2></center>
+<center><h2>About Dieharder</h2></center>
 
-<p>The primary point of DieHarder (like Diehard before it) is to make it
+<p>The primary point of dieharder (like diehard before it) is to make it
 easy to time and test (pseudo)random number generators, both software
 and hardware, for a variety of purposes in research and cryptography.
 The tool is built entirely on top of the GSL's random number generator
 interface and uses a variety of other GSL tools (e.g.  sort, erfc,
-incomplete gamma, distribution generators) in its operation.  Five
-examples are provided of wrapping a random number generator (including
-both file I/O and the entropy-based /dev/random and /dev/urandom
-available on many linux systems) and inserting it so that it is can be
-called via the GSL interface. It is <i>strongly suggested</i> that any
-software random number generator to be tested by provided with such an
-GSL-compatible interface.</p>
+incomplete gamma, distribution generators) in its operation.</p>
 
-<p>A file interface (still consistent with the GSL to the extent
-possible) has been added that allows random numbers in either binary
-unsigned integer or a variety of ascii encoded formats to be read in
-from a file.  This permits dieharder to be used with "any" generator
-(directly wrappable or not) that can generate a table of random numbers,
-but this will place severe limits on some of the tests, which can
-require very large numbers of random numbers.  For this reason software
-generators should be implemented directly if at all possible and not via
-the file interface.</p>
+<p>Dieharder differs significantly from diehard in many ways.  For
+example, diehard uses file based sources of random numbers exclusively
+and by default works with only roughly ten million random numbers in
+such a file.  However, modern random number generators in a typical
+simulation application can easily need to generate 10^18 or more random
+numbers, generated from hundreds, thousands, millions of different seeds
+in independent (parallelized) simulation threads, as the application
+runs over a period of months to years.  Those applications can easily be
+sensitive to rng weaknesses that might not be revealed by sequences as
+short as 10^7 uints in length even with excellent and sensitive
+tests.  One of dieharder's primary design goals was to permit tests to
+be run on very long sequences.</p>
 
-<p>In this respect, DieHarder differs significantly from Diehard, which
-used file based sources of random numbers exclusively and would "work"
-with only a few million random numbers in such a file.  Modern random
-number generators in a typical simulation application can easily need to
-generate 10^18 or more random numbers, generated from hundreds,
-thousands, millions of different seeds, over months to years of
-accumlated run time and are therefore sensitive to weaknesses that might
-not be revealed by such short sequences even with excellent and
-sensitive tests.</p>
+<p>To facilitate this, dieharder <i>prefers</i> to test generators that
+have been wrapped up in a GSL-compatible interface so that they can
+return an <i>unbounded</i> stream of random numbers -- as many as any
+single test or the entire suite of tests might require.  Numerous
+examples are provided of how one can wrap one's own random number
+generator so that it is can be called via the GSL interface.</p>
 
-<p>This was, in part, the motivation for the development for the
-Statistical Test Suite by NIST, which focusses more on cryptographical
-strength (although the general testing methodology is much the
-same).</p>
+<p>Dieharder also supports file-based input three distinct ways.  The
+simplest is to use the (raw binary) stdin interface to pipe a bit stream
+from <i>any</i> rng, hardware or software, through dieharder for
+testing.  In addition, one can use "direct" file input of either raw
+binary or ascii formatted (usually uint) random numbers.  The man page
+contains examples of how to do all three of these things, and dieharder
+itself can generate sample files to use as templates for the appropriate
+formatting.</p>
 
-<p>The development of DieHarder was motivated by the following, in
-rough order of importance:<p>
+<p><b>Note Well!</b> Dieharder can consume a <i>lot</i> of random
+numbers in the course of running all the tests!  To facilitate this,
+dieharder should (as of 2.27.11) support large file (> 2GB) input,
+although this is still experimental.  Large files are clunky and
+relatively slow, and the LFS (large file system) in linux/gcc is still
+relatively new and may have portability issues if dieharder is built
+with a non-gcc compiler.  It is therefore <i>strongly recommended</i>
+that both hardware and software generators be tested by being wrapped
+within the GSL interface by emulating the source code examples so that
+they can return an essentially unbounded rng stream.</p>
+
+<p>Dieharder also goes beyond diehard in that it is deliberately
+extensible.  In addition to implementing all of the diehard tests it is
+expected that dieharder will eventually contain all of the NIST STS and
+a variety of tests contributed by users, invented by the dieharder
+authors, or implemented from descriptions in the literature.  As a true
+open source project, dieharder can eventually contain <i>all</i> rng
+tests that prove useful in one place with a consistent interface that
+permits one to apply those tests to many generators for purposes of
+comparison and validation of the <i>tests themselves</i> as much as the
+generators.  In other words, it is intended to be a vehicle for the
+computer science of random number generation testing as well as a
+practical test harness for random number generators.</p>
+
+<p>To expand on this, the development of dieharder was motivated by the
+following, in rough order of importance:<p>
 
 <ul>
 
-<li> To provide a <b>readily available, rpm-installable toolset</b> so
-that "consumers" of random numbers (who typically use <i>large</i>
-numbers of random numbers in e.g. simulation or other research) can test
-the generator(s) they are using to verify their quality or lack thereof.
+<li> To provide a readily available, rpm- or apt- installable
+<b>toolset</b> so that "consumers" of random numbers (who typically use
+<i>large</i> numbers of random numbers in e.g. simulation or other
+research) can test the generator(s) they are using to verify their
+quality or lack thereof.
 
 <li> To provide a very <b>simple user interface</b> for that toolset for
-random number consumers.  A GUI is on the list of things to do, although
-it adds little to the practical utility of the tool.
+random number consumers.  At the moment, this means a command line
+interface (CLI) that can easily be embedded in scripts or run repeatedly
+with different parameters.  A graphical user interface (GUI) is on the
+list of things to do, although it adds little to the practical utility
+of the tool.
 
 <li> To provide lots of <b>lots of knobs and dials</b> and low level
 control for statistical researchers that want to study particular
-generators with particular tests in more detail.
+generators with particular tests in more detail.  This includes full
+access to test sources -- no parameter or aspect of the test algorithms
+is "hidden" and needs to be taken on faith.
 
 <li> To have the entire test code and documentation be fully <b>Gnu
 Public Licensed</b> and hence openly available for adaptation, testing,
-comment, and modification so that the testing suite itself becomes
-reliable and can be easily extended.
+comment, and modification so that the testing suite itself becomes (over
+time) reliable.
 
-<li> To provide a fairly <b>simple API</b> for adding new tests with a
-common set of low-level testing tools and a <b>common test structure</b>
-that leads (one hopes) to an <i>unambiguous</i> decision to accept or
-reject any given random number generator on the basis of any given test
-for a suitable choice of controllable test parameters.
+<li> To be <b>extensible</b>.  Dieharder provides a fairly <b>simple
+API</b> for adding new tests with a common set of low-level testing
+tools and a <b>common test structure</b> that leads (one hopes) to an
+<i>unambiguous</i> decision to accept or reject any given random number
+generator on the basis of any given test for a suitable choice of
+controllable test parameters.
 
 <li> To allow all researchers to be able to directly test, in
 particular, the <b>random number generators interfaced with the GSL</b>.
@@ -252,34 +281,29 @@ the ease of adding new ones (either contributing them to the project or
 for the sole purpose of local testing).
 
 <li> To allow researchers that use e.g. <i>distributions</i> directly
-generated by GSL random distribution generation routines (which can in
-principle fail two ways, due to the failure of the underlying random
-number generator or due to a failure of the generating algorithm) to be
-able to directly validate their particular generator/distribution
-combination, where possible.
+generated by GSL routines (which can in principle fail two ways, due to
+the failure of the underlying random number generator or due to a
+failure of the generating algorithm) to be able to directly validate
+their particular generator/distribution combination at the cost of
+implementing a suitable test in dieharder (using the code of existing
+tests as a template).
+
+<li> To allow dieharder to be directly interfaced with <b>other tools and
+interfaces</b>.  For example, dieharder can be directly called within
+the R interface, permitting its rngs to be tested and R-based graphics
+and tools to be used to analyze test results.  Note well, however, that
+because it uses the GSL (which is GPL viral) dieharder itself is GPL
+viral and cannot be embedded directly into a non-GPL tool such as
+matlab.
 
 </ul>
 
-<p>Note well that the primary objections I have towards diehard and STS
-are not that they are or are not adequate, accurate and complete; it is
-that the code itself is not properly packaged for reuse, testing, and
-extension.  Diehard is remarkably poorly documented (with one small
-paragraph of text describing each test, even very complex ones, and with
-no accompanying description of how certain important data used in the
-program were actually computed). STS, in contrast, is really nothing
-<i>but</i> its description in documentation with no readily available
-open source code for implementation.  DieHarder will hopefully rectify
-both situations and be <i>both</i> well documented <i>and</i> available
-in clearly publically licensed code to make it extremely easy for
-anybody to test random numbers on any GSL-supported platform.</p>
-
 <p>Although this tool is being developed on Linux/GCC-based platforms,
-it should port with no particular difficulty to other Unices, especially
-ones that support RPMs.  No particular effort is being expended at this
-time to make it run on Windows based compute platforms (due to a lack of
-availability of such platforms and compilers to rgb) but there is no
-reason to think that such a port would be terribly difficult PROVIDED
-that the Gnu Scientific Library is installable under Windows.</p>
+it should port with no particular difficulty to other Unix-like
+environments (at least ones that support the GSL), with the further
+warning that certain features (in particular large file support) may
+require tweaking and that the dieharder authors may not be able to help
+you perform that tweaking.</p>
 
 <center><h2>Essential Usage Synopsis</h2></center>
 
@@ -290,11 +314,12 @@ it as:</p>
 
 <p>it should run -a(ll) tests on the default GSL generator.</p>
 
-<p>Choose alternative tests with -g number where</p>
+<p>Choose alternative tests with -g number where:</p>
 
-<tt>dieharder -g -1</tt>
+<tt>dieharder</tt>
+
 <p>will list all possible numbers known to the current snapshot of the
-DieHarder (mostly from the GSL).</p>
+dieharder.</p>
 
 <tt>dieharder -l</tt>
 
@@ -318,152 +343,100 @@ in printable PDF form will be available both on this website and in
 Available</h2></center>
 
 <p>List of GSL and user-defined random number generators that can be
-tested by DieHarder:</p>
+tested by dieharder:</p>
 <pre>
-rgb@lilith|B:1344>dieharder
-              Listing available built-in gsl-linked generators:           |
+==========================================================================|
+         dieharder version 2.27.11 Copyright 2003 Robert G. Brown         |
+==========================================================================|
  Id Test Name           | Id Test Name           | Id Test Name           |
 ==========================================================================|
   0 borosh13            |  1 cmrg                |  2 coveyou             |
   3 fishman18           |  4 fishman20           |  5 fishman2x           |
   6 gfsr4               |  7 knuthran            |  8 knuthran2           |
-  9 lecuyer21           | 10 minstd              | 11 mrg                 |
- 12 mt19937             | 13 mt19937_1999        | 14 mt19937_1998        |
- 15 r250                | 16 ran0                | 17 ran1                |
- 18 ran2                | 19 ran3                | 20 rand                |
- 21 rand48              | 22 random128-bsd       | 23 random128-glibc2    |
- 24 random128-libc5     | 25 random256-bsd       | 26 random256-glibc2    |
- 27 random256-libc5     | 28 random32-bsd        | 29 random32-glibc2     |
- 30 random32-libc5      | 31 random64-bsd        | 32 random64-glibc2     |
- 33 random64-libc5      | 34 random8-bsd         | 35 random8-glibc2      |
- 36 random8-libc5       | 37 random-bsd          | 38 random-glibc2       |
- 39 random-libc5        | 40 randu               | 41 ranf                |
- 42 ranlux              | 43 ranlux389           | 44 ranlxd1             |
- 45 ranlxd2             | 46 ranlxs0             | 47 ranlxs1             |
- 48 ranlxs2             | 49 ranmar              | 50 slatec              |
- 51 taus                | 52 taus2               | 53 taus113             |
- 54 transputer          | 55 tt800               | 56 uni                 |
- 57 uni32               | 58 vax                 | 59 waterman14          |
- 60 zuf                 |
-                   Listing available non-gsl generators:                  |
- Id Test Name           | Id Test Name           | Id Test Name           |
+  9 knuthran2002        | 10 lecuyer21           | 11 minstd              |
+ 12 mrg                 | 13 mt19937             | 14 mt19937_1999        |
+ 15 mt19937_1998        | 16 r250                | 17 ran0                |
+ 18 ran1                | 19 ran2                | 20 ran3                |
+ 21 rand                | 22 rand48              | 23 random128-bsd       |
+ 24 random128-glibc2    | 25 random128-libc5     | 26 random256-bsd       |
+ 27 random256-glibc2    | 28 random256-libc5     | 29 random32-bsd        |
+ 30 random32-glibc2     | 31 random32-libc5      | 32 random64-bsd        |
+ 33 random64-glibc2     | 34 random64-libc5      | 35 random8-bsd         |
+ 36 random8-glibc2      | 37 random8-libc5       | 38 random-bsd          |
+ 39 random-glibc2       | 40 random-libc5        | 41 randu               |
+ 42 ranf                | 43 ranlux              | 44 ranlux389           |
+ 45 ranlxd1             | 46 ranlxd2             | 47 ranlxs0             |
+ 48 ranlxs1             | 49 ranlxs2             | 50 ranmar              |
+ 51 slatec              | 52 taus                | 53 taus2               |
+ 54 taus113             | 55 transputer          | 56 tt800               |
+ 57 uni                 | 58 uni32               | 59 vax                 |
+ 60 waterman14          | 61 zuf                 |                        |
 ==========================================================================|
- 61 /dev/random         | 62 /dev/urandom        | 63 empty               |
- 64 file_input          | 65 file_input_raw      |
+200 stdin_input_raw     |201 file_input_raw      |202 file_input          |
+203 ca                  |204 uvag                |                        |
+==========================================================================|
+400 R_wichmann_hill     |401 R_marsaglia_multic. |402 R_super_duper       |
+403 R_mersenne_twister  |404 R_knuth_taocp       |405 R_knuth_taocp2      |
+==========================================================================|
+500 /dev/random         |501 /dev/urandom        |                        |
+==========================================================================|
+600 empty               |                        |                        |
+==========================================================================|
 </pre>
 
-<p>Note that the last five tests are examples of random number
-generators that have been wrapped up in GSL compatible clothes and
-linked to the GSL so that the standard GSL interface works for them.
-<i>Any</i> random number generator that one wishes to test can thus
-easily be added for testing using these as prototypes, and can likely be
-submitted to the GSL for inclusion if they pass the tests as well or
-better than the tests that are already there.  That makes this a <i>very
-convenient tool</i> for testing new RNGs.</p>
+<p>Note that the stdin_input_raw interface (-g 200) is a "universal"
+interface.  Any generator that can produce a (continuous) stream of
+presumably random bits can be tested with dieharder.  The easiest way to
+demonstrate this is by running:</p>
 
-<p>Note also that the last two non-gsl generators are "universal"
-generators in the sense that they permit you to input your OWN random
-number stream from a file (but NOT from /dev/random or /dev/urandom, be
-warned).  The file_input generator requires a file of "cooked" (ascii
+<pre>
+dieharder -S 1 -B -o -t 1000000000 | dieharder -g 75 -r 3 -n 2
+</pre>
+
+<p>where the first invocation of dieharder generates a stream of binary
+bits drawn from the default generator with seed 1 and the second reads
+those bits from stdin and tests them with the rgb bitdist test on two
+bit sequences.  Compare the output to:</p>
+
+<pre>
+dieharder -S 1 -r 3 -n 2
+</pre>
+
+<p>which runs the same test on the same generator with the same seed
+internally.  They should be the same.</p>
+
+<p>Similarly the file_input generator requires a file of "cooked" (ascii
 readable) random numbers, one per line, with a header that describes the
-format to dieharder.  This interface is still somewhat experimental --
-not all ascii formats have been tested.  However, it has been tested and
-should work for 32 bit unsigned integers represented directly in ascii
-or as 32 bits of binary.  An example of the required header for these
-formats is given here:</p>
-<pre>
-#==================================================================
-# generator mt19937_1999  seed = 1274511046
-#==================================================================
-type: u
-count: 100000
-numbit: 32
-3129711816
-  85411969
-2545911541
- 903839182
-2564046000
-1157728411
- 202655667
- 969286899
-1519043834
-... (for 100,000 rands total).
-</pre>
-<pre>
-#==================================================================
-# handmade.  Comments are ignored, obviously.
-#==================================================================
-type: b
-count: 10
-numbit: 32
-00000000000000000000000000000001
-00000000000000000000000000000010
-00000000000000000000000000000011
-00000000000000000000000000000100
-00000000000000000000000000000101
-00000000000000000000000000000110
-00000000000000000000000000000111
-00000000000000000000000000001000
-11111111111111111111111111111111
-11111111111111110000000000000000
-</pre>
-<p>(where the latter is clearly not very random).</p>
+format to dieharder.  Note Well!  File or stream input rands (with any
+of the three methods for input) are delivered to the tests on demand,
+but if the test needs more than are available dieharder either fails (in
+the case of a stdin stream) or rewinds the file and cycles through it
+again, and again, and again as needed.  Obviously this significantly
+reduces the sample space and can lead to completely incorrect results
+for the p-value histograms unless there are enough rands to run EACH
+test without repetition (it is harmless to reuse the sequence for
+different tests).  <b>Let the user beware!</b></p>
 
-<p>The last type, file_input_raw, accepts a file of raw bits as input,
-such as might be generated by
-<pre>
- dd if=/dev/urandom of=testrands.raw bs=4 count=1000000
-</pre>
-(to generate 1,000,000 four-byte ints directly from the
-software-augmented kernel entropy generator).  That is, running the
-tests from such a file should be <i>approximately</i> the same as
-testing /dev/urandom directly.</p>
-
-<p>The main (important!) difference is that some of the test require a
-<i>lot</i> of random numbers -- far more than were needed by diehard.
-Indeed, dieharder runs many of the diehard tests 100 <i>independent</i>
-times, generating a p-value for each, and plots a histogram of the
-p-values and generates a p-value for the (presumed uniform) distribution
-of p-values!  This approach mimics the histogram presented in the STS
-suite but augments it with a hard Kolmogorov-Smirnov p-value that
-describes the distribution of p itself in many independent test
-runs!</p>
-
-<p>This protects one somewhat from the "p happens" problem described by
-Marsaglia -- every now and then you <i>will</i> have a run with a very
-low p from a <i>good</i> generator, but overall a good generator will
-generate a uniform distribution of p-values.  Dieharder lets you
-visually decide if the distribution is or isn't credibly uniform, while
-giving you an index that in most cases is a fairly clear "good" or "bad"
-indicator for a given random sequence or generator.  Direct control over
-the number of samples used in the computation of the KS p-value (as well
-as other important test parameters) permit one to "crank up" the
-generator to clarify what appears to be a marginal level of success or
-failure based on a few separate runs.</p>
-
-<p>File input rands are delivered to the tests on demand, but if the
-test needs more than are available it simply rewinds the file and cycles
-through it again, and again, and again as needed.  Obviously this
-significantly reduces the sample space and can lead to completely
-incorrect results for the p-value histograms unless there are enough
-rands to run EACH test without repetition (it is harmless to reuse the
-sequence for different tests).  <b>Let the user beware!</b></p>
-
-<p>List of the CURRENT fully implemented tests (as of the 07/12/06
+<p>List of the CURRENT fully implemented tests (as of the 08/18/08
 snapshot):</p>
 <pre>
-rgb@lilith|B:1346>dieharder -l
-
-                     DieHarder Test Suite
 ========================================================================
-The following tests are available and will be run when diehard -a is
-invoked.  Special options or suggested parameters are indicated if
-they are needed to get a satisfactory result (such as completion in a
-reasonable amount of time).
+   Dieharder version 2.27.11 Copyright 2003 Robert G. Brown
+========================================================================
+Bug/Development Key (use at your own risk):
+   rft = ready for testing (the test may - or may not - work correctly)
+   sus = suspect test (consistently fails "good" generators)
+   dev = development only (may crash, isn't finished)
+
+Only fully reliable tests will be run when diehard -a is invoked,
+with "reasonable" default parameters.  
+
+PLEASE READ THE MAN PAGE to learn about p-values and the null hypothesis
+in testing BEFORE using this testing tool!
 
             Diehard Tests
    -d 1  Diehard Birthdays test
-   -d 2  Diehard Overlapping Permutations test
+   [sus: -d 2  Diehard Overlapping Permutations test]
    -d 3  Diehard 32x32 Binary Rank test
    -d 4  Diehard 6x8 Binary Rank test
    -d 5  Diehard Bitstream test
@@ -476,41 +449,40 @@ reasonable amount of time).
    -d 12 Diehard Minimum Distance (2D Spheres) test
    -d 13 Diehard 3D Spheres (minimum distance) test
    -d 14 Diehard Squeeze test
-   -d 15 Diehard Sums test
+   [sus: -d 15 Diehard Sums test]
    -d 16 Diehard Runs test
    -d 17 Diehard Craps test
    -d 18 Marsaglia and Tsang GCD test
+   [dev: -d 19 Marsaglia and Tsang Gorilla test]
 
              RGB Tests
-   -r 1 Bit Persist test
-   -r 2 Bit Ntuple Distribution test suite (-n ntuple for 1-8)
-   -r 3 Timing test (times rng)
+   -r 1 RGB Timing test (times the rng)
+   -r 2 RGB Bit Persistence test
+   -r 3 RGB Ntuple Bit Distribution test suite (-n ntuple)
+   -r 4 RGB Generalized Minimum Distance test
+   [rft: -r 5 RGB Permutations test (new, partial replacement for operm tests)]
+   [dev: -r 6 RGB L-M-Ntuple Distribution test suite (quite long)]
+   [dev: -r 7 RGB Overlapping Permutations test]
 
       Statistical Test Suite (STS)
    -s 1 STS Monobit test
    -s 2 STS Runs test
+   -s 3 STS Serial test
 
             User Tests
    -u 1 User Template (Lagged Sum Test)
 
 </pre>
 
-<p>Note that the design goal of completely encapsulating diehard is
-<b>COMPLETED</b> with all tests apparently functional as of 7/12/06.
-dieharder is now in a "beta" debugging/testing phase until the new code
-shakes out, but it produces what are for the most part very reasonable
-and consistent values for all the tests on known "good" or "bad" random
-number generators encapsulated in the GSL.</p>
-
 <p>Full descriptions of the tests are available (as you can see) from
-within the tool and source documentation.  All tests are completely and
-independently rewritten from their description alone, and may be
-functionally modified or extended relative to the original source code
-published in the originating suite.  The author (rgb) bears complete
+within the tool and source documentation.  All tests have been
+independently rewritten from their description, and may be functionally
+modified or extended relative to the original source code published in
+the originating suite(s).  The author (rgb) bears complete
 responsibility for these changes, subject to the standard GPL code
-disclaimer (in essence, yes it's my fault if they don't work but using
-the tool is at your own risk and you can <i>fix it</i> if it bothers
-you and/or I don't fix it first).</p>
+disclaimer that the code <i>has no warranty</i> (in essence, yes it's my
+fault if they don't work but using the tool is at your own risk and you
+can <i>fix it</i> if it bothers you and/or I don't fix it first).</p>
 
 <center><h2>Development Notes</h2></center>
 
@@ -523,6 +495,22 @@ eye on the as-yet unimplemented tests from Knuth's <i>The Art of
 Programming</i>, lagged correlation, and more bitwise tests that have
 occurred to me as I ported diehard (which does some things somewhat
 backwards or indirectly, IMO).</p>
+
+<p>Note that a few tests appear to have stubborn bugs.  In particular,
+the diehard operm5 test seems to fail all generators in dieharder.
+Several users have attempted to help debug this problem, and it
+tentatively appears that the problem is in the original diehard code and
+not just dieharder.  There is extensive literature on overlapping tests,
+which are highly non-trivial to implement and involve things like
+forming the weak inverse of covariance matrices in order to correct for
+overlapping (non-independent) statistics.  The rgb bitdist test
+actually tests the same thing with non-overlapping samples, and the only
+real point to using overlapping samples appears to be the ability to
+perform a test to a given resolution with fewer random numbers.</p>
+
+<p> A revised version of overlapping permutations is underway (as an rgb
+test), but is still buggy.  It is suggested that overlapping permutation
+results be ignored for the time being.</p>
 
 <center><h2>Thoughts for the Future/Wish List/To Do</h2></center>
 

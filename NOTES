@@ -972,4 +972,74 @@ On to the next step -- putting the code on a truly public svn repo ---
 code.google.com.  This will take one little bit of work, as the svnsync
 didn't work the first times I tried it...
 
+==========================================================================
+03/09/08
+
+OK, so GBT don't suck, they are merely difficult.  I'm about to release
+a fairly major set of fixes and a new test or three, and one of the main
+focuses of this round of changes has been to make libtool and the GBT
+truly happy and dieharder perhaps more portable as a consequence.  This
+is still a process not without pain -- documentation is mediocre,
+undocumented features abound, rpath evil must be hand-repaired in order
+to facilitate rpm builds -- but it does look as if the GBT CAN be used
+to run major projects and automate a lot of the same stuff my original
+build automated, once you figure out how.
+
+As far as tests go, I've implemented a number of fixes and "new" tests
+since the last time around, and am about to get truly serious about a
+certain class of tests.
+
+The most important new test is sts_serial.  IMO this may prove to be the
+most useful of all rng tests save -- perhaps -- rgb_bitdist, which tests
+very much the same thing a very slightly different way.
+
+The most important planned addition is a "shuffler" that can be used to
+access the rng stream with lag, with or without loss.  In particular,
+I'd like to be able to generate a stream to sample with an adjustable
+lag in between samples, at the bit level, to be able to detect weakly
+correlated cycles in the bitstream.
+
+Most of the tests in dieharder are really only strongly sensitive to
+what I might call "first order" departure from randomness, first order
+decorrelation.  They measure statistics generated from sampling the rng
+stream in order, with each sample presumed to be independent.  They do
+not, for the most part (with certain exceptions, that is) detect whether
+any given rand is correlated with the rand that immediate follows it, or
+the one two rands downstream, or the one fifty rands downstream -- those
+are "second order" correlations.  
+
+Amazingly, there seems to be no test that simply and directly evaluates
+
+  A(d) = <(1.0-2.0*x_i) *(1.0-2.0*x_{i+d})>,
+
+the average autocorrelation of the floating point random number stream
+shifted so that the expected autocorrelation is zero for all
+displacements d.  However, this test really needs to be run in a variety
+of ways, as one can imagine bitlevel correlations that will show up
+strongly on bitlevel tests but weakly on floating point tests.
+
+Naturally, one can imagine looking at higher order moments as well.
+
+To facilitate tests of all of these sorts, I want to wrap the gsl
+generator in such a way that one can request:
+
+  n bits, skip m bits (throwing them away), to facilitate "direct"
+  searches for 
+
+and returning the n bits, or
+
+  a uint composed of the upper n bits, skip m uints, lower 32-n bits or
+  vice versa.  Nothing is thrown away.  
+
+Or
+
+  a bit stream returnable as n-bit window or uints made up of any
+  reasonable shuffling or displacements of components, with or without
+  interleaving (lossless) or loss.
+
+With such an interface, one could use ALL of the dieharder tests to
+check for the (mostly) first order randomness of streams generated from
+various interleaved displacements of any generator.  They would then all
+"magically" become second order (or higher order) tests!
+
    rgb

@@ -1,4 +1,4 @@
-.\" $Id: dieharder.1 318 2007-04-29 18:06:32Z rgb $
+.\" $Id: dieharder.1 425 2008-08-19 10:01:36Z rgb $
 .TH DieHarder 1 "Copyright 2004 Robert G. Brown" "DieHarder"
 .SH NAME
 rand_rate \- A testing and benchmarking tool for GSL random number 
@@ -22,11 +22,14 @@ string of variable length, e.g. the rgb bitdist test.
 .TP
 -d test number -  selects specific diehard test.
 .TP
--f filename will EVENTUALLY permit random strings to be tested to be
-read in from a file, but this is not yet implemented!
+-f filename - when used with -g for raw or (ascii formatted) input,
+allows random numbers to be read in from a file.  Note that
+the stdin (raw) interface does not require a -f entry, only the
+appropriate -g.
 .TP
--g generator number - selects a specific generator for testing.  Using
--1 causes all known generators to be printed out to the display.
+-g generator number - selects a specific generator for testing.  A
+generator number of -1 (or dieharder entered alone with no arguments)
+causes all known generators to be printed out to the display.
 .TP
 -h prints context-sensitive help -- usually Usage (this message) or a
 test synopsis if entered as e.g. dieharder -d 3 -h.
@@ -42,20 +45,27 @@ the length to be varied (e.g. rgb bitdist).
 -p count - sets the number of p-value samples per test (default 100).
 .TP
 -q selects \"quiet\" operation: results only are printed on a single line
-(where applicable).  This is a way of getting a very compact report.
+per test (where applicable).  This is a way of getting a very compact 
+report.
 .TP
--N selects non-overlapping samples even in tests that \"require\"
-overlapping samples, such as operm5.  In some cases this will matter.
-In others it will not.
+-N selects non-overlapping samples for overlapping tests where the
+non-overlapping target statistic is known.  Note that overlapping sample
+tests generally have internal covariance that is quite difficult to
+remove.  Consequently they on average contain LESS than one
+\"independent\" sample per overlapping sample, and have a wider sigma, 
+where non-overlapping samples are more tightly distributed.  With
+built-in generators, non-overlapping tests take longer and may have a
+different sensitivity.
 .TP
 -r test number - selects specific rgb test.
 .TP
 -s test number - selects specific sts test.
 .TP
 -t count - sets the number of random entities used in each test, where
-possible.  Be warned -- some tests will take a long time with the
-default value of 10000.  Read the test synopses for suggested settings
-for -t or use -a first.
+possible.  Be warned -- some tests have fixed sample sizes; others are
+variable but have practical minimum sizes.  It is suggested you begin
+with the values used in -a and experiment carefully on a test by test
+basis.
 .TP
 -u test number - selects specific user-developed test, if you've added
 one or more to this tool.  dieharder provides this interface to make
@@ -74,10 +84,11 @@ length, which can also be varied.  -x 2048 -y 30 alters these two
 values but should still run fine.
 
 .B NOTE WELL:  
-The "bogomegarates" returned by this tool are BOGUS and may not be even 
-approximately correct in your context.  Also, the quality assessment(s) 
-for the rngs may, in fact, be completely incorrect or misleading.  Use 
-them at your Own Risk!  Be Warned!
+The "bogomegarates" (number of rands generated per second) returned by
+this tool are BOGUS and may not be even approximately correct in your
+context.  Also, the quality assessment(s) for the rngs may, in fact, be
+completely incorrect (due to errors in the tests) or misleading.  Learn
+what p-values mean (see below)! Use them at your Own Risk!  Be Warned!
 
 
 .SH DESCRIPTION
@@ -109,6 +120,278 @@ it is that the code is obscure and not explicitly published for reuse.
 It is my hope that by providing this tool in autodocumenting source, it
 makes it easy to add new tests, critique older tests, and improve the
 suite in general.
+
+.SH P-VALUES AND THE NULL HYPOTHESIS
+.B DieHarder returns "p-values".  To understand what a p-value is and
+how to use it, it is essential to understand the
+.I null hypothesis.
+
+The null hypothesis for random number generator testing is "This
+generator is a perfect random number generator, and for any choice of
+seed produces a infinitely long, unique sequence of numbers that have
+all the expected statistical properties of random numbers, to all
+orders".  Note well that we
+.I know
+that this hypothesis is technically false for all software generators as
+they are periodic and do not have the correct entropy content for this
+statement to be strictly true.  Many hardware generators fail a priori
+as well, as they contain subtle bias or correlations due to the
+deterministic physics that underlies them.
+
+It can be
+.I practically
+true, however.  Both software and hardware generators can be "random"
+.I enough
+that their sequences cannot be distinguished from random ones.  Hence
+the null hypothesis as a practical, not a theoretically pure, statement.
+
+To test it, one uses the rng in question to generate a sequence of
+presumably random numbers.  Using these numbers one can generate any one
+of a wide range of 
+.I test statistics 
+-- empirically computed numbers that are considered
+.I random samples
+that may or may not be independent, depending on whether overlapping
+sequences of random numbers are used to generate successive samples
+while generating the statistic(s), drawn from a known distribution.
+From a knowledge of the target distribution of the statistic(s) and the
+associated cumulative distribution function (CDF) and the
+.I empirical
+value of the randomly generated statistic(s), one can read off the
+probability of obtaining the empirical result
+.I if the sequence was truly random,
+that is, if the null hypothesis is true!  This probability is the
+"p-value" for the particular test run.
+
+The usual dogma is that if this p-value is low -- typically less than
+0.05 -- one "rejects" the null hypothesis.  In a word, it is improbable
+that one would get the result obtained if the generator is a good one.
+If it is any other value, one does not "accept" the generator as good,
+one "fails to reject" the generator as bad for this particular test.  A
+"good random number generator" is hence one that we haven't been able to
+make fail
+.I yet!
+
+This criterion is, of course, naive in the extreme and
+.I cannot be used with dieharder!
+It makes just as much sense to reject a generator that has p-values of
+0.95 or more!  Both of these p-value ranges are
+.I equally unlikely
+on any given test run, and
+.I should
+be returned for (on average) 5% of all test runs by a
+.I perfect
+random number generator.  A generator that fails to produce p-values
+less than 0.05 5% of the time it is tested with different seeds is a
+.I bad
+random number generator, one that
+.I fails
+the test of the null hypothesis.
+
+p-values themselves, as it turns out, are test statistics.  They should
+be uniformly distributed on the range 0-1.  In 100 test runs with
+independent seeds, one should not be surprised to obtain 0, 1, 2, or
+even 3 p-values less than 0.01.  On the other hand obtaining 7 p-values
+in the range 0.54-0.55 should make the generator highly suspect!  One
+can in fact convert a
+.I set
+of p-values into a p-value by comparing their distribution to the
+expected one, using a Kolmogorov-Smirnov test, usually either
+Anderson-Darling or Kuiper KS (where for a variety of reasons we use
+Kuiper instead of Anderson-Darling although in the limit of many samples
+it should not matter).
+
+The p-values obtained should in turn be uniformly distributed and can be
+subjected to still more KS tests.  The distribution of p-values for a
+.I good
+generator should be
+.I idempotent,
+even across different test statistics and multiple runs.  
+
+A failure of the distribution of p-values at any level of aggregation
+signals trouble.  In fact, if the p-values of any given test are
+subjected to a KS test, and those p-values are then subjected to a KS
+test, as we add more p-values to either level we will either observe
+idempotence of the resulting distribution of p to uniformity,
+.I or
+we will observe idempotence to a single p-value of
+.I zero!
+That is, a good generator will produce a roughly uniform distribution of
+p-values, in the specific sense that the p-values of the distributions
+of p-values are themselves roughly uniform and so on ad infinitum, while
+a bad generator will produce a non-uniform distribution of p-values, and
+as more p-values drawn from the non-uniform distribution are added to
+its KS test, at some point the failure will be absolutely unmistakeable
+as the resulting p-value approaches 0 in the limit.  Trouble indeed!
+
+The question is, trouble with what?  Random number tests are themselves
+complex computational objects, and there is a probability that their
+code is incorrectly framed or that roundoff or other numerical -- not
+methodical -- errors are contributing to a distortion of the
+distribution of some of the p-values obtained.  This is not an idle
+observation; when one works on writing random number generator testing
+programs, one is
+.I always
+testing the tests themselves with "good" (we hope) random number
+generators so that egregious failures of the null hypothesis signal not
+a bad generator but an error in the test code.  The null hypothesis
+above is correctly framed from a
+.I theoretical
+point of view, but from a
+.I real and practical
+point of view it should read: "This generator is a perfect random number
+generator, and for any choice of seed produces a infinitely long, unique
+sequence of numbers that have all the expected statistical properties of
+random numbers, to all orders
+.B and
+this test is a perfect test and returns precisely correct p-values from
+the test computation."  Observed "failure" of this null hypothesis can
+come from failure of either or both of these disjoint components, and
+comes from the
+.I second
+as often or more often than the first during the development process.
+When one cranks up the "resolution" of the test (discussed next) to
+where a generator starts to fail some test one realizes, or should
+realize, that development never ends and that new test regimes will
+always reveal new failures not only of the generators but of the code.
+
+With that said, one of dieharder's most significant advantages is the
+control that it gives you over a critical test parameter.  From the
+remarks above, we can see that we should feel
+.I very uncomfortable
+about "failing" any given random number generator on the basis of a 5%,
+or even a 1%, criterion, especially when we apply a test
+.I suite
+like dieharder that returns 76 distinct test p-values as of the last
+snapshot.  We want failure to be unambiguous and reproducible!
+
+To accomplish this, one can simply crank up its resolution.  If we ran
+any given test against a random number generator and it returned a
+p-value of (say) 0.007328, we'd be perfectly justified in wondering if
+it is really a good generator.  However, the probability of getting this
+result isn't really all that small -- when one uses dieharder for hours
+at a time numbers like this will definitely happen and mean nothing.  If
+one runs the
+.I same
+test again (with a different seed or part of the random sequence) and
+gets a p-value of 0.009122, and a third time and gets 0.002669 -- well,
+that's three 1% (or less) shots in a row and
+.I that
+should happen only one in a million times.  One way to clearly resolve
+failures, then, is to
+.I increase the number of p-values
+generated in a test run.  If the actual distribution of p being returned
+by the test is not uniform, a KS test will
+.I eventually
+return a p-value that is not some ambiguous 0.035517 but is instead
+0.000001, with the latter produced time after time as we rerun.
+
+dieharder permits one to increase the number of p-values generated for
+.I any
+test, subject only to the availability of enough random numbers (for
+file based tests) and time, to make failures unambiguous.  However,
+because it is a research tool it is
+.I strongly suggested
+that one always consider the alternative null hypothesis -- that the
+failure is a failure of the test code in some limit of large numbers --
+and take at least some steps to ensure that the failure is in the
+generator and not the dieharder code.
+
+The steps I myself take during development is to rely heavily on several
+"presumed good" random number generators.  These are generators that we
+have theoretical reasons to expect are extraordinarily good and to lack
+correlations out to some known underlying dimensionality, and that also
+test out extremely well.  By using several generators and not just one,
+one can hope that those generators have (at the very least)
+.I different
+correlations and should not all uniformly fail a test in the same way
+and with the same number of p-values.  When all of these generators
+.I consistently
+fail a test, I tend to suspect that the problem is in the test code, not
+the generators.  One advantage of dieharder is that it has a number of
+these "good generators" immediately available for comparison runs,
+courtesy of the Gnu Scientific Library.  I use mt19937_1999, gfsr4,
+ranldx2 and taus2 (as well as "true random" numbers from random.org) for
+this purpose, and I try to ensure that dieharder will "pass" in
+particular the Mersenne Twister generator at any reasonable p-value
+resolution out to as much as -p 1000.
+
+Tests (such as the diehard operm5 test as of 3/27/08) that consistently
+fail at sufficiently high resolution are often flagged as being
+"suspect" -- possible failures of the
+.I alternative
+null hypothesis -- and their results should not be used to test random
+number generators pending agreement in the statistics and random number
+community that those tests are in fact valid and correct so that
+observed failures can indeed safely be attributed to a failure of the
+.I intended
+null hypothesis.
+
+dieharder is community supported.  Bear in mind that I (rgb) am
+professionally a physicist and that I have taken precisely one course in
+statistics and that one was in high school.  That does not mean I am
+incompetent to be the primary keeper of the dieharder code as I am quite
+competent in programming and have actively studied statistics on my own
+to a level of at least enough competence to explain the above in a
+hopefully extremely clear way (something that has eluded many
+better-trained workers in this arena).  It does, however, mean that my
+knowledge of statistics contains holes and that I have to work very hard
+to understand the theory underlying the more difficult tests.  I am not
+proud about this and would cherish instruction and correction by real
+experts.
+
+I therefore openly invite experts in statistics and programming to
+examine the source code of those tests and help me as I attempt to
+determine whether or not the tests are in fact valid or whether the
+failure is due to a bug in the code, and to help me fix the code or
+algorithms being implemented.  I would like to see this test suite
+ultimately be
+.I validated
+by the general statistics community in hard use in an open environment,
+where every possible failure of the testing mechanism is subject to
+scrutiny and eventual correction.  In this way we will eventually
+achieve a very powerful suite of tools indeed, ones that may well give
+us very specific information not just about failure but of the
+.I mode
+of failure as well, just how the sequence tested deviates from
+randomness.
+
+This will be a lot of work (but perhaps work suitable for directed
+research by statistics undergrad or grad students who also are competent
+programmers).  Note well -- many of the tests that use overlapping
+samples must deal with covariance by means of e.g.  weak inverses of a
+covariance matrix in order to convert a vector of test statistics into a
+multinomial form suitable for a chi square test returning a p-value.
+The code for doing so is nontrivial and requires that the covariance
+matrix (or its suitable decomposition) be either computed
+.I in situ
+or entered in data.  
+
+Checking the code for overlapping sample tests in particular is not
+easy, in other words.  The theory is difficult, the programming is
+difficult, and the numerics are difficult.  This is why it is (in my
+opinion)
+.I essential
+that the testing tool be fully open source and why most sophisticated
+users of the tool will wish to work using a copy of dieharder built from
+source rather than "just" installed from a binary package.  The
+alternative null hypothesis is there for
+.I all
+random number generator testers, but only with an open source tester
+integrated with some known-excellent generators to test against and
+compare to is it possible to consider it and take steps to validate not
+only the generator but the tool used to test it at the source code
+level. "Black box" commercial testers are to be eschewed at all costs,
+although it is perfectly reasonable to consider employing skilled
+consultants using an open product to test e.g. a new hardware or
+software generator for its suitability in some given application.
+
+Thus far, dieharder has benefitted tremendously from the community.
+Individuals have openly contributed tests, new generators to be tested,
+and fixes for existing tests that were revealed by their own work with
+the testing instrument.  Efforts are underway to make dieharder more
+portable so that it will build on more platforms and faster so that more
+thorough testing can be done.  Please feel free to participate.
 
 .SH FILE INPUT
 
@@ -161,13 +444,13 @@ p-values and generates a p-value for the (presumed uniform) distribution
 of p-values!  This approach mimics the histogram presented in the STS
 suite but augments it with a hard number.
 
-This protects one from the "p happens" problem -- every now and then you
-will have a run with a very low or high p from a good generator, but
-over time a good generator will generate a uniform distribution of
-p-values.  Dieharder lets you visually decide if the distribution is or
-isn't credibly uniform, while giving you an index that in most cases is
-a fairly clear "good" or "bad" indicator for a given random sequence or
-generator.
+This protects one from the "p happens" problem described by Marsaglia
+(and described in even more detail above) where it is remarkably common
+to see very low or high p-values returned from any given test of even a
+"perfect" random number generator, but where over 
+.I time 
+(or many test runs) a good generator will generate a uniform, idempotent
+distribution of p-values.
 
 File input rands are delivered to the tests on demand, but if the test
 needs more than are available it simply rewinds the file and cycles
@@ -176,6 +459,79 @@ significantly reduces the sample space and can lead to completely
 incorrect results for the p-value histograms unless there are enough
 rands to run EACH test without repetition (it is harmless to reuse the
 sequence for different tests).  Let the user beware!
+
+One last warning for those who are testing files of random numbers.
+dieharder is a tool that
+.I tests random number generators, not files of random numbers!
+It is extremely inappropriate to try to "certify" a file of random
+numbers as being random just because it fails to "fail" any of the
+dieharder tests in e.g. a dieharder -a run.  To put it bluntly, if one
+rejects all such files that fail any test at the 0.05 level (or any
+other), the one thing one can be certain of is that the files in
+question are
+.I not
+random, as a truly random sequence would fail any given test at the 0.05
+level 5% of the time!
+
+To put it another way, any file of numbers produced by a
+.I generator
+that "fails to fail" the dieharder suite should be considered "random",
+even if it contains sequences that might well "fail" any given test at
+some specific cutoff.  One has to presume that passing the broader tests
+of the generator itself, it was determined that the p-values for the
+test involved was
+.I globally
+correctly distributed, so that e.g. failure at the 0.01 level occurs
+neither more nor less than 1% of the time, on average, over many many
+tests.  If one particular file generates a failure at this level, one
+can therefore safely presume that it is a
+.I random
+file pulled from many thousands of similar files the generator might
+create that have the correct distribution of p-values at all levels of
+testing and aggregation.
+
+To sum up, use dieharder to validate your generator (via input from
+files or an embedded stream.  Then by all means use your generator to
+produce files or streams of random numbers.  Do not use dieharder as an
+accept/reject tool to validate the files themselves.
+
+.SH EXAMPLES
+
+To demonstrate all tests, run on the default GSL rng, enter:
+
+  dieharder -a
+
+To demonstrate a test of an external generator of a raw binary stream of
+bits, use the stdin (raw) interface:
+
+  cat /dev/urandom | dieharder -g 75 -a
+
+(be sure to run dieharder by itself on a line to verify that the
+number of the stdin generator is still 75).
+
+To use it with an ascii formatted file:
+
+  dieharder -g 65 -f testrands.txt -a
+
+(testrands.txt should consist of a header such as:
+
+ #==================================================================
+ # generator mt19937_1999  seed = 1274511046
+ #==================================================================
+ type: d
+ count: 100000
+ numbit: 32
+ 3129711816
+   85411969
+ 2545911541
+
+etc.).  
+
+To use it with a binary file
+
+  dieharder -g 66 -f testrands.bin -a
+
+(or cat testrands.bin | dieharder -g 75 -a).
 
 .SH PUBLICATION RULES
 .B DieHarder

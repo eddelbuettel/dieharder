@@ -22,26 +22,19 @@ static Dtest diehard_bitstream_dtest = {
 # letter words.  For a truly random string of 2^21+19 bits, the \n\
 # number of missing words j should be (very close to) normally  \n\
 # distributed with mean 141,909 and sigma 428.  Thus            \n\
-#  (j-141909)/428 should be a standard normal variate (z score) \n\
+# (j-141909)/428 should be a standard normal variate (z score) \n\
 # that leads to a uniform [0,1) p value.  The test is repeated  \n\
 # twenty times.                                                 \n\
-# \n\
-# Note that of course we do not \"restart file\", when using gsl \n\
-# generators, we just crank out the next random number. \n\
-# We also do not bother to overlap the words.  rands are cheap. \n\
-# Finally, we repeat the test (usually) more than twenty time.\n\
 #\n\
 #                         NOTE WELL!\n\
 #\n\
-# Marsaglia's sigma is just plain wrong.  sigma = 288+/- 1 for\n\
-# this statistic.  With the old value, every generator in the\n\
-# Universe would fail the dieharder version of the test because\n\
-# it accumulated enough p-values to make it obvious that they\n\
-# were peaked in the middle (characteristic of too high a sigma).\n\
-# This includes hardware and the best software generators.  If one\n\
-# simply accumulates values and plots them on a histogram and fits\n\
-# a normal to them, one gets 141909 +/- 288.6.  With this value,\n\
-# the test works perfectly.\n\
+# The test is repeated 100 times by default in dieharder, but the\n\
+# size of the sample is fixed (tsamples cannot/should not be\n\
+# varied from the default).  The sigma of this test REQUIRES the\n\
+# use of overlapping samples, and overlapping samples are not\n\
+# independent.  If one uses the non-overlapping version of this\n\
+# test, sigma = 290 is used instead, smaller because now there\n\
+# are 2^21 INDEPENDENT samples.\n\
 #==================================================================\n",
   100,
   2097152,

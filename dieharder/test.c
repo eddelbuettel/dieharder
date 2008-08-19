@@ -73,7 +73,7 @@ void show_test_results(Dtest *dtest,Test **test)
        fflush(stdout);
      }
      Debugging */
-     histogram(test[i]->pvalues,test[i]->psamples,0.0,1.0,10,"p-values");
+     histogram(test[i]->pvalues,test[i]->pvlabel,test[i]->psamples,0.0,1.0,10,"p-values");
      fflush(stdout);
    }
 

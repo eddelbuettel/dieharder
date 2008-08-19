@@ -1,8 +1,5 @@
 /*
- * $Id: diehard_craps.c 191 2006-07-13 08:23:50Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
- *
  */
 
 /*
@@ -32,6 +29,11 @@
  */
 
 #include <dieharder/libdieharder.h>
+
+/*
+ * Include inline uint generator
+ */
+#include "static_get_bits.c"
 
 /*
  * This determines the number of samples that go into building the kprob[]
@@ -171,10 +173,10 @@ void marsaglia_tsang_gcd(Test **test, int irun)
    k = 0;
    /* Get nonzero u,v */
    do{
-    u = gsl_rng_get(rng);
+    u = get_rand_bits_uint(32,0xffffffff,rng);
    } while(u == 0);
    do{
-    v = gsl_rng_get(rng);
+    v = get_rand_bits_uint(32,0xffffffff,rng);
    } while(v == 0);
 
    do{
@@ -228,6 +230,7 @@ void marsaglia_tsang_gcd(Test **test, int irun)
    printf(" Binomial probability table for k distribution.\n");
    printf("  i\t  mean\n");
  }
+ vtest_k.cutoff = 5.0;
  for(i=0;i<KTBLSIZE;i++){
    vtest_k.x[i] = (double)ktbl[i];
    vtest_k.y[i] = test[0]->tsamples*kprob[i];
@@ -240,6 +243,10 @@ void marsaglia_tsang_gcd(Test **test, int irun)
   * short run as is.
   */
  for(i=0;i<gtblsize;i++){
+   /*
+    * No cutoff for this test?
+    */
+   vtest_u.cutoff = 5.0;
    if(i>1){
      vtest_u.x[i] = (double)gcd[i];
      if(i == gtblsize-1){

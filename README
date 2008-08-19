@@ -1,3 +1,10 @@
+                        Building Dieharder
+========================================================================
+
+You MUST run ./autogen.sh FIRST.  Then ./configure, make and so on
+should work.  Sorry, if I distribute it any other way some aspect of the
+Gnu Build Tools breaks for some system.  See INSTALL for more details.
+
 ========================================================================
 
 Author Contact Information:

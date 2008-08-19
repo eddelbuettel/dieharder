@@ -32,8 +32,8 @@
  * Honestly, from my limited experimentation, this test is uselessly
  * insensitive on at least the rng's in the GSL with a few notable
  * exceptions (the worst of the worst).  It passes a number of
- * generators with known, serious flaws though.  Not a lot of
- * tests in diehard that seem to be good at picking out particular
+ * generators with known, serious flaws though.  Not that a lot of
+ * tests in diehard ARE terribly  good at picking out particular
  * flaws in particular generators -- they're struggling to identify
  * bad generators at all.  Sorry, but that's just the way I see it.
  *========================================================================
@@ -64,6 +64,7 @@ void diehard_squeeze(Test **test, int irun)
  /*
   * Initialize the expected value vector
   */
+ vtest.cutoff = 5.0;
  for(i=0;i<43;i++){
    vtest.y[i] = test[0]->tsamples*sdata[i];
  }

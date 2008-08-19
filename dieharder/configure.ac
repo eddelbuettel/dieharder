@@ -2,24 +2,18 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
+AC_INIT
 AC_CONFIG_SRCDIR([run_diehard_dna.c])
 AC_CONFIG_HEADER([config.h])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wall])
 
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-ldieharder':
-AC_CHECK_LIB([dieharder], [main])
-# FIXME: Replace `main' with a function in `-lgsl':
-AC_CHECK_LIB([gsl], [main])
-# FIXME: Replace `main' with a function in `-lgslcblas':
-AC_CHECK_LIB([gslcblas], [main])
-# FIXME: Replace `main' with a function in `-lm':
-AC_CHECK_LIB([m], [main])
+AC_CHECK_LIB([gsl], [gsl_error])
+AC_CHECK_LIB([gslcblas], [cblas_ddot])
 
 # Checks for header files.
 AC_HEADER_STDC

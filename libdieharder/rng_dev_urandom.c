@@ -62,6 +62,7 @@ dev_urandom_set (void *vstate, unsigned long int s)
 
  if ((state->fp = fopen("/dev/urandom","r")) == NULL) {
    fprintf(stderr,"Error: Cannot open /dev/urandom, exiting.\n");
+   fprintf(stderr,"/dev/urandom may only be available on Linux systems.\n");
    exit(0);
  }
 

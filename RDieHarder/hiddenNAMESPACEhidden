@@ -1,6 +1,0 @@
-## package has dynamic library
-useDynLib(RDieHarder)
-
-## and one and only one core function
-export(dieharder)
-export(dieharderVec)

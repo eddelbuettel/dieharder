@@ -76,11 +76,11 @@ clean:
 	rm -f build-stamp configure-stamp
 
 #	# Add here commands to clean up after the build process.
-	[ ! -f Makefile ] || $(MAKE) clean distclean
+#	[ ! -f Makefile ] || $(MAKE) clean distclean
 
 	rm -rf buildroot
 	rm -f dieharder.pdf
-	rm -f config.guess config.sub
+	rm -f config.guess config.sub config.status
 
         # extra cleanup in manual/
 	rm -vf manual/dieharder.dvi manual/dieharder.pdf
@@ -98,11 +98,11 @@ install: build
 #	#$(MAKE) prefix=`pwd`/debian/tmp/usr install
 	$(MAKE) prefix=`pwd`/debian/dieharder/usr install
 
-	(cd debian/dieharder/usr/lib && \
-		ls -l && \
-		rm -vf libdieharder.so && \
-		ln -s libdieharder.so.2.*.* libdieharder.so.2 && \
-		ln -s libdieharder.so.2 libdieharder.so )
+#	(cd debian/dieharder/usr/lib && \
+#		ls -l )
+#		rm -vf libdieharder.so )
+#		ln -s libdieharder.so.2.*.* libdieharder.so.2 && \
+#		ln -s libdieharder.so.2 libdieharder.so )
 
 	dh_movefiles --sourcedir=debian/dieharder \
 				-plibdieharder2 -plibdieharder-dev
@@ -111,8 +111,7 @@ install: build
 		`pwd`/debian/libdieharder-dev/usr/share/doc/libdieharder-dev/
 
         # cleanups to make lintian happy
-	rmdir -v `pwd`/debian/dieharder/usr/lib 		\
-		 `pwd`/debian/dieharder/usr/share/man/man3 	\
+	rmdir -v `pwd`/debian/dieharder/usr/share/man/man3 	\
 		 `pwd`/debian/dieharder/usr/include/dieharder	\
 		 `pwd`/debian/dieharder/usr/include/
 

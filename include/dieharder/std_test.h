@@ -13,6 +13,7 @@ typedef struct {
   uint tsamples;       /* Number of samples per test (if applicable) */
   uint psamples;       /* Number of test runs per final KS p-value */
   double *pvalues;     /* Vector of length psamples to hold test p-values */
+  char *pvlabel;       /* Vector of length LINE to hold labels per p-value */
   double ks_pvalue;    /* Final KS p-value from run of many tests */
 } Test;
 
