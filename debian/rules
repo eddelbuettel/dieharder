@@ -67,7 +67,7 @@ build-stamp:
 	$(MAKE)	
 
         # manually call for manual build
-	(cd manual && make && cd -)
+#	(cd manual && make && cd -)
 	touch build-stamp
 
 clean:
@@ -75,8 +75,10 @@ clean:
 	dh_testroot
 	rm -f build-stamp configure-stamp
 
-#	# Add here commands to clean up after the build process.
-#	[ ! -f Makefile ] || $(MAKE) clean distclean
+        # Robert uses a non-standard way of building things; make clean does call
+        # configure and fails in the chroot/build unless we run autogen.sh first. Sigh
+        # so we fixed this by deleting Makefile from the upstream tarball. Sigh.
+	[ ! -f Makefile ] || $(MAKE) clean distclean
 
 	rm -rf buildroot
 	rm -f dieharder.pdf
@@ -107,8 +109,8 @@ install: build
 	dh_movefiles --sourcedir=debian/dieharder \
 				-plibdieharder2 -plibdieharder-dev
 
-	install -m 0644 manual/dieharder.pdf \
-		`pwd`/debian/libdieharder-dev/usr/share/doc/libdieharder-dev/
+#	install -m 0644 manual/dieharder.pdf \
+#		`pwd`/debian/libdieharder-dev/usr/share/doc/libdieharder-dev/
 
         # cleanups to make lintian happy
 	rmdir -v `pwd`/debian/dieharder/usr/share/man/man3 	\
@@ -126,6 +128,7 @@ binary-common:
 	dh_installdocs
 	dh_installexamples
 	dh_installmenu
+	dh_lintian
 #	dh_installdebconf
 #	dh_installlogrotate
 #	dh_installemacsen

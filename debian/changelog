@@ -1,18 +1,17 @@
-dieharder (2.27.12-1) unstable; urgency=low
-
-  * New upstream test release
-
- -- Dirk Eddelbuettel <edd@debian.org>  Tue, 19 Aug 2008 08:08:24 -0500
-
-dieharder (2.27.11-1) unstable; urgency=low
+dieharder (2.27.13-1) unstable; urgency=low
 
   * New upstream release
-  * This release should address the open bug report 
-    'command line options not backwards compatible' 	(Closes: #491555)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri, 22 Aug 2008 20:09:10 -0500
+
+dieharder (2.27.12-1) unstable; urgency=low
+
+  * New upstream release, addressing the forwarded bug report 
+    'command line options not backwards compatible'  	(Closes: #491555)
 
   * debian/control: Add Depends: on libgsl0-dev for libdieharder-dev 
 
- -- Dirk Eddelbuettel <edd@debian.org>  Mon, 18 Aug 2008 19:36:13 -0500
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 20 Aug 2008 08:55:36 -0500
 
 dieharder (2.24.7-1) unstable; urgency=low
 
