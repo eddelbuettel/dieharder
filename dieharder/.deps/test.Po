@@ -115,7 +115,7 @@ test.o: test.c dieharder.h copyright.h /usr/include/stdio.h \
   ../include/dieharder/marsaglia_tsang_gcd.h \
   ../include/dieharder/sts_monobit.h ../include/dieharder/sts_runs.h \
   ../include/dieharder/sts_serial.h \
-  ../include/dieharder/dieharder_types.h user_template.h
+  ../include/dieharder/dieharder_types.h table.h user_template.h
 
 dieharder.h:
 
@@ -512,5 +512,7 @@ copyright.h:
 ../include/dieharder/sts_serial.h:
 
 ../include/dieharder/dieharder_types.h:
+
+table.h:
 
 user_template.h:

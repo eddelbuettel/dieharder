@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: help.c 414 2008-08-15 18:14:45Z rgb $
+ * $Id: help.c 447 2008-09-07 14:00:25Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -27,6 +27,8 @@ void help()
    printf("%s",rgb_minimum_distance_dtest.description);
    fflush(stdout);
    printf("%s",rgb_permutations_dtest.description);
+   fflush(stdout);
+   printf("%s",rgb_lagged_sums_dtest.description);
    fflush(stdout);
    printf("%s",diehard_birthdays_dtest.description);
    fflush(stdout);
@@ -175,6 +177,10 @@ void help()
      break;
    case RGB_PERMUTATIONS:
      printf("%s",rgb_permutations_dtest.description);
+     fflush(stdout);
+     break;
+   case RGB_LAGGED_SUMS:
+     printf("%s",rgb_lagged_sums_dtest.description);
      fflush(stdout);
      break;
    case RGB_LMN:

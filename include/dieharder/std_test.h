@@ -6,15 +6,24 @@
  * defined just for the particular test in question.  This is a bit ugly,
  * but so are void *args argument lists and va_start/va_end for multiple
  * layers of passing arguments.
+ *
+ * This is silly.  We clearly need for each test to have access to all
+ * variables set on the command line.  That way the ONE Test object
+ * can be passed to e.g report() or table() and they'll know exactly
+ * what to do with it.
  */
 typedef struct {
   void (*testfunc)();  /* Test function name */
   uint nkps;           /* Number of test statistics created per run */
   uint tsamples;       /* Number of samples per test (if applicable) */
   uint psamples;       /* Number of test runs per final KS p-value */
+  uint ntuple;         /* Number of bits in ntuples being tested */
   double *pvalues;     /* Vector of length psamples to hold test p-values */
   char *pvlabel;       /* Vector of length LINE to hold labels per p-value */
   double ks_pvalue;    /* Final KS p-value from run of many tests */
+  double x;            /* Extra variable passed on command line */
+  double y;            /* Extra variable passed on command line */
+  double z;            /* Extra variable passed on command line */
 } Test;
 
 

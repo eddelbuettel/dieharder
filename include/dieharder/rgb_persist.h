@@ -14,6 +14,7 @@ void rgb_persist(Test **test, Rgb_Persist *persist);
 
 static Dtest rgb_persist_dtest = {
   "RGB Bit Persistence Test",
+  "rgb_persist",
   "\n\
 #========================================================================\n\
 #                   RGB Bit Persistence Test\n\

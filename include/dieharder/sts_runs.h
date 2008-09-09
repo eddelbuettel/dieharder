@@ -9,7 +9,8 @@ void sts_runs(Test **test,int irun);
 
 static Dtest sts_runs_dtest = {
   "STS Runs Test",
-  "\n\
+  "sts_runs",
+  "\
 #==================================================================\n\
 #                       STS Runs Test\n\
 # Counts the total number of 0 runs + total number of 1 runs across\n\

@@ -9,7 +9,8 @@ void diehard_oqso(Test **test, int irun);
 
 static Dtest diehard_oqso_dtest = {
   "Diehard OQSO Test",
-  "\n\
+  "diehard_oqso",
+  "\
 #==================================================================\n\
 #   Diehard Overlapping Quadruples Sparce Occupancy (OQSO) Test\n\
 #\n\

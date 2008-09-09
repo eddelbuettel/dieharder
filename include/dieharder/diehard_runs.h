@@ -9,7 +9,8 @@ void diehard_runs(Test **test,int irun);
 
 static Dtest diehard_runs_dtest = {
   "Diehard Runs Test",
-  "\n\
+  "diehard_runs",
+  "\
 #==================================================================\n\
 #                    Diehard Runs Test\n\
 #  This is the RUNS test.  It counts runs up, and runs down, \n\

@@ -71,14 +71,15 @@ am_libdieharder_la_OBJECTS = bits.lo chisq.lo countx.lo \
 	diehard_rank_6x8.lo diehard_runs.lo diehard_squeeze.lo \
 	diehard_sums.lo dieharder_types.lo kstest.lo \
 	marsaglia_tsang_gcd.lo marsaglia_tsang_gorilla.lo parse.lo \
-	prob.lo random_seed.lo rank.lo rgb_bitdist.lo rgb_lmn.lo \
-	rgb_minimum_distance.lo rgb_operm.lo rgb_permutations.lo \
-	rgb_persist.lo rgb_timing.lo rngav.lo rng_ca.lo \
-	rng_dev_random.lo rng_dev_arandom.lo rng_dev_urandom.lo \
-	rng_file_input.lo rng_file_input_raw.lo rngs_gnu_r.lo \
-	rng_kiss.lo rng_jenkins.lo rng_stdin_input_raw.lo rng_uvag.lo \
-	sample.lo std_test.lo sts_monobit.lo sts_runs.lo sts_serial.lo \
-	timing.lo Vtest.lo Xtest.lo
+	prob.lo random_seed.lo rank.lo rgb_bitdist.lo \
+	rgb_lagged_sums.lo rgb_lmn.lo rgb_minimum_distance.lo \
+	rgb_operm.lo rgb_permutations.lo rgb_persist.lo rgb_timing.lo \
+	rngav.lo rng_ca.lo rng_dev_random.lo rng_dev_arandom.lo \
+	rng_dev_urandom.lo rng_file_input.lo rng_file_input_raw.lo \
+	rngs_gnu_r.lo rng_kiss.lo rng_jenkins.lo \
+	rng_stdin_input_raw.lo rng_uvag.lo sample.lo std_test.lo \
+	sts_monobit.lo sts_runs.lo sts_serial.lo timing.lo Vtest.lo \
+	Xtest.lo
 libdieharder_la_OBJECTS = $(am_libdieharder_la_OBJECTS)
 libdieharder_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
@@ -121,7 +122,7 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LT_VERSION = 2:27:13
+DIEHARDER_LT_VERSION = 2:28:1
 ECHO = echo
 ECHO_C = 
 ECHO_N = -n
@@ -147,9 +148,9 @@ OBJEXT = o
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 2.27.13
+PACKAGE_STRING = dieharder 2.28.1
 PACKAGE_TARNAME = dieharder
-PACKAGE_VERSION = 2.27.13
+PACKAGE_VERSION = 2.28.1
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -161,7 +162,7 @@ STRIP = strip
 
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
-VERSION = 2.27.13
+VERSION = 2.28.1
 abs_builddir = /home/rgb/Src/Projects/dieharder/libdieharder
 abs_srcdir = /home/rgb/Src/Projects/dieharder/libdieharder
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -220,7 +221,7 @@ man3_MANS = libdieharder.3
 # Library definitions
 lib_LTLIBRARIES = libdieharder.la
 libdieharder_la_LIBADD = -lgsl -lgslcblas -lm
-libdieharder_la_LDFLAGS = -version-number 2:27:13
+libdieharder_la_LDFLAGS = -version-number 2:28:1
 
 # Sources
 # The shell script is the easy way to do this, by far.  But it may not
@@ -256,6 +257,7 @@ libdieharder_la_SOURCES = \
 	random_seed.c \
 	rank.c \
 	rgb_bitdist.c \
+	rgb_lagged_sums.c \
 	rgb_lmn.c \
 	rgb_minimum_distance.c \
 	rgb_operm.c \
@@ -404,6 +406,7 @@ include ./$(DEPDIR)/prob.Plo
 include ./$(DEPDIR)/random_seed.Plo
 include ./$(DEPDIR)/rank.Plo
 include ./$(DEPDIR)/rgb_bitdist.Plo
+include ./$(DEPDIR)/rgb_lagged_sums.Plo
 include ./$(DEPDIR)/rgb_lmn.Plo
 include ./$(DEPDIR)/rgb_minimum_distance.Plo
 include ./$(DEPDIR)/rgb_operm.Plo

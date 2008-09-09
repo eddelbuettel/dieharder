@@ -80,15 +80,15 @@ void rgb_bitdist(Test **test,int irun)
  Vtest *vtest;               /* A reusable vector of binomial test bins */
 
  /*
-  * Sample a bitstring of rgb_bitstring_ntuple in length (exactly).
+  * Sample a bitstring test[0]->ntuple in length (exactly).
   */
- if(rgb_bitdist_ntuple>0){
-   nb = rgb_bitdist_ntuple;
+ if(test[0]->ntuple>0){
+   nb = test[0]->ntuple;
    MYDEBUG(D_RGB_BITDIST){
      printf("# rgb_bitdist: Testing ntuple = %u\n",nb);
    }
  } else {
-   printf("Error:  rgb_bitdist_ntuple must be a positive integer.  Exiting.\n");
+   printf("Error:  test->ntuple must be a positive integer.  Exiting.\n");
    exit(0);
  }
 

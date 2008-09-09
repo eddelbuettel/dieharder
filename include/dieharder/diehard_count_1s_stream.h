@@ -9,7 +9,8 @@ void diehard_count_1s_stream(Test **test,int irun);
 
 static Dtest diehard_count_1s_stream_dtest = {
   "Diehard Count the 1s (stream) Test",
-  "\n\
+  "diehard_count_1s_stream",
+  "\
 #==================================================================\n\
 #          Diehard Count the 1s (stream) (modified) Test.\n\
 # Consider the file under test as a stream of bytes (four per   \n\

@@ -9,7 +9,9 @@ void marsaglia_tsang_gcd(Test **test,int irun);
 
 static Dtest marsaglia_tsang_gcd_dtest = {
   "Marsaglia and Tsang GCD Test",
-  "#==================================================================\n\
+  "marsaglia_tsang_gcd",
+  "\
+#==================================================================\n\
 #                     Marsaglia and Tsang GCD Test\n\
 #\n\
 # 10^7 tsamples (default) of uint rands u, v are generated and two\n\

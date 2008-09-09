@@ -9,7 +9,8 @@ void diehard_3dsphere(Test **test,int irun);
 
 static Dtest diehard_3dsphere_dtest = {
   "Diehard 3d Sphere (Minimum Distance) Test",
-  "\n\
+  "diehard_3dsphere",
+  "\
 #==================================================================\n\
 #          Diehard 3d Sphere (Minimum Distance) Test\n\
 # Choose  4000 random points in a cube of edge 1000.  At each   \n\

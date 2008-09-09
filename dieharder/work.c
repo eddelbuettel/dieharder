@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: work.c 423 2008-08-18 20:15:49Z rgb $
+ * $Id: work.c 448 2008-09-07 17:58:00Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -19,18 +19,29 @@
 void work()
 {
 
-/*
- if(output == YES){
+ if(output_file == YES){
    output_rnds();
  }
- */
+
+ /*
+  * Let us simply "always" check the timing of an rng -- it doesn't take
+  * and it seems like it should be part of a standard report regardless.
+  * Dirk Eddelbuettel:  Let's not do this, it breaks sequential use
+ if(!fromfile){ 
+   run_rgb_timing();
+ }
+  */
+
+ if(table){
+   table_header();
+ }
 
  if(all == YES){
-   run_rgb_timing();
-   run_rgb_persist();
+   /* run_rgb_persist(); */
    run_rgb_bitdist();
    run_rgb_minimum_distance();
    run_rgb_permutations();
+   run_rgb_lagged_sums();
    /*  run_rgb_operm(); */
    run_diehard_birthdays();
    /* run_diehard_operm5(); */
@@ -61,79 +72,60 @@ void work()
  switch(diehard){
    case DIEHARD_BDAY:
      run_diehard_birthdays();
-     Exit(0);
      break;
    case DIEHARD_OPERM5:
      run_diehard_operm5();
-     Exit(0);
      break;
    case DIEHARD_RANK_32x32:
      run_diehard_rank_32x32();
-     Exit(0);
      break;
    case DIEHARD_RANK_6x8:
      run_diehard_rank_6x8();
-     Exit(0);
      break;
    case DIEHARD_BITSTREAM:
      run_diehard_bitstream();
-     Exit(0);
      break;
    case DIEHARD_OPSO:
      run_diehard_opso();
-     Exit(0);
      break;
    case DIEHARD_OQSO:
      run_diehard_oqso();
-     Exit(0);
      break;
    case DIEHARD_DNA:
      run_diehard_dna();
-     Exit(0);
      break;
    case DIEHARD_COUNT_1S_STREAM:
      run_diehard_count_1s_stream();
-     Exit(0);
      break;
    case DIEHARD_COUNT_1S_BYTE:
      run_diehard_count_1s_byte();
-     Exit(0);
      break;
    case DIEHARD_PARKING_LOT:
      run_diehard_parking_lot();
-     Exit(0);
      break;
    case DIEHARD_2DSPHERE:
      run_diehard_2dsphere();
-     Exit(0);
      break;
    case DIEHARD_3DSPHERE:
      run_diehard_3dsphere();
-     Exit(0);
      break;
    case DIEHARD_SQUEEZE:
      run_diehard_squeeze();
-     Exit(0);
      break;
    case DIEHARD_SUMS:
      run_diehard_sums();
-     Exit(0);
      break;
    case DIEHARD_RUNS:
      run_diehard_runs();
-     Exit(0);
      break;
    case DIEHARD_CRAPS:
      run_diehard_craps();
-     Exit(0);
      break;
    case MARSAGLIA_TSANG_GCD:
      run_marsaglia_tsang_gcd();
-     Exit(0);
      break;
    case MARSAGLIA_TSANG_GORILLA:
      /* marsaglia_tsang_gorilla(); */
-     Exit(0);
      break;
    default:
      break;
@@ -142,31 +134,27 @@ void work()
  switch(rgb){
    case RGB_TIMING:
      run_rgb_timing();
-     Exit(0);
      break;
    case RGB_PERSIST:
      run_rgb_persist();
-     Exit(0);
      break;
    case RGB_BITDIST:
      run_rgb_bitdist();
-     Exit(0);
      break;
    case RGB_MINIMUM_DISTANCE:
      run_rgb_minimum_distance();
-     Exit(0);
-     break;
-   case RGB_LMN:
-     rgb_lmn();
-     Exit(0);
      break;
    case RGB_PERMUTATIONS:
      run_rgb_permutations();
-     Exit(0);
+     break;
+   case RGB_LAGGED_SUMS:
+     run_rgb_lagged_sums();
+     break;
+   case RGB_LMN:
+     rgb_lmn();
      break;
    case RGB_OPERM:
      run_rgb_operm();
-     Exit(0);
      break;
    default:
      break;
@@ -175,15 +163,12 @@ void work()
  switch(sts){
    case STS_MONOBIT:
      run_sts_monobit();
-     Exit(0);
      break;
    case STS_RUNS:
      run_sts_runs();
-     Exit(0);
      break;
    case STS_SERIAL:
      run_sts_serial();
-     Exit(0);
      break;
    default:
      break;
@@ -192,14 +177,9 @@ void work()
  switch(user){
    case USER_TEMPLATE:
      run_user_template();
-     Exit(0);
      break;
    default:
      break;
  }
-
-#if !defined(RDIEHARDER)
- list_rngs();
-#endif   /* !defined(RDIEHARDER */
 
 }

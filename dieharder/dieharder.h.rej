@@ -1,0 +1,17 @@
+***************
+*** 129,135 ****
+   void Xtest_eval(Xtest *xtest);
+  
+  #ifdef RDIEHARDER
+-  int histogram(double *input,int inum,double min,double max,int nbins,char *label);
+   Test *rdh_testptr;            /* kludge: need a global to report back to main + R */
+   Dtest *rdh_dtestptr;  /* kludge: need a global to report back to main + R */
+  #endif
+--- 135,141 ----
+   void Xtest_eval(Xtest *xtest);
+  
+  #ifdef RDIEHARDER
++  int histogram(double *input, char *pvlabel, int inum, double min, double max, int nbins, char *label);
+   Test *rdh_testptr;            /* kludge: need a global to report back to main + R */
+   Dtest *rdh_dtestptr;  /* kludge: need a global to report back to main + R */
+  #endif

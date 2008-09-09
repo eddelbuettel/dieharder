@@ -23,10 +23,11 @@ void user_template(Test **test,int irun);
  * this will be one but for several it is two and could be more.
  */
 static Dtest user_template_dtest = {
-  "Example Dieharder Test",
-  "\n\
+  "Lagged Sum Test",
+  "lagged_sum",
+  "\
 #==================================================================\n\
-#                   Example Dieharder Test\n\
+#                  Example Dieharder Test\n\
 #\n\
 #                     Lagged Sum Test\n\
 # This package contains many very lovely tests.  Very few of them,\n\
@@ -46,12 +47,3 @@ static Dtest user_template_dtest = {
   1
 };
 
-/*
- * Finally, the only sane way to communicate with a test through the
- * standard interface is via GLOBAL variables -- otherwise one has the
- * significant problem of passing variable length argument lists through the
- * test-agnostic intermediate layers of the standard interface.  We just
- * aren't going to do that.  I'd suggest following this format --
- * test_name_variable_name -- for any variables you might need for a test.
- */
-uint user_template_lag;

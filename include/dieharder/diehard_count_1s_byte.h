@@ -9,7 +9,8 @@ void diehard_count_1s_byte(Test **test,int irun);
 
 static Dtest diehard_count_1s_byte_dtest = {
   "Diehard Count the 1s Test (byte)",
-  "\n\
+  "diehard_count_1s_byte",
+  "\
 #==================================================================\n\
 #         Diehard Count the 1s Test (byte) (modified).\n\
 #     This is the COUNT-THE-1's TEST for specific bytes.        \n\

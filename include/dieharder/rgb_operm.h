@@ -9,6 +9,7 @@ void rgb_operm(Test **test,int irun);
 
 static Dtest rgb_operm_dtest = {
   "RGB Overlapping Permuations Test",
+  "rgb_operm",
   "\n\
 #========================================================================\n\
 #                 RGB Overlapping Permutations Test\n\

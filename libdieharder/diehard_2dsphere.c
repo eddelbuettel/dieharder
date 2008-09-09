@@ -46,6 +46,8 @@ void diehard_2dsphere(Test **test, int irun)
 {
 
  int i,j,d,t;
+ uint md_dim;
+
  /*
   * These are the vector of points and the current point being
   * considered.  We may or may not need to restructure the vectors
@@ -64,9 +66,10 @@ void diehard_2dsphere(Test **test, int irun)
   * independent tests, per dimension.
   */
  points = (dTuple *)malloc(test[0]->tsamples*sizeof(dTuple));
+ md_dim = test[0]->ntuple;
 
  if(verbose == D_DIEHARD_2DSPHERE || verbose == D_ALL){
-     printf("Generating a list of %u points in %d dimensions\n",test[0]->tsamples,rgb_md_dim);
+     printf("Generating a list of %u points in %d dimensions\n",test[0]->tsamples,md_dim);
  }
  for(t=0;t<test[0]->tsamples;t++){
    /*

@@ -8,7 +8,8 @@
 void rgb_minimum_distance(Test **test,int irun);
 
 static Dtest rgb_minimum_distance_dtest = {
-  "Diehard Minimum Distance (2d Circle) Test",
+  "RGB Generalized Minimum Distance Test",
+  "rgb_minimum_distance",
   "#\n\
 #            THE GENERALIZED MINIMUM DISTANCE TEST\n\
 #\n\
@@ -53,8 +54,6 @@ typedef struct {
 /*
  * Global variables
  */
-
-uint rgb_md_dim;
 double rgb_mindist_avg;
 static double rgb_md_Q[] = {0.0,0.0,0.4135,0.5312,0.6202,1.3789};
 

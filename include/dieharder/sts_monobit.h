@@ -9,7 +9,8 @@ void sts_monobit(Test **test,int irun);
 
 static Dtest sts_monobit_dtest = {
   "STS Monobit Test",
-  "\n\
+  "sts_monobit",
+  "\
 #==================================================================\n\
 #                     STS Monobit Test\n\
 # Very simple.  Counts the 1 bits in a long string of random uints.\n\

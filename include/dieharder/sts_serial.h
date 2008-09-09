@@ -9,7 +9,8 @@ void sts_serial(Test **test,int irun);
 
 static Dtest sts_serial_dtest = {
   "STS Serial Test (Generalized)",
-  "\n\
+  "sts_serial",
+  "\
 #========================================================================\n\
 #                         STS Serial Test\n\
 # Accumulates the frequencies of overlapping n-tuples of bits drawn\n\

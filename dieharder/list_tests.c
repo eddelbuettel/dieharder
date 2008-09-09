@@ -56,9 +56,11 @@ in testing BEFORE using this testing tool!\n\
    -r 2 RGB Bit Persistence test\n\
    -r 3 RGB Ntuple Bit Distribution test suite (-n ntuple)\n\
    -r 4 RGB Generalized Minimum Distance test\n\
-   [rft: -r 5 RGB Permutations test (new, partial replacement for operm tests)]\n\
-   [dev: -r 6 RGB L-M-Ntuple Distribution test suite (quite long)]\n\
-   [dev: -r 7 RGB Overlapping Permutations test]\n\
+   -r 5 RGB Permutations test (new, partial replacement for operm tests)]\n\
+   [rft: -r 6 RGB Lagged Sums test\n\
+         (do not use the following as tests yet)\n\
+   [dev: -r 7 RGB L-M-Ntuple Distribution test suite (quite long)]\n\
+   [dev: -r 8 RGB Overlapping Permutations test]\n\
 \n\
       Statistical Test Suite (STS)\n\
    -s 1 STS Monobit test\n\

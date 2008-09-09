@@ -9,7 +9,8 @@ void diehard_dna(Test **test,int irun);
 
 static Dtest diehard_dna_dtest = {
   "Diehard DNA Test",
-  "\n\
+  "diehard_dna",
+  "\
 #==================================================================\n\
 #                    Diehard DNA Test.\n\
 # \n\

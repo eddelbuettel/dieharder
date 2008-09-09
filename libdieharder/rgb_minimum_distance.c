@@ -63,6 +63,8 @@ void rgb_minimum_distance(Test **test, int irun)
 {
 
  int i,j,d,t;
+ uint rgb_md_dim;
+ 
  /*
   * These are the vector of points and the current point being
   * considered.  We may or may not need to restructure the vectors
@@ -94,6 +96,7 @@ void rgb_minimum_distance(Test **test, int irun)
   * what the "scale" is?  I don't think so.
   */
  points = (dTuple *)malloc(test[0]->tsamples*sizeof(dTuple));
+ rgb_md_dim = test[0]->ntuple;
 
  if(verbose == D_RGB_MINIMUM_DISTANCE || verbose == D_ALL){
      printf("Generating a list of %u points in %d dimensions\n",test[0]->tsamples,rgb_md_dim);

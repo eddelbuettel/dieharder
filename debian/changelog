@@ -1,3 +1,22 @@
+dieharder (2.28.1-1) unstable; urgency=low
+
+  * New upstream release
+  
+  * dieharder/work.c: Let's not call rgb_timing() on each non-file 
+    based startup as it a) breaks sequential use, and b) creates p-values
+    that are different from prior versions.  This should really preserve
+    generator state, if at all possible. 
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Tue, 09 Sep 2008 10:18:55 -0500
+
+dieharder (2.27.13-2) unstable; urgency=low
+
+  * internal test release
+  * libdieharder/{rng_file_input_raw.c, rng_file_input.c}: Do not close 
+    state->fp at setup if seed != 0 -- patch forwarded to Robert too
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 04 Sep 2008 08:26:55 -0500
+
 dieharder (2.27.13-1) unstable; urgency=low
 
   * New upstream release

@@ -1,5 +1,5 @@
 /*
- * $Id: parsecl.c 313 2007-03-02 01:00:11Z rgb $
+ * $Id: parsecl.c 442 2008-09-06 18:37:53Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *
@@ -10,6 +10,7 @@
 void parsecl(int argc, char **argv)
 {
  int imax,i,c,errflg=0;
+ uint tflag_tmp;
  extern char *optarg;
  extern int optind, opterr, optopt;
 
@@ -19,11 +20,11 @@ void parsecl(int argc, char **argv)
   */
  all = NO;              /* Default is to NOT do all the tests */
  binary = NO;           /* Do output a random stream in binary (with -o) */
- bits = 128;            /* Maximum size bitstring is default */
+/* bits = 128; */           /* Maximum size bitstring is default */
  diehard = 0;           /* Diehard test number */
  filename[0] = (char)0; /* No input file */
  fromfile = 0;          /* Not from an input file */
- output = 0;            /* No output file */
+ output_file = 0;       /* No output file */
  overlap = 1;           /* Default is to use overlapping samples */
  generator = 13;        /* Default is mt19937 as a "good" generator */
  help_flag = NO;        /* No help requested */
@@ -38,13 +39,25 @@ void parsecl(int argc, char **argv)
  seed = 0;              /* saves the current (possibly randomly selected) seed */
  Seed = 0;              /* user selected seed.  != 0 surpresses reseeding per sample.*/
  tsamples = 0;          /* This value precipitates use of test defaults */
+ table = 0;             /* Default is (currently) not to use table output */
+ tflag = THEADER + TGEN + TSNAME + TNTUPLE +
+           TPSAMPLES + TTSAMPLES + TPVALUE + TASSESSMENT;
+                        /* Table flags to turn on all of these outputs */
  user = 0;              /* user defined test number */
  verbose = 0;		/* Default is not to be verbose. */
  x_user = 0.0;          /* x,y,z_user are for "arbitrary" input controls */
  y_user = 0.0;          /* and can be used by any test without having to */
  z_user = 0.0;          /* rewrite parsecl() or add global variables */
 
- while ((c = getopt(argc,argv,"aBb:d:f:g:H:hi:lNn:op:qr:S:s:t:u:v:x:y:z:")) != EOF){
+ /*
+  * If dieharder is executed by itself on a command line, print out help
+  * and then exit.
+  */
+ if(argc == 1){
+    Usage();
+ }
+
+ while ((c = getopt(argc,argv,"aBb:d:f:g:H:hi:lNn:op:qr:S:s:T:t:u:v:x:y:z:")) != EOF){
    switch (c){
      case 'a':
        all = YES;
@@ -52,9 +65,11 @@ void parsecl(int argc, char **argv)
      case 'B':
        binary = 1;
        break;
+/*
      case 'b':
        bits = strtol(optarg,(char **) NULL,10);
        break;
+*/
      case 'd':
        diehard = strtol(optarg,(char **) NULL,10);
        break;
@@ -84,7 +99,7 @@ void parsecl(int argc, char **argv)
        overlap = 0;
        break;
      case 'o':
-       output = 1;
+       output_file = 1;
        break;
      case 'p':
        psamples = strtol(optarg,(char **) NULL,10);
@@ -100,6 +115,17 @@ void parsecl(int argc, char **argv)
        break;
      case 's':
        sts = strtol(optarg,(char **) NULL,10);
+       break;
+     case 'T':
+       table = 1;
+       /*
+        * We only override the default table display flags if there is
+        * actually an argument to -T.  I hope.
+        */
+       tflag_tmp =  strtol(optarg,(char **) NULL,10);
+       if(tflag_tmp != 0){
+         tflag = tflag_tmp;
+       }
        break;
      case 't':
        tsamples = strtol(optarg,(char **) NULL,10);

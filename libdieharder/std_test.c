@@ -50,8 +50,10 @@ Test **create_test(Dtest *dtest, uint tsamples,uint psamples, void (*testfunc)()
  /*
   * Here we have to create a vector of tests of length nkps
   */
+ /* printf("Allocating vector of pointers to Test structs of length %d\n",dtest->nkps); */
  newtest = (Test **)malloc((size_t) dtest->nkps*sizeof(Test *));
  for(i=0;i<dtest->nkps;i++){
+   /* printf("Allocating the actual test struct for the %d th test\n",i); */
    newtest[i] = (Test *)malloc(sizeof(Test));
  }
 
@@ -99,8 +101,15 @@ Test **create_test(Dtest *dtest, uint tsamples,uint psamples, void (*testfunc)()
     */
    newtest[i]->ks_pvalue = 0.0;
 
+   /*
+   printf("Allocated and set newtest->tsamples = %d\n",newtest[i]->tsamples);
+   printf("Allocated and set newtest->psamples = %d\n",newtest[i]->psamples);
+   printf("Allocated a vector of pvalues at %0x\n",newtest[i]->pvalues);
+   */
+
  }
 
+ /* printf("Allocated complete test struct at %0x\n",newtest); */
  return(newtest);
 
 }
@@ -118,12 +127,19 @@ void destroy_test(Dtest *dtest, Test **test)
   * To destroy a test one has to first free its allocated contents
   * or leak.
   */
+ /*
+ printf("Destroying test %s\n",dtest->name);
+ printf("Looping over %d test pvalue vectors\n",dtest->nkps);
+ */
  for(i=0;i<dtest->nkps;i++){
    free(test[i]->pvalues);
+   free(test[i]->pvlabel);
  }
+ /* printf("Freeing all the test structs\n"); */
  for(i=0;i<dtest->nkps;i++){
    free(test[i]);
  }
+ /* printf("Freeing the toplevel test struct at %0x\n",test); */
  free(test);
 
 }

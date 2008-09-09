@@ -219,7 +219,7 @@ static void file_input_set (void *vstate, unsigned long int s)
    if(verbose == D_FILE_INPUT || verbose == D_ALL){
      fprintf(stdout,"# file_input(): Closing/reopening/resetting %s\n",filename);
    }
-   fclose(state->fp);
+   /* fclose(state->fp); */
    state->fp = NULL;
  }
 

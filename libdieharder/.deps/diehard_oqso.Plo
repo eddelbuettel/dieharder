@@ -94,9 +94,11 @@ diehard_oqso.lo: diehard_oqso.c ../include/dieharder/libdieharder.h \
   ../include/dieharder/Xtest.h ../include/dieharder/Vtest.h \
   ../include/dieharder/std_test.h ../include/dieharder/tests.h \
   ../include/dieharder/rgb_timing.h ../include/dieharder/rgb_persist.h \
-  ../include/dieharder/rgb_bitdist.h ../include/dieharder/rgb_operm.h \
-  ../include/dieharder/rgb_permutations.h \
+  ../include/dieharder/rgb_bitdist.h \
+  ../include/dieharder/rgb_lagged_sums.h \
   ../include/dieharder/rgb_minimum_distance.h \
+  ../include/dieharder/rgb_operm.h \
+  ../include/dieharder/rgb_permutations.h \
   ../include/dieharder/diehard_birthdays.h \
   ../include/dieharder/diehard_operm5.h \
   ../include/dieharder/diehard_rank_32x32.h \
@@ -459,11 +461,13 @@ diehard_oqso.lo: diehard_oqso.c ../include/dieharder/libdieharder.h \
 
 ../include/dieharder/rgb_bitdist.h:
 
+../include/dieharder/rgb_lagged_sums.h:
+
+../include/dieharder/rgb_minimum_distance.h:
+
 ../include/dieharder/rgb_operm.h:
 
 ../include/dieharder/rgb_permutations.h:
-
-../include/dieharder/rgb_minimum_distance.h:
 
 ../include/dieharder/diehard_birthdays.h:
 

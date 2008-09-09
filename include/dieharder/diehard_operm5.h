@@ -9,6 +9,7 @@ void diehard_operm5(Test **test, int irun);
 
 static Dtest diehard_operm5_dtest = {
   "Diehard OPERM5 Test",
+  "diehard_operm5",
 "\n\
 #==================================================================\n\
 #          Diehard Overlapping 5-Permutations Test.\n\

@@ -9,7 +9,9 @@ void diehard_2dsphere(Test **test,int irun);
 
 static Dtest diehard_2dsphere_dtest = {
   "Diehard Minimum Distance (2d Circle) Test",
-  "#==================================================================\n\
+  "diehard_2dsphere",
+  "\
+#==================================================================\n\
 #         Diehard Minimum Distance (2d Circle) Test \n\
 # It does this 100 times::   choose n=8000 random points in a   \n\
 # square of side 10000.  Find d, the minimum distance between   \n\
@@ -38,6 +40,3 @@ typedef struct {
   double x[DIM_2D];
 } C3_2D;
  
-/*
- * Global variables (none in this case)
- */

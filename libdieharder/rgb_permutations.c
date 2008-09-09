@@ -19,7 +19,7 @@ double fpipi(int pi1,int pi2,int nkp);
 void rgb_permutations(Test **test,int irun)
 {
 
- uint i,j,permindex,t;
+ uint i,j,k,permindex,t;
  Vtest vtest;
  double *testv;
  size_t ps[4096];
@@ -34,15 +34,16 @@ void rgb_permutations(Test **test,int irun)
  /*
   * Number of permutations
   */
- nperms = gsl_sf_fact(rgb_permutations_k);
+ k = test[0]->ntuple;
+ nperms = gsl_sf_fact(k);
 
  /*
   * A vector to accumulate rands in some sort order
   */
- testv = (double *)malloc(rgb_permutations_k*sizeof(double));
+ testv = (double *)malloc(k*sizeof(double));
 
  MYDEBUG(D_RGB_PERMUTATIONS){
-   printf("# rgb_permutations: There are %u permutations of length k = %u\n",nperms,rgb_permutations_k);
+   printf("# rgb_permutations: There are %u permutations of length k = %u\n",nperms,k);
  }
 
  /*
@@ -60,7 +61,7 @@ void rgb_permutations(Test **test,int irun)
  }
  lookup = (gsl_permutation**) malloc(nperms*sizeof(gsl_permutation*));
  for(i=0;i<nperms;i++){
-   lookup[i] = gsl_permutation_alloc(rgb_permutations_k);
+   lookup[i] = gsl_permutation_alloc(k);
  }
  for(i=0;i<nperms;i++){
    if(i == 0){
@@ -94,23 +95,23 @@ void rgb_permutations(Test **test,int irun)
    /*
     * To sort into a perm, test vector needs to be double.
     */
-   for(i=0;i<rgb_permutations_k;i++) {
+   for(i=0;i<k;i++) {
      testv[i] = (double) gsl_rng_get(rng);
      MYDEBUG(D_RGB_PERMUTATIONS){
        printf("# rgb_permutations: testv[%u] = %u\n",i,(uint) testv[i]);
      }
    }
 
-   gsl_sort_index(ps,testv,1,rgb_permutations_k);
+   gsl_sort_index(ps,testv,1,k);
 
    MYDEBUG(D_RGB_PERMUTATIONS){
-     for(i=0;i<rgb_permutations_k;i++) {
+     for(i=0;i<k;i++) {
        printf("# rgb_permutations: ps[%u] = %u\n",i,ps[i]);
      }
    }
 
    for(i=0;i<nperms;i++){
-     if(memcmp(ps,lookup[i]->data,rgb_permutations_k*sizeof(size_t))==0){
+     if(memcmp(ps,lookup[i]->data,k*sizeof(size_t))==0){
        permindex = i;
        MYDEBUG(D_RGB_PERMUTATIONS){
          printf("# Found permutation: ");
