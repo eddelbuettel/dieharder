@@ -23,6 +23,7 @@ nobase_include_HEADERS = dieharder/copyright.h \
 	dieharder/marsaglia_tsang_gorilla.h \
 	dieharder/parse.h \
 	dieharder/rgb_bitdist.h \
+	dieharder/rgb_lagged_sums.h \
 	dieharder/rgb_lmn.h \
 	dieharder/rgb_minimum_distance.h \
 	dieharder/rgb_operm.h \

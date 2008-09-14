@@ -1,3 +1,11 @@
+dieharder (2.28.1-2) unstable; urgency=low
+
+  * include/Makefile.am: Add missing file dieharder/rgb_lagged_sums.h to 
+    list of files to be installed (and committed upstream as svn rev 457)
+    and re-ran automake
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 14 Sep 2008 13:01:08 -0500
+
 dieharder (2.28.1-1) unstable; urgency=low
 
   * New upstream release
