@@ -2,7 +2,7 @@ Source: dieharder
 Section: devel
 Priority: optional
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 Build-Depends: debhelper (>= 7), libgsl0-dev, cdbs, automake, libtool, gs-common, texlive-base, texlive-latex-base, texlive-generic-recommended
 
 Package: dieharder
@@ -11,7 +11,7 @@ Depends: ${shlibs:Depends}
 Description:  Random-number generator test front-end
  dieharder is a fairly involved random number/uniform deviate generator
  tester.  It can either test any of its many prebuilt and linked
- generators (basically all of those in the Gnu Scientific Library plus
+ generators (basically all of those in the GNU Scientific Library plus
  any others I've been able to find) or a potentially random dataset in a
  file.  With file input, it can test either N-bit bitstrings (with N user
  specifiable) or (double precision) floating point numbers in the range
@@ -27,7 +27,7 @@ Description:  Random-number generator test library
  libdieharder is the core library of dieharder and friends, designed to
  be "the last suite of random number testers you'll ever wear".  It can
  test any of its many prebuilt and library linked generators (basically
- all of those in the Gnu Scientific Library plus a number of others from
+ all of those in the GNU Scientific Library plus a number of others from
  various sources) or a potentially random dataset in either an
  ascii-formatted or raw (presumed 32 bit uint) binary file.  It is fairly
  straightforward to wrap new software generators for testing, or to add
@@ -51,7 +51,7 @@ Description:  Random-number generator test library -- development package
  libdieharder is the core library of dieharder and friends, designed to
  be "the last suite of random number testers you'll ever wear".  It can
  test any of its many prebuilt and library linked generators (basically
- all of those in the Gnu Scientific Library plus a number of others from
+ all of those in the GNU Scientific Library plus a number of others from
  various sources) or a potentially random dataset in either an
  ascii-formatted or raw (presumed 32 bit uint) binary file.  It is fairly
  straightforward to wrap new software generators for testing, or to add

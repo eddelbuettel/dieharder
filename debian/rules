@@ -46,7 +46,8 @@ configure-stamp:
 	ln -sf /usr/share/misc/config.sub .
 	ln -sf /usr/share/misc/config.guess .
 	rm -f config.cache
-	./autogen.sh
+        #./autogen.sh
+	autoreconf -ifv
 
 	./configure 	CFLAGS="$(CFLAGS)" 		\
 			--prefix=/usr 			\
