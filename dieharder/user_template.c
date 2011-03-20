@@ -1,9 +1,10 @@
 /*
- * $Id: diehard_craps.c 191 2006-07-13 08:23:50Z rgb $
- *
+ *========================================================================
  * See copyright in copyright.h and the accompanying file COPYING
- *
+ *========================================================================
  */
+
+#include <dieharder.h>
 
 /*
  *========================================================================
@@ -71,9 +72,7 @@
  *========================================================================
  */
 
-#include "dieharder.h"
-
-void user_template(Test **test,int irun)
+int user_template(Test **test,int irun)
 {
 
  uint t,i,lag;

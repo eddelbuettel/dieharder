@@ -1,3 +1,11 @@
+dieharder (3.31.0-1) unstable; urgency=low
+
+  * New upstream release
+  
+  * debian/control: Bumped major to 3 for libdieharder3 along with upstream
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 19 Mar 2011 21:39:20 -0500
+
 dieharder (2.28.1-3) unstable; urgency=low
 
   * debian/rules: Run 'autoreconf -ifv' instead of 'autogen.sh' to update 

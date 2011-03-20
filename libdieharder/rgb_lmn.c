@@ -93,11 +93,11 @@
 #include <dieharder/libdieharder.h>
 #include <dieharder/rgb_lmn.h>
 
-double rgb_lmn()
+int rgb_lmn()
 {
 
  double pks;
- uint ps_save,ts_save;
+ uint ps_save=0,ts_save=0;
 
  /*
   * Do a standard test if -a(ll) is selected.
@@ -159,7 +159,7 @@ double rgb_lmn()
 
  if(ks_pvalue) nullfree(ks_pvalue);
 
- return(pks);
+ return(0);
 
 }
 

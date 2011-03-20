@@ -32,7 +32,7 @@ uint roll(){
   return d;
 }
 
-void diehard_craps(Test **test, int irun)
+int diehard_craps(Test **test, int irun)
 {
 
  uint i,j;
@@ -40,6 +40,12 @@ void diehard_craps(Test **test, int irun)
  double sum,p;
  Xtest ptest;
  Vtest vtest;
+
+ /*
+  * This is just for output display.
+  */
+ test[0]->ntuple = 0;
+ test[1]->ntuple = 0;
 
  /*
   * ptest.x = number of wins
@@ -64,7 +70,7 @@ void diehard_craps(Test **test, int irun)
   * Allocate memory for Vtest struct vector (length 21) and initialize
   * it with the expected values.
   */
- Vtest_create(&vtest,21,"diehard_craps",gsl_rng_name(rng));
+ Vtest_create(&vtest,21);
  vtest.cutoff = 5.0;
  sum = 1.0/3.0;
  vtest.y[0] = sum;
@@ -149,6 +155,10 @@ void diehard_craps(Test **test, int irun)
    printf("# diehard_runs(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
    printf("# diehard_runs(): test[1]->pvalues[%u] = %10.5f\n",irun,test[1]->pvalues[irun]);
  }
+
+ Vtest_destroy(&vtest);
+
+ return(0);
 
 }
 

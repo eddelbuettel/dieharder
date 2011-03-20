@@ -21,3 +21,7 @@
    double pvalue;      /* Resulting p-value */
  } Vtest;
 
+ void Vtest_create(Vtest *vtest, unsigned int nvec);
+ void Vtest_destroy(Vtest *vtest);
+ void Vtest_eval(Vtest *vtest);
+

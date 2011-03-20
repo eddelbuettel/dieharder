@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_parking_lot(Test **test,int irun);
+int diehard_parking_lot(Test **test,int irun);
 
 static Dtest diehard_parking_lot_dtest = {
   "Diehard Parking Lot Test",
@@ -27,9 +27,8 @@ static Dtest diehard_parking_lot_dtest = {
 #==================================================================\n",
   100,
   0,
-  1
+  1,
+  diehard_parking_lot,
+  0
 };
 
-/*
- * Global variables (none in this case)
- */

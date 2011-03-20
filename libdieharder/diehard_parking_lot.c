@@ -72,7 +72,7 @@ typedef struct {
   double y;
 } Cars;
 
-void diehard_parking_lot(Test **test, int irun)
+int diehard_parking_lot(Test **test, int irun)
 {
 
  /*
@@ -82,6 +82,12 @@ void diehard_parking_lot(Test **test, int irun)
  uint k,n,i,crashed;
  double xtry,ytry,knorm;
  Xtest ptest;
+
+ /*
+  * for display only.  0 means "ignored".
+  */
+ test[0]->ntuple = 0;
+ test[0]->tsamples = 12000;
 
  /*
   * ptest.x = (double) k
@@ -144,6 +150,8 @@ void diehard_parking_lot(Test **test, int irun)
  MYDEBUG(D_DIEHARD_PARKING_LOT) {
    printf("# diehard_parking_lot(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
+
+ return(0);
 
 }
 

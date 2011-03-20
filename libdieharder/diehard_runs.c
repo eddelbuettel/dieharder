@@ -1,8 +1,5 @@
 /*
- * $Id: diehard_runs.c 238 2006-09-28 06:28:21Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
- *
  */
 
 /*
@@ -45,8 +42,39 @@
 
 
 #include <dieharder/libdieharder.h>
+/*
+ * The following are the definitions and parameters for runs, based on
+ * Journal of Applied Statistics v30, Algorithm AS 157, 1981:
+ *    The Runs-Up and Runs-Down Tests, by R. G. T. Grafton.
+ * (and before that Knuth's The Art of Programming v. 2).
+ */
 
-void diehard_runs(Test **test, int irun)
+#define RUN_MAX 6
+
+/*
+ * a_ij
+ */
+static double a[6][6] = {
+ { 4529.4,   9044.9,  13568.0,   18091.0,   22615.0,   27892.0},
+ { 9044.9,  18097.0,  27139.0,   36187.0,   45234.0,   55789.0},
+ {13568.0,  27139.0,  40721.0,   54281.0,   67852.0,   83685.0},
+ {18091.0,  36187.0,  54281.0,   72414.0,   90470.0,  111580.0},
+ {22615.0,  45234.0,  67852.0,   90470.0,  113262.0,  139476.0},
+ {27892.0,  55789.0,  83685.0,  111580.0,  139476.0,  172860.0}
+};
+
+/*
+ * b_i
+ */
+static double b[6] = {
+ 1.0/6.0,
+ 5.0/24.0,
+ 11.0/120.0,
+ 19.0/720.0,
+ 29.0/5040.0,
+ 1.0/840.0,};
+
+int diehard_runs(Test **test, int irun)
 {
 
  int i,j,k,t,ns;
@@ -54,7 +82,14 @@ void diehard_runs(Test **test, int irun)
  int upruns[RUN_MAX],downruns[RUN_MAX];
  double uv,dv,up_pks,dn_pks;
  double *uv_pvalue,*dv_pvalue;
+ uint first, last, next = 0;
 
+ /*
+  * This is just for display.
+  */
+ test[0]->ntuple = 0;
+ test[1]->ntuple = 0;
+   
  /*
   * Clear up and down run bins
   */
@@ -72,17 +107,17 @@ void diehard_runs(Test **test, int irun)
  if(verbose){
    printf("j    rand    ucount  dcount\n");
  }
- diehard_runs_rand_uint[0] = gsl_rng_get(rng);
+ first = last = gsl_rng_get(rng);
  for(t=1;t<test[0]->tsamples;t++) {
-   diehard_runs_rand_uint[t] = gsl_rng_get(rng);
+   next = gsl_rng_get(rng);
    if(verbose){
-     printf("%d:  %10u   %u    %u\n",t,diehard_runs_rand_uint[t],ucount,dcount);
+     printf("%d:  %10u   %u    %u\n",t,next,ucount,dcount);
    }
 
    /*
     * Did we increase?
     */
-   if(diehard_runs_rand_uint[t] > diehard_runs_rand_uint[t-1]){
+   if(next > last){
      ucount++;
      if(ucount > RUN_MAX) ucount = RUN_MAX;
      downruns[dcount-1]++;
@@ -93,8 +128,9 @@ void diehard_runs(Test **test, int irun)
      upruns[ucount-1]++;
      ucount = 1;
    }
+   last = next;
  }
- if(diehard_runs_rand_uint[test[0]->tsamples-1] > diehard_runs_rand_uint[0]){
+ if(next > first){
    ucount++;
    if(ucount > RUN_MAX) ucount = RUN_MAX;
    downruns[dcount-1]++;
@@ -143,6 +179,8 @@ void diehard_runs(Test **test, int irun)
    printf("# diehard_runs(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
    printf("# diehard_runs(): test[1]->pvalues[%u] = %10.5f\n",irun,test[1]->pvalues[irun]);
  }
+
+ return(0);
 
 }
 

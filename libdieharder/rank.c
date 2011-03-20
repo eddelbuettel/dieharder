@@ -57,8 +57,9 @@ int binary_rank(uint **mtx,int mrows,int ncols)
   * row size in uint columns.  Note that we have to remember
   * which uint ** column we are in and therefore have to
   * convert bit column into uint column regularly.
+  * Subtract 1, because it is zero-basd.
   */
- uint_col_max = ncols/s_uint;
+ uint_col_max = (ncols-1)/s_uint;
 
  if(verbose == D_BRANK || verbose == D_ALL){
    printf("Starting bitmatrix:\n");
@@ -129,13 +130,13 @@ int binary_rank(uint **mtx,int mrows,int ncols)
      }
      if(i != k){
        if(verbose == D_BRANK || verbose == D_ALL){
-         printf("before: mtx[%d] = %0x  mtx[%d = %0x\n",i,mtx[i],k,mtx[k]);
+         printf("before: mtx[%d] = %p  mtx[%d = %p\n",i,mtx[i],k,mtx[k]);
        }
        rowp = mtx[i]; /* rowp is the ADDRESS of the ith row */
        mtx[i] = mtx[k];
        mtx[k] = rowp;
        if(verbose == D_BRANK || verbose == D_ALL){
-         printf("after mtx[%d] = %0x  mtx[%d = %0x\n",i,mtx[i],k,mtx[k]);
+         printf("after mtx[%d] = %p  mtx[%d = %p\n",i,mtx[i],k,mtx[k]);
        }
      }
      if(verbose == D_BRANK || verbose == D_ALL){

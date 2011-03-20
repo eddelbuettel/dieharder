@@ -126,7 +126,8 @@ rm -rf $RPM_BUILD_ROOT
 # The libdieharder library.  We ONLY install the primary
 # versioned library -- ldconfig and ln are used to finish off
 # later.
-%{_libdir}/libdieharder.so.%{version}
+# %{_libdir}/libdieharder.so.%{version}
+%{_libdir}/libdieharder.so.@DIEHARDER_LIB_VERSION@
 %{_libdir}/libdieharder.so
 
 # The libdieharder include files are under here

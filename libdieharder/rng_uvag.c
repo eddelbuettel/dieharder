@@ -135,14 +135,14 @@ static void uvag_set (void *vstate, unsigned long int s) {
 
  /*
   * OK, here we have to modify Alex's algorithm.  The GSL requires a
-  * single seed, unsigned long int in type.  Alex requires a key 
-  * string 256 characters long (that is, 64 uints long).  We therefore
-  * have to bootstrap off of an existing, deterministic GSL RNG to fill
-  * the seed string from a single permitted seed.  Note that type 12 is
-  * the mt19937 generator, basically one of the best in the world -- not
+  * single seed, unsigned long int in type.  Alex requires a key string
+  * 256 characters long (that is, 64 uints long).  We therefore have to
+  * bootstrap off of an existing, deterministic GSL RNG to fill the seed
+  * string from a single permitted seed.  Note that type 12 is the
+  * mt19937_1999 generator, basically one of the best in the world -- not
   * that it matters.
   */
- seed_rng = gsl_rng_alloc(types[12]);
+ seed_rng = gsl_rng_alloc(dh_rng_types[14]);
  seed_seed = s;
  gsl_rng_set(seed_rng,seed_seed);
  random_max = gsl_rng_max(seed_rng);

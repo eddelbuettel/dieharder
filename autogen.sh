@@ -8,12 +8,14 @@ echo "Running autoheader..."
 autoheader
 echo "Running aclocal..."
 aclocal
+echo "Running libtoolize..."
+libtoolize
 rm -f Makefile Makefile.in dieharder/Makefile dieharder/Makefile.in \
    libdieharder/Makefile libdieharder/Makefile.in
 echo "Running automake..."
 automake --add-missing --copy --gnu
 echo "Running autoconf..."
-autoconf
+autoreconf
 
 #
 # Might as well run this -- then we are ready to run make.

@@ -108,7 +108,7 @@ install: build
 #		ln -s libdieharder.so.2 libdieharder.so )
 
 	dh_movefiles --sourcedir=debian/dieharder \
-				-plibdieharder2 -plibdieharder-dev
+				-plibdieharder3 -plibdieharder-dev
 
 #	install -m 0644 manual/dieharder.pdf \
 #		`pwd`/debian/libdieharder-dev/usr/share/doc/libdieharder-dev/

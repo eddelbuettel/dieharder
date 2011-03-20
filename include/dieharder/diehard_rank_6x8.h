@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_rank_6x8(Test **test,int irun);
+int diehard_rank_6x8(Test **test,int irun);
 
 static Dtest diehard_rank_6x8_dtest = {
   "Diehard 6x8 Binary Rank Test",
@@ -27,10 +27,8 @@ static Dtest diehard_rank_6x8_dtest = {
 #==================================================================\n",
   100,
   100000,
-  1
+  1,
+  diehard_rank_6x8,
+  0
 };
 
-/*
- * Global variables
- */
-uint **diehard_rank_6x8_mtx;

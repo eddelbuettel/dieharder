@@ -2,7 +2,9 @@
  * Hopefully this is a valid default initialization of the template test.
  */
 
-static Dtest temp = {
+int rgb_lmn(Dtest **dtest,Test **test);
+
+static Dtest lmn_test = {
   "RGB lmn Test",
   "rgb_lmn_test",
   "\n\
@@ -16,6 +18,8 @@ static Dtest temp = {
 #==================================================================\n",
   100,
   100000
+  0,
+  rgb_lmn,
+  0
 };
 
-static Dtest *dtest = &temp;

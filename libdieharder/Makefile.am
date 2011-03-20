@@ -11,6 +11,7 @@
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
 VERSION=@VERSION@
+# LITTLE_ENDIAN=@LITTLE_ENDIAN@
 # VERSION_MAJOR = $(shell expr $(VERSION) : '\(.*\)\..*\..*' \| $(VERSION))
 # RELEASE=0
 
@@ -30,6 +31,11 @@ libdieharder_la_SOURCES = \
 	bits.c \
 	chisq.c \
 	countx.c \
+	dab_bytedistrib.c \
+	dab_dct.c \
+	dab_filltree.c \
+	dab_filltree2.c \
+	dab_monobit2.c \
 	diehard_2dsphere.c \
 	diehard_3dsphere.c \
 	diehard_birthdays.c \
@@ -47,7 +53,9 @@ libdieharder_la_SOURCES = \
 	diehard_runs.c \
 	diehard_squeeze.c \
 	diehard_sums.c \
-	dieharder_types.c \
+	dieharder_rng_types.c \
+	dieharder_test_types.c \
+	histogram.c \
 	kstest.c \
 	marsaglia_tsang_gcd.c \
 	marsaglia_tsang_gorilla.c \
@@ -56,14 +64,15 @@ libdieharder_la_SOURCES = \
 	random_seed.c \
 	rank.c \
 	rgb_bitdist.c \
+	rgb_kstest_test.c \
 	rgb_lagged_sums.c \
-	rgb_lmn.c \
 	rgb_minimum_distance.c \
-	rgb_operm.c \
 	rgb_permutations.c \
 	rgb_persist.c \
 	rgb_timing.c \
 	rngav.c \
+	rng_aes.c \
+	rijndael-alg-fst.c \
 	rng_ca.c \
 	rng_dev_random.c \
 	rng_dev_arandom.c \
@@ -73,20 +82,29 @@ libdieharder_la_SOURCES = \
 	rngs_gnu_r.c \
 	rng_kiss.c \
 	rng_jenkins.c \
+	rng_superkiss.c \
 	rng_stdin_input_raw.c \
+	rng_threefish.c \
 	rng_uvag.c \
+	rng_XOR.c \
 	sample.c \
+	skein_block64.c \
+	skein_block_ref.c \
 	std_test.c \
 	sts_monobit.c \
 	sts_runs.c \
 	sts_serial.c \
 	timing.c \
 	Vtest.c \
+	version.c \
 	Xtest.c
+
+#	rgb_operm.c
+#	rgb_lmn.c
 
 # The program/library may need to know what version it is, define
 # the VERSION macro.
-DEFINES = -DVERSION=$(VERSION)
+DEFINES = -DVERSION=$(VERSION) # -DLITTLE_ENDIAN=$(LITTLE_ENDIAN)
 
 #========================================================================
 # Define parameters and directives needed in compile/link steps.
@@ -96,7 +114,7 @@ DEFINES = -DVERSION=$(VERSION)
 
 # Compile flags (use fairly standard -O3 as default)
 AM_CPPFLAGS = $(DEFINES) -I ${top_srcdir}/include -I ${includedir}
-AM_CFLAGS = -O3
+AM_CFLAGS = -O3 -Wall -Wno-unused-variable
 
 #========================================================================
 # The only safe place to do commits is in the toplevel directory

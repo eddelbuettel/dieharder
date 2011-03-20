@@ -21,7 +21,7 @@
 
 #include <dieharder/libdieharder.h>
 
-void rgb_persist(Test **test, Rgb_Persist *persist)
+int rgb_persist(Test **test, Rgb_Persist *persist)
 {
 
  double pks;
@@ -76,6 +76,7 @@ void rgb_persist(Test **test, Rgb_Persist *persist)
    persist->cumulative_mask = persist->cumulative_mask | persist->and_mask;
  }
 
+ return(0);
 
 }
 

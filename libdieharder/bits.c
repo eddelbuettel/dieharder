@@ -324,7 +324,7 @@ int get_int_bit(uint i, uint n)
   * Note
   */
  if(n < 0 || n > 8*sizeof(uint)){
-   fprintf(stderr,"Error: bit offset %d exceeds length %d of uint.\n",n,8*sizeof(uint));
+   fprintf(stderr,"Error: bit offset %u exceeds length %lu of uint.\n",n,8*sizeof(uint));
    exit(0);
  }
 
@@ -944,7 +944,7 @@ uint get_uint_rand(gsl_rng *gsl_rng)
     */
    MYDEBUG(D_BITS) {
      printf("bu = %d bl = %d\n",bu,bl);
-     printf("  init %2d: |");
+     printf("  init: |");
      dumpbits(&bits_rand[0],bu);
      printf("|");
      dumpbits(&bits_rand[1],bu);
@@ -1189,7 +1189,7 @@ void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng)
  output = (char *)&bits_output[BRBUF]-rsize;
  resultp = (char *)result;
  MYDEBUG(D_BITS) {
-   printf("rsize = %d  output address = %0x result address = %0x\n",rsize,output,resultp);
+   printf("rsize = %d  output address = %p result address = %p\n",rsize,output,resultp);
  }
 
  /* copy them over characterwise */
@@ -1436,7 +1436,8 @@ void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng)
  * static buffers that must be cleared in order to achieve consistent
  * results from a rng reseed on, per run.
  */
-void reset_bit_buffers(){
+void reset_bit_buffers()
+{
 
   int i;
   

@@ -1,0 +1,2904 @@
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2008.11.9)  6 OCT 2009 12:15
+entering extended mode
+ %&-line parsing enabled.
+**dieharder.tex
+(./dieharder.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, arabic, basque, bulgarian, coptic, welsh, czech, slovak, german, ng
+erman, danish, esperanto, spanish, catalan, galician, estonian, farsi, finnish,
+ french, greek, monogreek, ancientgreek, croatian, hungarian, interlingua, ibyc
+us, indonesian, icelandic, italian, latin, mongolian, dutch, norsk, polish, por
+tuguese, pinyin, romanian, russian, slovenian, uppersorbian, serbian, swedish, 
+turkish, ukenglish, ukrainian, loaded.
+(/usr/share/texmf/tex/latex/base/article.cls
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/size12.clo
+File: size12.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf/tex/generic/epsf/epsf.sty
+This is `epsf.tex' v2.7.3 <23 July 2005>
+\epsffilein=\read1
+\epsfframemargin=\dimen103
+\epsfframethickness=\dimen104
+\epsfrsize=\dimen105
+\epsftmp=\dimen106
+\epsftsize=\dimen107
+\epsfxsize=\dimen108
+\epsfysize=\dimen109
+\pspoints=\dimen110
+) (./macros.tex (/usr/share/texmf/tex/latex/html/url.sty
+Package: url 1999/03/02  ver 1.4  Verb mode for urls, email addresses, and file
+ names
+)) (./dieharder.aux)
+\openout1 = `dieharder.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 41.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 47.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 47.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 47.
+
+[1
+
+] (./dieharder.toc)
+\tf@toc=\write3
+\openout3 = `dieharder.toc'.
+
+ [2] [3] [4]
+
+LaTeX Warning: Citation `Marsaglia' on page 5 undefined on input line 172.
+
+
+LaTeX Warning: Citation `STS' on page 5 undefined on input line 193.
+
+[5]
+
+LaTeX Warning: Citation `Knuth' on page 6 undefined on input line 201.
+
+[6]
+
+LaTeX Warning: Citation `GPL' on page 7 undefined on input line 269.
+
+[7] [8] [9] [10] [11]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <17.28> on input line 475.
+ [12] [13]
+Overfull \hbox (42.25021pt too wide) in paragraph at lines 571--571
+[]   \OT1/cmtt/m/n/12 unsigned int ndof;  /* Number of degrees of freedom, defa
+ult nvec-1[] 
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 579.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 593.
+
+(/usr/share/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 593.
+ [14] [15] [16] [17] [18]
+
+LaTeX Warning: Citation `hkproj' on page 19 undefined on input line 801.
+
+[19] [20] [21] [22] [23] [24] [25]
+
+LaTeX Warning: Citation `Wolff' on page 26 undefined on input line 1095.
+
+
+LaTeX Warning: Citation `BinderHeerman' on page 26 undefined on input line 1096
+.
+
+
+LaTeX Warning: Citation `Metropolis' on page 26 undefined on input line 1097.
+
+
+LaTeX Warning: Citation `McVoy' on page 26 undefined on input line 1136.
+
+
+LaTeX Warning: Citation `netpipe' on page 26 undefined on input line 1136.
+
+
+LaTeX Warning: Citation `SPEC' on page 26 undefined on input line 1137.
+
+[26] [27] [28] [29] [30] [31] [32] [33] [34]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # This test generates 256 sequential samples of an random un
+signed[] 
+ []
+
+[35]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # integer from the given rng.  Successive integers are logic
+ally[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # change.  Since bits will NOT change when filling e.g. unsi
+gned[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # ints with 16 bit ints, this mask logically &'d with the ma
+ximum[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # random number returned by the rng.  All the remaining 1's 
+in the[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # resulting mask are therefore significant -- they represent
+ bits[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # that never change over the length of the test.  These bits
+ are[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # entire test is repeated with the rng reseeded to generate 
+a mask[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # cumulated_mask =          0 = 0000000000000000000000000000
+0000[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # randm_mask     = 4294967295 = 1111111111111111111111111111
+1111[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # random_max     = 4294967295 = 1111111111111111111111111111
+1111[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # of random integers and compares the distribution thus gene
+rated[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # with the theoretical (binomial) histogram, forming chisq a
+nd the[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # associated p-value.  In this test n-tuples are selected wi
+thout[] 
+ []
+
+[36]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[37]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[38]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[39]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[40]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[41]
+Overfull \hbox (104.00024pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Generator mt19937_1999 FAILS at 0.01% for 6-tuplets.  rgb_
+bitdist terminating.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Each test determines the number of matching intervals from
+ 512[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # results cumulated in a histogram.  Repeated intervals shou
+ld be[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # distributed in a Poisson distribution if the underlying ge
+nerator[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Two additional parameters have been added. In diehard, nms
+=512[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # but this CAN be varied and all Marsaglia's formulae still 
+work.  It[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Similarly, nbits "should" 24, but we can really make it an
+ything[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # we want that's less than or equal to rmax_bits = 32.  It c
+an be[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # reset to a new value with -y nbits.  Both default to dieha
+rd's[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # 32 bit random integer.  lambda = 2.000000, kmax = 6, tsamp
+les = 100[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[42]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[43]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.000000 for Diehard Overlapping 5-permutat
+ions Test[] 
+ []
+
+[44]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # a chisquare test is performed on counts for ranks 31,30,29
+ and[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # resulting p-values to verify that they are approximately u
+niform.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[45]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # resulting p-values to verify that they are approximately u
+niform.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[46]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[47]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[48]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[49]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[50]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[51]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[52]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # determined by the number of 1's in a byte::  0,1,or 2 yiel
+d A,[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[53]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[54]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---
+> D,[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # hitting five keys with with various probabilities::  37,56
+,70,[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # a chance of being observed.  One can imagine problems with
+ odd[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # need tsamples >> 100,000 to have enough to get a reliable 
+kstest[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[55]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # overlapped and compare to the expected result from a perfe
+ctly[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # known on theoretical grounds so instead we compare to n=12
+,000[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # normal variable, which converted to a uniform p-value, pro
+vides[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[56]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # the shortest nearest neighbor distance R.  This should gen
+erate[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # p = 1.0 - exp(-R^2/0.995).  Repeat for lots of samples, ap
+ply a[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[57]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (48.42522pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.774383 for Diehard Minimum Distance (2d C
+ircle) Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[58]
+Overfull \hbox (246.02531pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======#                        Run Details[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[59]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (48.42522pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.989677 for Diehard 3d Sphere (Minimum Dis
+tance) Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[60]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Note well:  -O causes the old diehard version to be run (m
+ore or[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # less).  Omitting it causes non-overlapping sums to be used
+ and[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[61]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # shows how runs are counted:  .123,.357,.789,.425,.224,.416
+,.95[] 
+ []
+
+[62]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # In Dieharder sequences of length tsamples = 100000 are use
+d by[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[63]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #  This is the CRAPS TEST. It plays 200,000 games of craps, 
+finds[] 
+ []
+
+[64]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #  from 1 to infinity, but counts for all>21 are lumped with
+ 21.[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #  Each 32-bit integer from the test file provides the value
+ for[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[65]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Very simple.  Counts the 1 bits in a long string of random
+ uints.[] 
+ []
+
+[66]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Compares to expected number, generates a p-value directly 
+from[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Not so good at determining where stronger ones eventually 
+fail.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[67]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # Counts the total number of 0 runs + total number of 1 runs
+ across[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # a sample of bits.  Note that a 0 run must begin with 10 an
+d end[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # with 01.  Note that a 1 run must begin with 01 and end wit
+h a 10.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # This test, run on a bitstring with cyclic boundary conditi
+ons, is[] 
+ []
+
+
+Overfull \hbox (42.25021pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # rgb_bitdist() test for 2-tuples, which looks beyond the me
+ans to the[] 
+ []
+
+
+Overfull \hbox (29.9002pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 # moments, testing an entire histogram  of 00, 01, 10, and 1
+1 counts[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[68]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 2807--2807
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[69] [70] [71] [72]
+
+LaTeX Warning: Citation `wiki_randu' on page 73 undefined on input line 2996.
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # This test times the selected random number generator only.
+  It is[] 
+ []
+
+
+Overfull \hbox (54.60022pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # generally run at the beginning of a run of -a(ll) the test
+s to provide[] 
+ []
+
+
+Overfull \hbox (42.25021pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # some measure of the relative time taken up generating rand
+om numbers[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # This test generates 256 sequential samples of an random un
+signed[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # integer from the given rng.  Successive integers are logic
+ally[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # change.  Since bits will NOT change when filling e.g. unsi
+gned[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # ints with 16 bit ints, this mask logically &'d with the ma
+ximum[] 
+ []
+
+[73]
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # random number returned by the rng.  All the remaining 1's 
+in the[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # resulting mask are therefore significant -- they represent
+ bits[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # that never change over the length of the test.  These bits
+ are[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # entire test is repeated with the rng reseeded to generate 
+a mask[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # cumulated_mask =          5 = 0000000000000000000000000000
+0101[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # randm_mask     = 2147483647 = 0111111111111111111111111111
+1111[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # random_max     = 2147483647 = 0111111111111111111111111111
+1111[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # of random integers and compares the distribution thus gene
+rated[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # with the theoretical (binomial) histogram, forming chisq a
+nd the[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # associated p-value.  In this test n-tuples are selected wi
+thout[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[74]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (60.77522pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Generator randu FAILS at 0.01% for 1-tuplets.  rgb_bitdist
+ terminating.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[75]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Each test determines the number of matching intervals from
+ 512[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # results cumulated in a histogram.  Repeated intervals shou
+ld be[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # distributed in a Poisson distribution if the underlying ge
+nerator[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Two additional parameters have been added. In diehard, nms
+=512[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # but this CAN be varied and all Marsaglia's formulae still 
+work.  It[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Similarly, nbits "should" 24, but we can really make it an
+ything[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # we want that's less than or equal to rmax_bits = 32.  It c
+an be[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # reset to a new value with -y nbits.  Both default to dieha
+rd's[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # 31 bit random integer.  lambda = 2.000000, kmax = 6, tsamp
+les = 100[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[76]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[77]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.000000 for Diehard Overlapping 5-permutat
+ions Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[78]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # a chisquare test is performed on counts for ranks 31,30,29
+ and[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # resulting p-values to verify that they are approximately u
+niform.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[79]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # resulting p-values to verify that they are approximately u
+niform.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[80]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[81]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[82]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[83]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[84]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[85]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[86]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # determined by the number of 1's in a byte::  0,1,or 2 yiel
+d A,[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[87]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---
+> D,[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # hitting five keys with with various probabilities::  37,56
+,70,[] 
+ []
+
+[88]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # a chance of being observed.  One can imagine problems with
+ odd[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # need tsamples >> 100,000 to have enough to get a reliable 
+kstest[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[89]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # overlapped and compare to the expected result from a perfe
+ctly[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # known on theoretical grounds so instead we compare to n=12
+,000[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # normal variable, which converted to a uniform p-value, pro
+vides[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[90]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # the shortest nearest neighbor distance R.  This should gen
+erate[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # p = 1.0 - exp(-R^2/0.995).  Repeat for lots of samples, ap
+ply a[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[91]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (48.42522pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.000000 for Diehard Minimum Distance (2d C
+ircle) Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # the shortest nearest neighbor distance R.  This should gen
+erate[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # p = 1.0 - exp(-R^2/0.995).  Repeat for lots of samples, ap
+ply a[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[92]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (48.42522pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.000001 for Diehard 3d Sphere (Minimum Dis
+tance) Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[93]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[94]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Note well:  -O causes the old diehard version to be run (m
+ore or[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # less).  Omitting it causes non-overlapping sums to be used
+ and[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[95]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # of integers.  If called with reasonable parameters e.g. -s
+ 100[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[96]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[97]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #  This is the CRAPS TEST. It plays 200,000 games of craps, 
+finds[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #  from 1 to infinity, but counts for all>21 are lumped with
+ 21.[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #  Each 32-bit integer from the test file provides the value
+ for[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[98]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[99]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Very simple.  Counts the 1 bits in a long string of random
+ uints.[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Compares to expected number, generates a p-value directly 
+from[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Not so good at determining where stronger ones eventually 
+fail.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[100]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # Counts the total number of 0 runs + total number of 1 runs
+ across[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # a sample of bits.  Note that a 0 run must begin with 10 an
+d end[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # with 01.  Note that a 1 run must begin with 01 and end wit
+h a 10.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # This test, run on a bitstring with cyclic boundary conditi
+ons, is[] 
+ []
+
+
+Overfull \hbox (42.25021pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # rgb_bitdist() test for 2-tuples, which looks beyond the me
+ans to the[] 
+ []
+
+
+Overfull \hbox (29.9002pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 # moments, testing an entire histogram  of 00, 01, 10, and 1
+1 counts[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[101]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 4115--4115
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[102] [103]
+
+LaTeX Warning: Citation `slatec' on page 104 undefined on input line 4183.
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # This test times the selected random number generator only.
+  It is[] 
+ []
+
+
+Overfull \hbox (54.60022pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # generally run at the beginning of a run of -a(ll) the test
+s to provide[] 
+ []
+
+
+Overfull \hbox (42.25021pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # some measure of the relative time taken up generating rand
+om numbers[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # This test generates 256 sequential samples of an random un
+signed[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # integer from the given rng.  Successive integers are logic
+ally[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # change.  Since bits will NOT change when filling e.g. unsi
+gned[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # ints with 16 bit ints, this mask logically &'d with the ma
+ximum[] 
+ []
+
+[104]
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # random number returned by the rng.  All the remaining 1's 
+in the[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # resulting mask are therefore significant -- they represent
+ bits[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # that never change over the length of the test.  These bits
+ are[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # entire test is repeated with the rng reseeded to generate 
+a mask[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # cumulated_mask =          0 = 0000000000000000000000000000
+0000[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # randm_mask     =    4194303 = 0000000000111111111111111111
+1111[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # random_max     =    4194303 = 0000000000111111111111111111
+1111[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # of random integers and compares the distribution thus gene
+rated[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # with the theoretical (binomial) histogram, forming chisq a
+nd the[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # associated p-value.  In this test n-tuples are selected wi
+thout[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[105]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (66.95023pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Generator slatec FAILS at 0.01% for 1-tuplets.  rgb_bitdis
+t terminating.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[106]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Each test determines the number of matching intervals from
+ 512[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # results cumulated in a histogram.  Repeated intervals shou
+ld be[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # distributed in a Poisson distribution if the underlying ge
+nerator[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Two additional parameters have been added. In diehard, nms
+=512[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # but this CAN be varied and all Marsaglia's formulae still 
+work.  It[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Similarly, nbits "should" 24, but we can really make it an
+ything[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # we want that's less than or equal to rmax_bits = 32.  It c
+an be[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # reset to a new value with -y nbits.  Both default to dieha
+rd's[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # 22 bit random integer.  lambda = 8.000000, kmax = 2, tsamp
+les = 100[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[107]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[108]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.000000 for Diehard Overlapping 5-permutat
+ions Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[109]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # a chisquare test is performed on counts for ranks 31,30,29
+ and[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # resulting p-values to verify that they are approximately u
+niform.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[110]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # resulting p-values to verify that they are approximately u
+niform.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[111]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[112]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[113]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[114]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[115]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[116]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[117]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # determined by the number of 1's in a byte::  0,1,or 2 yiel
+d A,[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[118]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # in that byte::  0,1,or 2 ---> A, 3 ---> B, 4 ---> C, 5 ---
+> D,[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # hitting five keys with with various probabilities::  37,56
+,70,[] 
+ []
+
+[119]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # a chance of being observed.  One can imagine problems with
+ odd[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # need tsamples >> 100,000 to have enough to get a reliable 
+kstest[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[120]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # overlapped and compare to the expected result from a perfe
+ctly[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # known on theoretical grounds so instead we compare to n=12
+,000[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # normal variable, which converted to a uniform p-value, pro
+vides[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[121]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # This test uses a fixed number of samples -- tsamples is ig
+nored.[] 
+ []
+
+[122]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (48.42522pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.000000 for Diehard Minimum Distance (2d C
+ircle) Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[123]
+Overfull \hbox (246.02531pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======#                        Run Details[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[124]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (48.42522pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Kuiper KS: p = 0.000000 for Diehard 3d Sphere (Minimum Dis
+tance) Test[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[125]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (17.5502pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Note well:  -O causes the old diehard version to be run (m
+ore or[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # less).  Omitting it causes non-overlapping sums to be used
+ and[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[126]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # shows how runs are counted:  .123,.357,.789,.425,.224,.416
+,.95[] 
+ []
+
+[127]
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # In Dieharder sequences of length tsamples = 100000 are use
+d by[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[128]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[129]
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #  This is the CRAPS TEST. It plays 200,000 games of craps, 
+finds[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #  from 1 to infinity, but counts for all>21 are lumped with
+ 21.[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #  Each 32-bit integer from the test file provides the value
+ for[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[130]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[131]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Very simple.  Counts the 1 bits in a long string of random
+ uints.[] 
+ []
+
+
+Overfull \hbox (5.2002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Compares to expected number, generates a p-value directly 
+from[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Not so good at determining where stronger ones eventually 
+fail.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[132]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # Counts the total number of 0 runs + total number of 1 runs
+ across[] 
+ []
+
+
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # a sample of bits.  Note that a 0 run must begin with 10 an
+d end[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # with 01.  Note that a 1 run must begin with 01 and end wit
+h a 10.[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # This test, run on a bitstring with cyclic boundary conditi
+ons, is[] 
+ []
+
+
+Overfull \hbox (42.25021pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # rgb_bitdist() test for 2-tuples, which looks beyond the me
+ans to the[] 
+ []
+
+
+Overfull \hbox (29.9002pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 # moments, testing an entire histogram  of 00, 01, 10, and 1
+1 counts[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[133]
+Overfull \hbox (23.7252pt too wide) in paragraph at lines 5334--5334
+[]\OT1/cmtt/m/n/12 #===========================================================
+=======[] 
+ []
+
+[134] [135]
+Overfull \hbox (3.16397pt too wide) in paragraph at lines 5413--5419
+\OT1/cmr/m/n/12 role in many sta-tis-ti-cal ap-pli-ca-tions from busi-ness and 
+gam-ing through physics
+ []
+
+[136] (./dieharder.aux)
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 427 strings out of 256217
+ 4620 string characters out of 1917095
+ 116363 words of memory out of 1500000
+ 3767 multiletter control sequences out of 10000+200000
+ 10800 words of font info for 38 fonts, out of 1200000 for 2000
+ 645 hyphenation exceptions out of 8191
+ 23i,8n,19p,169b,312s stack positions out of 5000i,500n,6000p,200000b,15000s
+
+Output written on dieharder.dvi (136 pages, 338200 bytes).

@@ -23,6 +23,7 @@ stdin_input_raw_get (void *vstate)
       }
       exit(0);
   }
+  /* printf("raw: %10u\n",j); */
   return j;
 }
 

@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_2dsphere(Test **test,int irun);
+int diehard_2dsphere(Test **test,int irun);
 
 static Dtest diehard_2dsphere_dtest = {
   "Diehard Minimum Distance (2d Circle) Test",
@@ -30,13 +30,8 @@ static Dtest diehard_2dsphere_dtest = {
 #==================================================================\n",
   100,
   8000,
-  1
+  1,
+  diehard_2dsphere,
+  0
 };
 
-#define POINTS_2D 8000
-#define DIM_2D 2
-
-typedef struct {
-  double x[DIM_2D];
-} C3_2D;
- 

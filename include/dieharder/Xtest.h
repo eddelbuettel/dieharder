@@ -19,3 +19,4 @@
    double pvalue;
  } Xtest;
 
+ void Xtest_eval(Xtest *xtest);

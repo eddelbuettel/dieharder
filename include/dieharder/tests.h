@@ -8,10 +8,16 @@
 #include <dieharder/rgb_timing.h>
 #include <dieharder/rgb_persist.h>
 #include <dieharder/rgb_bitdist.h>
+#include <dieharder/rgb_kstest_test.h>
 #include <dieharder/rgb_lagged_sums.h>
 #include <dieharder/rgb_minimum_distance.h>
 #include <dieharder/rgb_operm.h>
 #include <dieharder/rgb_permutations.h>
+#include <dieharder/dab_bytedistrib.h>
+#include <dieharder/dab_dct.h>
+#include <dieharder/dab_filltree.h>
+#include <dieharder/dab_filltree2.h>
+#include <dieharder/dab_monobit2.h>
 #include <dieharder/diehard_birthdays.h>
 #include <dieharder/diehard_operm5.h>
 #include <dieharder/diehard_rank_32x32.h>
@@ -75,6 +81,11 @@
    RGB_LAGGED_SUMS,
    RGB_LMN,
    RGB_OPERM,
+   DAB_BYTEDISTRIB,
+   DAB_DCT,
+   DAB_FILLTREE,
+   DAB_FILLTREE2,
+   DAB_MONOBIT2,
    N_RGB_TESTS
  } Rgb_Tests;
 

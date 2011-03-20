@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void sts_serial(Test **test,int irun);
+int sts_serial(Test **test,int irun);
 
 static Dtest sts_serial_dtest = {
   "STS Serial Test (Generalized)",
@@ -46,21 +46,20 @@ static Dtest sts_serial_dtest = {
 # tests are isomorphic to non-overlapping frequency tests, fairly\n\
 # obviously).\n\
 #\n\
-# This test does all the possible bitlevel tests from n=1 to n=16 bits\n\
+# This test does all the possible bitlevel tests from n=1 to n=24 bits\n\
 # (where n=1 is basically sts_monobit, and n=2 IMO is redundant with\n\
 # sts_runs).  However, if I understand things correctly it is not\n\
-# possible to fail a 2 bit test and pass a 16 bit test, as if 2 bits are\n\
-# biased so that (say) 00 occurs a bit too often, then 16 bit strings\n\
+# possible to fail a 2 bit test and pass a 24 bit test, as if 2 bits are\n\
+# biased so that (say) 00 occurs a bit too often, then 24 bit strings\n\
 # containing 00's MUST be imbalanced as well relative to ones that do\n\
-# not, so we really only need to check n=16 bit results to get all\n\
+# not, so we really only need to check n=24 bit results to get all\n\
 # the rest for free, so to speak.\n\
 #\n",
   100,     /* Default psamples */
   100000,  /* Default tsamples */
-  30       /* We make 1 pvalue from m=1,2, 2 from m=[3,16] */
+  /* 44,    * We need to be ABLE to make 1 pvalue from m=1,2, 2 from m=[3,24] */
+  30,      /* We need to be ABLE to make 1 pvalue from m=1,2, 2 from m=[3,16] */
+  sts_serial,
+  0
 };
 
-/*
- * Global variables, each with a "locally identifiable" name.
- */
-uint sts_serial_ntuple;

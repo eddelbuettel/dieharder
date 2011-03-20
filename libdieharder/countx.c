@@ -160,7 +160,7 @@ static void chi( u8 *data, u8 len, u4 terms)
       if (temp > 20.0) {
 	k = i;
 	for (j=0; j<terms; ++j) {
-	  printf("%2d ", k&(BUCKETS-1));
+	  printf("%2d ", (int) k&(BUCKETS-1));
 	  k >>= LOGBUCKETS;
 	}
 	printf("%14.4f %14.4f %14.4f\n",
@@ -199,12 +199,12 @@ int main_countx( int argc, char **argv)
   
   time(&a);
   if (argc == 3) {
-    sscanf(argv[1], "%d", &loglen);
-    printf("sequence length: 2^^%d\n", loglen);
+    sscanf(argv[1], "%lu", &loglen);
+    printf("sequence length: 2^^%lu\n", loglen);
     len = (((u8)1)<<loglen);
 
-    sscanf(argv[2], "%d", &terms);
-    printf("terms in subsequences: %d\n", terms);
+    sscanf(argv[2], "%lu", &terms);
+    printf("terms in subsequences: %lu\n", terms);
   } else {
     fprintf(stderr, "usage: \"countn 24 6\" means use 2^^24 sequences of length 6\n");
     return 1;
@@ -218,7 +218,7 @@ int main_countx( int argc, char **argv)
 
   for (i=0; i<=MAXBITS; ++i) {
     if (ftab[i] > BUCKETS) {
-      fprintf(stderr, "ftab[%d]=%d needs a bigger LOGBUCKETS\n", i, ftab[i]);
+      fprintf(stderr, "ftab[%lu]=%lu needs a bigger LOGBUCKETS\n", i, ftab[i]);
       return 1;
     }
   }
@@ -231,5 +231,8 @@ int main_countx( int argc, char **argv)
   free(data);
 
   time(&z);
-  printf("number of seconds: %6d\n", (size_t)(z-a));
+  printf("number of seconds: %6lu\n", (size_t)(z-a));
+
+  return 0;
+
 }

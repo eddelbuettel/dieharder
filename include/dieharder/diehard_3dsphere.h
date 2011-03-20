@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_3dsphere(Test **test,int irun);
+int diehard_3dsphere(Test **test,int irun);
 
 static Dtest diehard_3dsphere_dtest = {
   "Diehard 3d Sphere (Minimum Distance) Test",
@@ -25,19 +25,11 @@ static Dtest diehard_3dsphere_dtest = {
 #\n\
 # This test ignores tsamples, and runs the usual default 100\n\
 # psamples to use in the final KS test.\n\
-#==================================================================",
+#==================================================================\n",
   100,
   4000,
-  1
+  1,
+  diehard_3dsphere,
+  0
 };
 
-#define POINTS_3D 4000
-#define DIM_3D 3
-
-typedef struct {
-  double x[DIM_3D];
-} C3_3D;
- 
-/*
- * Global variables (none in this case)
- */

@@ -28,11 +28,12 @@ bin_PROGRAMS = dieharder
 man1_MANS = dieharder.1
 dieharder_LDADD = ../libdieharder/libdieharder.la -lgsl -lgslcblas -lm
 dieharder_SOURCES = \
+	add_ui_rngs.c \
+	add_ui_tests.c \
+	choose_rng.c \
 	dieharder.c \
 	dieharder_exit.c \
 	help.c \
-	histogram.c \
-	list_rand.c \
 	list_rngs.c \
 	list_tests.c \
 	output.c output.h \
@@ -40,39 +41,19 @@ dieharder_SOURCES = \
 	parsecl.c \
 	rdieharder.c \
 	rng_empty_random.c \
-	run_diehard_2dsphere.c \
-	run_diehard_3dsphere.c \
-	run_diehard_birthdays.c \
-	run_diehard_bitstream.c \
-	run_diehard_count_1s_byte.c \
-	run_diehard_count_1s_stream.c \
-	run_diehard_craps.c \
-	run_diehard_dna.c \
-	run_diehard_operm5.c \
-	run_diehard_opso.c \
-	run_diehard_oqso.c \
-	run_diehard_parking_lot.c \
-	run_diehard_rank_32x32.c \
-	run_diehard_rank_6x8.c \
-	run_diehard_runs.c \
-	run_diehard_squeeze.c \
-	run_diehard_sums.c \
-	run_marsaglia_tsang_gcd.c \
-	run_rgb_bitdist.c \
-	run_rgb_lagged_sums.c \
-	run_rgb_minimum_distance.c \
-	run_rgb_operm.c \
-	run_rgb_permutations.c \
-	run_rgb_persist.c \
-	run_rgb_timing.c \
-	run_sts_monobit.c \
-	run_sts_runs.c \
-	run_sts_serial.c \
-	run_user_template.c \
-	startup.c \
+	run_all_tests.c \
+	run_test.c \
+	set_globals.c \
 	testbits.c \
-	user_template.c \
-	work.c
+	time_rng.c \
+	user_template.c
+
+#	run_rgb_bitdist.c
+#	run_rgb_lagged_sums.c
+#	run_rgb_minimum_distance.c
+#	run_rgb_permutations.c
+# 	run_rgb_persist.c
+# 	run_rgb_timing.c
 
 DEFINES = -DVERSION=$(VERSION)
 
@@ -85,6 +66,11 @@ DEFINES = -DVERSION=$(VERSION)
 # Compile flags (use fairly standard -O3 as default)
 AM_CPPFLAGS = -I ${top_srcdir}/include $(DEFINES) -I ${includedir}
 AM_CFLAGS = -O3
+
+# Load flags (optional)
+# To build a completely static dieharder, uncomment the following line.
+# AM_LDFLAGS = -all-static
+AM_LDFLAGS =
 
 #========================================================================
 # The only safe place to do svn commits is in the toplevel directory

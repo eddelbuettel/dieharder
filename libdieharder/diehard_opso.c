@@ -1,12 +1,13 @@
 /*
+ * ========================================================================
  * $Id: diehard_opso.c 231 2006-08-22 16:18:05Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
- *
+ * ========================================================================
  */
 
 /*
- *========================================================================
+ * ========================================================================
  * This is the Diehard OPSO test, rewritten from the description
  * in tests.txt on George Marsaglia's diehard site.
  *
@@ -24,29 +25,34 @@
  * consecutive bits. It then restarts the file for the next de-  ::
  * signated 10 bits, and so on.                                  ::
  *
- *                         Comment
- * Damn good test.  Very few generators in the GSL survive it,
- * not even the various glibc generators.  Pretty much mt1997,
- * ranldx, rand48 -- nearly everything else I tried in a very
- * non-exhaustive trial failed -- all the NR generators, R250,
- * and more.  It appears to be related (I think) to Knuth's
- * hyperplanar distribution tests -- a matter for future research --
- * when you code it (as I did) thinking of it as a kind of really
- * big "parking lot" test or as generating a pixel graph in 2d.
- *
+ * Note: Overlapping samples must be used to get the right sigma.
  * The tests BITSTREAM, OPSO, OQSO and DNA are all closely related.
+ *
+ * This test is now CORRECTED on the basis of a private communication
+ * from Paul Leopardi (MCQMC-2008 presentation) and Noonan and Zeilberger
+ * (1999), Rivals and Rahmann (2003), and Rahmann and Rivals (2003).
+ * The "exact" target statistic (to many places) is:
+ * \mu  = 141909.3299550069,  \sigma = 290.4622634038
  *========================================================================
  */
 
 
 #include <dieharder/libdieharder.h>
 
-void diehard_opso(Test **test, int irun)
+int diehard_opso(Test **test, int irun)
 {
 
- uint i,j0,k0,j,k,boffset,t;
+ uint i,j0=0,k0=0,j,k,boffset = 0,t;
  Xtest ptest;
- char **w;
+ /*
+  * Fixed test size for speed and as per diehard.
+  */
+ char w[1024][1024];
+
+ /*
+  * for display only.  0 means "ignored".
+  */
+ test[0]->ntuple = 0;
 
  /*
   * p = 141909, with sigma 290, FOR test[0]->tsamples 2^21+1 2 letter words.
@@ -54,12 +60,20 @@ void diehard_opso(Test **test, int irun)
   * expected "missing works" count as a function of sample size.  SO:
   *
   * ptest.x = number of "missing words" given 2^21+1 trials
-  * ptest.y = 141909
-  * ptest.sigma = 290
+  * Recalculation by David Bauer, from the original Monkey Tests paper:
+  *    ptest.y = 141909.600361375512162724864.
+  * This shouldn't matter, I don't think, at least at any reasonable scale
+  * dieharder can yet reach (but we'll see!).  If we start getting
+  * unreasonable failures we may have to try switching this number around,
+  * but given sigma and y, we'd need a LOT of rands to result the 0.3 diff.
+  * 
+  * ptest.y = 141909.3299550069;
+  * ptest.sigma = 290.4622634038;
+  * 
   */
- ptest.y = 141909.0;
- ptest.sigma = 290.0;
-
+ ptest.y = 141909.3299550069;
+ ptest.sigma = 290.4622634038;
+ 
  /*
   * We now make test[0]->tsamples measurements, as usual, to generate the
   * missing statistic.  The easiest way to proceed, I think, will
@@ -79,62 +93,34 @@ void diehard_opso(Test **test, int irun)
   * I have some fairly serious doubts about this, though.
   */
 
- w = (char **)malloc(1024*sizeof(char *));
- for(i=0;i<1024;i++){
-   w[i] = (char *)malloc(1024*sizeof(char));
-   /* Zero the column */
-   memset(w[i],0,1024*sizeof(char));
- }
+ memset(w,0,sizeof(char)*1024*1024);
 
-/*
- printf("w is allocated and zero'd\n");
- printf("About to generate %u samples\n",test[0]->tsamples);
- */
- /*
-  * To minimize the number of rng calls, we use each j and k mod 32
-  * to determine the offset of the 10-bit long string (with
-  * periodic wraparound) to be used for the next iteration.  We
-  * therefore have to "seed" the process with a random k.
-  */
- k = gsl_rng_get(rng);
+ k = 0;
  for(t=0;t<test[0]->tsamples;t++){
-   if(overlap){
-     /*
-      * Let's do this the cheap/easy way first, sliding a 20 bit
-      * window along each int for the 32 possible starting
-      * positions a la birthdays, before trying to slide it all
-      * the way down the whole random bitstring implicit in a
-      * long sequence of random ints.  That way we can exit
-      * the test[0]->tsamples loop at test[0]->tsamples = 2^15...
-      */
-     if(t%32 == 0) {
-       j0 = gsl_rng_get(rng);
-       k0 = gsl_rng_get(rng);
-       boffset = 0;
-     }
-     /*
-      * Get two "letters" (indices into w)
-      */
-     j = get_bit_ntuple(&j0,1,10,boffset);
-     k = get_bit_ntuple(&k0,1,10,boffset);
-     /* printf("%u:   %u  %u  %u\n",t,j,k,boffset); */
-     w[j][k]++;
-     boffset++;
-
+   /*
+    * Let's do this the cheap/easy way first, sliding a 20 bit
+    * window along each int for the 32 possible starting
+    * positions a la birthdays, before trying to slide it all
+    * the way down the whole random bitstring implicit in a
+    * long sequence of random ints.  That way we can exit
+    * the test[0]->tsamples loop at test[0]->tsamples = 2^15...
+    */
+   if(t%2 == 0) {
+     j0 = gsl_rng_get(rng);
+     k0 = gsl_rng_get(rng);
+     j = j0 & 0x03ff;
+     k = k0 & 0x03ff;
    } else {
-     /*
-      * Get two "letters" (indices into w).  Here we use
-      * what is basically a random offset sample to sample
-      */
-     boffset = k%32;
-     j = gsl_rng_get(rng);
-     j = get_bit_ntuple(&j,1,10,boffset);
-     boffset = j%32;
-     k = gsl_rng_get(rng);
-     k = get_bit_ntuple(&k,1,10,boffset);
-     w[j][k]++;
+      j = (j0 >> 10) & 0x03ff;
+      k = (k0 >> 10) & 0x03ff;
    }
+   /*
+    * Get two "letters" (indices into w)
+    */
+   /* printf("%u:   %u  %u  %u\n",t,j,k,boffset); */
+   w[j][k] = 1;
  }
+ 
  /*
   * Now we count the holes, so to speak
   */
@@ -158,10 +144,7 @@ void diehard_opso(Test **test, int irun)
    printf("# diehard_opso(): ks_pvalue[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
 
- for(i=0;i<1024;i++){
-   free(w[i]);
- }
- free(w);
+ return(0);
 
 }
 

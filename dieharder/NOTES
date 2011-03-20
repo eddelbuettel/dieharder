@@ -904,6 +904,15 @@ If that bit is random with probability 0.5, then we should be able to
 use Bayes theorem to generate very simple proofs that everything stated
 above is correct.
 
+09/27/08
 
+Well, much water under the dam, many changes and improvements.
 
-  
+I'm writing this in a narrow window to consider:  How should I change
+the command line in v3.x.x?  Things I need to alter:
+
+  a) I now provide users with a set of flag bits that select/deselect
+output options.  One number (or several calls with individual flags)
+turn on and off all output possibilites.
+
+  b) 

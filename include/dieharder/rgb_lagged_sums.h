@@ -9,7 +9,7 @@
  * creation/destruction/execution routines, the prototype should have
  * precisely this form.
  */
-void rgb_lagged_sums(Test **test,int irun);
+int rgb_lagged_sums(Test **test,int irun);
 
 /*
  * This is default data for the test at hand.  The first field is
@@ -31,8 +31,7 @@ static Dtest rgb_lagged_sums_dtest = {
 # This package contains many very lovely tests.  Very few of them,\n\
 # however, test for lagged correlations -- the possibility that\n\
 # the random number generator has a bitlevel correlation after\n\
-# some period.  Diehard tests, for example, COULD NOT test for this\n\
-# sort of thing with only a few million rands to sample from.\n\
+# some fixed number of intervening bits.\n\
 #\n\
 # The lagged sums test is therefore very simple.   One simply adds up\n\
 # uniform deviates sampled from the rng, skipping lag samples in between\n\
@@ -40,16 +39,11 @@ static Dtest rgb_lagged_sums_dtest = {
 # 0.5*tsamples.  The standard deviation should be sqrt(tsamples/12).\n\
 # The experimental values of the sum are thus converted into a\n\
 # p-value (using the erf()) and a ks-test applied to psamples of them.\n\
-#\n\
-# Simple or not, this test suffices to demostrate weakness in rngs\n\
-# (such as a Mersenne Twister) that are thought to be quite strong.\n\
-# It turns out that for certain lags they produce a vector of pvalues\n\
-# that is a bit TOO uniform, so that the final KS pvalue is e.g.\n\
-# 0.9995 (a one in two thousand chance) for several different lags\n\
-# in the range 0-32.\n\
 #==================================================================\n",
   100,
   1000000,
-  1
+  1,
+  rgb_lagged_sums,
+  0
 };
 

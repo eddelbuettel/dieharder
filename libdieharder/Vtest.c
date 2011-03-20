@@ -38,6 +38,7 @@ void Vtest_create(Vtest *vtest, unsigned int nvec)
  vtest->ndof = 0;  /* The user must enter this, or it will try to compute it */
  vtest->chisq = 0.0;
  vtest->pvalue = 0.0;
+ vtest->cutoff = 5;
  MYDEBUG(D_VTEST){
    printf("# Vtest_create(): Done.\n");
  }
@@ -184,6 +185,15 @@ void Vtest_eval(Vtest *vtest)
   */
  if(vtest->ndof == 0){
    vtest->ndof = ndof-1;
+   /*
+    * David Bauer:  TODO BUG??  The returned ndof is correct, but the
+    * wrong value is used.
+    *
+    * RGB comment: Really, if ndof = 0, the test fails, does it not?
+    * How can you fit a curve with no degrees of freedom.  Perhaps
+    * an error and exit, or some other signal of failure?  (This should
+    * almost never happen...)
+    */
  }
 
  MYDEBUG(D_VTEST){

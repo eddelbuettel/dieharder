@@ -1,12 +1,13 @@
 /*
+ * ========================================================================
  * $Id: rgb_operm.c 252 2006-10-10 13:17:36Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
- *
+ * ========================================================================
  */
 
 /*
- *========================================================================
+ * ========================================================================
  * This is the revised Overlapping Permutations test.  It directly
  * simulates the covariance matrix of overlapping permutations.  The way
  * this works below (tentatively) is:
@@ -48,7 +49,7 @@ int nperms,noperms;
 double **cexact,**ceinv,**cexpt,**idty;
 double *cvexact,*cvein,*cvexpt,*vidty;
 
-void rgb_operm(Test **test,int irun)
+int rgb_operm(Test **test,int irun)
 {
 
  int i,j,n,nb,iv,s;
@@ -90,7 +91,7 @@ void rgb_operm(Test **test,int irun)
   */
  vtest = (Vtest *)malloc(csamples*sizeof(Vtest));
  count = (uint *)malloc(csamples*sizeof(uint));
- Vtest_create(&vtest[i],csamples+1,"rgb_operm",gsl_rng_name(rng));
+ Vtest_create(vtest,csamples+1);
 
  /*
   * We have to allocate and free the cexact and cexpt matrices here
@@ -230,8 +231,7 @@ void rgb_operm(Test **test,int irun)
  free(cexpt);
   */
  
-
- exit(0);
+ return(0);
 
 }
 
@@ -460,8 +460,8 @@ void make_cexpt()
    }
    */
    for(k=0;k<2*rgb_operm_k-1;k++){
-     gsl_sort_index((size_t *)ps,&testv[k],1,rgb_operm_k);
-     pi[k] = piperm((size_t *)ps,rgb_operm_k);
+     gsl_sort_index(ps,&testv[k],1,rgb_operm_k);
+     pi[k] = piperm(ps,rgb_operm_k);
 
      /* Not cruft, but quiet...
      MYDEBUG(D_RGB_OPERM){
@@ -591,6 +591,8 @@ uint piperm(size_t *data,int len)
    }
  }
  printf("We'd better not get here...\n");
+
+ return(0);
 
 }
 

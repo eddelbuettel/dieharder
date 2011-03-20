@@ -2,12 +2,12 @@ Source: dieharder
 Section: devel
 Priority: optional
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Standards-Version: 3.8.1
+Standards-Version: 3.9.1
 Build-Depends: debhelper (>= 7), libgsl0-dev, cdbs, automake, libtool, gs-common, texlive-base, texlive-latex-base, texlive-generic-recommended
 
 Package: dieharder
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Description:  Random-number generator test front-end
  dieharder is a fairly involved random number/uniform deviate generator
  tester.  It can either test any of its many prebuilt and linked
@@ -20,9 +20,9 @@ Description:  Random-number generator test front-end
  .
  This package provides the command-line frontend.
 
-Package: libdieharder2
+Package: libdieharder3
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Description:  Random-number generator test library
  libdieharder is the core library of dieharder and friends, designed to
  be "the last suite of random number testers you'll ever wear".  It can
@@ -45,7 +45,7 @@ Description:  Random-number generator test library
 
 Package: libdieharder-dev
 Architecture: any
-Depends: libdieharder2 (= ${binary:Version}), libgsl0-dev
+Depends: ${misc:Depends}, libdieharder3 (= ${binary:Version}), libgsl0-dev
 Section: libdevel
 Description:  Random-number generator test library -- development package
  libdieharder is the core library of dieharder and friends, designed to

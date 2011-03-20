@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void rgb_minimum_distance(Test **test,int irun);
+int rgb_minimum_distance(Test **test,int irun);
 
 static Dtest rgb_minimum_distance_dtest = {
   "RGB Generalized Minimum Distance Test",
@@ -39,21 +39,8 @@ static Dtest rgb_minimum_distance_dtest = {
 #\n",
   1000,
   10000,
-  1
+  1,
+  rgb_minimum_distance,
+  0
 };
-
-/*
- * For the moment we'll restrict ourselves to the five dimensions
- * for which we have Q
- */
-#define RGB_MINIMUM_DISTANCE_MAXDIM 5
-typedef struct {
-  double c[RGB_MINIMUM_DISTANCE_MAXDIM];
-} dTuple;
- 
-/*
- * Global variables
- */
-double rgb_mindist_avg;
-static double rgb_md_Q[] = {0.0,0.0,0.4135,0.5312,0.6202,1.3789};
 

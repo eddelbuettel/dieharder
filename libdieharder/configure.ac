@@ -2,7 +2,6 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT
 AC_CONFIG_SRCDIR([rgb_persist.c])
 AC_CONFIG_HEADER([config.h])
 AM_INIT_AUTOMAKE([-Wall])
@@ -12,8 +11,8 @@ AC_PROG_CC
 AC_PROG_INSTALL
 
 # Checks for libraries.
-AC_CHECK_LIB([gsl], [gsl_error])
 AC_CHECK_LIB([gslcblas], [cblas_ddot])
+AC_CHECK_LIB([gsl], [gsl_error])
 
 # Checks for header files.
 AC_HEADER_STDC

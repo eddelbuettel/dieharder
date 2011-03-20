@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_birthdays(Test **test, int irun);
+int diehard_birthdays(Test **test, int irun);
 
 static Dtest diehard_birthdays_dtest = {
   "Diehard Birthdays Test",
@@ -34,11 +34,13 @@ static Dtest diehard_birthdays_dtest = {
 #==================================================================\n",
   100,
   100,
-  1
+  1,
+  diehard_birthdays,
+  0
 };
 
 /*
  * Global variables
- */
 uint diehard_birthdays_nms,diehard_birthdays_nbits;
 uint *diehard_birthdays_rand_uint;
+ */

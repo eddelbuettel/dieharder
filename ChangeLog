@@ -1,3 +1,26 @@
+2011-01-09 dab <david.astgtciv@gmail.com>
+	* .:Added dab_filltree2 test
+
+2011-01-09 dab <david.astgtciv@gmail.com>
+	* .:Added dab_filltree test
+	  -- This isn't a great test, but it does better than many of the original
+	  Diehard tests, and it acts as an introduction to dab_filltree2, which
+	  does better.
+
+2011-01-09 dab <david.astgtciv@gmail.com>
+	* .:Added dab_monobit2 test
+	* libdieharder/chisq.c:Modified chisq_binomial to use GSL's binomial function
+	  -- Fixed an error with prob.c's binomial function
+
+2011-01-09 dab <david.astgtciv@gmail.com>
+	* Fixed output.c to be two-tailed again.
+	* Matching fix to run_test.c to use a two-tailed test.
+
+2011-01-07  Dirk Eddelbuettel  <edd@debian.org>
+
+	* autotoolsRerunMeIfTroubles.sh: Needed to reset autotools on Ubuntu
+	10.10
+
 2008-08-18 19:50  rgb
 
 	* .: This might be ready for a production snapshot, or a testing

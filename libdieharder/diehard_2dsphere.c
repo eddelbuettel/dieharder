@@ -1,11 +1,13 @@
 /*
+ * ========================================================================
  * $Id: diehard_2dsphere.c 231 2006-08-22 16:18:05Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
+ * ========================================================================
  */
 
 /*
- *========================================================================
+ * ========================================================================
  * This is the Diehard minimum distance (2d sphere) test, rewritten from 
  * the description in tests.txt on George Marsaglia's diehard site.
  *
@@ -33,20 +35,26 @@
  *
  * I did make one set of changes to this test to make it considerably more
  * efficient at extracting the minimum distance.
- *========================================================================
+ * ========================================================================
  */
 
 
 #include <dieharder/libdieharder.h>
 
+#define POINTS_2D 8000
+#define DIM_2D 2
+
+typedef struct {
+  double x[DIM_2D];
+} C3_2D;
+ 
 int compare_points(const dTuple *a,const dTuple *b);
 double distance(const dTuple a,const dTuple b,uint dim);
 
-void diehard_2dsphere(Test **test, int irun)
+int diehard_2dsphere(Test **test, int irun)
 {
 
  int i,j,d,t;
- uint md_dim;
 
  /*
   * These are the vector of points and the current point being
@@ -59,17 +67,23 @@ void diehard_2dsphere(Test **test, int irun)
  double earg,qarg,dist,mindist,dvolume;
 
  /*
+  * for display only.
+  */
+ test[0]->ntuple = ntuple;
+
+ /*
   * Generate d-tuples of tsamples random coordinates in the range 0-10000
   * (which we may have to scale with dimension). Determine the shortest
   * separation of any pair of points.  From this generate p from the
   * Marsaglia form, and apply the usual KS test over psamples of
   * independent tests, per dimension.
   */
+ test[0]->ntuple = 2;      /* 2 dimensional test, of course */
  points = (dTuple *)malloc(test[0]->tsamples*sizeof(dTuple));
- md_dim = test[0]->ntuple;
+
 
  if(verbose == D_DIEHARD_2DSPHERE || verbose == D_ALL){
-     printf("Generating a list of %u points in %d dimensions\n",test[0]->tsamples,md_dim);
+     printf("Generating a list of %u points in %d dimensions\n",test[0]->tsamples,test[0]->ntuple);
  }
  for(t=0;t<test[0]->tsamples;t++){
    /*
@@ -160,6 +174,8 @@ void diehard_2dsphere(Test **test, int irun)
  MYDEBUG(D_DIEHARD_2DSPHERE) {
    printf("# diehard_2dsphere(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
+
+ return(0);
 
 }
 

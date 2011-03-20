@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_opso(Test **test, int irun);
+int diehard_opso(Test **test, int irun);
 
 static Dtest diehard_opso_dtest = {
   "Diehard OPSO",
@@ -30,9 +30,8 @@ static Dtest diehard_opso_dtest = {
 #==================================================================\n",
   100,
   2097152,
-  1
+  1,
+  diehard_opso,
+  0
 };
 
-/*
- * Global variables (none in this case)
- */
