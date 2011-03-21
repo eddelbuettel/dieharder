@@ -47,6 +47,7 @@ Package: libdieharder-dev
 Architecture: any
 Depends: ${misc:Depends}, libdieharder3 (= ${binary:Version}), libgsl0-dev
 Section: libdevel
+Replaces: libdieharder2 (<= 2.28.1-3)
 Description:  Random-number generator test library -- development package
  libdieharder is the core library of dieharder and friends, designed to
  be "the last suite of random number testers you'll ever wear".  It can
