@@ -63,8 +63,8 @@ int diehard_2dsphere(Test **test, int irun)
   * Fischler's suggested algorithm here that is NlogN instead of doing
   * the straightforward N^2 algorithm, but we'll see.
   */
- dTuple point,*points;
- double earg,qarg,dist,mindist,dvolume;
+ dTuple *points;
+ double dist,mindist;
 
  /*
   * for display only.

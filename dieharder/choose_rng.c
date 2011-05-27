@@ -14,7 +14,7 @@
 
 #include "dieharder.h"
 
-int select_rng(int gennum,char *genname,uint initial_seed);
+int select_rng(int gennum,char *genname,unsigned int initial_seed);
 
 void choose_rng()
 {
@@ -96,7 +96,7 @@ void choose_rng()
  * ========================================================================
  */
 
-int select_rng(int gennum,char *genname,uint initial_seed)
+int select_rng(int gennum,char *genname,unsigned int initial_seed)
 {
 
  int i;
@@ -230,12 +230,12 @@ int select_rng(int gennum,char *genname,uint initial_seed)
  if(Seed == 0){
    seed = random_seed();
    MYDEBUG(D_SEED){
-     fprintf(stdout,"# choose_rng(): Generating random seed %u\n",seed);
+     fprintf(stdout,"# choose_rng(): Generating random seed %lu\n",seed);
    }
  } else {
    seed = Seed;
    MYDEBUG(D_SEED){
-     fprintf(stdout,"# choose_rng(): Setting fixed seed %u\n",seed);
+     fprintf(stdout,"# choose_rng(): Setting fixed seed %lu\n",seed);
    }
  }
 
@@ -293,7 +293,7 @@ int select_rng(int gennum,char *genname,uint initial_seed)
 int select_XOR()
 {
 
- int i,j,k;
+ int i,j;
  int one_file;
 
  /*
@@ -416,12 +416,12 @@ int select_XOR()
  if(Seed == 0){
    seed = random_seed();
    MYDEBUG(D_SEED){
-     fprintf(stdout,"# choose_rng(): Generating random seed %u\n",seed);
+     fprintf(stdout,"# choose_rng(): Generating random seed %lu\n",seed);
    }
  } else {
    seed = Seed;
    MYDEBUG(D_SEED){
-     fprintf(stdout,"# choose_rng(): Setting fixed seed %u\n",seed);
+     fprintf(stdout,"# choose_rng(): Setting fixed seed %lu\n",seed);
    }
  }
 

@@ -124,9 +124,14 @@ where once again a suitable rpm tree must exist and be pointed to in
 .rpmmacros.
 
 
-                   DEBIAN PACKAGE BUILD INSTRUCTIONS
+                Debian / Ubuntu Package Build Instructions
 
-Are pending, but are under active development and should appear in this
-space soon.
+As Dieharder is provided as an actively maintained, simply do
 
+   sudo apt-get build-dep dieharder
 
+to install all build requirements for Dieharder, and 
+
+   sudo apt-get source dieharder
+
+to install the current sources.

@@ -7,7 +7,7 @@
  */
 int dab_bytedistrib(Test **test, int irun);
 
-static Dtest dab_bytedistrib_dtest = {
+static Dtest dab_bytedistrib_dtest __attribute__((unused)) = {
   "Byte Distribution",
   "dab_bytedistrib",
   "\

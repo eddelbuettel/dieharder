@@ -24,9 +24,8 @@
 int rgb_persist(Test **test, Rgb_Persist *persist)
 {
 
- double pks;
- uint ps_save,ts_save,last_rand;
- int i,j,csamples;
+ uint last_rand;
+ int i,j;
 
  /*
   * Now go through the list and dump the numbers several ways.

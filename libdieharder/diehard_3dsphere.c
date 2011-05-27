@@ -32,7 +32,7 @@ typedef struct {
 int diehard_3dsphere(Test **test, int irun)
 {
 
- int i,j,k,l,m;
+ int j,k;
  C3_3D *c3;
  double r1,r2,r3,rmin,r3min;
  double xdelta,ydelta,zdelta;

@@ -38,7 +38,10 @@ subdir = include
 DIST_COMMON = $(nobase_include_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -92,8 +95,8 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LIB_VERSION = 3.31.0
-DIEHARDER_LT_VERSION = 3:31:0
+DIEHARDER_LIB_VERSION = 3.31.1
+DIEHARDER_LT_VERSION = 3:31:1
 DSYMUTIL = 
 DUMPBIN = 
 ECHO_C = 
@@ -129,10 +132,10 @@ OTOOL64 =
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 3.31.0
+PACKAGE_STRING = dieharder 3.31.1
 PACKAGE_TARNAME = dieharder
 PACKAGE_URL = 
-PACKAGE_VERSION = 3.31.0
+PACKAGE_VERSION = 3.31.1
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -141,7 +144,7 @@ SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
-VERSION = 3.31.0
+VERSION = 3.31.1
 abs_builddir = /home/rgb/Src/Projects/dieharder/include
 abs_srcdir = /home/rgb/Src/Projects/dieharder/include
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -162,6 +165,7 @@ build_vendor = unknown
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
+dieharder_CFLAGS = -std=c99 -Wall -pedantic -I${prefix}/include
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
@@ -174,6 +178,7 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /home/rgb/Src/Projects/dieharder/install-sh
+libdieharder_lo_CFLAGS = -Wall -pedantic -I${prefix}/include
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -194,6 +199,11 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 nobase_include_HEADERS = dieharder/copyright.h \
+	dieharder/dab_bytedistrib.h \
+	dieharder/dab_dct.h \
+	dieharder/dab_filltree2.h \
+	dieharder/dab_filltree.h \
+	dieharder/dab_monobit2.h \
 	dieharder/dieharder_rng_types.h \
 	dieharder/dieharder_test_types.h \
 	dieharder/diehard_2dsphere.h \
@@ -234,7 +244,12 @@ nobase_include_HEADERS = dieharder/copyright.h \
 	dieharder/tests.h \
 	dieharder/verbose.h \
 	dieharder/Vtest.h \
-	dieharder/Xtest.h
+	dieharder/Xtest.h \
+	dieharder/dab_bytedistrib.h \
+	dieharder/dab_dct.h \
+	dieharder/dab_filltree2.h \
+	dieharder/dab_filltree.h \
+	dieharder/dab_monobit2.h
 
 all: all-am
 

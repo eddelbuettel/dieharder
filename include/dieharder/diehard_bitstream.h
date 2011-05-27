@@ -7,7 +7,7 @@
  */
 int diehard_bitstream(Test **test,int irun);
 
-static Dtest diehard_bitstream_dtest = {
+static Dtest diehard_bitstream_dtest __attribute__((unused)) = {
   "Diehard Bitstream Test",
   "diehard_bitstream",
   "\n\

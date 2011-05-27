@@ -39,7 +39,7 @@ void output(Dtest *dtest,Test **test)
  /*
   * Show the table header at most one time.
   */
- static uint firstcall = 1;
+ static unsigned int firstcall = 1;
  if(firstcall){
 
    /*
@@ -205,9 +205,9 @@ void output_rng_info()
  }
  if(tflag & TSEED && strategy == 0 && !fromfile){
    if(tflag & TNO_WHITE){
-     fprintf(stdout,"%u%c",seed,table_separator);
+     fprintf(stdout,"%lu%c",seed,table_separator);
    } else {
-     fprintf(stdout,"%10u%c",seed,table_separator);
+     fprintf(stdout,"%10lu%c",seed,table_separator);
    }
  }
  fprintf(stdout,"\n");
@@ -218,8 +218,7 @@ void output_rng_info()
 void output_table_line_header()
 {
 
- uint i;
- uint field = 0;
+ unsigned int field = 0;
 
  /*
   * We assemble the table header according to what tflag's value is.
@@ -340,8 +339,8 @@ void output_table_line_header()
 void output_table_line(Dtest *dtest,Test **test)
 {
 
- uint i;
- uint field;
+ unsigned int i;
+ unsigned int field;
 
  /*
   * IF a user wants something like the old-style "report", they
@@ -515,9 +514,9 @@ void output_table_line(Dtest *dtest,Test **test)
        fprintf(stdout,"%c",table_separator);
      }
      if(tflag & TNO_WHITE){
-       fprintf(stdout,"%u",seed);
+       fprintf(stdout,"%lu",seed);
      } else {
-       fprintf(stdout,"%10u",seed);
+       fprintf(stdout,"%10lu",seed);
      }
      field++;
    }
@@ -542,15 +541,15 @@ void output_table_line(Dtest *dtest,Test **test)
 int output_histogram(double *input,char *pvlabel,int inum,double min,double max,int nbins,char *label)
 {
 
- int i,j,k,hindex;
- uint *bin,binmax;
+ int i,j,hindex;
+ unsigned int *bin,binmax;
  double binscale;
- uint vscale;
+ unsigned int vscale;
 
  /*
   * This is where we put the binned count(s).  Make and zero it
   */
- bin = (uint *)malloc(nbins*sizeof(uint));
+ bin = (unsigned int *)malloc(nbins*sizeof(unsigned int));
  for(i=0;i<nbins;i++) bin[i] = 0.0;
 
  /*
@@ -627,6 +626,8 @@ int output_histogram(double *input,char *pvlabel,int inum,double min,double max,
  printf("\n");
  printf("#=============================================================================#\n");
  fflush(stdout);
+
+ return(0);
 
 }
 

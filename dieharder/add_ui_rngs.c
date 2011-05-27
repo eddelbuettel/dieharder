@@ -28,9 +28,10 @@ void add_ui_rngs()
   */
  i = 600;
  dh_num_user_rngs = 0;
- /* Template from here: */
+ /* Template from here.  Uncomment and fill in your own generator:
  dh_rng_types[i] = gsl_rng_empty_random;
  i++;
+  */
  dh_num_user_rngs++;
  dh_num_rngs++;
  /* to here.*/

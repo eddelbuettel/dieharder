@@ -23,9 +23,9 @@ double p_ks_new(int n,double d);
 double kstest(double *pvalue,int count)
 {
 
- int i,j,k;
+ int i;
  double y,d,d1,d2,dmax,csqrt;
- double p,pold = 0.0,x;
+ double p,x;
 
  /* First, handle degenerate cases. */
  if (count < 1) return -1.0;
@@ -350,7 +350,7 @@ double p_ks_new(int n,double d)
 double kstest_kuiper(double *pvalue,int count)
 {
 
- int i,j,k;
+ int i;
  double y,v,vmax,vmin,csqrt;
  double p,x;
 

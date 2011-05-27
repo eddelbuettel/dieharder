@@ -7,7 +7,7 @@
  */
 int dab_monobit2(Test **test,int irun);
 
-static Dtest dab_monobit2_dtest = {
+static Dtest dab_monobit2_dtest __attribute__((unused)) = {
   "DAB Monobit 2 Test",
   "dab_monobit2",
   "\

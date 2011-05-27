@@ -77,11 +77,10 @@ static double b[6] = {
 int diehard_runs(Test **test, int irun)
 {
 
- int i,j,k,t,ns;
- unsigned int ucount,dcount,increased;
+ int i,j,k,t;
+ unsigned int ucount,dcount;
  int upruns[RUN_MAX],downruns[RUN_MAX];
  double uv,dv,up_pks,dn_pks;
- double *uv_pvalue,*dv_pvalue;
  uint first, last, next = 0;
 
  /*

@@ -13,7 +13,7 @@ typedef struct {
 } Rgb_Timing;
 int rgb_timing(Test **test, Rgb_Timing *timing);
 
-static Dtest rgb_timing_dtest = {
+static Dtest rgb_timing_dtest __attribute__((unused)) = {
   "RGB Timing Test",
   "rgb_timing",
   "\

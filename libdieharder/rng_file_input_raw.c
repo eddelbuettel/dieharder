@@ -108,7 +108,7 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
 
  if(verbose == D_FILE_INPUT_RAW || verbose == D_ALL){
    fprintf(stdout,"# file_input_raw(): entering file_input_raw_set\n");
-   fprintf(stdout,"# file_input_raw(): state->fp = %p, seed = %lu\n",state->fp,s);
+   fprintf(stdout,"# file_input_raw(): state->fp = %p, seed = %lu\n",(void*) state->fp,s);
  }
 
  /*
@@ -203,7 +203,7 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
     */
    if(verbose == D_FILE_INPUT_RAW || verbose == D_ALL){
      fprintf(stdout,"# file_input_raw(): Opened %s for the first time.\n", filename);
-     fprintf(stdout,"# file_input_raw(): state->fp is %8p, file contains %u unsigned integers.\n",state->fp,(uint)state->flen);
+     fprintf(stdout,"# file_input_raw(): state->fp is %8p, file contains %u unsigned integers.\n",(void*) state->fp,(uint)state->flen);
    }
    state->rptr = 0;  /* No rands read yet */
    /*

@@ -1,5 +1,5 @@
 /*
- * $Id: histogram.c 472 2008-09-22 04:13:56Z rgbatduke $
+ * $Id: histogram.c 529 2011-04-01 17:49:31Z rgbatduke $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *
@@ -19,7 +19,7 @@
 void histogram(double *input,char *pvlabel,int inum,double min,double max,int nbins,char *label)
 {
 
- int i,j,k,hindex;
+ int i,j,hindex;
  uint *bin,binmax;
  double binscale;
  uint vscale;

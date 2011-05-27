@@ -44,11 +44,11 @@
   * Global shared counters for the new types of rngs in the organization
   * defined above.
   */
- uint dh_num_diehard_tests;  /* diehard tests available in dieharder */
- uint dh_num_sts_tests;      /* STS tests available in dieharder */
- uint dh_num_other_tests;    /* other tests available in dieharder */
- uint dh_num_user_tests;     /* user tests added in ui segment */
- uint dh_num_tests;          /* total tests available in dieharder */
+ unsigned int dh_num_diehard_tests;  /* diehard tests available in dieharder */
+ unsigned int dh_num_sts_tests;      /* STS tests available in dieharder */
+ unsigned int dh_num_other_tests;    /* other tests available in dieharder */
+ unsigned int dh_num_user_tests;     /* user tests added in ui segment */
+ unsigned int dh_num_tests;          /* total tests available in dieharder */
 
 
  Dtest *dh_test;             /* global pointer to the current test */

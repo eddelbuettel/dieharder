@@ -92,7 +92,7 @@ int sts_serial(Test **test,int irun)
 
  /* Look for cruft below */
 
- uint i,j,n,m,t;            /* generic loop indices */
+ uint i,j,m,t;            /* generic loop indices */
  uint ctotal;  /* count of any ntuple per bitstring */
  double **freq,*psi2,*delpsi2,*del2psi2;
  double pvalue;

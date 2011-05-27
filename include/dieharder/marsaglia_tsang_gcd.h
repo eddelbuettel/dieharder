@@ -7,7 +7,7 @@
  */
 int marsaglia_tsang_gcd(Test **test,int irun);
 
-static Dtest marsaglia_tsang_gcd_dtest = {
+static Dtest marsaglia_tsang_gcd_dtest __attribute__((unused)) = {
   "Marsaglia and Tsang GCD Test",
   "marsaglia_tsang_gcd",
   "\

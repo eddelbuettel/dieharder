@@ -1,53 +1,94 @@
-% 
-% This document is copyrighted by Robert G. Brown as of the latest 
-% revision date below, as are all earlier revisions.
-%
-% $Id: dieharder_jcgs.tex,v 1.5 2006/02/20 05:12:02 rgb Exp $
-%
-% Filename: dieharder_jcgs.tex
-% Description:  Latex sources for a simple article/dieharder_jcgs
+\documentclass{book}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{html}
+\usepackage{latexsym}
 
-\documentclass[12pt]{article}
-\usepackage{epsf}
-
-\input{macros.tex}
-
-% \def \epsfsize#1#2{0.5#1}
-% Spare figure template
-%\begin{figure}
-%  \centerline{\epsfbox{vector.1.eps}}
-%  \caption{This would be a figure.}
-%  \label{figure_label}
-%\end{figure}
-%
-% Inline unnumbered figure
-% \medskip
-% \centerline{\epsfbox{vector.1.eps}}
-% 
-%
+\input crown_quarto.tex
+\input macros.tex
 
 \begin{document}
 
-\title{Die{\em Harder}: A Gnu Public Licensed Random Number Tester}
+% Uncomment this for web-publication where appropriate.
+% \title{Equations du Jour: Introductory Physics II}
+% \author{Robert G. Brown}
+% \maketitle
 
-\date{\today}
+%
+% To publish on lulu we pretty much have to roll our own title page.
+% 
 
-\author{\bf Robert G. Brown \\
-Duke University Physics Department \\
-Box 90305 \\
-Durham, NC 27708-0305 \\
-rgb@phy.duke.edu}
+\pagestyle{empty}
+\vsfill
 
-\maketitle
+\centerline{\huge \bf Die{\em Harder:}}
+\bigskip
+\bigskip
+\centerline{\Large \bf A Gnu Public License Random Number Tester}
 
-\vspace*{\fill}
+\vsfill
+\centerline{\large by}
+\bigskip
+\centerline{\Large Robert G. Brown}
+\bigskip
+\centerline{Duke University Physics Department}
+\centerline{Durham, NC 27708-0305}
+\centerline{rgb@phy.duke.edu}
+
+\vsfill
+\blankpage
+\vsfill
 
 \centerline{\large \bf Copyright Notice}
-\centerline{Copyright Robert G. Brown 
-$ $Date: 2006/02/20 05:12:02 $.$ }
-\centerline{Snapshot version: \version}
+\centerline{Copyright Robert G. Brown 2006}
+\centerline{Current version: \version}
+% \centerline{ISBN: }
 
-\url{http://www.phy.duke.edu/~rgb}
+\blankpage
+
+\centerline{\Large \bf Notice}
+
+This is documentation for the \die random number generator test suite.
+As the project itself is uses a Gnu Public License (GPL), the
+documentation uses an Open Publication License (OPL).  The precise terms
+of the OPL can be read in an appendix at the end of the manual, and
+should be adhered to if you wish to make changes to this work.
+
+The current snapshot of this documentation is available for free online
+at:
+
+\medskip
+ \centerline{\link{http://www.phy.duke.edu/$\sim$rgb/General/dieharder.php}{http://www.phy.duke.edu/~rgb/General/dieharder.php}}
+\medskip 
+
+\noindent It will be made available in an inexpensive print version
+(probably via Lulu press) as soon as it is in a sufficiently polished
+and complete state.
+
+As a ``live'' document describing a dynamic and sophisticated tool, this
+book no doubt has errors great and small and may or may not be up to
+date (and hence correctly describe the latest release of \die) at any
+given time.  I apologize for this -- my only excuse is that I'm very
+busy and it's all I can do to keep up with the bug reports, suggestions
+for extensions, and my own plans for it, and sometimes documentation
+takes a back seat to progress.  It is, of course, an open source project
+and any reader who is so motivated is welcome to join in.
+
+I cherish good-hearted communication from \die users pointing out errors
+or suggesting new content (and have in the past done my best to
+implement many such corrections or suggestions).
+
+Open source projects of this sort generate useful collaborations.
+Although many people have contributed to \die at this point with
+corrections, new tests, new generators to test, and permission to use
+their code, my greatest debt is to my co-developers and partners, Dirk
+Eddelbeuttel (who maintains the ready-to-install Debian version of
+\die as well as the R interface) and David Bauer, who has
+contributed numerous fixes to critical components (such as the ks-test
+program that is at the heart of the way \die works with many of the
+tests incorporated from their descriptions in diehard and other
+sources), the ``gold standard'' AES and Threefish RNGs that are of great
+use in testing \die, and many new tests.
 
 \newpage
 
@@ -55,11 +96,7 @@ $ $Date: 2006/02/20 05:12:02 $.$ }
 
 \newpage
 
-{\large \bf Note Well!  This documentation of the dieharder test suite
-is under construction and is both incomplete and in some place
-erroneous!  Be warned!}
-
-\section{Introduction}
+\chapter{Introduction}
 
 Random numbers are of tremendous value in many computational contexts.
 In importance sampling Monte Carlo, random numbers permit the sampling
@@ -81,20 +118,20 @@ is a mathematical or computational oxymoron.
 
 Even in physics, sources of true randomness are rare.  There is a very,
 very old argument about whether even quantum experiments produce results
-that are truly {\em random} at a fundamental level or whether experiment
-results in quantum theory that produce seemingly random outcomes reflect
-the {\em entropy} inherent in the measuring apparatus.  This is a
-non-trivial problem with no simple or obviously true answer even today,
-since it is fundamentally connected to whether the Universe is open or
-closed.  Both relativity theory and the Generalized Master Equation that
-is perhaps the most general way of describing the quantum measurement
-process of an open system embedded in a closed quantum universe suggest
-that what appears to be irreversibility and randomness in laboratory
-experiments is due to a projection of the {\em stationary} quantum
-description of the universe onto the much smaller quantum description of
-the ``system'' that is supposed to produce the random result (such as
-photon emission due to spontaneous decay of an excited atom into the
-ground state).  
+that are truly {\em random} at a fundamental level or whether
+experimental results in quantum theory that produce seemingly random
+outcomes reflect the {\em entropy} inherent in the measuring apparatus.
+This is a non-trivial problem with no simple or obviously true answer
+even today, since it is fundamentally connected to whether the Universe
+is open or closed.  Both relativity theory and the Generalized Master
+Equation that is perhaps the most general way of describing the quantum
+measurement process of an open system embedded in a closed quantum
+universe suggest that what appears to be irreversibility and randomness
+in laboratory experiments is due to a projection of the {\em stationary}
+quantum description of the universe onto the much smaller quantum
+description of the ``system'' that is supposed to produce the random
+result (such as photon emission due to spontaneous decay of an excited
+atom into the ground state).
 
 The ``randomness'' of the apparent result follows from taking a
 statistical trace over the excluded degrees of freedom, which introduces
@@ -126,30 +163,35 @@ applying tests for randomness, and not a fundamental given.
 
 For this reason, purists often refer to software-based RNGs as {\em
 pseudo-}random number generators to emphasize the fact that the numbers
-they produce are not, in fact, ``random''.  As we note, hardware-based
-RNGs are equally susceptible to being ``pseudo'' and at the very least
-are as likely to need to be subjected to randomness tests as software
-generators.  The purpose of {\em Dieharder} is to provide a suite of
-tests, as systematic as possible, to which ``random number generators''
-of all sorts can be subjected.  For this reason we will, for brevity's
-sake, omit the word ``pseudo'' when discussing RNGs but it should
-nevertheless be understood.
+they produce are not, in fact, ``random''.  As one can see from the
+discussion above, hardware-based RNGs are equally susceptible to being
+``pseudo'' in their randomness or (however unpredictable they might be)
+they may well have a distribution that is not perfectly flat and hence
+does not conform to the requirements of an ideal RNG.  At the very least
+they are as likely to need to be subjected to randomness tests as
+software generators and should not be assumed to be ``truly random''.
+
+The purpose of {\em Dieharder} is to provide a suite of tests, as
+systematic as possible, to which ``random number generators'' of all
+sorts can be subjected.  For this reason we will, for brevity's sake,
+omit the word ``pseudo'' when discussing RNGs but it should nevertheless
+be understood.
 
 Another problem associated with random numbers in the context of modern
 computing is that numerical simulations can consume a {\em lot} of e.g.
-uniform deviates, unsigned integers, bits.  Simulations on a large
-compute cluster can consume close to Avogadro's number of uniform
-deviates in a single extended computation over the course of months to
-years.  Over such a long sequence, problems can emerge even with
-generators that appear to pass many tests that sample only a few
-millions of random numbers (less than a billion bits, say).  Many random
-number generators are in fact state-periodic and repeat a single
-sequence after a certain number of returns.  Older generators often had
-a very short period.  This meant that simulations that consumed more
-random numbers than this period in fact reproduced the same sample
-sequence over and over again instead of generating the independent,
-identically distributed ({\em iid}) samples that the author of the
-simulation probably intended.
+random uniform deviates, random unsigned integers, random bits, random
+numbers of all sorts.  Simulations on a large compute cluster can
+consume close to Avogadro's number of uniform deviates in a single
+extended computation over the course of months to years.  Over such a
+long sequence, problems can emerge even with generators that appear to
+pass many tests that sample only a few millions of random numbers (less
+than a billion bits, say).  Many random number generators are in fact
+state-periodic and repeat a single sequence after a certain number of
+returns.  Older generators often had a very short period.  This meant
+that simulations that consumed more random numbers than this period in
+fact reproduced the same sample sequence over and over again instead of
+generating the independent, identically distributed ({\em iid}) samples
+that the author of the simulation probably intended.
 
 A related issue is associated with the dimensionality of the
 correlation.  Many generators produce numbers that are subtly patterned
@@ -335,7 +377,7 @@ literature or invented and added).  Finally the results of applying the
 test suite to a few selected RNGs are presented, demonstrating its
 improved power of discrimination.
 
-\section{Testing Random Numbers}
+\chapter{Testing Random Number Generators}
 
 The basic idea of testing a RNG is very simple.  Choose a process that
 uses as input a sequence of random numbers (in the form of a stream of
@@ -394,14 +436,17 @@ RNG was a {\em bad} one that (for the given value of $t$) {\em always}
 summed up to pretty much the same number that is distributed {\em
 incorrectly}.  We might well {\em reject} the null hypothesis.
 
-On the other hand, suppose we got 0.230, 0.001, 0.844, 0.569, 0.018,
-0.970... as values for $p$.  Once again, it is not at all obvious from
-looking at this whether we should conclude that the generator is good or
-bad.  On the one hand, one of these values only occurs once in roughly
-1000 trials by chance, and another occurs only one in maybe 50 trials --
-it seems unlikely that they'd be in a sequence of only six $p$-values.
-On the other hand, it isn't {\em that} unlikely.  One in a thousand
-chances happen, especially given six tries!
+Suppose instead that we got 0.230, 0.001, 0.844, 0.569, 0.018, 0.970...
+as values for $p$.  Once again, it is not at all obvious from looking at
+this whether we should conclude that the generator is good or bad.  On
+the one hand, one of these values only occurs once in roughly 1000
+trials by chance, and another occurs only one in maybe 50 trials -- it
+seems unlikely that they'd be in a sequence of $p$-values.  On the other
+hand, it isn't {\em that} unlikely.  One in a thousand chances happen,
+especially given some unknown number of tries!  Given \emph{enough}
+tries they are nearly \emph{certain} to happen.  Did they ``just
+happen'' this time, or are they indicative of a problem in the
+generator?  It is difficult to know for sure.
 
 What we would like to do is take the guesswork out of our decision
 process.  What is the probability that this particular sequence of
@@ -416,7 +461,7 @@ series} of {\em iid} trials.
 This testing process now gives us two parameters we can tweak to obtain
 an unambiguous answer -- one that is very, very low, consistently -- or
 not.  We can increase $t$, which increases the mean value relative to
-$sigma$ and makes systematic deviations from the mean probability of 0.5
+$\sigma$ and makes systematic deviations from the mean probability of 0.5
 more obvious (but which makes a localized non-random clustering of
 values for {\em small} sample sizes {\em less} obvious) or we can
 increase the number of {\em iid} trials to see if the distribution of
@@ -440,17 +485,19 @@ $\chi^2$ distribution according to the number of degrees of freedom
 represented in the vector (which in many cases will be smaller than the
 number of actual numbers in the vector).  A few might generate numbers
 or vectors that are {\em not} normally distributed (and we might have to
-work very hard in these cases to generate a $p$-value).  
+work very hard in these cases to generate a $p$-value -- the KS test
+itself is just such a case).
 
 In all cases in Dieharder, the $p$-values from any small sample of {\em
 iid} tests is held to be suspect in terms of supporting the acceptance
 or rejection of the null hypothesis unless and until a KS test of the
-uniformity of the distribution of $p$ itself yields a $p$-value, and in
-most cases it is considered to be worthwhile to play with the parameters
-described above (number of samples, number of trials) to see if the
-$p$-value returned can be made to {\em consistently} exhibit failure
-with a very high degree of confidence, making rejection of the null
-hypothesis a very safe bet.
+uniformity of the distribution of $p$ itself yields an unambiguous
+$p$-value in a challenging application of the test method.  In most
+cases it would be considered to be worthwhile to play with the
+parameters described above (number of samples, number of trials) to see
+if the $p$-value returned can be made to {\em consistently} exhibit
+failure with a very high degree of confidence, making at least the
+for-cause rejection of the null hypothesis a very safe bet.
 
 There is one test in Dieharder that does not generate a $p$-value per
 se.  The {\em bit persistence} test is a bit-level test that basically
@@ -472,14 +519,14 @@ test permits the number of significant bits in a presumed random integer
 to be varied or masked, one can even use the information to perform
 tests on the {\em significant} part of the numbers returned.
 
-\section{Evaluating $p$-values}
+\chapter{Evaluating $p$-values}
 
-Tests used in dieharder can produce a variety of statistics that can be
+Tests used in \die can produce a variety of statistics that can be
 used to produce a $p$-value
 
-\subsection{Xtest -- A Single Expected Value}
+\section{Xtest -- A Single Expected Value}
 
-\subsection{Vtest -- A Vector of Expected Values}
+\section{Vtest -- A Vector of Expected Values}
 
 It is appropriate to use a Vtest to evaluate the $p$-value of a single
 trial test (consisting as usual of $tsamples$ {\em iid} samples
@@ -554,10 +601,10 @@ were written and are regularly used and tested by people who know what
 they are doing, so its incomplete gamma function routine is relatively
 reliable and efficient.
 
-{\em Dieharder} attempts to standardize as many aspects of performing
-a RNG test as possible, so that there are relatively few things to
-debug or validate.  A Vtest therefore has a standardized ``Vtest
-object'' associated with it -- a struct defined in Vtest.h as:
+\die attempts to standardize as many aspects of performing a RNG test as
+possible, so that there are relatively few things to debug or validate.
+A Vtest therefore has a standardized ``Vtest object'' associated with it
+-- a struct defined in Vtest.h as:
 
 \begin{verbatim}
  typedef struct {
@@ -633,7 +680,7 @@ to be random, {\em too bad} to be random, or {\em just right} to be
 random\footnote{Think of it as ``The Goldilocks Test''.}.
 \end{itemize}
 
-\subsection{Kuiper Kolmogorov-Smirnov Test}
+\subsection{Kolmogorov-Smirnov Test}
 
 A Kolmogorov-Smirnov (KS) test is one that computes how much an observed
 probability distribution differs from a hypothesized one.  Of course
@@ -648,55 +695,38 @@ remarks  at \\
 
 For that reason, the KS statistic for the uniform distribution is
 usually evaluated with the {\em Anderson-Darling} goodness-of-fit test.
-Anderson-Darling KS is used throughout {\em Diehard}, for example.
-Anderson-Darling was rejected in dieharder empirically in favor of the
-{\em Kuiper} KS test.  The difference is the following:  Ordinary KS
-tests use either $D_+$ or $D_-$, the maximum or minimum excursion of the
-cumulative observed result from the hypothesized (continuous)
-distribution.  This tends to be insensitive at one or the other end of
-the distribution.  This is fine for distributions that are supported
-primarily in the middle, but the uniform distribution is obviously not
-one of them.
+Anderson-Darling KS is used throughout {\em Diehard}, for example, and
+it is similarly used in \die, but to a much higher degree.  Note well
+that a final KS test on a {\em large} set (at least 100) of trial
+$p$-values is the {\em essential} last step of almost any \die test.  It
+is otherwise simply impossible to look at $p$ from a single trial alone
+and assess whether or not the test ``fails'' unless that $p$-value is
+very, very low.  Many of the original {\em Diehard} tests generated only
+a very few $p$-values (1-20) and ``passed'' many RNGs that in fact \die
+fails with a very obvious (in retrospect) non-uniformity in the final
+distribution of $p$.  Some of its tests were also flawed (for example,
+the operm5 test) but the flaw was only visible if one rand the test many
+times and studied the distribution of $p$ with a KS test.
 
-Kuiper replaces this with the statistic $D_+ + D_-$.  This small change
-makes the test symmetrically sensitive across the entire region.  Note
-well that a distribution of $p$-values often {\em fails} because of a
-surplus or deficit at one or the other of the {\em ends}, where $p$ is
-near 0 or 1.  It was observed that Anderson-Darling was much more
-forgiving of distributions that, in fact, ultimately failed the test of
-uniformity and were visibly and consistenty e.g. exponentially biased
-across the range.  Kuiper does much better at detecting systematic
-failures in the uniformity of the distribution of $p$, and invariably
-yields a $p$-value that is ``believable'' based on a visual inspection
-of the $p$-distribution histogram generated by the series of trials.
+\section{The Test Histogram}
 
-Note well that a final KS test on a {\em large} set (at least 100) of
-trial $p$-values is the {\em essential} last step of any test.  It is
-otherwise simply impossible to look at $p$ from a single trial alone and
-assess whether or not the test ``fails''.  Many of the original {\em
-Diehard} tests generated only a very few $p$-values (1-20) and
-``passed'' many RNGs that in fact {\em Dieharder} fails with a very
-obvious (in retrospect) non-uniformity in the final distribution of $p$.
+Although a KS test provides an objective and mathematically justified
+$p$-value for the entire test series, the human eye and human judgement
+are invaluable aids in the process of obtaining an unambiguous result
+for any test and for evaluating the quality of success or failure.  For
+this reason \die also presents a visible histogram of the final
+$p$-value distribution.
 
-\subsection{The Test Histogram}
-
-Although a Kuiper KS test provides an objective and mathematically
-justified $p$-value for the entire test series, the human eye and human
-judgement are invaluable aids in the process of obtaining an unambiguous
-result for any test and for evaluating the quality of success or
-failure.  For this reason {\em Dieharder} also presents a visible
-histogram of the final $p$-value distribution.
-
-In the ASCII (text-based) version of {\em Dieharder} this histogram is
-necessarily rather crude -- it presents binned deciles of the
-distribution in an autoscaling graph.  Nevertheless, it makes it easy to
-see {\em why} the $p$-value of a test series is small.  Sometimes it is
-obvious -- because all of the $p$-values are near zero because the RNG
-egregiously fails the test in every trial.  Other times it is {\em very
-subtle} -- the test series produces $p$-values with a slight bias
-towards one end or the other of the region, nearly flat, that resolves
-into an unambiguous failure only when the number of trials contributing
-$p$-values is increased to as many as 500 or 1000.
+In the ASCII (text-based) version of \die this histogram is necessarily
+rather crude -- it presents binned deciles of the distribution in an
+autoscaling graph.  Nevertheless, it makes it easy to see {\em why} the
+$p$-value of a test series is small.  Sometimes it is obvious -- because
+all of the $p$-values are near zero because the RNG egregiously fails
+the test in every trial.  Other times it is {\em very subtle} -- the
+test series produces $p$-values with a slight bias towards one end or
+the other of the region, nearly flat, that resolves into an unambiguous
+failure only when the number of trials contributing $p$-values is
+increased to as many as 500 or 1000.
 
 Here one has to judge carefully.  Such an RNG isn't {\em very} bad with
 respect to the test at issue -- one has to work quite hard to show that
@@ -717,19 +747,19 @@ of $p$-values used in the KS test and histogram) will usually suffice to
 make the failure unambiguous or (alternatively) show that the deviations
 in the first test were not systematic and the RNG actually does not fail
 the test\footnote{Noting that we carefully refrain from asserting that
-{\em Dieharder} is a test suite that can be {\em passed}.  The null
-hypothesis, by its nature, can never be proven to be true, it can only
-fail to be observed to fail.  In this it greatly resembles both life and
-science: the laws of inference generally do not permit things like the
-Law of Universal Gravitation to be ``proven'', the best that we can say
-is that we have yet to observe a failure.  {\em Dieharder} is simply a
-numerical experimental tool that can be used empirically to develop a
-degree of confidence in any given RNG, not a ``validation'' tool that
-proves that any given RNG is suitable for some purpose or another.}.
+\die is a test suite that can be {\em passed}.  The null hypothesis, by
+its nature, can never be proven to be true, it can only fail to be
+observed to fail.  In this it greatly resembles both life and science:
+the laws of inference generally do not permit things like the Law of
+Universal Gravitation to be ``proven'', the best that we can say is that
+we have yet to observe a failure.  \die is simply a numerical
+experimental tool that can be used empirically to develop a degree of
+confidence in any given RNG, not a ``validation'' tool that proves that
+any given RNG is suitable for some purpose or another.}.
 
-\section{Diehard}
+\chapter{Diehard}
 
-\subsection{The Original Diehard}
+\section{The Original Diehard}
 
 The {\em Diehard Battery of Random Number Tests} consists of the
 following individual tests:
@@ -807,57 +837,52 @@ Cryptography at the University of Hong Kong have (or had, in the case of
 FSU) distinctly commercial aspects, offering to sell one a CD-ROM with
 many pretested random numbers and the diehard program on it.
 
-\subsection{The Dieharder Modifications}
+\section{The Dieharder Modifications}
 
-Dieharder has been deliberately written to try to fix most of these
-problems with Diehard while preserving all of its tests in default forms
-that are at {\em least} as functional as they are in Diehard itself.  To
-this end:
+\die has been deliberately written to try to fix most of these problems
+with Diehard while preserving all of its tests in default forms that are
+at {\em least} as functional as they are in Diehard itself.  To this
+end:
 
 \begin{itemize}
 
- \item All Diehard tests have an outcome based on a single $p$-value
-from a KS test of the uniformity of many $p$-values returned by
-individual runs of each basic test.
- \item All Diehard tests have an adjustable parameter controlling the
+ \item All \die Diehard tests have an outcome based on a single
+$p$-value from a KS test of the uniformity of many $p$-values returned
+by individual runs of each basic test.
+ \item All \die tests have an adjustable parameter controlling the
 number of individual test runs that contribute $p$-values to the final
 KS test (with a default value of 100, much higher than any of the
 Diehard tests).
- \item All Diehard tests generate a simple histogram of these $p$-values
-so that their uniformity (or lack of it) can be {\em visually} assessed.
-The human eye is very good at identifying potentially significant
-patterns of deviation from uniformity, especially from several
-sequential runs of a test.
- \item Many of the basic Diehard tests that have a final test statistic
-that is a computable function of the number of samples now have the
-number of samples as an adjustable parameter.  Just as in the example
-above, one can increase or decrease the number of samples in a test and
-increase or decrease the number of test results that contribute to the
-final KS $p$-value.  However, some Diehard tests to not permit this kind
-of variation, at least without a lot more work and the risk of a loss of
-resolution without warning.
- \item Most tests that utilized an overlapping sample space for the
-purpose of extending the nominal size of the string of random numbers
-being tested now do {\em not} use overlapping samples by default (but
-rather generate new random numbers for each sample).  The ability to use
-overlapping samples has been carefully preserved, though, and is
-controlled through the use of the -O flag on the dieharder command line.
+ \item All \die tests can optionall generate a simple histogram of these
+$p$-values so that their uniformity (or lack of it) can be {\em
+visually} assessed.  The human eye is very good at identifying
+potentially significant patterns of deviation from uniformity,
+especially from several sequential runs of a test.
+ \item Many of the basic Diehard tests in \die that have a final test
+statistic that is a computable function of the number of samples now
+have the number of samples as an adjustable parameter.  Just as in the
+example above, one can increase or decrease the number of samples in a
+test and increase or decrease the number of test results that contribute
+to the final KS $p$-value.  However, some Diehard tests to not permit
+this kind of variation, at least without a lot more work and the risk of
+a loss of resolution without warning.
  \item All tests are integrated with GSL random number generators and
-use GSL functions that are thoroughly tested and supported by experts
-for e.g. computing the error function, the incomplete gamma function, or
-evaluating a binomial distribution of outcomes for some large space to
-use as a $\chi^2$ target vector.  This presumably increases the
-reliability and maintainability of the code, and certainly increases its
-speed and flexibility relative to file based input.
+use GSL functions (where possible) that are thoroughly tested and
+supported by experts. For example, \die uses GSL versions of the error
+function, the incomplete gamma function, or to evaluate a binomial
+distribution of outcomes for some large space to use as a $\chi^2$
+target vector.  This presumably increases the reliability and
+maintainability of the code, and certainly increases its speed and
+flexibility relative to file based input.
  \item File based random number input is still possible in a number of
 formats, although the user should be aware that the (default) use of
 larger numbers of samples per test and larger numbers of tests per KS
 $p$-value requires far more random numbers and therefore far larger
 files than Diehard.  If an inadequate number of random numbers is
-provided in a file, it is automatically rewound mid-trial (and the
-rewind count recorded in the trial output as a warning).  This, in turn,
-introduces a rather obvious sort of correlation that can lead to
-incorrect results!
+provided in a file, then (to avoid a time-consuming crash) it is
+automatically rewound mid-trial (and the rewind count recorded in the
+trial output as a warning).  This, in turn, introduces a rather obvious
+sort of correlation that can lead to incorrect results!
  \item Certain tests which had additional numbers that could be
 parameterized as test variables were rewritten so that those variables
 could be set on the command line (but still default to the Diehard
@@ -881,22 +906,22 @@ of code.
 systems.  It is also available as a compressed tar archive of the
 sources that is build ready on most Unix-like operating systems, subject
 only to the availability of the GSL on the target platform.
- \item The Dieharder code is both copyrighted and 100\% Gnu Public
+ \item The \die code is both copyrighted and 100\% Gnu Public
 Licensed -- anyone in the world can use it, resell it, modify it, or
 extend it -- as long as they obey the well-known terms of the license.
 \end{itemize}
 
-As one can easily see, Dieharder has significantly extended the
-parametric utility of the original Diehard program (and thereby
-considerably increased its ability to discriminate marginal failures of
-many of the tests).  It has done so in a clean, easy to build,
-publically licensed format that should encourage the further extension
-of the Dieharder test suite.
+As one can easily see, \die has significantly extended the parametric
+utility of the original Diehard program (and thereby considerably
+increased its ability to discriminate marginal failures of many of the
+tests).  It has done so in a clean, easy to build, publically licensed
+format that should encourage the further extension of the \die test
+suite.
 
-Next, let us look at the modular program design of dieharder to see how
+Next, let us look at the modular program design of \die to see how
 it works.
 
-\section{Dieharder's Modular Test Structure}
+\chapter{Dieharder's Modular Test Structure}
 
 Diehard's program organization is very simple.  There is a toplevel
 program shell that parses the command line and initializes variables,
@@ -911,9 +936,9 @@ and discriminating and hence can serve as a comparative RNG performance
 benchmark on the one hand and as a starting point for the parametric
 exploration of specific tests afterwards.
 
-A Dieharder test consists of three subroutines.  These test are named
-according to the scheme:
-{\tt 
+A \die test consists of three subroutines.  These test are named
+according to the scheme:  
+{\tt
 \begin{verbatim}
    diehard\_birthday()
    diehard\_birthday\_test()
@@ -980,7 +1005,7 @@ standardized and exists only to allow the test description to be
 conveniently printed in the test header or when ``help'' for the test is
 invoked on the command line.
 
-Dieharder provides a number of utility routines to make creating a test
+\die provides a number of utility routines to make creating a test
 easier.  If a test generates a single test statistic, a struct can be
 defined for the observed value, the expected value, and the standard
 deviation that can be passed to a routine that transforms it into a
@@ -1030,7 +1055,7 @@ number generators and select one that is ``random enough'' as far as
 the tests are concerned but still fast enough that the computation will
 complete in an acceptable amount of time.
 
-\section{Dieharder Extensions}
+\chapter{Dieharder Extensions}
 
 As noted in the Introduction, Dieharder is intended to develop into a
 ``universal'' suite of RNG tests, providing a consistently controllable
@@ -1067,7 +1092,7 @@ given application would be sequences of tests that validate certain
 statistical properties of a given RNG {\em systematically}.  Right now
 it is {\em very difficult} to interpret the results of e.g. Diehard or
 many of the STS tests.  If a RNG fails (say) the Birthdays test or the
-Overlapping 5-Permutations test when pushed to it by increasing test
+Overlapping 5-{}Permutations test when pushed to it by increasing test
 parameters, what does that say about the cryptographic strength of the
 generator?  What does it say about the suitability of the RNG for
 gaming, for numerical simulation, to drive a state lottery system?
@@ -1205,7 +1230,7 @@ This leads us in a natural way to a description of the two STS tests
 thus far implemented and to a discussion of new tests that are
 introduced to attempt to systematize and clarify what is being tested.
 
-\subsection{STS Tests}
+\section{STS Tests}
 
 While the program's design goals include having all of the STS tests
 incorporated into its general test launching and reporting framework, at
@@ -1289,7 +1314,7 @@ This motivated the development of {\em new} tests, which subsume {\em
 both} STS monobit and STS runs, but which are clearly part of a
 systematic series of tests of bitwise randomness.
 
-\subsection{New Tests}
+\section{New Tests}
 
 Three entirely new tests have been added to Dieharder.  The first is a
 straightforward timing test that returns the number of random numbers a
@@ -1423,7 +1448,7 @@ However, such a test would never be necessary, as all RNGs currently
 known would almost certainly fail the bit distribution test at an $n$
 considerably less than 40, probably as low as 8.
 
-\subsection{Future (Proposed or Planned) Tests}
+\section{Future (Proposed or Planned) Tests}
 
 As noted above, eventually Dieharder should have {\em all} the STS and
 Diehard tests (where some effort may be expended making the the set
@@ -1517,7 +1542,7 @@ The program thus has a fairly straightforward development path for a
 future that requires much more stringent tests of RNGs than are
 currently required or possible.
 
-\section{Results for Selected Generators}
+\chapter{Results for Selected Generators}
 
 The following are results from applying the full suite of tests to three
 generators selected from the ones prebuilt into the GSL -- a good
@@ -1833,7 +1858,7 @@ The following is the output from running {\tt dieharder -a -g 13}:
 # PASSED at > 5%.
 
 #==================================================================
-#          Diehard Overlapping 5-Permutations Test.
+#          Diehard Overlapping 5-{}Permutations Test.
 # This is the OPERM5 test.  It looks at a sequence of one mill- 
 # ion 32-bit random integers.  Each set of five consecutive     
 # integers can be in one of 120 states, for the 5! possible or- 
@@ -1879,7 +1904,7 @@ The following is the output from running {\tt dieharder -a -g 13}:
 #       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
 #==================================================================
 #                          Results
-# Kuiper KS: p = 0.000000 for Diehard Overlapping 5-permutations Test
+# Kuiper KS: p = 0.000000 for Diehard Overlapping 5-{}permutations Test
 # Assessment:
 # FAILED at < 0.01%.
 
@@ -2424,7 +2449,8 @@ The following is the output from running {\tt dieharder -a -g 13}:
 #
 # This test ignores tsamples, and runs the usual default 100
 # psamples to use in the final KS test.
-#==================================================================#                        Run Details
+#==================================================================
+#                        Run Details
 # Random number generator tested: mt19937_1999
 # Samples per test pvalue = 4000 (test default is 4000)
 # P-values in final KS test = 100 (test default is 100)
@@ -2806,7 +2832,7 @@ The following is the output from running {\tt dieharder -a -g 13}:
 
 \end{verbatim}
 
-\subsubsection{Comments}
+\subsection{Comments}
 
 This is the output from what is generally considered a ``good'' RNG --
 one that is often touted as passing Diehard.  As one can see from the
@@ -2847,7 +2873,7 @@ any numerical simulation will unambiguously fail the Diehard birthdays
 test.
 
 Surprisingly, we find that the generator {\em unambiguously} fails the
-Overlapping 5-Permutations test with the Dieharder defaults already!
+Overlapping 5-{}Permutations test with the Dieharder defaults already!
 Note well that the original diehard test only produces {\em two}
 $p$-values, and there is a very good chance, of course, that at least
 one of those two will be well above the usual $p < 0.01$ criterion for
@@ -2969,7 +2995,7 @@ random in the bit distribution test above (equivalent to STS series).
 
 In summary, mt19937\_1999 does {\em not} pass all the Dieharder tests
 derived from Diehard tests, failing both the bitstream and the
-overlapping 5-permutations test.  In both cases the RNG produces
+overlapping 5-{}permutations test.  In both cases the RNG produces
 ``reasonable'' $p$-values quite a lot of the time (permitting one to
 conclude that the Diehard suite of tests were all ``passed'' by this
 RNG).  However, Dieharder has revealed that those $p$-values were
@@ -2989,7 +3015,7 @@ or another.
 
 So much for good RNGs.  What about bad ones?
 
-\subsection{A Bad Generator: randu}
+\section{A Bad Generator: randu}
 
 Let us look now at an ``infamously bad'' random number generator, randu.
 randu is a linear congruential generator that is {\em so} bad that it
@@ -3153,7 +3179,7 @@ with Dieharder and see what it tells us about its suitability as a RNG.
 # PASSED at > 5%.
 
 #==================================================================
-#          Diehard Overlapping 5-Permutations Test.
+#          Diehard Overlapping 5-{}Permutations Test.
 # This is the OPERM5 test.  It looks at a sequence of one mill- 
 # ion 32-bit random integers.  Each set of five consecutive     
 # integers can be in one of 120 states, for the 5! possible or- 
@@ -3199,7 +3225,7 @@ with Dieharder and see what it tells us about its suitability as a RNG.
 #       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
 #==================================================================
 #                          Results
-# Kuiper KS: p = 0.000000 for Diehard Overlapping 5-permutations Test
+# Kuiper KS: p = 0.000000 for Diehard Overlapping 5-{}permutations Test
 # Assessment:
 # FAILED at < 0.01%.
 
@@ -4176,7 +4202,7 @@ zero-sum {\em coin flip game}, let alone produce an unbiased result for
 something like a state lottery.  For all of that, randu is {\em not} the
 worst RNG in the GSL.  Consider the following.
 
-\subsection{An Ugly Generator: slatec}
+\section{An Ugly Generator: slatec}
 
 slatec is the GSL encapsulation of the RAND function from the SLATEC
 Common Mathematical Library, still available from
@@ -4349,7 +4375,7 @@ Let us see what Dieharder makes of it:
 # FAILED at < 0.01%.
 
 #==================================================================
-#          Diehard Overlapping 5-Permutations Test.
+#          Diehard Overlapping 5-{}Permutations Test.
 # This is the OPERM5 test.  It looks at a sequence of one mill- 
 # ion 32-bit random integers.  Each set of five consecutive     
 # integers can be in one of 120 states, for the 5! possible or- 
@@ -4398,7 +4424,7 @@ Let us see what Dieharder makes of it:
 #       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
 #==================================================================
 #                          Results
-# Kuiper KS: p = 0.000000 for Diehard Overlapping 5-permutations Test
+# Kuiper KS: p = 0.000000 for Diehard Overlapping 5-{}permutations Test
 # Assessment:
 # FAILED at < 0.01%.
 
@@ -4950,7 +4976,8 @@ Let us see what Dieharder makes of it:
 #
 # This test ignores tsamples, and runs the usual default 100
 # psamples to use in the final KS test.
-#==================================================================#                        Run Details
+#==================================================================
+#                        Run Details
 # Random number generator tested: slatec
 # Samples per test pvalue = 4000 (test default is 4000)
 # P-values in final KS test = 100 (test default is 100)
@@ -5358,30 +5385,29 @@ slatec is a generator that I wouldn't hesitate to list {\em unsuitable
 for any purpose} -- except, of course, demonstrating the unambiguous
 failure of an RNG test in Dieharder.
 
-\section{Conclusions}
+\chapter{Conclusions}
 
-The Dieharder results presented above show the practical utility of
-adding controls to and generalizing RNG testing suites so that their
-ability to discriminate failure of a RNG (rejection of the null
-hypothesis) can be tuned to the needs of the user.  Dieharder has also
-showed the danger of treating the passing of any such suite of tests for
-fixed values and {\em lacking} such controls as the defining property of
-a ``good'' RNG.  RNGs will all fail at least some tests for randomness
-at some point because the sequences they produce are not, in fact, truly
-random.  However, a good RNG may have to be pushed {\em very hard} to
-demonstrate a failure of randomness, and even when pushed may only fail
-{\em some} tests.  Indeed, at some point the validity of the tests
-themselves may fail because of numerical problems other than the quality
-of the RNG.
+The \die results presented above show the practical utility of adding
+controls to and generalizing RNG testing suites so that their ability to
+discriminate failure of a RNG (rejection of the null hypothesis) can be
+tuned to the needs of the user.  \die has also showed the danger of
+treating the passing of any such suite of tests for fixed values and
+{\em lacking} such controls as the defining property of a ``good'' RNG.
+RNGs will all fail at least some tests for randomness at some point
+because the sequences they produce are not, in fact, truly random.
+However, a good RNG may have to be pushed {\em very hard} to demonstrate
+a failure of randomness, and even when pushed may only fail {\em some}
+tests.  Indeed, at some point the validity of the tests themselves may
+fail because of numerical problems other than the quality of the RNG.
 
-Even in its infancy, Dieharder has proven to be a useful tool for
-studying RNGs, and the encapsulation of RNGs that one might wish to
-study in the tightly-integrated GSL promises to facilitate many projects
-that study RNGs or wish to test library-based RNGs for suitability in
-some numerical application.  Because it is a fully GPL tool, both the
-tool itself and all modifications of the tool that might be distributed
-must be provided {\em with immediate access to the source} so that one
-will never find oneself in the position of using a binary program as a
+Even in its infancy, \die has proven to be a useful tool for studying
+RNGs, and the encapsulation of RNGs that one might wish to study in the
+tightly-integrated GSL promises to facilitate many projects that study
+RNGs or wish to test library-based RNGs for suitability in some
+numerical application.  Because it is a fully GPL tool, both the tool
+itself and all modifications of the tool that might be distributed must
+be provided {\em with immediate access to the source} so that one will
+never find oneself in the position of using a binary program as a
 ``black box'' and therefore uncertain as to whether some particular
 failure observed is due to a failure of the RNG or rather due to a bug
 in the program.  Access to the code means that one can add input or
@@ -5389,33 +5415,37 @@ output statements to any routine as required to {\em validate} the
 operation of any test.  This can be very important; one might wish to be
 {\em certain} that a generator that is ``supposed'' to be random
 (perhaps one built on the basis of a quantum process believed to be
-random on theoretical grounds) but that fails some Dieharder test indeed
+random on theoretical grounds) but that fails some \die test indeed
 {\em does} fail that test.
 
-Dieharder is indeed, though, in its infancy.  Although all of the
-Diehard tests are encapsulated, many STS tests and many tests suggested
-by Knuth are not yet encapsulated.  There is also no practical limit on
-the number of ways one {\em can} test RNGs, and the availability of a
-convenient and consistent interface for encapsulating new tests should,
-it is hoped, encourange the development of altogether new ones.
+\die is indeed, though, still regrettably incomplete.  Although all of
+the Diehard tests are encapsulated, many STS tests and many tests
+suggested by Knuth are not yet encapsulated.  There is also no practical
+limit on the number of ways one {\em can} test RNGs, and the
+availability of a convenient and consistent interface for encapsulating
+new tests should, it is hoped, encourange the development of altogether
+new ones.
 
-In addition, dieharder will eventually be given a graphical user
-interface and the ability to execute tests on a cluster.  These two
-additions will both make the tool easier to play with and use and much
-faster, so that more complex tests can be performed on longer sequences
-of numbers.  A graphical interface has additional advantages as well --
-many random number generators fail because they decompose into
-hyperplanes in a high enough dimensionality.  Although this can be
-tested for numerically, it is certainly desireable to be able to
-visualize it as well, and visualization may well reveal {\em new}
-patterns of RNG failure that are {\em not} detected by any known tests.
+In addition, \die will eventually be given a graphical user interface
+(likely inherited from $R$) and the ability to execute tests on a
+cluster.  These two additions will both make the tool easier to play
+with and use and much faster, so that more complex tests can be
+performed on longer sequences of numbers.  A graphical interface has
+additional advantages as well -- many random number generators fail
+because they decompose into hyperplanes in a high enough dimensionality.
+Although this can be tested for numerically, it is certainly desireable
+to be able to visualize it as well, and visualization may well reveal
+{\em new} patterns of RNG failure that are {\em not} detected by any
+known tests.
 
 Numerically generated random numbers play an increasingly important role
 in many statistical applications from business and gaming through
 physics and mathematics.  Sophisticated tests are thereby required to
-validate RNGs for suitability in many different roles.  Dieharder is a
-good platform upon which to develop those tests, in addition to being a
+validate RNGs for suitability in many different roles.  \die is a good
+platform upon which to develop those tests, in addition to being a
 pretty good set of tests already.
+
+\input OPL.tex
 
 \end{document}
 

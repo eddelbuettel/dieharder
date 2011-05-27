@@ -7,7 +7,7 @@
  */
 int diehard_parking_lot(Test **test,int irun);
 
-static Dtest diehard_parking_lot_dtest = {
+static Dtest diehard_parking_lot_dtest __attribute__((unused)) = {
   "Diehard Parking Lot Test",
   "diehard_parking_lot",
   "\

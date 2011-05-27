@@ -54,7 +54,10 @@ subdir = dieharder
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	COPYING
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -63,16 +66,21 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_dieharder_OBJECTS = add_ui_rngs.$(OBJEXT) add_ui_tests.$(OBJEXT) \
-	choose_rng.$(OBJEXT) dieharder.$(OBJEXT) \
-	dieharder_exit.$(OBJEXT) help.$(OBJEXT) list_rngs.$(OBJEXT) \
-	list_tests.$(OBJEXT) output.$(OBJEXT) output_rnds.$(OBJEXT) \
-	parsecl.$(OBJEXT) rdieharder.$(OBJEXT) \
-	rng_empty_random.$(OBJEXT) run_all_tests.$(OBJEXT) \
-	run_test.$(OBJEXT) set_globals.$(OBJEXT) testbits.$(OBJEXT) \
-	time_rng.$(OBJEXT) user_template.$(OBJEXT)
+am_dieharder_OBJECTS = dieharder-add_ui_rngs.$(OBJEXT) \
+	dieharder-add_ui_tests.$(OBJEXT) \
+	dieharder-choose_rng.$(OBJEXT) dieharder-dieharder.$(OBJEXT) \
+	dieharder-dieharder_exit.$(OBJEXT) dieharder-help.$(OBJEXT) \
+	dieharder-list_rngs.$(OBJEXT) dieharder-list_tests.$(OBJEXT) \
+	dieharder-output.$(OBJEXT) dieharder-output_rnds.$(OBJEXT) \
+	dieharder-parsecl.$(OBJEXT) dieharder-rdieharder.$(OBJEXT) \
+	dieharder-run_all_tests.$(OBJEXT) dieharder-run_test.$(OBJEXT) \
+	dieharder-set_globals.$(OBJEXT) dieharder-testbits.$(OBJEXT) \
+	dieharder-time_rng.$(OBJEXT) dieharder-user_template.$(OBJEXT)
 dieharder_OBJECTS = $(am_dieharder_OBJECTS)
 dieharder_DEPENDENCIES = ../libdieharder/libdieharder.la
+dieharder_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(dieharder_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -134,8 +142,8 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LIB_VERSION = 3.31.0
-DIEHARDER_LT_VERSION = 3:31:0
+DIEHARDER_LIB_VERSION = 3.31.1
+DIEHARDER_LT_VERSION = 3:31:1
 DSYMUTIL = 
 DUMPBIN = 
 ECHO_C = 
@@ -171,10 +179,10 @@ OTOOL64 =
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 3.31.0
+PACKAGE_STRING = dieharder 3.31.1
 PACKAGE_TARNAME = dieharder
 PACKAGE_URL = 
-PACKAGE_VERSION = 3.31.0
+PACKAGE_VERSION = 3.31.1
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -186,7 +194,7 @@ STRIP = strip
 
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
-VERSION = 3.31.0
+VERSION = 3.31.1
 abs_builddir = /home/rgb/Src/Projects/dieharder/dieharder
 abs_srcdir = /home/rgb/Src/Projects/dieharder/dieharder
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -207,6 +215,7 @@ build_vendor = unknown
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
+dieharder_CFLAGS = -std=c99 -Wall -pedantic -I${prefix}/include
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
@@ -219,6 +228,7 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /home/rgb/Src/Projects/dieharder/install-sh
+libdieharder_lo_CFLAGS = -Wall -pedantic -I${prefix}/include
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -253,7 +263,6 @@ dieharder_SOURCES = \
 	output_rnds.c \
 	parsecl.c \
 	rdieharder.c \
-	rng_empty_random.c \
 	run_all_tests.c \
 	run_test.c \
 	set_globals.c \
@@ -262,6 +271,7 @@ dieharder_SOURCES = \
 	user_template.c
 
 
+#	rng_empty_random.c \
 #	run_rgb_bitdist.c
 #	run_rgb_lagged_sums.c
 #	run_rgb_minimum_distance.c
@@ -370,7 +380,7 @@ clean-binPROGRAMS:
 	rm -f $$list
 dieharder$(EXEEXT): $(dieharder_OBJECTS) $(dieharder_DEPENDENCIES) 
 	@rm -f dieharder$(EXEEXT)
-	$(LINK) $(dieharder_OBJECTS) $(dieharder_LDADD) $(LIBS)
+	$(dieharder_LINK) $(dieharder_OBJECTS) $(dieharder_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -378,25 +388,24 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/add_ui_rngs.Po
-include ./$(DEPDIR)/add_ui_tests.Po
-include ./$(DEPDIR)/choose_rng.Po
-include ./$(DEPDIR)/dieharder.Po
-include ./$(DEPDIR)/dieharder_exit.Po
-include ./$(DEPDIR)/help.Po
-include ./$(DEPDIR)/list_rngs.Po
-include ./$(DEPDIR)/list_tests.Po
-include ./$(DEPDIR)/output.Po
-include ./$(DEPDIR)/output_rnds.Po
-include ./$(DEPDIR)/parsecl.Po
-include ./$(DEPDIR)/rdieharder.Po
-include ./$(DEPDIR)/rng_empty_random.Po
-include ./$(DEPDIR)/run_all_tests.Po
-include ./$(DEPDIR)/run_test.Po
-include ./$(DEPDIR)/set_globals.Po
-include ./$(DEPDIR)/testbits.Po
-include ./$(DEPDIR)/time_rng.Po
-include ./$(DEPDIR)/user_template.Po
+include ./$(DEPDIR)/dieharder-add_ui_rngs.Po
+include ./$(DEPDIR)/dieharder-add_ui_tests.Po
+include ./$(DEPDIR)/dieharder-choose_rng.Po
+include ./$(DEPDIR)/dieharder-dieharder.Po
+include ./$(DEPDIR)/dieharder-dieharder_exit.Po
+include ./$(DEPDIR)/dieharder-help.Po
+include ./$(DEPDIR)/dieharder-list_rngs.Po
+include ./$(DEPDIR)/dieharder-list_tests.Po
+include ./$(DEPDIR)/dieharder-output.Po
+include ./$(DEPDIR)/dieharder-output_rnds.Po
+include ./$(DEPDIR)/dieharder-parsecl.Po
+include ./$(DEPDIR)/dieharder-rdieharder.Po
+include ./$(DEPDIR)/dieharder-run_all_tests.Po
+include ./$(DEPDIR)/dieharder-run_test.Po
+include ./$(DEPDIR)/dieharder-set_globals.Po
+include ./$(DEPDIR)/dieharder-testbits.Po
+include ./$(DEPDIR)/dieharder-time_rng.Po
+include ./$(DEPDIR)/dieharder-user_template.Po
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -418,6 +427,258 @@ include ./$(DEPDIR)/user_template.Po
 #	source='$<' object='$@' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(LTCOMPILE) -c -o $@ $<
+
+dieharder-add_ui_rngs.o: add_ui_rngs.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-add_ui_rngs.o -MD -MP -MF $(DEPDIR)/dieharder-add_ui_rngs.Tpo -c -o dieharder-add_ui_rngs.o `test -f 'add_ui_rngs.c' || echo '$(srcdir)/'`add_ui_rngs.c
+	$(am__mv) $(DEPDIR)/dieharder-add_ui_rngs.Tpo $(DEPDIR)/dieharder-add_ui_rngs.Po
+#	source='add_ui_rngs.c' object='dieharder-add_ui_rngs.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-add_ui_rngs.o `test -f 'add_ui_rngs.c' || echo '$(srcdir)/'`add_ui_rngs.c
+
+dieharder-add_ui_rngs.obj: add_ui_rngs.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-add_ui_rngs.obj -MD -MP -MF $(DEPDIR)/dieharder-add_ui_rngs.Tpo -c -o dieharder-add_ui_rngs.obj `if test -f 'add_ui_rngs.c'; then $(CYGPATH_W) 'add_ui_rngs.c'; else $(CYGPATH_W) '$(srcdir)/add_ui_rngs.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-add_ui_rngs.Tpo $(DEPDIR)/dieharder-add_ui_rngs.Po
+#	source='add_ui_rngs.c' object='dieharder-add_ui_rngs.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-add_ui_rngs.obj `if test -f 'add_ui_rngs.c'; then $(CYGPATH_W) 'add_ui_rngs.c'; else $(CYGPATH_W) '$(srcdir)/add_ui_rngs.c'; fi`
+
+dieharder-add_ui_tests.o: add_ui_tests.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-add_ui_tests.o -MD -MP -MF $(DEPDIR)/dieharder-add_ui_tests.Tpo -c -o dieharder-add_ui_tests.o `test -f 'add_ui_tests.c' || echo '$(srcdir)/'`add_ui_tests.c
+	$(am__mv) $(DEPDIR)/dieharder-add_ui_tests.Tpo $(DEPDIR)/dieharder-add_ui_tests.Po
+#	source='add_ui_tests.c' object='dieharder-add_ui_tests.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-add_ui_tests.o `test -f 'add_ui_tests.c' || echo '$(srcdir)/'`add_ui_tests.c
+
+dieharder-add_ui_tests.obj: add_ui_tests.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-add_ui_tests.obj -MD -MP -MF $(DEPDIR)/dieharder-add_ui_tests.Tpo -c -o dieharder-add_ui_tests.obj `if test -f 'add_ui_tests.c'; then $(CYGPATH_W) 'add_ui_tests.c'; else $(CYGPATH_W) '$(srcdir)/add_ui_tests.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-add_ui_tests.Tpo $(DEPDIR)/dieharder-add_ui_tests.Po
+#	source='add_ui_tests.c' object='dieharder-add_ui_tests.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-add_ui_tests.obj `if test -f 'add_ui_tests.c'; then $(CYGPATH_W) 'add_ui_tests.c'; else $(CYGPATH_W) '$(srcdir)/add_ui_tests.c'; fi`
+
+dieharder-choose_rng.o: choose_rng.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-choose_rng.o -MD -MP -MF $(DEPDIR)/dieharder-choose_rng.Tpo -c -o dieharder-choose_rng.o `test -f 'choose_rng.c' || echo '$(srcdir)/'`choose_rng.c
+	$(am__mv) $(DEPDIR)/dieharder-choose_rng.Tpo $(DEPDIR)/dieharder-choose_rng.Po
+#	source='choose_rng.c' object='dieharder-choose_rng.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-choose_rng.o `test -f 'choose_rng.c' || echo '$(srcdir)/'`choose_rng.c
+
+dieharder-choose_rng.obj: choose_rng.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-choose_rng.obj -MD -MP -MF $(DEPDIR)/dieharder-choose_rng.Tpo -c -o dieharder-choose_rng.obj `if test -f 'choose_rng.c'; then $(CYGPATH_W) 'choose_rng.c'; else $(CYGPATH_W) '$(srcdir)/choose_rng.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-choose_rng.Tpo $(DEPDIR)/dieharder-choose_rng.Po
+#	source='choose_rng.c' object='dieharder-choose_rng.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-choose_rng.obj `if test -f 'choose_rng.c'; then $(CYGPATH_W) 'choose_rng.c'; else $(CYGPATH_W) '$(srcdir)/choose_rng.c'; fi`
+
+dieharder-dieharder.o: dieharder.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-dieharder.o -MD -MP -MF $(DEPDIR)/dieharder-dieharder.Tpo -c -o dieharder-dieharder.o `test -f 'dieharder.c' || echo '$(srcdir)/'`dieharder.c
+	$(am__mv) $(DEPDIR)/dieharder-dieharder.Tpo $(DEPDIR)/dieharder-dieharder.Po
+#	source='dieharder.c' object='dieharder-dieharder.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-dieharder.o `test -f 'dieharder.c' || echo '$(srcdir)/'`dieharder.c
+
+dieharder-dieharder.obj: dieharder.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-dieharder.obj -MD -MP -MF $(DEPDIR)/dieharder-dieharder.Tpo -c -o dieharder-dieharder.obj `if test -f 'dieharder.c'; then $(CYGPATH_W) 'dieharder.c'; else $(CYGPATH_W) '$(srcdir)/dieharder.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-dieharder.Tpo $(DEPDIR)/dieharder-dieharder.Po
+#	source='dieharder.c' object='dieharder-dieharder.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-dieharder.obj `if test -f 'dieharder.c'; then $(CYGPATH_W) 'dieharder.c'; else $(CYGPATH_W) '$(srcdir)/dieharder.c'; fi`
+
+dieharder-dieharder_exit.o: dieharder_exit.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-dieharder_exit.o -MD -MP -MF $(DEPDIR)/dieharder-dieharder_exit.Tpo -c -o dieharder-dieharder_exit.o `test -f 'dieharder_exit.c' || echo '$(srcdir)/'`dieharder_exit.c
+	$(am__mv) $(DEPDIR)/dieharder-dieharder_exit.Tpo $(DEPDIR)/dieharder-dieharder_exit.Po
+#	source='dieharder_exit.c' object='dieharder-dieharder_exit.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-dieharder_exit.o `test -f 'dieharder_exit.c' || echo '$(srcdir)/'`dieharder_exit.c
+
+dieharder-dieharder_exit.obj: dieharder_exit.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-dieharder_exit.obj -MD -MP -MF $(DEPDIR)/dieharder-dieharder_exit.Tpo -c -o dieharder-dieharder_exit.obj `if test -f 'dieharder_exit.c'; then $(CYGPATH_W) 'dieharder_exit.c'; else $(CYGPATH_W) '$(srcdir)/dieharder_exit.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-dieharder_exit.Tpo $(DEPDIR)/dieharder-dieharder_exit.Po
+#	source='dieharder_exit.c' object='dieharder-dieharder_exit.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-dieharder_exit.obj `if test -f 'dieharder_exit.c'; then $(CYGPATH_W) 'dieharder_exit.c'; else $(CYGPATH_W) '$(srcdir)/dieharder_exit.c'; fi`
+
+dieharder-help.o: help.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-help.o -MD -MP -MF $(DEPDIR)/dieharder-help.Tpo -c -o dieharder-help.o `test -f 'help.c' || echo '$(srcdir)/'`help.c
+	$(am__mv) $(DEPDIR)/dieharder-help.Tpo $(DEPDIR)/dieharder-help.Po
+#	source='help.c' object='dieharder-help.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-help.o `test -f 'help.c' || echo '$(srcdir)/'`help.c
+
+dieharder-help.obj: help.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-help.obj -MD -MP -MF $(DEPDIR)/dieharder-help.Tpo -c -o dieharder-help.obj `if test -f 'help.c'; then $(CYGPATH_W) 'help.c'; else $(CYGPATH_W) '$(srcdir)/help.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-help.Tpo $(DEPDIR)/dieharder-help.Po
+#	source='help.c' object='dieharder-help.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-help.obj `if test -f 'help.c'; then $(CYGPATH_W) 'help.c'; else $(CYGPATH_W) '$(srcdir)/help.c'; fi`
+
+dieharder-list_rngs.o: list_rngs.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-list_rngs.o -MD -MP -MF $(DEPDIR)/dieharder-list_rngs.Tpo -c -o dieharder-list_rngs.o `test -f 'list_rngs.c' || echo '$(srcdir)/'`list_rngs.c
+	$(am__mv) $(DEPDIR)/dieharder-list_rngs.Tpo $(DEPDIR)/dieharder-list_rngs.Po
+#	source='list_rngs.c' object='dieharder-list_rngs.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-list_rngs.o `test -f 'list_rngs.c' || echo '$(srcdir)/'`list_rngs.c
+
+dieharder-list_rngs.obj: list_rngs.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-list_rngs.obj -MD -MP -MF $(DEPDIR)/dieharder-list_rngs.Tpo -c -o dieharder-list_rngs.obj `if test -f 'list_rngs.c'; then $(CYGPATH_W) 'list_rngs.c'; else $(CYGPATH_W) '$(srcdir)/list_rngs.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-list_rngs.Tpo $(DEPDIR)/dieharder-list_rngs.Po
+#	source='list_rngs.c' object='dieharder-list_rngs.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-list_rngs.obj `if test -f 'list_rngs.c'; then $(CYGPATH_W) 'list_rngs.c'; else $(CYGPATH_W) '$(srcdir)/list_rngs.c'; fi`
+
+dieharder-list_tests.o: list_tests.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-list_tests.o -MD -MP -MF $(DEPDIR)/dieharder-list_tests.Tpo -c -o dieharder-list_tests.o `test -f 'list_tests.c' || echo '$(srcdir)/'`list_tests.c
+	$(am__mv) $(DEPDIR)/dieharder-list_tests.Tpo $(DEPDIR)/dieharder-list_tests.Po
+#	source='list_tests.c' object='dieharder-list_tests.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-list_tests.o `test -f 'list_tests.c' || echo '$(srcdir)/'`list_tests.c
+
+dieharder-list_tests.obj: list_tests.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-list_tests.obj -MD -MP -MF $(DEPDIR)/dieharder-list_tests.Tpo -c -o dieharder-list_tests.obj `if test -f 'list_tests.c'; then $(CYGPATH_W) 'list_tests.c'; else $(CYGPATH_W) '$(srcdir)/list_tests.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-list_tests.Tpo $(DEPDIR)/dieharder-list_tests.Po
+#	source='list_tests.c' object='dieharder-list_tests.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-list_tests.obj `if test -f 'list_tests.c'; then $(CYGPATH_W) 'list_tests.c'; else $(CYGPATH_W) '$(srcdir)/list_tests.c'; fi`
+
+dieharder-output.o: output.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-output.o -MD -MP -MF $(DEPDIR)/dieharder-output.Tpo -c -o dieharder-output.o `test -f 'output.c' || echo '$(srcdir)/'`output.c
+	$(am__mv) $(DEPDIR)/dieharder-output.Tpo $(DEPDIR)/dieharder-output.Po
+#	source='output.c' object='dieharder-output.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-output.o `test -f 'output.c' || echo '$(srcdir)/'`output.c
+
+dieharder-output.obj: output.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-output.obj -MD -MP -MF $(DEPDIR)/dieharder-output.Tpo -c -o dieharder-output.obj `if test -f 'output.c'; then $(CYGPATH_W) 'output.c'; else $(CYGPATH_W) '$(srcdir)/output.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-output.Tpo $(DEPDIR)/dieharder-output.Po
+#	source='output.c' object='dieharder-output.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-output.obj `if test -f 'output.c'; then $(CYGPATH_W) 'output.c'; else $(CYGPATH_W) '$(srcdir)/output.c'; fi`
+
+dieharder-output_rnds.o: output_rnds.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-output_rnds.o -MD -MP -MF $(DEPDIR)/dieharder-output_rnds.Tpo -c -o dieharder-output_rnds.o `test -f 'output_rnds.c' || echo '$(srcdir)/'`output_rnds.c
+	$(am__mv) $(DEPDIR)/dieharder-output_rnds.Tpo $(DEPDIR)/dieharder-output_rnds.Po
+#	source='output_rnds.c' object='dieharder-output_rnds.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-output_rnds.o `test -f 'output_rnds.c' || echo '$(srcdir)/'`output_rnds.c
+
+dieharder-output_rnds.obj: output_rnds.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-output_rnds.obj -MD -MP -MF $(DEPDIR)/dieharder-output_rnds.Tpo -c -o dieharder-output_rnds.obj `if test -f 'output_rnds.c'; then $(CYGPATH_W) 'output_rnds.c'; else $(CYGPATH_W) '$(srcdir)/output_rnds.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-output_rnds.Tpo $(DEPDIR)/dieharder-output_rnds.Po
+#	source='output_rnds.c' object='dieharder-output_rnds.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-output_rnds.obj `if test -f 'output_rnds.c'; then $(CYGPATH_W) 'output_rnds.c'; else $(CYGPATH_W) '$(srcdir)/output_rnds.c'; fi`
+
+dieharder-parsecl.o: parsecl.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-parsecl.o -MD -MP -MF $(DEPDIR)/dieharder-parsecl.Tpo -c -o dieharder-parsecl.o `test -f 'parsecl.c' || echo '$(srcdir)/'`parsecl.c
+	$(am__mv) $(DEPDIR)/dieharder-parsecl.Tpo $(DEPDIR)/dieharder-parsecl.Po
+#	source='parsecl.c' object='dieharder-parsecl.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-parsecl.o `test -f 'parsecl.c' || echo '$(srcdir)/'`parsecl.c
+
+dieharder-parsecl.obj: parsecl.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-parsecl.obj -MD -MP -MF $(DEPDIR)/dieharder-parsecl.Tpo -c -o dieharder-parsecl.obj `if test -f 'parsecl.c'; then $(CYGPATH_W) 'parsecl.c'; else $(CYGPATH_W) '$(srcdir)/parsecl.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-parsecl.Tpo $(DEPDIR)/dieharder-parsecl.Po
+#	source='parsecl.c' object='dieharder-parsecl.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-parsecl.obj `if test -f 'parsecl.c'; then $(CYGPATH_W) 'parsecl.c'; else $(CYGPATH_W) '$(srcdir)/parsecl.c'; fi`
+
+dieharder-rdieharder.o: rdieharder.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-rdieharder.o -MD -MP -MF $(DEPDIR)/dieharder-rdieharder.Tpo -c -o dieharder-rdieharder.o `test -f 'rdieharder.c' || echo '$(srcdir)/'`rdieharder.c
+	$(am__mv) $(DEPDIR)/dieharder-rdieharder.Tpo $(DEPDIR)/dieharder-rdieharder.Po
+#	source='rdieharder.c' object='dieharder-rdieharder.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-rdieharder.o `test -f 'rdieharder.c' || echo '$(srcdir)/'`rdieharder.c
+
+dieharder-rdieharder.obj: rdieharder.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-rdieharder.obj -MD -MP -MF $(DEPDIR)/dieharder-rdieharder.Tpo -c -o dieharder-rdieharder.obj `if test -f 'rdieharder.c'; then $(CYGPATH_W) 'rdieharder.c'; else $(CYGPATH_W) '$(srcdir)/rdieharder.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-rdieharder.Tpo $(DEPDIR)/dieharder-rdieharder.Po
+#	source='rdieharder.c' object='dieharder-rdieharder.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-rdieharder.obj `if test -f 'rdieharder.c'; then $(CYGPATH_W) 'rdieharder.c'; else $(CYGPATH_W) '$(srcdir)/rdieharder.c'; fi`
+
+dieharder-run_all_tests.o: run_all_tests.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-run_all_tests.o -MD -MP -MF $(DEPDIR)/dieharder-run_all_tests.Tpo -c -o dieharder-run_all_tests.o `test -f 'run_all_tests.c' || echo '$(srcdir)/'`run_all_tests.c
+	$(am__mv) $(DEPDIR)/dieharder-run_all_tests.Tpo $(DEPDIR)/dieharder-run_all_tests.Po
+#	source='run_all_tests.c' object='dieharder-run_all_tests.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-run_all_tests.o `test -f 'run_all_tests.c' || echo '$(srcdir)/'`run_all_tests.c
+
+dieharder-run_all_tests.obj: run_all_tests.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-run_all_tests.obj -MD -MP -MF $(DEPDIR)/dieharder-run_all_tests.Tpo -c -o dieharder-run_all_tests.obj `if test -f 'run_all_tests.c'; then $(CYGPATH_W) 'run_all_tests.c'; else $(CYGPATH_W) '$(srcdir)/run_all_tests.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-run_all_tests.Tpo $(DEPDIR)/dieharder-run_all_tests.Po
+#	source='run_all_tests.c' object='dieharder-run_all_tests.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-run_all_tests.obj `if test -f 'run_all_tests.c'; then $(CYGPATH_W) 'run_all_tests.c'; else $(CYGPATH_W) '$(srcdir)/run_all_tests.c'; fi`
+
+dieharder-run_test.o: run_test.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-run_test.o -MD -MP -MF $(DEPDIR)/dieharder-run_test.Tpo -c -o dieharder-run_test.o `test -f 'run_test.c' || echo '$(srcdir)/'`run_test.c
+	$(am__mv) $(DEPDIR)/dieharder-run_test.Tpo $(DEPDIR)/dieharder-run_test.Po
+#	source='run_test.c' object='dieharder-run_test.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-run_test.o `test -f 'run_test.c' || echo '$(srcdir)/'`run_test.c
+
+dieharder-run_test.obj: run_test.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-run_test.obj -MD -MP -MF $(DEPDIR)/dieharder-run_test.Tpo -c -o dieharder-run_test.obj `if test -f 'run_test.c'; then $(CYGPATH_W) 'run_test.c'; else $(CYGPATH_W) '$(srcdir)/run_test.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-run_test.Tpo $(DEPDIR)/dieharder-run_test.Po
+#	source='run_test.c' object='dieharder-run_test.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-run_test.obj `if test -f 'run_test.c'; then $(CYGPATH_W) 'run_test.c'; else $(CYGPATH_W) '$(srcdir)/run_test.c'; fi`
+
+dieharder-set_globals.o: set_globals.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-set_globals.o -MD -MP -MF $(DEPDIR)/dieharder-set_globals.Tpo -c -o dieharder-set_globals.o `test -f 'set_globals.c' || echo '$(srcdir)/'`set_globals.c
+	$(am__mv) $(DEPDIR)/dieharder-set_globals.Tpo $(DEPDIR)/dieharder-set_globals.Po
+#	source='set_globals.c' object='dieharder-set_globals.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-set_globals.o `test -f 'set_globals.c' || echo '$(srcdir)/'`set_globals.c
+
+dieharder-set_globals.obj: set_globals.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-set_globals.obj -MD -MP -MF $(DEPDIR)/dieharder-set_globals.Tpo -c -o dieharder-set_globals.obj `if test -f 'set_globals.c'; then $(CYGPATH_W) 'set_globals.c'; else $(CYGPATH_W) '$(srcdir)/set_globals.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-set_globals.Tpo $(DEPDIR)/dieharder-set_globals.Po
+#	source='set_globals.c' object='dieharder-set_globals.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-set_globals.obj `if test -f 'set_globals.c'; then $(CYGPATH_W) 'set_globals.c'; else $(CYGPATH_W) '$(srcdir)/set_globals.c'; fi`
+
+dieharder-testbits.o: testbits.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-testbits.o -MD -MP -MF $(DEPDIR)/dieharder-testbits.Tpo -c -o dieharder-testbits.o `test -f 'testbits.c' || echo '$(srcdir)/'`testbits.c
+	$(am__mv) $(DEPDIR)/dieharder-testbits.Tpo $(DEPDIR)/dieharder-testbits.Po
+#	source='testbits.c' object='dieharder-testbits.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-testbits.o `test -f 'testbits.c' || echo '$(srcdir)/'`testbits.c
+
+dieharder-testbits.obj: testbits.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-testbits.obj -MD -MP -MF $(DEPDIR)/dieharder-testbits.Tpo -c -o dieharder-testbits.obj `if test -f 'testbits.c'; then $(CYGPATH_W) 'testbits.c'; else $(CYGPATH_W) '$(srcdir)/testbits.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-testbits.Tpo $(DEPDIR)/dieharder-testbits.Po
+#	source='testbits.c' object='dieharder-testbits.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-testbits.obj `if test -f 'testbits.c'; then $(CYGPATH_W) 'testbits.c'; else $(CYGPATH_W) '$(srcdir)/testbits.c'; fi`
+
+dieharder-time_rng.o: time_rng.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-time_rng.o -MD -MP -MF $(DEPDIR)/dieharder-time_rng.Tpo -c -o dieharder-time_rng.o `test -f 'time_rng.c' || echo '$(srcdir)/'`time_rng.c
+	$(am__mv) $(DEPDIR)/dieharder-time_rng.Tpo $(DEPDIR)/dieharder-time_rng.Po
+#	source='time_rng.c' object='dieharder-time_rng.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-time_rng.o `test -f 'time_rng.c' || echo '$(srcdir)/'`time_rng.c
+
+dieharder-time_rng.obj: time_rng.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-time_rng.obj -MD -MP -MF $(DEPDIR)/dieharder-time_rng.Tpo -c -o dieharder-time_rng.obj `if test -f 'time_rng.c'; then $(CYGPATH_W) 'time_rng.c'; else $(CYGPATH_W) '$(srcdir)/time_rng.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-time_rng.Tpo $(DEPDIR)/dieharder-time_rng.Po
+#	source='time_rng.c' object='dieharder-time_rng.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-time_rng.obj `if test -f 'time_rng.c'; then $(CYGPATH_W) 'time_rng.c'; else $(CYGPATH_W) '$(srcdir)/time_rng.c'; fi`
+
+dieharder-user_template.o: user_template.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-user_template.o -MD -MP -MF $(DEPDIR)/dieharder-user_template.Tpo -c -o dieharder-user_template.o `test -f 'user_template.c' || echo '$(srcdir)/'`user_template.c
+	$(am__mv) $(DEPDIR)/dieharder-user_template.Tpo $(DEPDIR)/dieharder-user_template.Po
+#	source='user_template.c' object='dieharder-user_template.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-user_template.o `test -f 'user_template.c' || echo '$(srcdir)/'`user_template.c
+
+dieharder-user_template.obj: user_template.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-user_template.obj -MD -MP -MF $(DEPDIR)/dieharder-user_template.Tpo -c -o dieharder-user_template.obj `if test -f 'user_template.c'; then $(CYGPATH_W) 'user_template.c'; else $(CYGPATH_W) '$(srcdir)/user_template.c'; fi`
+	$(am__mv) $(DEPDIR)/dieharder-user_template.Tpo $(DEPDIR)/dieharder-user_template.Po
+#	source='user_template.c' object='dieharder-user_template.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-user_template.obj `if test -f 'user_template.c'; then $(CYGPATH_W) 'user_template.c'; else $(CYGPATH_W) '$(srcdir)/user_template.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo

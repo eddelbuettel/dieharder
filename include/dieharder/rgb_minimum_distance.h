@@ -7,7 +7,7 @@
  */
 int rgb_minimum_distance(Test **test,int irun);
 
-static Dtest rgb_minimum_distance_dtest = {
+static Dtest rgb_minimum_distance_dtest __attribute__((unused)) = {
   "RGB Generalized Minimum Distance Test",
   "rgb_minimum_distance",
   "#\n\

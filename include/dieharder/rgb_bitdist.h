@@ -7,7 +7,7 @@
  */
 int rgb_bitdist(Test **test,int irun);
 
-static Dtest rgb_bitdist_dtest = {
+static Dtest rgb_bitdist_dtest __attribute__((unused)) = {
   "RGB Bit Distribution Test",
   "rgb_bitdist",
   "\n\

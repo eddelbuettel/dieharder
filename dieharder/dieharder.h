@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: dieharder.h 473 2008-09-22 07:29:33Z rgbatduke $
+ * $Id: dieharder.h 529 2011-04-01 17:49:31Z rgbatduke $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -24,7 +24,7 @@
  * blank the default because it is hard to specify a blank on the CL but
  * easy to specify the others?
  */
-uint tflag,tflag_default;
+unsigned int tflag,tflag_default;
 char table_separator;
 #include "output.h"
 
@@ -50,6 +50,19 @@ double strategy;
  Dtest *rdh_dtestptr;		/* kludge: need a global to report back to R */
 #endif
 
+ void list_rngs();
+ void list_tests();
+ void output_rnds();
+ void Exit(int);
+ void time_rng();
+ void set_globals();
+ void choose_rng();
+ int execute_test(int);
+ void run_all_tests();
+ void run_test();
+ void add_ui_rngs();
+ void parsecl(int argc, char **argv);
+ void output(Dtest *dtest,Test **test);
  void show_test_header(Dtest *dtest,Test **test);
  void show_test_header_debug(Dtest *dtest,Test **test);
  void test_header(Dtest *dtest);

@@ -14,9 +14,15 @@
 #include <stdarg.h>
 #include <string.h>
 #include <sys/time.h>
+
+/* This turns on uint macro in c99 */
+#define __USE_MISC 1
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+/* This turns on M_PI in math.h */
+#define __USE_BSD 1
 #include <math.h>
 #include <limits.h>
 #include <gsl/gsl_rng.h>
@@ -89,10 +95,12 @@
  void measure_rate();
  void Usage();
  void help();
+ void dh_header();
+ void dh_version();
  double binomial(unsigned int n, unsigned int k, double p);
  double chisq_eval(double *x,double *y,double *sigma, unsigned int n);
- double chisq_poisson(uint *observed,double lambda,int kmax,uint nsamp);
- double chisq_binomial(double *observed,double prob,uint kmax,uint nsamp);
+ double chisq_poisson(unsigned int *observed,double lambda,int kmax,unsigned int nsamp);
+ double chisq_binomial(double *observed,double prob,unsigned int kmax,unsigned int nsamp);
  double chisq_pearson(double *observed,double *expected,int kmax);
  double sample(void *testfunc());
  double kstest(double *pvalue,int count);
@@ -102,35 +110,35 @@
 
  void histogram(double *input, char *pvlabel, int inum, double min, double max, int nbins, char *label);
 
- uint get_bit_ntuple(uint *bitstring,uint bslen,uint blen,uint boffset);
+ unsigned int get_bit_ntuple(unsigned int *bitstring,unsigned int bslen,unsigned int blen,unsigned int boffset);
  void dumpbits(unsigned int *data, unsigned int nbits);
- void dumpbitwin(uint data, uint nbits);
+ void dumpbitwin(unsigned int data, unsigned int nbits);
  void dumpuintbits(unsigned int *data, unsigned int nbits);
  void cycle(unsigned int *data, unsigned int nbits);
- int get_bit(uint *rand_uint, unsigned int n);
- int get_bit(uint *rand_uint, unsigned int n);
+ int get_bit(unsigned int *rand_uint, unsigned int n);
+ int get_bit(unsigned int *rand_uint, unsigned int n);
  void dumpbits_left(unsigned int *data, unsigned int nbits);
  unsigned int bit2uint(char *abit,unsigned int blen);
- void fill_uint_buffer(uint *data,uint buflength);
- uint b_umask(uint bstart,uint bstop);
- uint b_window(uint input,uint bstart,uint bstop,uint boffset);
- uint b_rotate_left(uint input,uint shift);
- uint b_rotate_right(uint input, uint shift);
- void get_ntuple_cyclic(uint *input,uint ilen,
-    uint *output,uint jlen,uint ntuple,uint offset);
- uint get_uint_rand(gsl_rng *gsl_rng);
- void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng);
+ void fill_uint_buffer(unsigned int *data,unsigned int buflength);
+ unsigned int b_umask(unsigned int bstart,unsigned int bstop);
+ unsigned int b_window(unsigned int input,unsigned int bstart,unsigned int bstop,unsigned int boffset);
+ unsigned int b_rotate_left(unsigned int input,unsigned int shift);
+ unsigned int b_rotate_right(unsigned int input, unsigned int shift);
+ void get_ntuple_cyclic(unsigned int *input,unsigned int ilen,
+    unsigned int *output,unsigned int jlen,unsigned int ntuple,unsigned int offset);
+ unsigned int get_uint_rand(gsl_rng *gsl_rng);
+ void get_rand_bits(void *result,unsigned int rsize,unsigned int nbits,gsl_rng *gsl_rng);
  void mybitadd(char *dst, int doffset, char *src, int soffset, int slen);
- void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng);
+ void get_rand_pattern(void *result,unsigned int rsize,int *pattern,gsl_rng *gsl_rng);
  void reset_bit_buffers();
 
 /* Cruft
- int get_int_bit(uint i, uint n);
+ int get_int_bit(unsigned int i, unsigned int n);
 */
 
  void add_lib_rngs();
 
- int binary_rank(uint **mtx,int mrows,int ncols);
+ int binary_rank(unsigned int **mtx,int mrows,int ncols);
     
  /*
   *========================================================================
@@ -139,15 +147,15 @@
   * The primary control variables, in alphabetical order, with comments.
   *========================================================================
   */
- uint all;              /* Flag to do all tests on selected generator */
- uint binary;           /* Flag to output rands in binary (with -o -f) */
- uint bits;             /* bitstring size (in bits) */
- uint diehard;          /* Diehard test number */
- uint generator;        /* GSL generator id number to be tested */
+ unsigned int all;              /* Flag to do all tests on selected generator */
+ unsigned int binary;           /* Flag to output rands in binary (with -o -f) */
+ unsigned int bits;             /* bitstring size (in bits) */
+ unsigned int diehard;          /* Diehard test number */
+ unsigned int generator;        /* GSL generator id number to be tested */
  /*
   * We will still need generator above, if only to select the XOR
   * generator.  I need to make its number something that will pretty much
-  * never collide, e.g. -1 cast to a uint.  I'm making an arbitrary
+  * never collide, e.g. -1 cast to a unsigned int.  I'm making an arbitrary
   * decision to set the upper bound of the number of generators that can
   * be XOR'd together to 100, but of course as a macro you can increase or
   * decrease it and recompile.  Ordinarily, users will not select XOR --
@@ -161,35 +169,35 @@
   */
 #define GVECMAX 100
  char gnames[GVECMAX][128];  /* VECTOR of names to be XOR'd into a "super" generator */
- uint gseeds[GVECMAX];       /* VECTOR of uint seeds used for the "super" generators */
- uint gnumbs[GVECMAX];       /* VECTOR of GSL generators to be XOR'd into a "super" generator */
- uint gvcount;               /* Number of generators to be XOR'd into a "super" generator */
- uint gscount;               /* Number of seeds entered on the CL in XOR mode */
- uint help_flag;        /* Help flag */
- uint hist_flag;        /* Histogram display flag */
- uint iterations;	/* For timing loop, set iterations to be timed */
- uint ks_test;          /* Selects the KS test to be used, 0 = Kuiper 1 = Anderson-Darling */
- uint list;             /* List all tests flag */
- uint List;             /* List all generators flag */
+ unsigned int gseeds[GVECMAX];       /* VECTOR of unsigned int seeds used for the "super" generators */
+ unsigned int gnumbs[GVECMAX];       /* VECTOR of GSL generators to be XOR'd into a "super" generator */
+ unsigned int gvcount;               /* Number of generators to be XOR'd into a "super" generator */
+ unsigned int gscount;               /* Number of seeds entered on the CL in XOR mode */
+ unsigned int help_flag;        /* Help flag */
+ unsigned int hist_flag;        /* Histogram display flag */
+ unsigned int iterations;	/* For timing loop, set iterations to be timed */
+ unsigned int ks_test;          /* Selects the KS test to be used, 0 = Kuiper 1 = Anderson-Darling */
+ unsigned int list;             /* List all tests flag */
+ unsigned int List;             /* List all generators flag */
  double multiply_p;	/* multiplier for default # of psamples in -a(ll) */
- uint ntuple;           /* n-tuple size for n-tuple tests */
- uint num_randoms;      /* the number of randoms stored into memory and usable */
- uint output_file;      /* equals 1 if you output to file, otherwise 0. */
- uint output_format;    /* equals 0 (binary), 1 (uint), 2 (decimal) output */
- uint overlap;          /* 1 use overlapping samples, 0 don't (for tests with the option) */
- uint psamples;         /* Number of test runs in final KS test */
- uint quiet;            /* quiet flag -- surpresses full output report */
- uint rgb;              /* rgb test number */
- uint sts;              /* sts test number */
- uint Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
+ unsigned int ntuple;           /* n-tuple size for n-tuple tests */
+ unsigned int num_randoms;      /* the number of randoms stored into memory and usable */
+ unsigned int output_file;      /* equals 1 if you output to file, otherwise 0. */
+ unsigned int output_format;    /* equals 0 (binary), 1 (unsigned int), 2 (decimal) output */
+ unsigned int overlap;          /* 1 use overlapping samples, 0 don't (for tests with the option) */
+ unsigned int psamples;         /* Number of test runs in final KS test */
+ unsigned int quiet;            /* quiet flag -- surpresses full output report */
+ unsigned int rgb;              /* rgb test number */
+ unsigned int sts;              /* sts test number */
+ unsigned int Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
  off_t tsamples;        /* Generally should be "a lot".  off_t is u_int64_t. */
- uint user;             /* user defined test number */
- uint verbose;          /* Default is not to be verbose. */
+ unsigned int user;             /* user defined test number */
+ unsigned int verbose;          /* Default is not to be verbose. */
  double Xweak;          /* "Weak" generator cut-off (one sided) */
  double Xfail;          /* "Unambiguous Fail" generator cut-off (one sided) */
- uint Xtrategy;         /* Strategy used in TTD mode */
- uint Xstep;            /* Number of additional psamples in TTD/RA mode */
- uint Xoff;             /* Max number of psamples in TTD/RA mode */
+ unsigned int Xtrategy;         /* Strategy used in TTD mode */
+ unsigned int Xstep;            /* Number of additional psamples in TTD/RA mode */
+ unsigned int Xoff;             /* Max number of psamples in TTD/RA mode */
  double x_user;         /* Reserved general purpose command line inputs for */
  double y_user;         /* use in any new user test. */
  double z_user;
@@ -225,9 +233,9 @@
   * Global variables and prototypes associated with file_input and
   * file_input_raw.
   */
- uint file_input_get_rewind_cnt(gsl_rng *rng);
+ unsigned int file_input_get_rewind_cnt(gsl_rng *rng);
  off_t file_input_get_rtot(gsl_rng *rng);
- void file_input_set_rtot(gsl_rng *rng,uint value);
+ void file_input_set_rtot(gsl_rng *rng,unsigned int value);
 
  char filename[K];      /* Input file name */
  int fromfile;		/* set true if file is used for rands */
@@ -255,7 +263,7 @@
     off_t flen;
     off_t rptr;
     off_t rtot;
-    uint rewind_cnt;
+    unsigned int rewind_cnt;
   } file_input_state_t;
 
 
@@ -276,7 +284,7 @@
  unsigned int random_max;       /* maximum rng returned by generator */
  unsigned int rmax;             /* scratch space for random_max manipulation */
  unsigned int rmax_bits;        /* Number of valid bits in rng */
- unsigned int rmax_mask;        /* Mask for valid section of uint */
+ unsigned int rmax_mask;        /* Mask for valid section of unsigned int */
  
 /*
  * dTuple is used in a couple of my tests, but it seems like an

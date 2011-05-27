@@ -1,4 +1,9 @@
 nobase_include_HEADERS = dieharder/copyright.h \
+	dieharder/dab_bytedistrib.h \
+	dieharder/dab_dct.h \
+	dieharder/dab_filltree2.h \
+	dieharder/dab_filltree.h \
+	dieharder/dab_monobit2.h \
 	dieharder/dieharder_rng_types.h \
 	dieharder/dieharder_test_types.h \
 	dieharder/diehard_2dsphere.h \
@@ -39,4 +44,9 @@ nobase_include_HEADERS = dieharder/copyright.h \
 	dieharder/tests.h \
 	dieharder/verbose.h \
 	dieharder/Vtest.h \
-	dieharder/Xtest.h
+	dieharder/Xtest.h \
+	dieharder/dab_bytedistrib.h \
+	dieharder/dab_dct.h \
+	dieharder/dab_filltree2.h \
+	dieharder/dab_filltree.h \
+	dieharder/dab_monobit2.h

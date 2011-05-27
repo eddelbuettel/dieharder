@@ -35,7 +35,7 @@
  * maximal reuse of code in the UI or elsewhere.
  */
 
-static uint save_psamples;
+/* static uint save_psamples; */
 
 /*
  * Create a new test that will return nkps p-values per single pass,
@@ -46,7 +46,7 @@ static uint save_psamples;
 Test **create_test(Dtest *dtest, uint tsamples,uint psamples)
 {
 
- uint i,j,k;
+ uint i,j;
  uint pcutoff;
  Test **newtest;
 
@@ -215,7 +215,7 @@ void clear_test(Dtest *dtest, Test **test)
 void add_2_test(Dtest *dtest, Test **test, int count)
 {
 
- uint i,j,k,imax;
+ uint i,j,imax;
 
 
  /*
@@ -266,7 +266,7 @@ void add_2_test(Dtest *dtest, Test **test, int count)
 void std_test(Dtest *dtest, Test **test)
 {
 
- int i,j,count;
+ int j,count;
  double pmax = 0.0;
 
  /*

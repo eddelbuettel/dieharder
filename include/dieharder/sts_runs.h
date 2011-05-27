@@ -7,7 +7,7 @@
  */
 int sts_runs(Test **test,int irun);
 
-static Dtest sts_runs_dtest = {
+static Dtest sts_runs_dtest __attribute__((unused)) = {
   "STS Runs Test",
   "sts_runs",
   "\

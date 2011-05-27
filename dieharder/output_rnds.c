@@ -15,15 +15,15 @@
 
 #include "dieharder.h"
 
-double output_rnds()
+void output_rnds()
 {
 
- uint i,j;
+ unsigned int i,j;
  double d;
  FILE *fp;
 
  if(verbose) {
-   fprintf(stderr,"# output_rnds: Dumping %u rands\n",tsamples);
+   fprintf(stderr,"# output_rnds: Dumping %lu rands\n",tsamples);
  }
 
  /*
@@ -32,13 +32,13 @@ double output_rnds()
  if(Seed){
    seed = Seed;
    if(verbose) {
-     fprintf(stderr,"# output_rnds: seeding rng %d with %ul\n",rng,seed);
+     fprintf(stderr,"# output_rnds: seeding rng %s with %lu\n",gsl_rng_name(rng),seed);
    }
    gsl_rng_set(rng,seed);
  } else {
    seed = random_seed();
    if(verbose) {
-     fprintf(stderr,"# output_rnds: seeding rng %d with %ul\n",rng,seed);
+     fprintf(stderr,"# output_rnds: seeding rng %s with %lu\n",gsl_rng_name(rng),seed);
    }
    gsl_rng_set(rng,seed);
  }
@@ -60,7 +60,7 @@ double output_rnds()
  }
 
  if(verbose) {
-   fprintf(stderr,"# output_rnds: Opened %s as fp = %u\n",filename,fp);
+   fprintf(stderr,"# output_rnds: Opened %s\n",filename);
  }
  /*
   * We completely change the way we control output.
@@ -84,7 +84,7 @@ double output_rnds()
      if(tsamples > 0){
        for(i=0;i<tsamples;i++){
          j = gsl_rng_get(rng);
-         fwrite(&j,sizeof(uint),1,fp);
+         fwrite(&j,sizeof(unsigned int),1,fp);
          /*
           * Printing to stderr lets me read it and pass the binaries on through
           * to stdout and a pipe.
@@ -103,7 +103,7 @@ double output_rnds()
         */
        while(1){
          j = gsl_rng_get(rng);
-         fwrite(&j,sizeof(uint),1,fp);
+         fwrite(&j,sizeof(unsigned int),1,fp);
          /*
           * Printing to stderr lets me read it and pass the binaries on through
           * to stdout and a pipe.
@@ -116,9 +116,9 @@ double output_rnds()
      break;
    case 1:
      fprintf(fp,"#==================================================================\n");
-     fprintf(fp,"# generator %s  seed = %u\n",gsl_rng_name(rng),seed);
+     fprintf(fp,"# generator %s  seed = %lu\n",gsl_rng_name(rng),seed);
      fprintf(fp,"#==================================================================\n");
-     fprintf(fp,"type: d\ncount: %i\nnumbit: 32\n",tsamples);
+     fprintf(fp,"type: d\ncount: %lu\nnumbit: 32\n",tsamples);
      for(i=0;i<tsamples;i++){
        j = gsl_rng_get(rng);
        fprintf(fp,"%10u\n",j);
@@ -126,9 +126,9 @@ double output_rnds()
      break;
    case 2:
      fprintf(fp,"#==================================================================\n");
-     fprintf(fp,"# generator %s  seed = %u\n",gsl_rng_name(rng),seed);
+     fprintf(fp,"# generator %s  seed = %lu\n",gsl_rng_name(rng),seed);
      fprintf(fp,"#==================================================================\n");
-     fprintf(fp,"type: f\ncount: %i\nnumbit: 32\n",tsamples);
+     fprintf(fp,"type: f\ncount: %lu\nnumbit: 32\n",tsamples);
      for(i=0;i<tsamples;i++){
        d = gsl_rng_uniform(rng);
        fprintf(fp,"%0.10f\n",d);

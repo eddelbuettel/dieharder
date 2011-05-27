@@ -129,9 +129,17 @@ to build an RPM by using the make target:  "make rpm" (after setting up
 a private RPM build tree).  No root privileges are needed to build the
 rpms in this way.  
 
-                              DEBIAN
+                          Debian / Ubuntu
 
-When Dirk finishes this, we'll fill it in.
+Dieharder has been in Debian since February 2007. Therefore, on most current
+Debian or Ubuntu systems a simple
+
+   sudo apt-get install dieharder
+
+installs the command-line (which itself also install the shared library
+package it depends upon). In order develop against the Dieharder API, run
+
+   sudo apt-get install libdieharder-dev
 
 ========================================================================
 
@@ -142,7 +150,7 @@ been kept under revision control (first CVS, more recently Subversion)
 since the inception of the process in 2003 and all incremental changes
 to the code as it was developed are carefully documented.
 
-Dieharder was deliberately developed to by a GPL project, since
+Dieharder was deliberately developed to be a GPL project, since
 alternative random number test suites were either incomplete with regard
 to the span of test possibilities of interest to the author, restricted
 or unclear about their licensing restrictions, or both.  In addition, by

@@ -63,7 +63,6 @@
 int rgb_bitdist(Test **test,int irun)
 {
 
- uint bsize;       /* number of bits in the sample buffer */
  uint nb;          /* number of bits in a tested ntuple */
  uint value_max;   /* 2^{nb}, basically (max size of nb bit word + 1) */
  uint bsamples;    /* The number of non-overlapping samples in buffer */
@@ -76,8 +75,7 @@ int rgb_bitdist(Test **test,int irun)
  uint ri;
  uint *count,ctotal; /* count of any ntuple per bitstring */
 
- uint size;
- double pvalue,ntuple_prob,pbin;  /* probabilities */
+ double ntuple_prob,pbin;  /* probabilities */
  Vtest *vtest;               /* A reusable vector of binomial test bins */
 
  /*

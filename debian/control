@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Standards-Version: 3.9.1
-Build-Depends: debhelper (>= 7), libgsl0-dev, cdbs, automake, libtool, gs-common, texlive-base, texlive-latex-base, texlive-generic-recommended
+Build-Depends: debhelper (>= 7), libgsl0-dev, automake, libtool, gs-common, texlive-base, texlive-latex-base, texlive-generic-recommended
 
 Package: dieharder
 Architecture: any

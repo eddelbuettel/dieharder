@@ -7,7 +7,7 @@
  */
 int sts_serial(Test **test,int irun);
 
-static Dtest sts_serial_dtest = {
+static Dtest sts_serial_dtest __attribute__((unused)) = {
   "STS Serial Test (Generalized)",
   "sts_serial",
   "\

@@ -17,13 +17,13 @@
    char *description;
 
    /* Standard test default */
-   uint psamples_std;
+   unsigned int psamples_std;
 
    /* Standard test default */
-   uint tsamples_std;
+   unsigned int tsamples_std;
 
    /* Number of independent statistics generated per run */
-   uint nkps;
+   unsigned int nkps;
 
    /* A pointer to the test itself (must be filled at initialization) */
    int (*test)();

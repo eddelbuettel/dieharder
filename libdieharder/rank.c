@@ -130,13 +130,13 @@ int binary_rank(uint **mtx,int mrows,int ncols)
      }
      if(i != k){
        if(verbose == D_BRANK || verbose == D_ALL){
-         printf("before: mtx[%d] = %p  mtx[%d = %p\n",i,mtx[i],k,mtx[k]);
+         printf("before: mtx[%d] = %p  mtx[%d = %p\n",i,(void*) mtx[i],k,(void*) mtx[k]);
        }
        rowp = mtx[i]; /* rowp is the ADDRESS of the ith row */
        mtx[i] = mtx[k];
        mtx[k] = rowp;
        if(verbose == D_BRANK || verbose == D_ALL){
-         printf("after mtx[%d] = %p  mtx[%d = %p\n",i,mtx[i],k,mtx[k]);
+         printf("after mtx[%d] = %p  mtx[%d = %p\n",i,(void*) mtx[i],k,(void*) mtx[k]);
        }
      }
      if(verbose == D_BRANK || verbose == D_ALL){

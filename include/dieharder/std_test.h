@@ -13,10 +13,10 @@
  * what to do with it.
  */
 typedef struct {
-  uint nkps;           /* Number of test statistics created per run */
-  uint tsamples;       /* Number of samples per test (if applicable) */
-  uint psamples;       /* Number of test runs per final KS p-value */
-  uint ntuple;         /* Number of bits in ntuples being tested */
+  unsigned int nkps;           /* Number of test statistics created per run */
+  unsigned int tsamples;       /* Number of samples per test (if applicable) */
+  unsigned int psamples;       /* Number of test runs per final KS p-value */
+  unsigned int ntuple;         /* Number of bits in ntuples being tested */
   double *pvalues;     /* Vector of length psamples to hold test p-values */
   char *pvlabel;       /* Vector of length LINE to hold labels per p-value */
   double ks_pvalue;    /* Final KS p-value from run of many tests */
@@ -26,7 +26,7 @@ typedef struct {
 } Test;
 
 
-Test **create_test(Dtest *dtest, uint tsamples, uint psamples);
+Test **create_test(Dtest *dtest, unsigned int tsamples, unsigned int psamples);
 void destroy_test(Dtest *dtest, Test **test);
 void std_test(Dtest *dtest, Test **test);
 

@@ -1,3 +1,9 @@
+dieharder (3.31.1~20110526-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Fri, 27 May 2011 16:21:52 -0500
+
 dieharder (3.31.0-2) unstable; urgency=low
 
   * debian/libdieharder-dev.files: Move usr/share/man/man3/* from

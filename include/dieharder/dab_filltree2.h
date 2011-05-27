@@ -7,7 +7,7 @@
  */
 int dab_filltree2(Test **test, int irun);
 
-static Dtest dab_filltree2_dtest = {
+static Dtest dab_filltree2_dtest __attribute__((unused)) = {
   "DAB Fill Tree 2 Test",
   "dab_filltree2",
   "\

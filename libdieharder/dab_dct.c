@@ -38,10 +38,10 @@
 
 #define RotL(x,N)    (rmax_mask & (((x) << (N)) | ((x) >> (rmax_bits-(N)))))
 
-void fDCT2(const uint input[], double output[], size_t len);
+void fDCT2(const unsigned int input[], double output[], size_t len);
 void iDCT2(const double input[], double output[], size_t len);
-void fDCT2_fft(const uint input[], double output[], size_t len);
-double evalMostExtreme(double *pvalue, uint num);
+void fDCT2_fft(const unsigned int input[], double output[], size_t len);
+double evalMostExtreme(double *pvalue, unsigned int num);
 
 /*
  * Discrete Cosine Transform (frequency or energy compaction) test.
@@ -79,10 +79,10 @@ double evalMostExtreme(double *pvalue, uint num);
 int dab_dct(Test **test,int irun)
 {
  double *dct;
- uint *input;
+ unsigned int *input;
  double *pvalues = NULL;
- uint i, j;
- uint len = (ntuple == 0) ? 256 : ntuple;
+ unsigned int i, j;
+ unsigned int len = (ntuple == 0) ? 256 : ntuple;
  int rotAmount = 0;
  unsigned int v = 1<<(rmax_bits-1);
  double mean = (double) len * (v - 0.5);
@@ -105,7 +105,7 @@ int dab_dct(Test **test,int irun)
  double sd = sqrt((1.0/6.0) * len) * v;
 
  dct = (double *) malloc(sizeof(double) * len);
- input = (uint *) malloc(sizeof(uint) * len);
+ input = (unsigned int *) malloc(sizeof(unsigned int) * len);
  positionCounts = (double *) malloc(sizeof(double) * len);
 
  if (useFallbackMethod) {
@@ -126,7 +126,7 @@ int dab_dct(Test **test,int irun)
   * (tsamples * ntuple) words will be read from the RNG.
   */
  for (j=0; j<test[0]->tsamples; j++) {
-   uint pos = 0;
+   unsigned int pos = 0;
    double max = 0;
 
    /* Change the rotation amount after each quarter of the samples
@@ -206,11 +206,18 @@ int gsl_fft_real_radix2_transform (double data[], size_t stride, size_t n);
  * Perform a type-II DCT using GSL's FFT function.
  * Assumes len is a power of 2
  */
-void fDCT2_fft(const uint input[], double output[], size_t len) {
+void fDCT2_fft(const unsigned int input[], double output[], size_t len) {
  double *fft_data;
  int i;
 
- if (len <= 4) return fDCT2(input, output, len);
+ /*
+  * David, please check this -- do you mean to call fDCT2 and then return?
+  * ISO C forbids a return with expression in a void function.
+  */
+ if (len <= 4) {
+   fDCT2(input, output, len);
+   return;
+ }
 
  /* Allocate the new vector and zero all of the elements.
   * The even elements will remain zero.
@@ -225,6 +232,7 @@ void fDCT2_fft(const uint input[], double output[], size_t len) {
  for (i = 0; i < len; i++) output[i] = fft_data[i] / 2;
 
  free(fft_data);
+
 }
 
 /*
@@ -234,8 +242,8 @@ void fDCT2_fft(const uint input[], double output[], size_t len) {
  * Note:  the GSL library has lots of FFTs, DWT, and DHT, but not DCT!
  * DCT can be efficiently implemented using FFT, though.
  */
-void fDCT2(const uint input[], double output[], size_t len) {
- uint i, j;
+void fDCT2(const unsigned int input[], double output[], size_t len) {
+ unsigned int i, j;
  memset(output, 0, sizeof(double) * len);
 
  for (i = 0; i < len; i++) {
@@ -258,7 +266,7 @@ void fDCT2(const uint input[], double output[], size_t len) {
  *  bugs.)
  */
 void iDCT2(const double input[], double output[], size_t len) {
- uint i, j;
+ unsigned int i, j;
 
  for (i = 0; i < len; i++) {
    double sum = 0;
@@ -274,11 +282,11 @@ void iDCT2(const double input[], double output[], size_t len) {
  * Given a set of p-values, this function returns a p-value indicating the
  * probability of the most extreme p-value occuring.
  */
-double evalMostExtreme(double *pvalue, uint num) {
+double evalMostExtreme(double *pvalue, unsigned int num) {
  double ext = 1.0;
  int sign = 1;
- uint i;
- uint pos = 0;
+ unsigned int i;
+ unsigned int pos = 0;
 
  for (i = 0; i < num; i++) {
    double p = pvalue[i];
@@ -301,7 +309,7 @@ double evalMostExtreme(double *pvalue, uint num) {
 }
 
 int main_dab_dct() {
- uint input[] = { 4, 5, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8 };
+ unsigned int input[] = { 4, 5, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8 };
  double output1[16], output2[16], output3[16];
  int i;
 

@@ -123,7 +123,7 @@ static void
 ca_set (void *vstate, unsigned long int s) {
 
  /* Initialize automaton using specified seed. */
- ca_state_t *state = (ca_state_t *) vstate;
+ ca_state_t *state __attribute__((unused)) = (ca_state_t *) vstate;
 
 
  int i;

@@ -7,7 +7,7 @@
  */
 int diehard_operm5(Test **test, int irun);
 
-static Dtest diehard_operm5_dtest = {
+static Dtest diehard_operm5_dtest __attribute__((unused)) = {
   "Diehard OPERM5 Test",
   "diehard_operm5",
 "\n\
@@ -37,7 +37,7 @@ static Dtest diehard_operm5_dtest = {
 };
 
   
-  static long double pseudoInv[120][120] = 
+  static long double pseudoInv[120][120] __attribute__((unused)) = 
  {
 {
     101.702796460,    3.47959864133,    2.04238410188,    1.74181938409,    3.01521299803,    2.28539648409,

@@ -7,7 +7,7 @@
  */
 int diehard_count_1s_byte(Test **test,int irun);
 
-static Dtest diehard_count_1s_byte_dtest = {
+static Dtest diehard_count_1s_byte_dtest __attribute__((unused)) = {
   "Diehard Count the 1s Test (byte)",
   "diehard_count_1s_byte",
   "\

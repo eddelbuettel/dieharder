@@ -7,7 +7,7 @@
  */
 int diehard_oqso(Test **test, int irun);
 
-static Dtest diehard_oqso_dtest = {
+static Dtest diehard_oqso_dtest __attribute__((unused)) = {
   "Diehard OQSO Test",
   "diehard_oqso",
   "\
