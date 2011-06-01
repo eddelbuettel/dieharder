@@ -10,8 +10,7 @@ libdieharder_la-skein_block64.lo: skein_block64.c /usr/include/string.h \
  ../include/dieharder/brg_types.h \
  /usr/lib/gcc/x86_64-redhat-linux/4.5.1/include/limits.h \
  /usr/lib/gcc/x86_64-redhat-linux/4.5.1/include/syslimits.h \
- /usr/include/limits.h ../include/dieharder/brg_endian.h \
- /usr/include/byteswap.h /usr/include/bits/byteswap.h
+ /usr/include/limits.h ../include/dieharder/brg_endian.h
 
 /usr/include/string.h:
 
@@ -52,7 +51,3 @@ libdieharder_la-skein_block64.lo: skein_block64.c /usr/include/string.h \
 /usr/include/limits.h:
 
 ../include/dieharder/brg_endian.h:
-
-/usr/include/byteswap.h:
-
-/usr/include/bits/byteswap.h:

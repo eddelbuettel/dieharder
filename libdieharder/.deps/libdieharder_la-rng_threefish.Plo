@@ -120,8 +120,7 @@ libdieharder_la-rng_threefish.lo: rng_threefish.c \
  ../include/dieharder/dieharder_rng_types.h \
  ../include/dieharder/dieharder_test_types.h ../include/dieharder/skein.h \
  ../include/dieharder/skein_port.h ../include/dieharder/brg_types.h \
- ../include/dieharder/brg_endian.h /usr/include/byteswap.h \
- /usr/include/bits/byteswap.h
+ ../include/dieharder/brg_endian.h
 
 ../include/dieharder/libdieharder.h:
 
@@ -532,7 +531,3 @@ libdieharder_la-rng_threefish.lo: rng_threefish.c \
 ../include/dieharder/brg_types.h:
 
 ../include/dieharder/brg_endian.h:
-
-/usr/include/byteswap.h:
-
-/usr/include/bits/byteswap.h:

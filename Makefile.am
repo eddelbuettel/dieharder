@@ -59,7 +59,7 @@ PHP = $(PROJECT).php
 #========================================================================
 VERSION=@VERSION@
 RELEASE=@RELEASE@
-ENDIAN=@ENDIAN@
+LITTLE_ENDIAN=@LITTLE_ENDIAN@
 
 #========================================================================
 # RPM/tarball target objects.  We need rules for all of these.

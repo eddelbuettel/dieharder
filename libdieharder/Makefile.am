@@ -11,7 +11,7 @@
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
 VERSION=@VERSION@
-# LITTLE_ENDIAN=@LITTLE_ENDIAN@
+LITTLE_ENDIAN=@LITTLE_ENDIAN@
 # VERSION_MAJOR = $(shell expr $(VERSION) : '\(.*\)\..*\..*' \| $(VERSION))
 # RELEASE=0
 
@@ -105,7 +105,7 @@ libdieharder_la_SOURCES = \
 
 # The program/library may need to know what version it is, define
 # the VERSION macro.
-DEFINES = -DVERSION=$(VERSION) # -DLITTLE_ENDIAN=$(LITTLE_ENDIAN)
+DEFINES = -DVERSION=$(VERSION) -DLITTLE_ENDIAN=$(LITTLE_ENDIAN)
 
 #========================================================================
 # Define parameters and directives needed in compile/link steps.
@@ -115,7 +115,7 @@ DEFINES = -DVERSION=$(VERSION) # -DLITTLE_ENDIAN=$(LITTLE_ENDIAN)
 
 # Compile flags (use fairly standard -O3 as default)
 AM_CPPFLAGS = $(DEFINES) -I ${top_srcdir}/include -I ${includedir}
-AM_CFLAGS = -O3 -Wall -pedantic -Wno-unused-variable
+AM_CFLAGS = -O3 -Wall -pedantic -Wno-unused-variable 
 
 #========================================================================
 # The only safe place to do commits is in the toplevel directory

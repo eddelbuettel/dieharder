@@ -1,6 +1,12 @@
+dieharder (3.31.1~20110601-1) unstable; urgency=low
+
+  * New upstream test release with improved endianness checks
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 01 Jun 2011 16:25:42 -0500
+
 dieharder (3.31.1~20110526-1) unstable; urgency=low
 
-  * New upstream release
+  * New upstream test release
 
  -- Dirk Eddelbuettel <edd@debian.org>  Fri, 27 May 2011 16:21:52 -0500
 
