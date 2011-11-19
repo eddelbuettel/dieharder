@@ -1,3 +1,11 @@
+dieharder (3.31.1-1) unstable; urgency=low
+
+  * New upstream release, but manually tweaking upstream tarball by
+  
+  * debian/rules: Emptying dependency_libs in .la file	(Closes: #621199)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 19 Nov 2011 13:55:29 -0600
+
 dieharder (3.31.1~20110601-1) unstable; urgency=low
 
   * New upstream test release with improved endianness checks

@@ -62,7 +62,9 @@ configure-stamp:
         # end libtool rpath patch
 	touch configure-stamp
 
-build: configure build-stamp
+build: configure build-arch build-indep
+build-arch: build-stamp
+build-indep: build-stamp
 build-stamp:
 	dh_testdir
 	$(MAKE)	
@@ -117,6 +119,12 @@ install: build
 	rmdir -v `pwd`/debian/dieharder/usr/share/man/man3 	\
 		 `pwd`/debian/dieharder/usr/include/dieharder	\
 		 `pwd`/debian/dieharder/usr/include/
+
+        # edd 03 Jun 2011
+        # empty dependency_lib in .la files (cf #621199)	
+	find debian/dieharder/ -name \*.la | \
+		xargs perl -p -i -e "s/dependency_libs='.*'/dependency_libs=''/" 
+
 
 # This single target is used to build all the packages, all at once, or
 # one at a time. So keep in mind: any options passed to commands here will
