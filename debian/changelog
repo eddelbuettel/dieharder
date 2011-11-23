@@ -1,3 +1,10 @@
+dieharder (3.31.1-2) unstable; urgency=low
+
+  * debian/control: Switch Build-Depeds: from gs-common to ghostscript
+  							(Closes: #649706)
+  
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 23 Nov 2011 07:18:46 -0600
+
 dieharder (3.31.1-1) unstable; urgency=low
 
   * New upstream release, but manually tweaking upstream tarball by
