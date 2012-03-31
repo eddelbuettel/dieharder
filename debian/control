@@ -2,7 +2,7 @@ Source: dieharder
 Section: devel
 Priority: optional
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Build-Depends: debhelper (>= 7), libgsl0-dev, automake, libtool, ghostscript, texlive-base, texlive-latex-base, texlive-generic-recommended
 
 Package: dieharder
