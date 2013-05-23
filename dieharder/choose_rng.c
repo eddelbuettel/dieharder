@@ -192,6 +192,13 @@ int select_rng(int gennum,char *genname,unsigned int initial_seed)
  rng = gsl_rng_alloc(dh_rng_types[gennum]);
 
  /*
+  * Here we evaluate the speed of the generator if the rate flag is set.
+  */
+ if(tflag & TRATE){
+   time_rng();
+ }
+ 
+ /*
   * OK, here's the deal on seeds.  If strategy = 0, we set the seed
   * ONE TIME right HERE to either a randomly selected seed or whatever
   * has been entered for Seed, if nonzero.
@@ -240,19 +247,11 @@ int select_rng(int gennum,char *genname,unsigned int initial_seed)
  }
 
  /*
-  * Set the seed.  We do this here just so it is set for the timing
-  * test.  It may or may not ever be reset.
+  * Set the seed.  It may or may not ever be reset.
   */
  gsl_rng_set(rng,seed);
 
- /*
-  * Here we evaluate the speed of the generator if the rate flag is set.
-  */
- if(tflag & TRATE){
-   time_rng();
- }
-
- /*
+/*
   * Before we quit, we must count the number of significant bits in the
   * selected rng AND create a mask.  Note that several routines in bits
   * WILL NOT WORK unless this is all set correctly, which actually
@@ -377,6 +376,13 @@ int select_XOR()
   */
  rng = gsl_rng_alloc(dh_rng_types[14]);
 
+  /*
+  * Here we evaluate the speed of the generator if the rate flag is set.
+  */
+ if(tflag & TRATE){
+   time_rng();
+ }
+
  /*
   * OK, here's the deal on seeds.  If strategy = 0, we set the seed
   * ONE TIME right HERE to either a randomly selected seed or whatever
@@ -426,19 +432,11 @@ int select_XOR()
  }
 
  /*
-  * Set the seed.  We do this here just so it is set for the timing
-  * test.  It may or may not ever be reset.
+  * Set the seed.  It may or may not ever be reset.
   */
  gsl_rng_set(rng,seed);
 
- /*
-  * Here we evaluate the speed of the generator if the rate flag is set.
-  */
- if(tflag & TRATE){
-   time_rng();
- }
-
- /*
+/*
   * We don't really need this anymore, I don't think.  But we'll leave it
   * for now.
   */
