@@ -32,6 +32,7 @@ libdieharder_la_SOURCES = \
 	bits.c \
 	chisq.c \
 	countx.c \
+	dab_birthdays1.c \
 	dab_bytedistrib.c \
 	dab_dct.c \
 	dab_filltree.c \

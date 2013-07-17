@@ -13,6 +13,7 @@
 #include <dieharder/rgb_minimum_distance.h>
 //#include <dieharder/rgb_operm.h>
 #include <dieharder/rgb_permutations.h>
+#include <dieharder/dab_birthdays1.h>
 #include <dieharder/dab_bytedistrib.h>
 #include <dieharder/dab_dct.h>
 #include <dieharder/dab_filltree.h>
@@ -81,6 +82,7 @@
    RGB_LAGGED_SUMS,
    RGB_LMN,
    //RGB_OPERM,
+   DAB_BIRTHDAYS1,
    DAB_BYTEDISTRIB,
    DAB_DCT,
    DAB_FILLTREE,

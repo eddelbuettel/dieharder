@@ -150,6 +150,9 @@ void dieharder_test_types()
  ADD_TEST(&dab_monobit2_dtest);
  dh_num_other_tests++;
 
+ ADD_TEST(&dab_birthdays1_dtest);
+ dh_num_other_tests++;
+
  /*
   * This is the total number of DOCUMENTED tests reported back to the
   * UIs.  Note that dh_num_user_tests is counted up by add_ui_tests(),
