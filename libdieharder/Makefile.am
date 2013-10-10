@@ -38,6 +38,7 @@ libdieharder_la_SOURCES = \
 	dab_filltree.c \
 	dab_filltree2.c \
 	dab_monobit2.c \
+	dab_opso2.c \
 	diehard_2dsphere.c \
 	diehard_3dsphere.c \
 	diehard_birthdays.c \
