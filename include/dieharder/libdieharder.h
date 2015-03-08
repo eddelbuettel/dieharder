@@ -162,7 +162,6 @@
   *========================================================================
   */
  extern unsigned int all;              /* Flag to do all tests on selected generator */
- extern unsigned int binary;           /* Flag to output rands in binary (with -o -f) */
  extern unsigned int bits;             /* bitstring size (in bits) */
  extern unsigned int diehard;          /* Diehard test number */
  extern unsigned int generator;        /* GSL generator id number to be tested */

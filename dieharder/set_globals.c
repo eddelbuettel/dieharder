@@ -12,7 +12,6 @@ void set_globals()
   * by a flag with the same first letter.  In order:
   */
  all = NO;              /* Default is to NOT do all the tests */
- binary = NO;           /* Do output a random stream in binary (with -o) */
  dtest_num = -1;        /* -1 means no test selected */
  dtest_name[0] = (char)0; /* empty test name is also default */
  filename[0] = (char)0; /* No input file */
