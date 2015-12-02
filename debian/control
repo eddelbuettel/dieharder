@@ -2,8 +2,8 @@ Source: dieharder
 Section: devel
 Priority: optional
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Standards-Version: 3.9.3
-Build-Depends: debhelper (>= 7), libgsl0-dev, automake, libtool, ghostscript, texlive-base, texlive-latex-base, texlive-generic-recommended
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 7), libgsl-dev, automake, libtool, ghostscript, texlive-base, texlive-latex-base, texlive-generic-recommended
 
 Package: dieharder
 Architecture: any
@@ -21,6 +21,7 @@ Description:  Random-number generator test front-end
  This package provides the command-line frontend.
 
 Package: libdieharder3
+Section: libs
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description:  Random-number generator test library

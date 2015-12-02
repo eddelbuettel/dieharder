@@ -1,3 +1,13 @@
+dieharder (3.31.1-5) unstable; urgency=low
+
+  * debian/control: Switched Build-Depends: to libgsl-dev for GSL transition
+
+  * debian/control: Switched libdieharder3 to Section: libs
+
+  * debian/control: Set Standards-Version: to current version 
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Wed, 02 Dec 2015 09:16:44 -0600
+
 dieharder (3.31.1-4) unstable; urgency=low
 
   * debian/rules: Added additional dependency 'configure-stamp' before
