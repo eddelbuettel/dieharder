@@ -30,9 +30,12 @@ ifeq ($(arch),m68k)
 endif
 endif
 
+
+
 # edd 18 Nov 2006:  add -fexceptions, but don't use -O3 as 
 #                   'make check' as gcc hangs in cblas/ after test_ger.c
-CFLAGS	   :=-Wall -pipe -fexceptions -D_REENTRANT $(DEBUGFLAGS)
+# edd 27 Dec 2015:  add dpkg-buildflags as well
+CFLAGS	   :=-Wall -pipe -fexceptions -D_REENTRANT $(DEBUGFLAGS) $(shell dpkg-buildflags --get CFLAGS)
 # edd 29 Sep 2005   alpha needs -mieee with gcc 4.0
 ifeq ($(arch),alpha)
 CFLAGS	+= -mieee
@@ -96,7 +99,7 @@ install: DH_OPTIONS=
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
 #	# Add here commands to install the package into debian/tmp.
