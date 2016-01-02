@@ -1,3 +1,10 @@
+dieharder (3.31.1-7) unstable; urgency=low
+
+  * debian/control: Also update Depends: for libdieharder-dev to libgsl-dev;
+    with thanks to Arthur Rona for a heads-up in email
+    
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 02 Jan 2016 07:30:38 -0600
+
 dieharder (3.31.1-6) unstable; urgency=low
 
   * include/dieharder/libdieharder.h: Add '#include <stdint.h> so that
