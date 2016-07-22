@@ -116,6 +116,7 @@
  double chisq_poisson(unsigned int *observed,double lambda,int kmax,unsigned int nsamp);
  double chisq_binomial(double *observed,double prob,unsigned int kmax,unsigned int nsamp);
  double chisq_pearson(double *observed,double *expected,int kmax);
+ double chisq_uint_uniform_gtest(uint *observed,long numItems,int kmax);
  double sample(void *testfunc());
  double kstest(double *pvalue,int count);
  double kstest_kuiper(double *pvalue,int count);
