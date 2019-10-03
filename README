@@ -87,13 +87,10 @@ attention of the author.
 
                          To Build Dieharder
 
-Dieharder can be built from source in most cases by simply typing "make"
-on the command line while in the source directory.  However, it does
-require certain resources to build, notably the Gnu Scientific Library
-in a revision no earlier than 1.4 (and ideally greater than 1.6).  It
-has been tested primarily on gcc/linux-based systems, but should port
-well to any unixoid environment with at most some minor hacking of the
-include files or systems calls used.
+See the file INSTALL that should have come with the tarball to get
+fairly explicit building instructions.  You may have to experiment a bit
+to figure out the dynamic linking thing mentioned there and below in
+order to be able to hack the library and the front end at the same time.
 
                    Development and Experimentation
 

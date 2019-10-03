@@ -21,9 +21,13 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_cdf.h>
 #include <gsl/gsl_sf.h>
+#include <gsl/gsl_permutation.h>
+#include <gsl/gsl_heapsort.h>
 #include <gsl/gsl_sort.h>
+#include <gsl/gsl_blas.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
+#include <gsl/gsl_eigen.h>
 #include <dieharder/Dtest.h>
 #include <dieharder/parse.h>
 #include <dieharder/verbose.h>
@@ -31,6 +35,7 @@
 #include <dieharder/Vtest.h>
 #include <dieharder/std_test.h>
 #include <dieharder/tests.h>
+#include <dieharder/add_lib_rngs.h>
 
 /*
  *========================================================================
@@ -98,6 +103,7 @@
  uint get_uint_rand(gsl_rng *gsl_rng);
  void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng);
  
+ void add_lib_rngs();
     
 
  
@@ -205,10 +211,6 @@
   */
  const gsl_rng_type **types;    /* where all the rng types go */
  gsl_rng *rng;               /* global gsl random number generator */
- /* The following are cruft from pre-library days -- remove */
- /* unsigned int *rand_int;        /* vector of "random" uints */
- /* unsigned int **rand_mtx;       /* matrix of "random" uints */
- /* double *rand_dbl;              /* vector of "random" uniform deviates */
 
  /*
   * All required for GSL Singular Value Decomposition (to obtain
@@ -217,7 +219,7 @@
  gsl_matrix *A,*V;
  gsl_vector *S,*svdwork;
 
- unsigned int seed;             /* rng seed of run (?) */
+ unsigned long int seed;             /* rng seed of run (?) */
  unsigned int random_max;       /* maximum rng returned by generator */
  unsigned int rmax;             /* scratch space for random_max manipulation */
  unsigned int rmax_bits;        /* Number of valid bits in rng */

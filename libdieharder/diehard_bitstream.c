@@ -25,44 +25,15 @@
  * that leads to a uniform [0,1) p value.  The test is repeated  ::
  * twenty times.                                                 ::
  *
- *                         Comment
- * Damn good test.  Very few generators in the GSL survive it,
- *
- * The tests BITSTREAM, OPSO, OQSO and DNA are all closely related.
- * They all measure global distribution properties of extended
- * bit combinations in projections of varying dimension.  I
- * believe that they are closely related to the Knuth tests that
- * will code when diehard is finished that look for N-dimensional
- * hyperplanes (known to be a problem with pretty much all
- * linear congruential generators, for example).  I would LIKE to
- * have a series of tests like this that is more systematic and
- * not quite so creatively named to emphasize the relationship
- * between the tests, and I suspect that either Knuth or a homebrew
- * RGB test (like bitdist, but looking at projections of different
- * dimension) would be the way to go here.  Note that this test is
- * also closely related to rgb_bitdist, which measures (as much as
- * possible) the uniformity of the distribution of ntuples of bits.
- *
- * However, ALL rng's fail rgb_bitdist long before they get to
- * 20 bit strings -- the distributions of ntuples stop being random
- * (uniform to the extent required by true randomness) by the time you
- * hit six bit ntuples even with a good rng.  This is an area of
- * future research, as a "proper" test procedure -- in my opinion --
- * would a) determine test dependencies -- if test X is failed, then
- * test Y will always be failed, for example (more generally, the
- * covariance of test failure); b) determine a SYSTEMATIC series of
- * tests that make specific, useful statements about where and how
- * a failure occurs -- basically, tests that determine the MOMENT of
- * the failures in a generalized sense in a suitable series.
- *
- * There may well yet remain specific "oddball" tests that are failed
- * even when moment tests are passed -- in principle, of course, one
- * could test EVERY known distribution that can be generated from
- * uniform deviates and measure the extent to which the generated
- * distribution differs from the ideal -- but I suspect that functional
- * analysis applied to the underlying distributions ultimately connects
- * most failures to an observed failure pattern in a moment study via
- * projective covariance in functional expansion space.
+ *========================================================================
+ *                       NOTE WELL!
+ * Having tested the hell out of this, I find that the
+ * mean is 141909 fairly enough, but sigma is >>288<.  This has
+ * consistently made the distribution of pvalues peak in the middle
+ * and has screwed things up considerably.  There really is no
+ * doubt about it.  I've tested three hardware generators and the
+ * four best known generators in the Universe and Marsaglia's
+ * sigma is just wrong.   rgb
  *========================================================================
  */
 
@@ -89,10 +60,20 @@ void diehard_bitstream(Test **test, int irun)
   *
   * ptest.x = number of "missing ntuples" given 2^21 trials
   * ptest.y = 141909
-  * ptest.sigma = 428
+  *
+  * This is from my own independent simulations of bitstream using
+  * the best RNGs out there, and is accurate to easily plus or minus
+  * 2.  It corresponds to a s.d. around 0.57 for the number of samples
+  * I have so far, and the simulated mean matches the theoretical mean
+  * within this sigma (that is, working on the seventh significant
+  * figure).  I have no doubt that it is correct and Marsaglia's value
+  * above is incorrect.
+  *
+  * ptest.sigma = 290
+  *
   */
- ptest.y = 141909.0;
- ptest.sigma = 428.0;
+ ptest.y = 141909;
+ ptest.sigma = 290.0;
 
  /*
   * We now make test[0]->tsamples measurements, as usual, to generate the
@@ -116,14 +97,6 @@ void diehard_bitstream(Test **test, int irun)
   * To put it another way, although the generator itself may well be producing
   * random bitstrings, the overlapping bitstrings sampled by the test
   * obviously have significant bit-level correlations by construction!
-  *
-  * In any event, an interesting consequence of implementing it with
-  * completely disjoint 20 bit integers drawn from the GSL generators is
-  * that NONE OF THEM PASS THIS TEST any more, at least on 100 trials.
-  * I am very, very tempted to see if re-implementing it (with a #define
-  * flag I can toggle at compile time so as not to lose the current
-  * implementation) as OVERLAPPING causes the "good" GSL generators to
-  * pass all of a sudden.  That would be worth publishing right there.
   */
 
  w = (char *)malloc(M*sizeof(char));
@@ -184,6 +157,12 @@ void diehard_bitstream(Test **test, int irun)
  if(verbose == D_DIEHARD_BITSTREAM || verbose == D_ALL){
    printf("%f %f %f\n",ptest.y,ptest.x,ptest.x-ptest.y);
  }
+ /*
+  * I used this to prove that sigma = 288.6
+  * So while it is cruft, let's leave it in case anybody else wants
+  * to make a histogram and fit a normal and check.
+ printf("%f\n",ptest.x);
+  */
 
  Xtest_eval(&ptest);
  test[0]->pvalues[irun] = ptest.pvalue;

@@ -35,7 +35,7 @@
 #endif
 
 #ifdef DIEHARDER
-#include "dieharder.h"
+#include <dieharder/libdieharder.h>
 /* we need M here for the MT, but dieharder also defines it */
 #ifdef M
 #undef M

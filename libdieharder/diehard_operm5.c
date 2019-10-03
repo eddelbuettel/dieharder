@@ -45,6 +45,9 @@
 
 #include <dieharder/libdieharder.h>
 
+static int tflag=0;
+static double tcount[120];
+
 /*
  * kperm computes the permutation number of a vector of five integers
  * passed to it.
@@ -134,7 +137,13 @@ void diehard_operm5(Test **test, int irun)
  /*
   * Zero count vector, was t(120) in diehard.f90.
   */
- for(i=0;i<120;i++) count[i] = 0.0;
+ for(i=0;i<120;i++) {
+   count[i] = 0.0;
+   if(tflag == 0){
+     tcount[i] = 0.0;
+     tflag = 1;
+   }
+ }
  if(overlap){
    for(i=0;i<5;i++){
      v[i] = gsl_rng_get(rng);
@@ -179,10 +188,14 @@ void diehard_operm5(Test **test, int irun)
    }
  }
 
- if(verbose){
+ MYDEBUG(D_DIEHARD_OPERM5){
    for(i=0;i<120;i++){
      printf("%u: %f\n",i,count[i]);
    }
+ }
+ for(i=0;i<120;i++){
+   tcount[i] += count[i];
+   /* printf("%u: %f\n",i,tcount[i]); */
  }
 
  /*

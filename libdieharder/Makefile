@@ -66,7 +66,7 @@ CC = gcc
 CCDEPMODE = depmode=none
 
 # Compile flags (use fairly standard -O3 as default)
-CFLAGS = -O3 $(DEFINES) -I ../include
+CFLAGS = -O3 -I ../include $(DEFINES) 
 CPP = gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo
@@ -103,9 +103,9 @@ OBJEXT = o
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 2.24.4
+PACKAGE_STRING = dieharder 2.24.7
 PACKAGE_TARNAME = dieharder
-PACKAGE_VERSION = 2.24.4
+PACKAGE_VERSION = 2.24.7
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 0
@@ -117,7 +117,7 @@ STRIP = strip
 
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
-VERSION = 2.24.4
+VERSION = 2.24.7
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_RANLIB = ranlib
@@ -165,7 +165,7 @@ target_alias =
 # make          alone should build the application.
 #
 # make clean    deletes the application and all object files
-# make install  strips and installs application and a man page
+# make install  installs application and a man page
 # make printout prints out all source and include files
 # 
 # These two commands execute in the toplevel project directory only.
@@ -174,16 +174,6 @@ target_alias =
 #========================================================================
 PROJECT = dieharder
 DIR = libdieharder
-
-#========================================================================
-# This is essential.  The rpmbuild overrides it, but we have to make
-# build "work" when executed only in the source tree directory itself.
-# This isn't easy, since the dependences are more than a bit scattered.
-# We therefore point to the directory one level up, where we should
-# find a ./lib, ./include, ./share and ./bin directory tree from which
-# the various dieharder files will actually be assembled into an rpm
-# with prefix=/usr (for example).
-#========================================================================
 SVNTREE = $(HOME)/Src/svn-tree
 SVNPATH = $(SVNTREE)/$(PROJECT)
 SVNTIME = $(DIR:=.svn.time)
@@ -202,6 +192,7 @@ PROGLIB_SO_VERSION = libdieharder.so.$(VERSION)
 # Define all sources.  Note that we choose to depend on ALL the includes
 # in the include directory, which cannot be empty or this will barf.
 #========================================================================
+LIBINCLUDES = $(shell ls ../include/dieharder/*.h  2>&1 | sed -e "/\/bin\/ls:/d")
 LIBSOURCES = $(shell ls *.c  2>&1 | sed -e "/\/bin\/ls:/d")
 LIBOBJECTS = $(LIBSOURCES:.c=.o)
 DEFINES = -DVERSION=$(VERSION)
@@ -374,19 +365,14 @@ uninstall-am: uninstall-info-am
 # presume the simplest of dependencies and remake if includes change
 # for example.
 #========================================================================
-all: $(INCTIME) $(PROGLIB_SO_VERSION) # $(PROGLIB_A)
-
-# This has to ALWAYS run before a build.
-$(INCTIME):
-	(install -d $(includedir)/dieharder; \
-	install -m 644 ../include/dieharder/*.h $(includedir)/dieharder;)
+all: $(PROGLIB_SO_VERSION) # $(PROGLIB_A)
 
 # FC "requires" no static lib build/install	
 # $(PROGLIB_A): $(INCTIME) $(LIBOBJECTS) $(LIBINCLUDES)
 # 	ar r $(PROGLIB_A) $(LIBOBJECTS)
 # 	ranlib $(PROGLIB_A)
 
-$(PROGLIB_SO_VERSION): $(INCTIME) $(LIBOBJECTS) $(LIBINCLUDES)
+$(PROGLIB_SO_VERSION): $(LIBOBJECTS) $(LIBINCLUDES)
 	gcc $(LDFLAGS) -o $(PROGLIB_SO_VERSION) $(LIBOBJECTS)
 	ldconfig -n .
 	ln -sf $(PROGLIB_SO_VERSION) $(PROGLIB_SO)

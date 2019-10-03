@@ -31,12 +31,17 @@ static Dtest diehard_bitstream_dtest = {
 # We also do not bother to overlap the words.  rands are cheap. \n\
 # Finally, we repeat the test (usually) more than twenty time.\n\
 #\n\
-# WARNING!  Many RNGs that \"should\" pass this test marginally\n\
-# fail or are weak (and can be pushed to failure with increasing\n\
-# numbers of psamples).  This suggests either an implementation bug\n\
-# or an error in the presumed target data.  The tests should not\n\
-# be used to perform an assessment of RNGs until this issue is\n\
-# resolved.   rgb\n\
+#                         NOTE WELL!\n\
+#\n\
+# Marsaglia's sigma is just plain wrong.  sigma = 288+/- 1 for\n\
+# this statistic.  With the old value, every generator in the\n\
+# Universe would fail the dieharder version of the test because\n\
+# it accumulated enough p-values to make it obvious that they\n\
+# were peaked in the middle (characteristic of too high a sigma).\n\
+# This includes hardware and the best software generators.  If one\n\
+# simply accumulates values and plots them on a histogram and fits\n\
+# a normal to them, one gets 141909 +/- 288.6.  With this value,\n\
+# the test works perfectly.\n\
 #==================================================================\n",
   100,
   2097152,

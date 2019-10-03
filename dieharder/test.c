@@ -43,6 +43,7 @@ void show_test_header(Dtest *dtest,Test **test)
  printf("# Samples per test pvalue = %u (test default is %u)\n",test[0]->tsamples,dtest->tsamples_std);
  printf("# P-values in final KS test = %u (test default is %u)\n",test[0]->psamples,dtest->psamples_std);
 
+ fflush(stdout);
 }
 
 
@@ -69,9 +70,11 @@ void show_test_results(Dtest *dtest,Test **test)
      /* Debugging
      for(j=0;j<test[i]->psamples;j++){
        printf("pvalue = %f\n",test[i]->pvalues[j]);
+       fflush(stdout);
      }
      Debugging */
      histogram(test[i]->pvalues,test[i]->psamples,0.0,1.0,10,"p-values");
+     fflush(stdout);
    }
 
    /*
@@ -80,11 +83,13 @@ void show_test_results(Dtest *dtest,Test **test)
    if(strncmp("file_input",gsl_rng_name(rng),10) == 0){
      printf("# %u rands were used in this test\n",file_input_get_rtot(rng));
      printf("# The file %s was rewound %u times\n",gsl_rng_name(rng),file_input_get_rewind_cnt(rng));
+     fflush(stdout);
    }
 
    #if !defined(RDIEHARDER)
    if(quiet == 0){
      printf("#                          Results\n");
+     fflush(stdout);
    }
    if(test[i]->psamples == 1){
      printf("Single test: p = %8.6f\n",test[i]->ks_pvalue);
@@ -98,6 +103,7 @@ void show_test_results(Dtest *dtest,Test **test)
      } else {
        printf("PASSED at > 2%% for %s\n",dtest->name);
      }
+     fflush(stdout);
    } else {
      printf("Kuiper KS: p = %8.6f\n",test[i]->ks_pvalue);
      printf("Assessment: ");
@@ -113,6 +119,7 @@ void show_test_results(Dtest *dtest,Test **test)
      } else {
        printf("PASSED at > 5%% for %s\n",dtest->name);
      }
+     fflush(stdout);
    }
    #endif  /* !defined(RDIEHARDER) */
  }
