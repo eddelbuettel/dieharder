@@ -1,3 +1,15 @@
+dieharder (3.31.1-8) unstable; urgency=medium
+
+  * debian/control: Change Build-Depends: from texlive-generic-recommended
+    to texlive-plain-generic 				(Closes: #941516)
+
+  * debian/control: Set Build-Depends: to 'debhelper (>= 10)'
+  * debian/control: Set Standards-Version: to current version 
+  * debian/control: Add Vcs-Browser: and Vcs-Git:
+  * debian/compat: Increase level to 9
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Thu, 03 Oct 2019 12:17:00 -0500
+
 dieharder (3.31.1-7) unstable; urgency=low
 
   * debian/control: Also update Depends: for libdieharder-dev to libgsl-dev;

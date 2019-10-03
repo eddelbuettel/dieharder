@@ -1,9 +1,9 @@
-#!/usr/bin/make -f 					
+#!/usr/bin/make -f
 # 							-*- makefile -*-
 # debian/rules file for the Debian/GNU Linux dieharder package
-# Copyright 2007 by Dirk Eddelbuettel <edd@debian.org>
+# Copyright 2007 - 2019  Dirk Eddelbuettel <edd@debian.org>
 
-# Uncomment this to turn on verbose mode. 
+# Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
 # This has to be exported to make some magic below work.
@@ -32,7 +32,7 @@ endif
 
 
 
-# edd 18 Nov 2006:  add -fexceptions, but don't use -O3 as 
+# edd 18 Nov 2006:  add -fexceptions, but don't use -O3 as
 #                   'make check' as gcc hangs in cblas/ after test_ger.c
 # edd 27 Dec 2015:  add dpkg-buildflags as well
 CFLAGS	   :=-Wall -pipe -fexceptions -D_REENTRANT $(DEBUGFLAGS) $(shell dpkg-buildflags --get CFLAGS)
@@ -54,23 +54,23 @@ configure-stamp:
 
 	./configure 	CFLAGS="$(CFLAGS)" 		\
 			--prefix=/usr 			\
-			$(CONFFLAGS) 			
+			$(CONFFLAGS)
 
         # patch libtool re rpath (see lintian docu)
 	sed < libtool > libtool-2 \
 			-e 's/^hardcode_libdir_flag_spec.*$$/hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/' \
 			-e '/^archive_cmds="/s/"$$/ \\$$deplibs"/'
 	mv libtool-2 libtool
-	chmod 755 libtool            
+	chmod 755 libtool
         # end libtool rpath patch
 	touch configure-stamp
 
 build: configure build-arch build-indep
-build-arch: configure-stamp build-stamp 
-build-indep: configure-stamp build-stamp 
+build-arch: configure-stamp build-stamp
+build-indep: configure-stamp build-stamp
 build-stamp:
 	dh_testdir
-	$(MAKE)	
+	$(MAKE)
 
         # manually call for manual build
 #	(cd manual && make && cd -)
@@ -84,7 +84,7 @@ clean:
         # Robert uses a non-standard way of building things; make clean does call
         # configure and fails in the chroot/build unless we run autogen.sh first. Sigh
         # so we fixed this by deleting Makefile from the upstream tarball. Sigh.
-	[ ! -f Makefile ] || $(MAKE) clean distclean
+	#[ ! -f Makefile ] || $(MAKE) clean distclean
 
 	rm -rf buildroot
 	rm -f dieharder.pdf
@@ -93,7 +93,7 @@ clean:
         # extra cleanup in manual/
 	rm -vf manual/dieharder.dvi manual/dieharder.pdf
 
-	dh_clean
+	dh_clean -d
 
 install: DH_OPTIONS=
 install: build
@@ -124,9 +124,9 @@ install: build
 		 `pwd`/debian/dieharder/usr/include/
 
         # edd 03 Jun 2011
-        # empty dependency_lib in .la files (cf #621199)	
+        # empty dependency_lib in .la files (cf #621199)
 	find debian/dieharder/ -name \*.la | \
-		xargs perl -p -i -e "s/dependency_libs='.*'/dependency_libs=''/" 
+		xargs perl -p -i -e "s/dependency_libs='.*'/dependency_libs=''/"
 
 
 # This single target is used to build all the packages, all at once, or
