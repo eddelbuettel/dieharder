@@ -1,12 +1,12 @@
 <center><H1>Dieharder: A Random Number Test Suite</H1></center>
-<center><H2>Version 2.27.13</H2></center>
+<center><H2>Version @VERSION@</H2></center>
 
 <center><H3>Robert G. Brown (rgb)</H3></center>
 <center><H3>Dirk Eddelbuettel</H3></center>
 
 <p>Welcome to the dieharder distribution website.</p>
 
-<p>Version 2.27.12 is the current snapshot.  Some of the documentation
+<p>Version @VERSION@ is the current snapshot.  Some of the documentation
 below may not quite be caught up to it, but it should be close.</p>
 
 <p>Dieharder is a <i>random number generator (rng) testing suite</i>.

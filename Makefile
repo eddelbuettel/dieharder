@@ -34,10 +34,10 @@ host_triplet = x86_64-unknown-linux-gnu
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(srcdir)/dieharder.spec.in $(srcdir)/dieharder_version.h.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	config.guess config.sub depcomp install-sh ltmain.sh missing \
-	mkinstalldirs
+	$(srcdir)/dieharder.html.in $(srcdir)/dieharder.spec.in \
+	$(srcdir)/dieharder_version.h.in $(top_srcdir)/configure \
+	AUTHORS COPYING ChangeLog INSTALL NEWS config.guess config.sub \
+	depcomp install-sh ltmain.sh missing mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -46,7 +46,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = dieharder_version.h dieharder.spec
+CONFIG_CLEAN_FILES = dieharder_version.h dieharder.spec dieharder.html
 SOURCES =
 DIST_SOURCES =
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
@@ -90,7 +90,7 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LT_VERSION = 2:27:12
+DIEHARDER_LT_VERSION = 2:27:13
 ECHO = echo
 ECHO_C = 
 ECHO_N = -n
@@ -116,9 +116,9 @@ OBJEXT = o
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 2.27.12
+PACKAGE_STRING = dieharder 2.27.13
 PACKAGE_TARNAME = dieharder
-PACKAGE_VERSION = 2.27.12
+PACKAGE_VERSION = 2.27.13
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -132,7 +132,7 @@ STRIP = strip
 # This is revision information, automagically set from autoconf.  The
 # actual version information is set ONLY in configure.ac
 #========================================================================
-VERSION = 2.27.12
+VERSION = 2.27.13
 abs_builddir = /home/rgb/Src/Projects/dieharder
 abs_srcdir = /home/rgb/Src/Projects/dieharder
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -172,7 +172,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr
+prefix = /home/rgb/Src/Projects/dieharder/usr
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -277,8 +277,8 @@ REPOPATH = /var/www/html/fc/6/local/
 #========================================================================
 # This target takes the dieharder sources and "magically" transforms
 # them into RDieHarder sources.
-RDHTAR = RDieHarder_2.27.12.tar
-RDHPKG = RDieHarder_2.27.12.tar.gz
+RDHTAR = RDieHarder_2.27.13.tar
+RDHPKG = RDieHarder_2.27.13.tar.gz
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -336,6 +336,8 @@ distclean-hdr:
 dieharder_version.h: $(top_builddir)/config.status $(srcdir)/dieharder_version.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 dieharder.spec: $(top_builddir)/config.status $(srcdir)/dieharder.spec.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+dieharder.html: $(top_builddir)/config.status $(srcdir)/dieharder.html.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:
@@ -775,8 +777,6 @@ tgz: Makefile COPYING Copyright NOTES README $(SPEC) $(ABS) $(PHP)
 	cd $(MANUAL); \
 	make clean; \
 	cd ..; \
-	make rdhclean; \
-	cp -r $(RDIEHARDER) $(PROJECTDIR); \
 	cp -r $(MANUAL) $(PROJECTDIR); \
 	cp -r include $(PROJECTDIR); \
 	cp $(ABS) $(PROJECTDIR); \
@@ -788,13 +788,19 @@ tgz: Makefile COPYING Copyright NOTES README $(SPEC) $(ABS) $(PHP)
 	cp config.h.in $(PROJECTDIR); \
 	cp $(SPEC).in $(PROJECTDIR); \
 	cp dieharder_version.h.in $(PROJECTDIR); \
+	cp dieharder.html.in $(PROJECTDIR); \
 	cp autogen.sh $(PROJECTDIR); \
 	cp missing $(PROJECTDIR); \
+	cp aclocal.m4 $(PROJECTDIR); \
 	cp mkinstalldirs $(PROJECTDIR); \
 	cp ltmain.sh $(PROJECTDIR); \
+	cp depcomp $(PROJECTDIR); \
 	cp configure $(PROJECTDIR); \
 	cp configure.ac $(PROJECTDIR); \
+	cp config.guess $(PROJECTDIR); \
+	cp config.sub $(PROJECTDIR); \
 	cp config.status $(PROJECTDIR); \
+	cp install-sh $(PROJECTDIR); \
 	cp Copyright $(PROJECTDIR); \
 	cp COPYING $(PROJECTDIR); \
 	cp INSTALL $(PROJECTDIR); \

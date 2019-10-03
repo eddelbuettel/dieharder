@@ -74,7 +74,7 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LT_VERSION = 2:27:12
+DIEHARDER_LT_VERSION = 2:27:13
 ECHO = echo
 ECHO_C = 
 ECHO_N = -n
@@ -100,9 +100,9 @@ OBJEXT = o
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 2.27.12
+PACKAGE_STRING = dieharder 2.27.13
 PACKAGE_TARNAME = dieharder
-PACKAGE_VERSION = 2.27.12
+PACKAGE_VERSION = 2.27.13
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -111,7 +111,7 @@ SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
-VERSION = 2.27.12
+VERSION = 2.27.13
 abs_builddir = /home/rgb/Src/Projects/dieharder/include
 abs_srcdir = /home/rgb/Src/Projects/dieharder/include
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -151,7 +151,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr
+prefix = /home/rgb/Src/Projects/dieharder/usr
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -190,10 +190,12 @@ nobase_include_HEADERS = dieharder/copyright.h \
 	dieharder/rgb_minimum_distance.h \
 	dieharder/rgb_operm.h \
 	dieharder/rgb_persist.h \
+	dieharder/rgb_permutations.h \
 	dieharder/rgb_timing.h \
 	dieharder/std_test.h \
 	dieharder/sts_monobit.h \
 	dieharder/sts_runs.h \
+	dieharder/sts_serial.h \
 	dieharder/tests.h \
 	dieharder/verbose.h \
 	dieharder/Vtest.h \

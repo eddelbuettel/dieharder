@@ -1,4 +1,6 @@
 %define _unpackaged_files_terminate_build 0
+%define __arch_install_post /usr/lib/rpm/check-rpaths /usr/lib/rpm/check-buildroot
+
 
 Name: dieharder-src
 Summary: Dieharder is a random number generator tester and timer
@@ -82,6 +84,7 @@ last suite of random number testers you'll ever wear".
 %setup -q -n dieharder-%{version}
 ./autogen.sh
 
+
 %configure
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
@@ -133,7 +136,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root,root) /usr/share/man/man3/libdieharder.3.gz
 
 # These are all pretty much standard.
-%doc ChangeLog Copyright README COPYING NOTES dieharder.abs
+%doc ChangeLog Copyright README COPYING NOTES dieharder.html
 
 ########################################################################
 # Files installed with the dieharder tty UI
@@ -148,7 +151,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root,root) /usr/share/man/man1/dieharder.1.gz
 
 # These are all pretty much standard.
-%doc ChangeLog Copyright README COPYING NOTES dieharder.abs
+%doc ChangeLog Copyright README COPYING NOTES dieharder.html
 
 ########################################################################
 # Command to execute post install or uninstall of libdieharder
