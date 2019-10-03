@@ -1,0 +1,34 @@
+#!/bin/bash -e
+
+function errorexit () {
+    echo "Error: $1"
+    exit 1
+}	
+
+function filetest () {
+    if [ ! -f $1 ]; then
+       errorexit "File $1 not found"
+    fi
+    return 0
+}
+		       
+	       
+if [ "$#" -lt 1 ]; then
+    errorexit "Need to specify argument file"
+fi
+			   
+		   
+BASENAME=$(basename $1 .Rnw)
+			   
+RNWFILE=$BASENAME.Rnw
+filetest $RNWFILE
+echo "library(tools); Sweave(\"$RNWFILE\")" \
+      | R --no-save --no-restore --slave
+			       
+LATEXFILE=$BASENAME.tex
+filetest $LATEXFILE && pdflatex $LATEXFILE
+			       
+PDFFILE=$BASENAME.pdf
+#filetest $PDFFILE && acroread $PDFFILE &
+#filetest $PDFFILE && xpdf $PDFFILE &
+#filetest $PDFFILE && kpdf $PDFFILE &

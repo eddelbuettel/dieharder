@@ -1,0 +1,248 @@
+.\" $Id: dieharder.1 318 2007-04-29 18:06:32Z rgb $
+.TH DieHarder 1 "Copyright 2004 Robert G. Brown" "DieHarder"
+.SH NAME
+rand_rate \- A testing and benchmarking tool for GSL random number 
+generators
+
+.SH SYNOPSIS
+dieharder [-a] [-b bits] [-d diehard test number] [-f filename]
+          [-g generator number] [-h] [-i iterations] [-l]
+          [-n ntuple] [-p number of p samples] [-q] [-N]
+          [-r rgb test number] [-s sts test number]
+          [-t number of test samples] [-u user test number]
+          [-v verbose flag] [-x xvalue] [-y yvalue] [-z zvalue]
+
+.SH DieHarder OPTIONS
+
+.TP
+-a Runs all the tests with standard/default options to create a report
+.TP
+-b bits - sets the number of bits to be used in tests that act on a bit
+string of variable length, e.g. the rgb bitdist test.
+.TP
+-d test number -  selects specific diehard test.
+.TP
+-f filename will EVENTUALLY permit random strings to be tested to be
+read in from a file, but this is not yet implemented!
+.TP
+-g generator number - selects a specific generator for testing.  Using
+-1 causes all known generators to be printed out to the display.
+.TP
+-h prints context-sensitive help -- usually Usage (this message) or a
+test synopsis if entered as e.g. dieharder -d 3 -h.
+.TP
+-i iterations - sets iteration count for timing runs (should not be
+needed).
+.TP
+-l list all known tests.
+.TP
+-n ntuple - set ntuple length for tests on short bit strings that permit
+the length to be varied (e.g. rgb bitdist).
+.TP
+-p count - sets the number of p-value samples per test (default 100).
+.TP
+-q selects \"quiet\" operation: results only are printed on a single line
+(where applicable).  This is a way of getting a very compact report.
+.TP
+-N selects non-overlapping samples even in tests that \"require\"
+overlapping samples, such as operm5.  In some cases this will matter.
+In others it will not.
+.TP
+-r test number - selects specific rgb test.
+.TP
+-s test number - selects specific sts test.
+.TP
+-t count - sets the number of random entities used in each test, where
+possible.  Be warned -- some tests will take a long time with the
+default value of 10000.  Read the test synopses for suggested settings
+for -t or use -a first.
+.TP
+-u test number - selects specific user-developed test, if you've added
+one or more to this tool.  dieharder provides this interface to make
+it easy to add your own tests.
+.TP
+-v verbose flag -- controls the verbosity of the output for debugging
+only.  Probably of little use to non-developers, and developers can
+read the enum(s) in dieharder.h and the test sources to see which
+flag values turn on output on which routines.  1 is \"all\" and will
+result in a fairly detailed trace of program activity.
+.TP
+-x,-y,-z number - Some tests have parameters that can safely be varied
+from their default value.  For example, in the diehard birthdays test,
+one can vary the number of \"dates\" drawn from the \"year\" of some
+length, which can also be varied.  -x 2048 -y 30 alters these two
+values but should still run fine.
+
+.B NOTE WELL:  
+The "bogomegarates" returned by this tool are BOGUS and may not be even 
+approximately correct in your context.  Also, the quality assessment(s) 
+for the rngs may, in fact, be completely incorrect or misleading.  Use 
+them at your Own Risk!  Be Warned!
+
+
+.SH DESCRIPTION
+.B DieHarder
+This is the current snapshot of the dieharder random number
+tester.  It encapsulates all of the Gnu Scientific Library random number
+generators as well as /dev/random and /dev/urandom in a single harness
+that can time them and subject them to various tests for randomness.
+These tests are variously drawn from George Marsaglia's "Diehard battery of
+random number tests", the NIST Statistical Test Suite, and include a
+few useful e.g. binning or spectral tests that I've found doing research 
+into random number tests or tests that I myself have made up or that are 
+improvements on tests from other sources.
+
+The primary point of this tester is to make it easy to time and test
+(pseudo)random number generators OR hardware or other generators.  Three
+examples are provided of wrapping a random number generator and
+inserting it so that it is can be called via the GSL interface.  An
+interface is planned that would allow random numbers to be read in from
+a file, allowing the tool to be used with any generator (wrappable or
+not) that can generate a table of random numbers.
+
+Another important motivation for writing dieharder is to have the
+entire test code and documentation be fully Gnu Public Licensed and
+hence openly available for adaptation, testing, modification, including
+the addition of new tests.  The primary objections I have towards
+diehard and sts are not that they are or are not adequate and complete;
+it is that the code is obscure and not explicitly published for reuse.
+It is my hope that by providing this tool in autodocumenting source, it
+makes it easy to add new tests, critique older tests, and improve the
+suite in general.
+
+.SH FILE INPUT
+
+To test your own random number generator or to test the randomness of
+some file of presumably random numbers, two approaches are possible.
+First of all, there are five generators that are wrapped up in GSL
+compatible clothes and linked to the GSL so that the standard GSL
+interface works for them.  Using these as prototypes and working with
+the fully GPL dieharder sources, any software or hardware random number
+generator that one wishes to test can be added for testing using these
+as prototypes, and can likely be submitted to the GSL for inclusion if
+they pass the tests as well or better than the generators that are already
+there.  Dieharder is designed to (ultimately) be a
+.I very convenient tool
+for testing new software RNGs.
+
+However, the last two non-gsl generators are "universal" generators in
+the sense that they permit you to input a random number stream from a
+.I file 
+(but 
+.I not 
+from /dev/random or /dev/urandom, be warned).  
+
+The file_input generator requires a file of "cooked" (ascii readable)
+random numbers, one per line, with a header that describes the format to
+dieharder.  This interface is still somewhat experimental -- not all
+ascii formats have been tested.  However, it has been tested and should
+work for 32 bit unsigned integers represented directly in ascii or as 32
+bits of binary.  Example files for a couple of possible input formats
+are included in the sources.
+
+Finally, the type file_input_raw accepts a file of raw bits as input,
+such as might be generated by:
+
+ dd if=/dev/urandom of=testrands.raw bs=4 count=1000000
+
+(to generate 1,000,000 four-byte ints directly from the
+software-augmented kernel entropy generator).  That is, running the
+tests from such a file should be 
+.I approximately
+the same as testing /dev/urandom directly.
+
+The main (important!) difference is that some of the test require a
+.I lot
+of random numbers -- far more than were needed by diehard.  Indeed,
+dieharder typically runs many of the diehard tests 100 
+.I independent 
+times, generating a p-value for each, and plots a histogram of the
+p-values and generates a p-value for the (presumed uniform) distribution
+of p-values!  This approach mimics the histogram presented in the STS
+suite but augments it with a hard number.
+
+This protects one from the "p happens" problem -- every now and then you
+will have a run with a very low or high p from a good generator, but
+over time a good generator will generate a uniform distribution of
+p-values.  Dieharder lets you visually decide if the distribution is or
+isn't credibly uniform, while giving you an index that in most cases is
+a fairly clear "good" or "bad" indicator for a given random sequence or
+generator.
+
+File input rands are delivered to the tests on demand, but if the test
+needs more than are available it simply rewinds the file and cycles
+through it again, and again, and again as needed.  Obviously this
+significantly reduces the sample space and can lead to completely
+incorrect results for the p-value histograms unless there are enough
+rands to run EACH test without repetition (it is harmless to reuse the
+sequence for different tests).  Let the user beware!
+
+.SH PUBLICATION RULES
+.B DieHarder
+is entirely original code and can be modified and used at will by any 
+user, provided that:
+
+  a) The original copyright notices are maintained and that the source,
+including all modifications, is made publically available at the time of
+any derived publication.  This is open source software according to the
+precepts and spirit of the Gnu Public License.  See the accompanying
+file COPYING, which also must accompany any redistribution.
+
+  b) The author of the code (Robert G. Brown) is appropriately
+acknowledged and referenced in any derived publication.  It is strongly
+suggested that George Marsaglia and the Diehard suite and the various 
+authors of the Statistical Test Suite be similarly acknowledged, although 
+this suite shares no actual code with these random number test suites.
+
+  c) Full responsibility for the accuracy, suitability, and
+effectiveness of the program rests with the users and/or modifiers.  As
+is clearly stated in the accompanying copyright.h:
+
+THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+FITNESS, IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY
+SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+.SH ACKNOWLEDGEMENTS
+The author of this suite gratefully acknowledges George Marsaglia (the
+author of the diehard test suite) and the various authors of NIST
+Special Publication 800-22 (which describes the Statistical Test Suite
+for testing pseudorandom number generators for cryptographic
+applications), for excellent descriptions of the tests therein.  These
+descriptions enabled this suite to be developed with a clean copyright,
+licensable under the GPL.
+
+The author also wishes to reiterate that the academic correctness and 
+accuracy of the implementation of these tests is his sole responsibility 
+and not that of the authors of the Diehard or STS suites.  This is
+especially true where he has seen fit to modify those tests from their
+strict original descriptions.
+
+.SH COPYRIGHT
+GPL 2b; see the file COPYING that accompanies the source of this
+program.  This is the "standard Gnu General Public License version 2 or
+any later version", with the one minor (humorous) "Beverage"
+modification listed below.  Note that this modification is probably not
+legally defensible and can be followed really pretty much according to
+the honor rule.
+
+As to my personal preferences in beverages, red wine is great, beer is
+delightful, and Coca Cola or coffee or tea or even milk acceptable to
+those who for religious or personal reasons wish to avoid stressing my
+liver.
+
+.B The "Beverage" Modification to the GPL:
+
+Any satisfied user of this software shall, upon meeting the primary
+author(s) of this software for the first time under the appropriate
+circumstances, offer to buy him or her or them a beverage.  This
+beverage may or may not be alcoholic, depending on the personal ethical
+and moral views of the offerer.  The beverage cost need not exceed one
+U.S. dollar (although it certainly may at the whim of the offerer:-) and
+may be accepted or declined with no further obligation on the part of
+the offerer.  It is not necessary to repeat the offer after the first
+meeting, but it can't hurt...
+
