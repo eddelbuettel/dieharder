@@ -1,39 +1,78 @@
+========================================================================
+                      QUICK BUILD/INSTALL INSTRUCTIONS
+========================================================================
 
-                      BUILD/INSTALL INSTRUCTIONS
-
-First, note well that dieharder REQUIRES the Gnu Scientific Library
-(GSL) and the Gnu Build Tools (GBT) for its build, and it is strongly
-recommended that they be up to date versions.  This precludes building
-or running dieharder on a truly old linux (or other) distribution.  In
-practical terms, if your linux distribution is older than two years
-(say, pre-FC 4) it is unlikely to build smoothly without signicant work.
-For many of you reading this, then, my first instruction is "update to a
-relatively modern build environment that contains a contemporary GSL".
-
-Once this is done, the build SHOULD proceed easily enough.  Enter the
-toplevel build directory and enter:
+Dieharder should build from the freshly unpacked tarball if you enter:
 
  ./autogen.sh
+ make
 
-which should set up the GBT build.  Then:
+from the toplevel source directory, IF you have the required libraries
+and tools installed.
+
+========================================================================
+                           BUILD REQUIREMENTS
+
+Dieharder requires the Gnu Scientific Library (GSL) and the Gnu Build
+Tools (GBT) for its build, and it is strongly recommended that they be
+up to date versions.  This precludes building or running dieharder on a
+truly old linux (or other) distribution.  In practical terms, if your
+linux distribution is older than two years (say, pre-FC 4) it is
+unlikely to build smoothly without signicant work.  For many of you
+reading this, then, my first instruction is "update to a relatively
+modern build environment that contains a contemporary GSL and GBT".
+
+A few required components may not be installed on your system by default
+even if your system is quite modern.  The GSL is one example -- you may
+need to use yum or apt-get or whatever package manager your system uses
+to install its packages to install it, e.g. "yum install gsl\*" (to get
+both the library and its header files) or you may have to get the GSL
+sources and build/install from scratch.
+
+Also be sure your system has libtool installed and on your path or else
+the build will fail.  In particular its definition on your system needs
+to be in aclocal's search path.  Running ./autogen.sh "should" fix all
+of that, but in an imperfect world there are probably systems missing
+this or that or configured very differently from my test/development
+systems where it doesn't.
+
+Note that there are MANY options you may want to give configure to tune
+up a build for your particular architecture.  We will mention only two.
+The first is the --prefix option, which can be used to change the
+toplevel install path for packaging or to build and install a private
+(non-root) copy.  The default (run automatically at the end of
+./autogen.sh) is to run:
 
  ./configure --prefix=/usr
 
-for a traditional FHS-compliant build and install, or enter a full path
-such as:
+AS ROOT for a traditional FHS-compliant build and install.  However, you
+may instead with to enter some other toplevel path path such as:
 
  ./configure --prefix=$(HOME)/usr
 
+for an alternative install into your own home directory.  If you do the
+latter, you will have to make sure that ~/usr/bin is on your default
+path (set with the PATH environment variable) and ~/usr/lib is on your
+default library path (set with the LD_LIBRARY_PATH variable).
 
-for an alternative install into your own home directory.  Be aware that
-the application is dynamically linked and will not work unless the
-libdieharder library is installed and made available to the dynamic
-linker by running ldconfig (for the FHS install) or the use of 
+dieharder uses GNU Libtool in order to automatically build against a
+shared libdieharder library on a variety of systems.  This enables one
+to build dieharder tests into your own applications, into a GUI version
+that is planned, and into existing tools such as R.  
 
- LD_LIBRARY_PATH=$(HOME)/usr/lib
- export LD_LIBRARY_PATH
+While shared libraries are very nice for making usable binaries and
+efficiently using system resources, they can be a pain when trying to
+debug a program or if you are building a single copy of dieharder for
+your personal and private use.  For that reason, compilation of shared
+libraries can be turned off by specifying the `--disable-shared' option
+to configure:
 
-for a private one.  Finally, to just build the software in place, enter:
+ ./configure --prefix=$(HOME)/usr --disable-shared
+
+This should produce a static-linked binary of dieharder that can be run
+without the need to install the library at all.
+
+Finally, to just build the software in place, enter:
 
  make
 
@@ -43,9 +82,18 @@ above, enter:
  make install
 
 This last step will need to be done as root if the install is into a
-root-owned directory such as /usr and followed as noted by rerunning
-ldconfig.
+root-owned directory such as /usr and must be followed as noted by
+rerunning ldconfig.
 
+NOTE WELL:  Be aware that the application is DYNAMICALLY LINKED and will
+not work unless the libdieharder library is installed and made available
+to the dynamic linker by running ldconfig (for the FHS install) or the
+use of
+
+ LD_LIBRARY_PATH=$(HOME)/usr/lib
+ export LD_LIBRARY_PATH
+
+for a private one.
 
                         RPM BUILD INSTRUCTIONS
 

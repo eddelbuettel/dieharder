@@ -1,8 +1,5 @@
 /*
- * $Id: diehard_bitstream.c 231 2006-08-22 16:18:05Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
- *
  */
 
 /*
@@ -24,28 +21,31 @@
  *  (j-141909)/428 should be a standard normal variate (z score) ::
  * that leads to a uniform [0,1) p value.  The test is repeated  ::
  * twenty times.                                                 ::
- *
  *========================================================================
  *                       NOTE WELL!
- * Having tested the hell out of this, I find that the
- * mean is 141909 fairly enough, but sigma is >>288<.  This has
- * consistently made the distribution of pvalues peak in the middle
- * and has screwed things up considerably.  There really is no
- * doubt about it.  I've tested three hardware generators and the
- * four best known generators in the Universe and Marsaglia's
- * sigma is just wrong.   rgb
+ * If you use non-overlapping samples, sigma is 288, not 428.  This
+ * makes sense -- overlapping samples aren't independent and so you
+ * have fewer "independent" samples than you think you do, and
+ * the variance is consequently larger.
  *========================================================================
  */
 
 
 #include <dieharder/libdieharder.h>
 
+/*
+ * Include inline uint generator
+ */
+#include "static_get_bits.c"
+
 void diehard_bitstream(Test **test, int irun)
 {
 
- uint i,j,t,boffset;
+ uint i,j,t,boffset,coffset,uoffset;
  Xtest ptest;
  char *w;
+ uint *bitstream,w20,wscratch,newbyte;
+ unsigned char *cbitstream;
 
  /*
   * p = 141909, with sigma 428, for test[0]->tsamples = 2^21 20 bit ntuples.
@@ -61,86 +61,173 @@ void diehard_bitstream(Test **test, int irun)
   * ptest.x = number of "missing ntuples" given 2^21 trials
   * ptest.y = 141909
   *
-  * This is from my own independent simulations of bitstream using
-  * the best RNGs out there, and is accurate to easily plus or minus
-  * 2.  It corresponds to a s.d. around 0.57 for the number of samples
-  * I have so far, and the simulated mean matches the theoretical mean
-  * within this sigma (that is, working on the seventh significant
-  * figure).  I have no doubt that it is correct and Marsaglia's value
-  * above is incorrect.
-  *
-  * ptest.sigma = 290
-  *
+  * for non-overlapping samples we need (2^21)*5/8 = 1310720 uints, but
+  * for luck we add one as we'd hate to run out.  For overlapping samples,
+  * we need 2^21 BITS or 2^18 = 262144 uints, again plus one to be sure
+  * we don't run out.
   */
+#define BS_OVERLAP 262146
+#define BS_NO_OVERLAP 1310722
  ptest.y = 141909;
- ptest.sigma = 290.0;
+ if(overlap){
+   ptest.sigma = 428.0;
+   bitstream = (uint *)malloc(BS_OVERLAP*sizeof(uint));
+   for(i = 0; i < BS_OVERLAP; i++){
+     bitstream[i] = get_rand_bits_uint(32,0xffffffff,rng);
+   }
+   MYDEBUG(D_DIEHARD_BITSTREAM) {
+     printf("# diehard_bitstream: Filled bitstream with %u rands for overlapping\n",BS_OVERLAP);
+     printf("# diehard_bitstream: samples.  Target is mean 141909, sigma = 428.\n");
+   }
+ } else {
+   ptest.sigma = 290.0;
+   bitstream = (uint *)malloc(BS_NO_OVERLAP*sizeof(uint));
+   for(i = 0; i < BS_NO_OVERLAP; i++){
+     bitstream[i] = get_rand_bits_uint(32,0xffffffff,rng);
+   }
+   cbitstream = (unsigned char *)bitstream;   /* To allow us to access it by bytes */
+   MYDEBUG(D_DIEHARD_BITSTREAM) {
+     printf("# diehard_bitstream: Filled bitstream with %u rands for non-overlapping\n",BS_NO_OVERLAP);
+     printf("# diehard_bitstream: samples.  Target is mean 141909, sigma = 290.\n");
+   }
+ }
 
  /*
   * We now make test[0]->tsamples measurements, as usual, to generate the
-  * missing statistic.  The easiest way to proceed is to just increment
-  * a vector of length 2^20 using the generated ntuples as the indices
-  * of the slot being incremented.  Then we zip through the vector
-  * counting the remaining zeros.
-  *
-  * The validity of this test SHOULDN'T depend strongly on whether or
-  * not the bit strings sampled are "overlapping" (something Marsaglia
-  * did frequently I think because his supply of random numbers was so
-  * limited compared to the size of the spaces he was sampling).  I
-  * therefore implemented it without overlap -- every 20 bit string sampled
-  * is truly independent of the rest.  Overlap DOES make me nervous, as
-  * it is effectively a left/right shift operation on the bit string plus
-  * the addition of a single random bit.  That is, it samples points as
-  * 2*previous_point + random_bit, in principle throughout the entire
-  * string.  This makes me doubt that the "independent samples" requirement for
-  * sampling a distribution has been satisfied by Marsaglia's implementation,
-  * so that the sample size is actually smaller than he believes it to be.
-  * To put it another way, although the generator itself may well be producing
-  * random bitstrings, the overlapping bitstrings sampled by the test
-  * obviously have significant bit-level correlations by construction!
+  * missing statistic.  The easiest way to proceed is to just increment a
+  * vector of length 2^20 using the generated ntuples as the indices of
+  * the slot being incremented.  Then we zip through the vector counting
+  * the remaining zeros.  This is horribly nonlocal but then, these ARE
+  * random numbers, right?
   */
 
  w = (char *)malloc(M*sizeof(char));
  memset(w,0,M*sizeof(char));
 
-/*
- printf("w is allocated and zero'd\n");
- printf("About to generate %u samples\n",test[0]->tsamples);
- */
+ MYDEBUG(D_DIEHARD_BITSTREAM) {
+   printf("# diehard_bitstream: w[] (counter vector) is allocated and zeroed\n");
+ }
 
- /*
-  * To minimize the number of rng calls, we use each j and k mod 32
-  * to determine the offset of the 10-bit long string (with
-  * periodic wraparound) to be used for the next iteration.  We
-  * therefore have to "seed" the process with a random k.
-  */
- i = gsl_rng_get(rng);
+ i = 0;
+ wscratch = bitstream[i++];     /* Get initial uint into wscratch */
  for(t=0;t<test[0]->tsamples;t++){
+
    if(overlap){
+
      /*
-      * Let's do this the cheap/easy way first, sliding a 20 bit
-      * window along each int for the 32 possible starting
-      * positions a la birthdays, before trying to slide it all
-      * the way down the whole random bitstring implicit in a
-      * long sequence of random ints.  That way we can exit
-      * the test[0]->tsamples loop at test[0]->tsamples = 2^15...
+      * We have to slide an overlapping 20-bit window along one bit at a
+      * time to be able to use Marsaglia's sigma of 428.  We do this by
+      * taking two scratch uints and pulling a left, right trick to get
+      * the desired window for 8 returns, then shifting left a byte for
+      * four bytes, advancing to the next full uint in bitstream[] on
+      * the boundary.  Yuk, but what can one do?
       */
-     if(test[0]->tsamples%32 == 0) {
-       i = gsl_rng_get(rng);
-       boffset = 0;
+     coffset = (t%32)/8;     /* next byte to shift in from bitstream, 0,1,2 or 3 */
+     boffset = t%8;          /* bit offset of w20 in wscratch */
+     i = t/32 + 1;           /* bitstream index of uint from which we draw next byte */
+     /* printf("t = %u, coffset = %u\n",t,coffset); */
+     if(boffset == 0) {      /* Get a new byte */
+       wscratch = wscratch << 8;  /* make room for next byte */
+       /*
+       printf("# diehard_bitstream: left shift 8 wscratch = ");
+       dumpuintbits(&wscratch, 1);
+       printf("\n");
+       */
+       newbyte = bitstream[i] << (8*coffset);
+       /*
+       printf("# diehard_bitstream: left shift %u newbyte = ",8*coffset);
+       dumpuintbits(&newbyte, 1);
+       printf("\n");
+       */
+       newbyte = newbyte >> 24;
+       /*
+       printf("# diehard_bitstream: newbyte = ");
+       dumpuintbits(&newbyte, 1);
+       printf("\n");
+       */
+       wscratch += newbyte;
      }
-     j = get_bit_ntuple(&i,1,20,boffset);
-     w[j]++;
-     boffset++;
-   } else {
      /*
-      * Get a 20-bit ntuple as an index into w.  Use each (presumed
-      * random) value to determine the uint offset for the next
-      * 20-bit window.
+     MYDEBUG(D_DIEHARD_BITSTREAM) {
+       printf("# diehard_bitstream: wscratch = ");
+       dumpuintbits(&wscratch, 1);
+       printf("\n");
+     }
+     */
+     w20 = ((wscratch << boffset) >> 12);
+     MYDEBUG(D_DIEHARD_BITSTREAM) {
+       printf("# diehard_bitstream: w20 = ");
+       dumpuintbits(&w20, 1);
+       printf("\n");
+     }
+     w[w20]++;
+
+   } else {
+
+     /*
+      * For non-overlapping samples, easiest way is to just get 2.5 bytes
+      * at a time and keep track of a byte index into bitstream,
+      * cbitstream.  Then things are actually pretty straightforward.
       */
-     boffset = i%32;
-     i = gsl_rng_get(rng);
-     i = get_bit_ntuple(&i,1,20,boffset);
-     w[i]++;
+     MYDEBUG(D_DIEHARD_BITSTREAM) {
+       printf("# diehard_bitstream: Non-overlapping t = %u, i = %u\n",t,i);
+     }
+     if(t%2 == 0){
+       w20 = 0;  /* Start with window clear, of course... */
+       for(j=0;j<2;j++){          /* Get two bytes */
+         w20 = w20 << 8;          /* Does nothing on first call */
+         w20 += cbitstream[i];  /* Shift in each byte */
+         MYDEBUG(D_DIEHARD_BITSTREAM) {
+           printf("# diehard_bitstream: i = %u  cb = %u w20 = ",i,cbitstream[i]);
+           dumpuintbits(&w20, 1);
+           printf("\n");
+         }
+	 i++;
+       }
+       wscratch = (uint) (cbitstream[i] >> 4);    /* Get first 4 bits of next byte */
+       MYDEBUG(D_DIEHARD_BITSTREAM) {
+         printf("# diehard_bitstream: wscratch = ");
+         dumpuintbits(&wscratch, 1);
+         printf("\n");
+       }
+       w20 = (w20 << 4) + wscratch;               /* Gets evens */
+       MYDEBUG(D_DIEHARD_BITSTREAM) {
+         printf("# diehard_bitstream: w20 = ");
+         dumpuintbits(&w20, 1);
+         printf("\n");
+       }
+     } else {
+       wscratch = (uint) cbitstream[i];
+       MYDEBUG(D_DIEHARD_BITSTREAM) {
+         printf("# diehard_bitstream: i = %u  wscratch = ",i);
+         dumpuintbits(&wscratch, 1);
+         printf("\n");
+       }
+       w20 = wscratch & 0x0000000F ; /* Get last 4 bits of next byte */
+       MYDEBUG(D_DIEHARD_BITSTREAM) {
+         printf("# diehard_bitstream: i = %u  w20 = ",i);
+         dumpuintbits(&w20, 1);
+         printf("\n");
+       }
+       i++;
+       for(j=0;j<2;j++){          /* Get two more bytes */
+         w20 = w20 << 8;
+         w20 += cbitstream[i];  /* Shift in each byte */
+         MYDEBUG(D_DIEHARD_BITSTREAM) {
+           printf("# diehard_bitstream: i = %u  w20 = ",i);
+           dumpuintbits(&w20, 1);
+           printf("\n");
+         }
+	 i++;
+       }
+       MYDEBUG(D_DIEHARD_BITSTREAM) {
+         printf("# diehard_bitstream: w20 = ");
+         dumpuintbits(&w20, 1);
+         printf("\n");
+       }
+     }
+     w[w20]++;
+
    }
  }
 
@@ -176,6 +263,7 @@ void diehard_bitstream(Test **test, int irun)
   * depends...
   */
  nullfree(w);
+ nullfree(bitstream);
 
 }
 

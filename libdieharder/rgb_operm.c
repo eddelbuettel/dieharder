@@ -248,7 +248,7 @@ void make_cexact()
   * pi[] is the permutation index of a sample.  ps[] holds the
   * actual sample.
   */
- int pi[4096],ps[4096];
+ size_t pi[4096],ps[4096];
  /*
   * We seem to have made a mistake of sorts.  We actually have to sum
   * BOTH the forward AND the backward directions.  That means that the
@@ -325,8 +325,8 @@ void make_cexact()
    }
    */
    for(k=0;k<2*rgb_operm_k - 1;k++){
-     gsl_sort_index(ps,&testv[k],1,rgb_operm_k);
-     pi[k] = piperm(ps,rgb_operm_k);
+     gsl_sort_index((size_t *) ps,&testv[k],1,rgb_operm_k);
+     pi[k] = piperm((size_t *) ps,rgb_operm_k);
 
      /* Not cruft, but quiet...
      MYDEBUG(D_RGB_OPERM){
@@ -460,8 +460,8 @@ void make_cexpt()
    }
    */
    for(k=0;k<2*rgb_operm_k-1;k++){
-     gsl_sort_index(ps,&testv[k],1,rgb_operm_k);
-     pi[k] = piperm(ps,rgb_operm_k);
+     gsl_sort_index((size_t *)ps,&testv[k],1,rgb_operm_k);
+     pi[k] = piperm((size_t *)ps,rgb_operm_k);
 
      /* Not cruft, but quiet...
      MYDEBUG(D_RGB_OPERM){

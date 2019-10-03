@@ -55,6 +55,12 @@ void run_rgb_bitdist()
    rgb_bitdist_test = create_test(&rgb_bitdist_dtest,tsamples,psamples,&rgb_bitdist);
 
    /*
+    * This particular test we need to pre-initialize the pvlabel for
+    * each test, in order.
+    */
+   snprintf(rgb_bitdist_test[0]->pvlabel,LINE,"# Normal p-value for RGB Bitdist test for n = %u\n",rgb_bitdist_ntuple);
+
+   /*
     * Show the standard test header for this test.
     */
    show_test_header(&rgb_bitdist_dtest,rgb_bitdist_test);

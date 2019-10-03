@@ -1,8 +1,5 @@
 /*
- * $Id: diehard_rank_6x8.c 230 2006-08-22 05:31:54Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
- *
  */
 
 /*
@@ -25,6 +22,11 @@
 
 #include <dieharder/libdieharder.h>
 
+/*
+ * Include inline uint generator
+ */
+#include "static_get_bits.c"
+
 void diehard_rank_6x8(Test **test, int irun)
 {
 
@@ -36,6 +38,7 @@ void diehard_rank_6x8(Test **test, int irun)
  Vtest vtest;
 
  Vtest_create(&vtest,7,"diehard_rank_6x8",gsl_rng_name(rng));
+ vtest.cutoff = 5.0;
  for(i=0;i<2;i++){
    vtest.x[0] = 0.0;
    vtest.y[0] = 0.0;
@@ -66,7 +69,7 @@ void diehard_rank_6x8(Test **test, int irun)
        printf("# ");
      }
 
-     get_rand_bits(&bitstring,sizeof(uint),8,rng);
+     bitstring = get_rand_bits_uint(32,0xffffffff,rng);
      diehard_rank_6x8_mtx[i][0] = bitstring;
 
      if(verbose == D_DIEHARD_RANK_6x8 || verbose == D_ALL){

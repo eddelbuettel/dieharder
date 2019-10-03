@@ -9,6 +9,7 @@
 #include <dieharder/rgb_persist.h>
 #include <dieharder/rgb_bitdist.h>
 #include <dieharder/rgb_operm.h>
+#include <dieharder/rgb_permutations.h>
 #include <dieharder/rgb_minimum_distance.h>
 #include <dieharder/diehard_birthdays.h>
 #include <dieharder/diehard_operm5.h>
@@ -30,6 +31,7 @@
 #include <dieharder/marsaglia_tsang_gcd.h>
 #include <dieharder/sts_monobit.h>
 #include <dieharder/sts_runs.h>
+#include <dieharder/sts_serial.h>
 
 /*
 #include <dieharder/marsaglia_tsang_gorilla.h>
@@ -67,9 +69,10 @@
    RGB_TIMING,
    RGB_PERSIST,
    RGB_BITDIST,
+   RGB_MINIMUM_DISTANCE,
+   RGB_PERMUTATIONS,
    RGB_LMN,
    RGB_OPERM,
-   RGB_MINIMUM_DISTANCE,
    N_RGB_TESTS
  } Rgb_Tests;
 
@@ -77,7 +80,7 @@
    STS_NONE,
    STS_MONOBIT,
    STS_RUNS,
-   STS_BLOCK,
+   STS_SERIAL,
    N_STS_TESTS
  } Sts_Tests;
 

@@ -1,8 +1,5 @@
 /*
- * $Id: diehard_count_1s_stream.c 231 2006-08-22 16:18:05Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
- *
  */
 
 /*
@@ -69,6 +66,11 @@
 
 
 #include <dieharder/libdieharder.h>
+
+/*
+ * Include inline uint generator
+ */
+#include "static_get_bits.c"
 
 /*
  * This table was generated using the following code fragment.
@@ -194,6 +196,7 @@ void diehard_count_1s_stream(Test **test, int irun)
  ptest.sigma = sqrt(5000.0);
 
  Vtest_create(&vtest4,625,"diehard_count_the_1s",gsl_rng_name(rng));
+ vtest4.cutoff = 5.0;
  for(i=0;i<625;i++){
    j = i;
    vtest4.y[i] = test[0]->tsamples;
@@ -221,6 +224,7 @@ void diehard_count_1s_stream(Test **test, int irun)
  }
 
  Vtest_create(&vtest5,3125,"diehard_count_the_1s",gsl_rng_name(rng));
+ vtest5.cutoff = 5.0;
  for(i=0;i<3125;i++){
    j = i;
    vtest5.y[i] = test[0]->tsamples;
@@ -249,33 +253,33 @@ void diehard_count_1s_stream(Test **test, int irun)
   * only.
   */
  if(overlap){
-   i = gsl_rng_get(rng);
-   if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
+   i = get_rand_bits_uint(32, 0xFFFFFFFF, rng);
+   MYDEBUG(D_DIEHARD_COUNT_1S_STREAM){
      dumpbits(&i,32);
    }
    /* 1st byte */
-   j = get_bit_ntuple(&i,1,8,0);
+   j = get_bit_ntuple_from_uint(i,8,0x000000FF,0);
    index5 = b5s[j];
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
      dumpbits(&j,8);
    }
    /* 2nd byte */
-   j = get_bit_ntuple(&i,1,8,8);
+   j = get_bit_ntuple_from_uint(i,8,0x000000FF,8);
    index5 = LSHIFT5(index5,b5s[j]);
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
      dumpbits(&j,8);
    }
    /* 3rd byte */
-   j = get_bit_ntuple(&i,1,8,16);
+   j = get_bit_ntuple_from_uint(i,8,0x000000FF,16);
    index5 = LSHIFT5(index5,b5s[j]);
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
      dumpbits(&j,8);
    }
    /* 4th byte */
-   j = get_bit_ntuple(&i,1,8,24);
+   j = get_bit_ntuple_from_uint(i,8,0x000000FF,24);
    index5 = LSHIFT5(index5,b5s[j]);
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
@@ -305,7 +309,7 @@ void diehard_count_1s_stream(Test **test, int irun)
         * We need a new rand to get our next byte.
         */
        boffset = 0;
-       i = gsl_rng_get(rng);
+       i = get_rand_bits_uint(32, 0xFFFFFFFF, rng);
        if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
          dumpbits(&i,32);
        }
@@ -313,7 +317,7 @@ void diehard_count_1s_stream(Test **test, int irun)
      /*
       * get next byte from the last rand we generated.
       */
-     j = get_bit_ntuple(&i,1,8,boffset);
+     j = get_bit_ntuple_from_uint(i,8,0x000000FF,boffset);
      index5 = LSHIFT5(index5,b5s[j]);
      /*
       * I THINK that this basically throws away the sixth digit in the
@@ -337,7 +341,7 @@ void diehard_count_1s_stream(Test **test, int irun)
 	  * We need a new rand to get our next byte.
 	  */
          boffset = 0;
-         i = gsl_rng_get(rng);
+         i = get_rand_bits_uint(32, 0xFFFFFFFF, rng);
          if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
            dumpbits(&i,32);
          }
@@ -345,7 +349,7 @@ void diehard_count_1s_stream(Test **test, int irun)
        /*
         * get next byte from the last rand we generated.
         */
-       j = get_bit_ntuple(&i,1,8,boffset);
+       j = get_bit_ntuple_from_uint(i,8,0x000000FF,boffset);
        index5 = LSHIFT5(index5,b5s[j]);
        if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
          printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);

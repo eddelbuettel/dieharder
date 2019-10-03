@@ -1,8 +1,5 @@
 /*
- * $Id: diehard_count_1s_byte.c 231 2006-08-22 16:18:05Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
- *
  */
 
 /*
@@ -75,6 +72,11 @@
 
 
 #include <dieharder/libdieharder.h>
+
+/*
+ * Include inline uint generator
+ */
+#include "static_get_bits.c"
 
 /*
  * This table was generated using the following code fragment.
@@ -194,6 +196,7 @@ void diehard_count_1s_byte(Test **test, int irun)
  ptest.sigma = sqrt(5000.0);
 
  Vtest_create(&vtest4,625,"diehard_count_the_1s",gsl_rng_name(rng));
+ vtest4.cutoff = 5.0;
  for(i=0;i<625;i++){
    j = i;
    vtest4.y[i] = test[0]->tsamples;
@@ -221,6 +224,7 @@ void diehard_count_1s_byte(Test **test, int irun)
  }
 
  Vtest_create(&vtest5,3125,"diehard_count_the_1s",gsl_rng_name(rng));
+ vtest5.cutoff = 5.0;
  for(i=0;i<3125;i++){
    j = i;
    vtest5.y[i] = test[0]->tsamples;
@@ -256,14 +260,14 @@ void diehard_count_1s_byte(Test **test, int irun)
     * overlap.
     */
    for(k=0;k<5;k++){
-     i = gsl_rng_get(rng);
+     i = get_rand_bits_uint(32, 0xFFFFFFFF, rng);
      if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
        dumpbits(&i,32);
      }
      /*
       * get next byte from the last rand we generated.
       */
-     j = get_bit_ntuple(&i,1,8,boffset);
+     j = get_bit_ntuple_from_uint(i,8,0x000000FF,boffset);
      index5 = LSHIFT5(index5,b5b[j]);
      if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
        printf("b5b[%u] = %u, index5 = %u\n",j,b5b[j],index5);

@@ -76,9 +76,13 @@ Test **create_test(Dtest *dtest, uint tsamples,uint psamples, void (*testfunc)()
    }
      
    /*
-    * Now we can malloc space for the pvalues vector.
+    * Now we can malloc space for the pvalues vector, and a
+    * single (80-column) LINE for labels for the pvalues.  We default
+    * the label to a line of #'s.
     */
    newtest[i]->pvalues = (double *)malloc((size_t)newtest[i]->psamples*sizeof(double));
+   newtest[i]->pvlabel = (char *)malloc((size_t)LINE*sizeof(char));
+   snprintf(newtest[i]->pvlabel,LINE,"##################################################################\n");
    for(j=0;j<newtest[i]->psamples;j++){
      newtest[i]->pvalues[j] = 0.0;
    }

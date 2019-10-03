@@ -70,7 +70,7 @@ static unsigned long int file_input_raw_get(void *vstate)
     * This (with seed s == 0) basically rewinds the file and resets
     * state->rptr to 0, but rtot keeps running,
     */
-   if(state->rptr == state->flen){
+   if(state->flen && state->rptr == state->flen){
      /*
       * Reset/rewind the file
       */
@@ -131,12 +131,30 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
     * length.
     */
    if(S_ISREG(sbuf.st_mode)){
+     /*
+      * sbuf.st_size should be type off_t, which is automatically u_int64_t
+      * if FILE_OFFSET_BITS is set to 64, which it is.  So this should be
+      * able to manage large file sizes.   Similarly, in the struct
+      * file_input_state_t flen should be type off_t.  This means that
+      * filecount has to be off_t as well.
+      */
      state->flen = sbuf.st_size/sizeof(uint);
      filecount = state->flen;
-   } else {
-     fprintf(stderr,"# file_input_raw(): Error -- path %s not regular file.\n",filename);
+     if (filecount < 16) {
+       fprintf(stderr,"# file_input_raw(): Error -- file is too small.\n",filename);
+       exit(0);
+     }
+   } else if (S_ISDIR(sbuf.st_mode)){
+     fprintf(stderr,"# file_input_raw(): Error -- path %s is a directory.\n",filename);
      exit(0);
+   } else {
+      /*
+       * This is neither a file nor a directory, so we will not
+       * even try to seek.
+       */
+     state->flen = 0;
    }
+
    /*
     * This segment is executed only one time when the file is FIRST opened.
     */
@@ -196,7 +214,7 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
     * -a(ll) run.  Therefore we rewind every time our file pointer reaches
     * the end of the file or call gsl_rng_set(rng,0).
     */
-   if(state->rptr >= state->flen){
+   if(state->flen && state->rptr >= state->flen){
      rewind(state->fp);
      state->rptr = 0;
      state->rewind_cnt++;

@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: work.c 358 2007-11-14 12:01:57Z rgb $
+ * $Id: work.c 423 2008-08-18 20:15:49Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -29,10 +29,11 @@ void work()
    run_rgb_timing();
    run_rgb_persist();
    run_rgb_bitdist();
-   /*  run_rgb_operm(); */
    run_rgb_minimum_distance();
+   run_rgb_permutations();
+   /*  run_rgb_operm(); */
    run_diehard_birthdays();
-   run_diehard_operm5();
+   /* run_diehard_operm5(); */
    run_diehard_rank_32x32();
    run_diehard_rank_6x8();
    run_diehard_bitstream();
@@ -45,13 +46,14 @@ void work()
    run_diehard_2dsphere();
    run_diehard_3dsphere();
    run_diehard_squeeze();
-   run_diehard_sums();
+   /* run_diehard_sums(); */
    run_diehard_runs();
    run_diehard_craps();
    run_marsaglia_tsang_gcd();
    /* marsaglia_tsang_gorilla(); */
    run_sts_monobit();
    run_sts_runs();
+   run_sts_serial();
    run_user_template();
    Exit(0);
  }
@@ -150,16 +152,20 @@ void work()
      run_rgb_bitdist();
      Exit(0);
      break;
+   case RGB_MINIMUM_DISTANCE:
+     run_rgb_minimum_distance();
+     Exit(0);
+     break;
    case RGB_LMN:
      rgb_lmn();
      Exit(0);
      break;
-   case RGB_OPERM:
-     run_rgb_operm();
+   case RGB_PERMUTATIONS:
+     run_rgb_permutations();
      Exit(0);
      break;
-   case RGB_MINIMUM_DISTANCE:
-     run_rgb_minimum_distance();
+   case RGB_OPERM:
+     run_rgb_operm();
      Exit(0);
      break;
    default:
@@ -173,6 +179,10 @@ void work()
      break;
    case STS_RUNS:
      run_sts_runs();
+     Exit(0);
+     break;
+   case STS_SERIAL:
+     run_sts_serial();
      Exit(0);
      break;
    default:

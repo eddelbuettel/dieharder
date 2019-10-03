@@ -12,36 +12,66 @@
 # make svn      does a svn commit and creates the timestamp $(SVN)
 # make sync     does a svn commit and rsyncs to list of hosts
 #========================================================================
-PROJECT = dieharder
-PROGRAM = dieharder
-DIR = $(PROGRAM)
-
-SVNTREE = $(HOME)/Src/svn-tree
-SVNPATH = $(SVNTREE)/$(PROJECT)
-SVNTIME = $(DIR:=.svn.time)
 
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
 VERSION=@VERSION@
 
 #========================================================================
-# Define all sources.  Note that we choose to depend on ALL the includes
-# in the include directory, which cannot be empty or this will barf.
-# We also have dependencies that extend to the libdieharder source
-# directory, as we need to force a build if any of them change.
+# Define all sources.  Note that this little trick will get ALL
+# the source files in the working directory, which must not be empty
+# Alas, GBT complains just a bit about the shell commands...
 #========================================================================
-SRCSOURCES = $(shell ls *.c  2>&1 | sed -e "/\/bin\/ls:/d")
-SRCINCLUDES = $(shell ls *.h  2>&1 | sed -e "/\/bin\/ls:/d")
-
-# These are important dependencies, although it isn't easy to
-# see how to force a consistent build when working on the UI
-# and library at the same time.  Maybe with particular make targets...
-LIBINCLUDES = $(shell ls ../include/dieharder/*.h  2>&1 | sed -e "/\/bin\/ls:/d")
-PROGLIB_SONAME = ../libwulf/libdieharder.so.$(VERSION)
-
-SOURCES = $(LIBSOURCES) $(SRCSOURCES)
-INCLUDES = $(LIBINCLUDES) $(SRCINCLUDES)
-OBJECTS = $(SRCSOURCES:.c=.o)
+# dieharder_SOURCES = $(shell ls *.c  2>&1 | sed -e "/\/bin\/ls:/d")
+# SRCINCLUDES = $(shell ls *.h  2>&1 | sed -e "/\/bin\/ls:/d")
+bin_PROGRAMS = dieharder
+man1_MANS = dieharder.1
+dieharder_LDADD = ../libdieharder/libdieharder.la -lgsl -lgslcblas -lm
+dieharder_SOURCES = \
+	dieharder.c \
+	dieharder_exit.c \
+	help.c \
+	histogram.c \
+	list_rand.c \
+	list_rngs.c \
+	list_tests.c \
+	output_rnds.c \
+	parsecl.c \
+	rdieharder.c \
+	rng_empty_random.c \
+	run_diehard_2dsphere.c \
+	run_diehard_3dsphere.c \
+	run_diehard_birthdays.c \
+	run_diehard_bitstream.c \
+	run_diehard_count_1s_byte.c \
+	run_diehard_count_1s_stream.c \
+	run_diehard_craps.c \
+	run_diehard_dna.c \
+	run_diehard_operm5.c \
+	run_diehard_opso.c \
+	run_diehard_oqso.c \
+	run_diehard_parking_lot.c \
+	run_diehard_rank_32x32.c \
+	run_diehard_rank_6x8.c \
+	run_diehard_runs.c \
+	run_diehard_squeeze.c \
+	run_diehard_sums.c \
+	run_marsaglia_tsang_gcd.c \
+	run_rgb_bitdist.c \
+	run_rgb_minimum_distance.c \
+	run_rgb_operm.c \
+	run_rgb_permutations.c \
+	run_rgb_persist.c \
+	run_rgb_timing.c \
+	run_sts_monobit.c \
+	run_sts_runs.c \
+	run_sts_serial.c \
+	run_user_template.c \
+	startup.c \
+	test.c \
+	testbits.c \
+	user_template.c \
+	work.c
 
 DEFINES = -DVERSION=$(VERSION)
 
@@ -49,72 +79,20 @@ DEFINES = -DVERSION=$(VERSION)
 # Define parameters and directives needed in compile/link steps.
 #========================================================================
 # C Compiler
-CC = gcc
+# CC = gcc
 
 # Compile flags (use fairly standard -O3 as default)
-CFLAGS = -O3 -I ../include $(DEFINES) 
-
-# Linker flags.
-LDFLAGS =
-
-# Libraries
-LIBS = -L ../libdieharder -ldieharder -lgsl -lgslcblas -lm
+AM_CPPFLAGS = -I ${top_srcdir}/include $(DEFINES) -I ${includedir}
+AM_CFLAGS = -O3
 
 #========================================================================
-# List of variants one can make.  all is the default.  We always
-# presume the simplest of dependencies and remake if includes change
-# for example.
+# The only safe place to do svn commits is in the toplevel directory
 #========================================================================
-all: $(PROGRAM)
-
-$(PROGRAM): $(OBJECTS) $(PROGLIB_SONAME)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS) 
-
-#========================================================================
-# This is cautiously permitted.  REALLY, though, we need a conditional
-# that punts with a warning if we try this during an rpm build and
-# the library is not found -- the right solution then is to install
-# the library first!
-#========================================================================
-$(PROGLIB_SONAME):
-	- (cd ../libdieharder ;\
-	 $(MAKE))
-
-#========================================================================
-# The only safe place to do commits is in the toplevel directory
-#========================================================================
+SVNTREE = $(HOME)/Src/svn-tree
+SVNPATH = $(SVNTREE)/dieharder
+SVNTIME = dieharder.svn.time)
 svn:
 	(cd ..;make svn)
 
 sync:
 	(cd ..;make sync)
-
-#========================================================================
-# printout makes an enscript -2r printout of SOURCES and
-# and INCLUDES.  Use lpr if you don't have enscript
-#========================================================================
-LPR = enscript -2r
-# LPR = lpr
-printout:
-	$(LPR) $(SRCSOURCES) $(SRCINCLUDES)
-
-#========================================================================
-#  A standard cleanup target
-#========================================================================
-clean : 
-	- rm -f core $(PROGRAM) *.o $(PROGRAM).1.gz
-
-install : $(PROGRAM)
-	(install -d $(prefix)/bin; \
-	install -m 755 $(PROGRAM) $(prefix)/bin; \
-	install -d $(prefix)/share/man/man1; \
-	gzip -c -9 $(PROGRAM).1 > $(PROGRAM).1.gz; \
-	install -m 644 $(PROGRAM).1.gz $(prefix)/share/man/man1)
-
-#========================================================================
-# We give all generic rules below.  Currently we only need a rule for 
-# objects.
-#========================================================================
-%.o:%.c
-	$(CC) -c $(CFLAGS) $<
-

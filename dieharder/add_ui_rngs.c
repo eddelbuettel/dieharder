@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: add_ui_rngs.c 326 2007-05-23 01:12:07Z rgb $
+ * $Id: add_ui_rngs.c 391 2008-03-12 21:47:53Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -42,8 +42,11 @@ void add_ui_rngs()
  /*
   * and add the new ones.  Just clone these triplets as needed.
   */
+ /* gsl_rng_empty_random */
  types[i] = (gsl_rng_empty_random);
- if(verbose) printf("# add_my_types():  Added type %d = %s\n",i,types[i]->name);
+ MYDEBUG(D_ADD_MY_TYPES){
+   printf("# add_my_types():  Added type %d = %s\n",i,types[i]->name);
+ }
  i++;
 
 }

@@ -2,7 +2,6 @@
 
 Name: dieharder-src
 Summary: Dieharder is a random number generator tester and timer
-Packager: rgb@phy.duke.edu
 %define version @VERSION@
 %define release @RELEASE@
 Version: %{version}
@@ -11,6 +10,8 @@ License: Open Source (GPL)
 Group: Development/Tools
 Source: dieharder-%{version}.tgz
 URL: http://www.phy.duke.edu/~rgb/General/dieharder.php
+Requires: gsl
+BuildRequires: chrpath gsl-devel
 
 # Mandatory path for Fedora Core builds
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -79,10 +80,14 @@ last suite of random number testers you'll ever wear".
 ########################################################################
 %prep
 %setup -q -n dieharder-%{version}
+./autogen.sh
+
+%configure
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 %build
-./autogen.sh
-./configure --prefix=$RPM_BUILD_ROOT%{_prefix}
+./configure --prefix=$RPM_BUILD_ROOT%{_prefix} --libdir=$RPM_BUILD_ROOT%{_libdir}
 make
 
 # Note that multipackage sources with libraries are happier with
@@ -90,12 +95,18 @@ make
 # full install.
 %install
 rm -rf $RPM_BUILD_ROOT
-make prefix=$RPM_BUILD_ROOT%{_prefix} bindir=$RPM_BUILD_ROOT%{_bindir} \
-    mandir=$RPM_BUILD_ROOT%{_mandir} libdir=$RPM_BUILD_ROOT%{_libdir} \
-    localstatedir=$RPM_BUILD_ROOT%{_localstatedir} \
-    datadir=$RPM_BUILD_ROOT%{_datadir} \
-    includedir=$RPM_BUILD_ROOT%{_includedir} \
-    sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} install
+make prefix=$RPM_BUILD_ROOT%{_prefix} install
+chrpath --delete $RPM_BUILD_ROOT%{_bindir}/dieharder
+rm -rf $RPM_BUILD_ROOT%{_libdir}/libdieharder.a
+rm -rf $RPM_BUILD_ROOT%{_libdir}/libdieharder.la
+rm -rf $RPM_BUILD_ROOT%{_libdir}/libdieharder.so.?
+
+# make prefix=$RPM_BUILD_ROOT%{_prefix} bindir=$RPM_BUILD_ROOT%{_bindir} \
+#     mandir=$RPM_BUILD_ROOT%{_mandir} libdir=$RPM_BUILD_ROOT%{_libdir} \
+#     localstatedir=$RPM_BUILD_ROOT%{_localstatedir} \
+#     datadir=$RPM_BUILD_ROOT%{_datadir} \
+#     includedir=$RPM_BUILD_ROOT%{_includedir} \
+#     sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir} install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -113,6 +124,7 @@ rm -rf $RPM_BUILD_ROOT
 # versioned library -- ldconfig and ln are used to finish off
 # later.
 %{_libdir}/libdieharder.so.%{version}
+%{_libdir}/libdieharder.so
 
 # The libdieharder include files are under here
 %attr(644,root,root) /usr/include/dieharder
@@ -121,7 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root,root) /usr/share/man/man3/libdieharder.3.gz
 
 # These are all pretty much standard.
-%doc ChangeLog Copyright README COPYING NOTES
+%doc ChangeLog Copyright README COPYING NOTES dieharder.abs
 
 ########################################################################
 # Files installed with the dieharder tty UI
@@ -136,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(644,root,root) /usr/share/man/man1/dieharder.1.gz
 
 # These are all pretty much standard.
-%doc ChangeLog Copyright README COPYING NOTES
+%doc ChangeLog Copyright README COPYING NOTES dieharder.abs
 
 ########################################################################
 # Command to execute post install or uninstall of libdieharder
@@ -146,11 +158,11 @@ rm -rf $RPM_BUILD_ROOT
 if [ -d /usr/lib64 ]
 then
   cd /usr/lib64
-  ln -sf libdieharder.so.%{version} libdieharder.so
+  # ln -sf libdieharder.so.%{version} libdieharder.so
   ldconfig -n .
 else
   cd /usr/lib
-  ln -sf libdieharder.so.%{version} libdieharder.so
+  # ln -sf libdieharder.so.%{version} libdieharder.so
   ldconfig -n .
 fi
 

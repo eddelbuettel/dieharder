@@ -1,0 +1,121 @@
+--- rgb_bitdist.c.orig	2008-03-03 23:31:48.767542000 -0500
++++ rgb_bitdist.c	2008-03-03 23:43:37.535618000 -0500
+@@ -57,6 +57,36 @@
+ 
+ #include <dieharder/libdieharder.h>
+ 
++inline static uint my_get_rand_bits_uint (uint nbits, uint mask, gsl_rng *rng)
++{
++   static uint bit_buffer;
++   static uint bits_left_in_bit_buffer = 0;
++   uint bits;
++
++   if (bits_left_in_bit_buffer >= nbits)
++     {
++	bits_left_in_bit_buffer -= nbits;
++	bits = (bit_buffer >> bits_left_in_bit_buffer);
++	return bits & mask;
++     }
++
++   nbits = nbits - bits_left_in_bit_buffer;
++   bits = bit_buffer << nbits;
++   while (1)
++     {
++	bit_buffer = gsl_rng_get (rng);
++	bits_left_in_bit_buffer = rmax_bits;
++	if (bits_left_in_bit_buffer >= nbits)
++	  {
++	     bits_left_in_bit_buffer -= nbits;
++	     bits |= (bit_buffer >> bits_left_in_bit_buffer);
++	     return bits & mask;
++	  }
++	nbits -= bits_left_in_bit_buffer;
++	bits |= (bit_buffer << nbits);
++     }
++}
++
+ void rgb_bitdist(Test **test,int irun)
+ {
+ 
+@@ -65,6 +95,7 @@
+  uint value_max;   /* 2^{nb}, basically (max size of nb bit word + 1) */
+  uint bsamples;    /* The number of non-overlapping samples in buffer */
+  uint value;       /* value of sampled ntuple (as a uint) */
++ uint mask;
+ 
+  /* Look for cruft below */
+ 
+@@ -133,13 +164,17 @@
+    printf("# rgb_bitdist():            vtest table\n");
+    printf("# rgb_bitdist(): Outcome   bit          x           y       sigma\n");
+  }
++   
++ tsamples = test[0]->tsamples;
++ mask = ((1u << nb) - 1);
++
+  for(i=0;i<value_max;i++){
+    Vtest_create(&vtest[i],bsamples+1,"rgb_bitdist",gsl_rng_name(rng));
+    for(b=0;b<=bsamples;b++){
+      if(i==0){
+        pbin = gsl_ran_binomial_pdf(b,ntuple_prob,bsamples);
+        vtest[i].x[b] = 0.0;
+-       vtest[i].y[b] = test[0]->tsamples*pbin;
++       vtest[i].y[b] = tsamples*pbin;
+      } else {
+        vtest[i].x[b] = 0.0;
+        vtest[i].y[b] = vtest[0].y[b];
+@@ -148,6 +183,7 @@
+        printf("# rgb_bitdist():  %3u     %3u   %10.5f  %10.5f\n",
+          i,b,vtest[i].x[b],vtest[i].y[b]);
+      }
++     vtest[i].x[0] = tsamples;
+    }
+    MYDEBUG(D_RGB_BITDIST){
+      printf("# rgb_bitdist():=====================================================\n");
+@@ -160,13 +196,13 @@
+   * with the bitcount as an index as a trial that generated that
+   * bitcount.
+   */
+- for(t=0;t<test[0]->tsamples;t++){
++ memset(count,0,value_max*sizeof(uint));
++ for(t=0;t<tsamples;t++){
+ 
+    /*
+     * Clear the count vector for this sample.
+     */
+-   memset(count,0,value_max*sizeof(uint));
+-
++    
+    for(b=0;b<bsamples;b++){
+ 
+      /*
+@@ -175,7 +211,7 @@
+       * skipping bits.  Then increment the count of this ntuple value's
+       * occurrence out of bsamples tries.
+       */
+-     get_rand_bits(&value,sizeof(uint),nb,rng);
++     value = my_get_rand_bits_uint (nb, mask, rng);
+      count[value]++;
+ 
+      MYDEBUG(D_RGB_BITDIST) {
+@@ -190,10 +226,16 @@
+     */
+    ctotal = 0;
+    for(i=0;i<value_max;i++){
+-     vtest[i].x[count[i]]++;
+-     ctotal += count[i];
+-     MYDEBUG(D_RGB_BITDIST){
+-       printf("# rgb_bitdist(): vtest[%u].x[%u] = %u\n",i,count[i],(uint)vtest[i].x[count[i]]);
++      uint count_i = count[i];
++      if (count_i)
++	{
++	   count[i] = 0;		       /* performs memset */
++	   ctotal += count_i;
++	   vtest[i].x[count_i]++;
++	   vtest[i].x[0]--;
++	}
++      MYDEBUG(D_RGB_BITDIST){
++	 printf("# rgb_bitdist(): vtest[%u].x[%u] = %u\n",i,count[i],(uint)vtest[i].x[count[i]]);
+      }
+    }
+    MYDEBUG(D_RGB_BITDIST){

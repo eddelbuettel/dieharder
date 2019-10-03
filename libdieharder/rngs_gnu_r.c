@@ -58,8 +58,25 @@ typedef unsigned long int Int32;
 
 typedef void * (*DL_FUNC)();
 
+/*
+ * The question is, will the patch below break the Debian
+ * build process?  Had better test it as best I can in my Debian VM.
 void error(const char *txt, ...); 
 char *_(char *txt) { return(txt); };
+*/
+void dieharder_error(const char *format, ...)
+{
+
+	va_list ap;
+	va_start(ap, format);
+	vfprintf(stderr, format, ap);
+	va_end(ap);
+
+}
+
+#define error dieharder_error
+#define _(x) x
+
 
 /* UINT_MAX from limits.h */
 #define RANDNUM_MAX	UINT_MAX

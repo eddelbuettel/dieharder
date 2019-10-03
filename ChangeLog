@@ -1,25 +1,1166 @@
+2008-08-18 19:50  rgb
+
+	* .: This might be ready for a production snapshot, or a testing
+	  snapshot,
+	  or something like that. At any rate, I have BOTH fixed the
+	  generator
+	  problem (where rngs have numbers that can change as new
+	  generators
+	  are added. I fixed this by significantly increasing the size of
+	  the
+	  types[] vector and working moderately hard to pack it with
+	  generators
+	  sparsely and sanely -- sparse so there is plenty of room, sane
+	  because
+	  the space is now blocked out by general category with room to
+	  grown.
+	  
+	  This will NOT GUARANTEE that the GSL will not change its internal
+	  order,
+	  and dieharder will continue to follow the GSL order where they
+	  overlap
+	  as nothing else makes sense.
+	  
+	  I >>also<< think I've fixed -r 5, rgb_permutations. This is a
+	  non-overlapping permutations test and runs to more or less
+	  arbitrary
+	  order (and seems to work quite nicely where it runs, although it
+	  gets
+	  quite slow when we get to very large permutations as one might
+	  expect).
+	  
+	  I think it is time to bump the minor-minor number to 11 and post
+	  it, for
+	  the time being with -r 5 still marked out as experimental in the
+	  help listing.
+
+2008-08-18 18:33  rgb
+
+	* .: This fixes the only real bug, I think -- dieharder now dies
+	  with a
+	  complaint if it is invoked with an invalid -g entry, sort of.
+	  Hmmm,
+	  actually I might need to tweak this fix just a bit more to check
+	  on the complete range.
+
+2008-08-18 18:29  rgb
+
+	* .: This actually works and has the number spaces previously
+	  discussed
+	  all implemented and everything.
+
+2008-08-18 00:15  rgb
+
+	* .: This is a step in the process of figuring out how to "fix" the
+	  numbers
+	  for rngs to test. I think I'm going to have to move my own setup
+	  routine to libdieharder. But I'm still trying to figure out
+	  whether or
+	  not I can or should replace the gsl code itself, or run something
+	  in
+	  parallel.
+
+2008-08-17 17:30  rgb
+
+	* .: This rearranges the Bugs stuff. I need to create a "cleared"
+	  directory
+	  in Bugs so I can see what is done, as well.
+
+2008-08-17 16:31  rgb
+
+	* .: This updates the abstract, which is also important
+	  documentation and has
+	  been added to the %doc lines in the specfile. I should really
+	  create a
+	  make installdoc target in Makefile.am that can install a bunch of
+	  documents, but that is for another day.
+
+2008-08-15 23:03  rgb
+
+	* .: This is 2.27.10-1, and adds stdin support and fixes a few bugs
+	  in the
+	  specfile. I'm posting it for distribution, although it is still
+	  not
+	  "finished" -- this is very much development snapshot time.
+
+2008-08-15 18:14  rgb
+
+	* .: This adds the capability to input a binary stream into stdin.
+	  This
+	  patch is due to Paul Serice. He also included a (standalone?) rng
+	  to
+	  test with, which I'll mess with in a moment.
+
+2008-08-03 12:40  rgb
+
+	* .: Added a version string to help. Probably should add one
+	  elsewhere, e.g.
+	  at the top of rng listing and test listing.
+
+2008-08-01 13:11  rgb
+
+	* .: Had to back off the svn2cl in the rpm build -- it now has to
+	  be run BY
+	  HAND before just MY rpmbuild (dummy me) so that it won't fail for
+	  end
+	  users without svn2cl and an svn repo to match. It still builds
+	  perfectly, and I'll do a full rpm build cycle including this step
+	  to get
+	  this last comment into the changelog.
+
+2008-07-29 16:01  rgb
+
+	* .: ...And it is. So henceforth ALL of my svn checkins will be
+	  duly noted
+	  in the ChangeLog, which will therefore get to be very long
+	  indeed, as I
+	  check in a lot.
+	  
+	  Damn! I guess this means no more swearing, and I sure hope I
+	  haven't
+	  impugned anyone's character in the first 400 plus checkins. At
+	  least
+	  not too much. Hmmm, I wonder just what I HAVE said down there. I
+	  tend
+	  to treat SVN logs as sort of a free-association commentary about
+	  the
+	  project in addition to being a place to document changes. Some
+	  changes
+	  have "real" documentation in the form of the svn diffs, as well
+	  -- I
+	  haven't been too specific about just EXACTLY what I've changed
+	  every
+	  time.
+	  
+	  Well, better a ChangeLog up to date and verbose than one months
+	  to years
+	  old, and I'll be hogtied and hung by the nose before I write a
+	  precisely
+	  formatted description of changes day to day as I work on this --
+	  twice.
+	  So SVN it is (dating back to when it was really CVS, BTW,
+	  imported to
+	  SVN).
+	  
+	  Next, I suppose we should provide at least >>a<< fix for the
+	  problem of
+	  shifting generator numbers, and on my own I want to clean up some
+	  issues with file read -- arrange it so we can read in very large
+	  files
+	  and eliminate/document file-based usage redundancies such as
+	  needing -g
+	  65 AND -f filename. This will be a bit tricky, as dieharder can
+	  read in
+	  raw (binary) as well as ascii in many formats, and using the -g
+	  flag to
+	  differentiate at least raw vs cooked has been an easy solution.
+	  
+	  Regarding numbers, it has been suggested that we do two things:
+	  
+	  a) Take action to ensure that the numbers don't change any more,
+	  even if
+	  the gsl or I or a user add new generators. This is actually a bit
+	  of a
+	  PITA (much as I see the motivation for doing so, as moving
+	  numbers break
+	  user scripts) because the way generators are added is to run
+	  through all
+	  the supported ones of each type and just add them in gsl or call
+	  order.
+	  However, there are several ways I can do it (some requiring more
+	  programming than others) and I'll see which one looks to be
+	  easiest and
+	  most robust.
+	  
+	  b) Arrange it so we can call generators by name, not just by
+	  number.
+	  Names would presumably not change even if numbers were inserted,
+	  and
+	  many users will be interested in testing a single generator they
+	  are
+	  thinking of using by name.
+	  
+	  rgb
+
+2008-07-29 15:40  rgb
+
+	* .: OK, this seems to work, autobuilding ChangeLog from the svn
+	  log of my
+	  timestamp file, that basically picks up a message like this one
+	  every
+	  time I do an svn checkin. We'll see in a moment if this is
+	  reflected in
+	  ChangeLog on the next build.
+
+2008-07-29 15:26  rgb
+
+	* .: Just testing...
+
+2008-07-22 13:06  rgb
+
+	* .: This is, in fact, a major checkin. A serious
+	  won't-build-on-lib64 bug
+	  was identified and resolved, the resolution being the addition of
+	  --libdir=... to the ./configure line in the toplevel specfile.
+	  Truthfully, I should probably add this to autogen.sh.
+
+2008-03-27 16:33  rgb
+
+	* .: This is getting close to a release snapshot once again. We do
+	  need to
+	  set the number of tests correctly. I may have to give up on
+	  operm5 or
+	  rgb_operm for the time being (again) but at least I have
+	  rgb_permutations and rgb_bitdist, both of which test similar
+	  things
+	  along with sts_serial ditto. I do need to try to fix sums. I'd
+	  love to
+	  add a couple of the contributed tests. I do need to go through
+	  the
+	  opso, dna, etc. tests and "fix" them wrt overlap and so on.
+
+2008-03-27 01:20  rgb
+
+	* .: This APPEARS to be a functional permutations test, as
+	  expected/hoped.
+	  It uses NON-overlapping samples, although at a guess it would
+	  work
+	  for overlapping ones, just not as well.
+
+2008-03-26 21:09  rgb
+
+	* .: This is one, last, poor attempt to get SOME sort of
+	  functioning
+	  permutations test. I actually had this working "inside"
+	  rgb_operm()
+	  so I imagine I will have it working again here shortly.
+
+2008-03-26 17:39  rgb
+
+	* .: This appears to be "fixed" so that bitstream runs without
+	  complaint. I
+	  will need to check for memory leaks in the long run (heh heh).
+	  This
+	  once again takes me to where "everything works" but sums operm5,
+	  I
+	  think. I'll do another standard S 1 run in a second to make a new
+	  snapshot with a fixed/reference bitstring.
+
+2008-03-24 19:39  rgb
+
+	* .: This fixes up all the tests that seem to require chisq with
+	  explicit
+	  cutoffs (frequently one that will be ignored). Cutoff does matter
+	  in the rgb_bitdist test, though! I think all of these tests are
+	  at last
+	  valid through -p 100 and possibly -p 1000, except for sums,
+	  bitstream
+	  (which I'll fix shortly) and the perennial operm5.
+
+2008-03-24 04:18  rgb
+
+	* .: I am HOPING that this is all good, finally. It runs and gives
+	  very
+	  reasonable answers (once) at -p 1000. Now to see if this is
+	  semiconsistent. I've fixed a few zillion small bugs...
+
+2008-03-22 22:33  rgb
+
+	* .: This repairs one serious bug -- I was misinitializing itail --
+	  and makes
+	  it a bit more precise as far as counting dofs.
+
+2008-03-22 19:54  rgb
+
+	* .: This MAY at long last, actually fix rgb_bitdist by
+	  simultaneously fixing
+	  vtests in general. Our chisq now AUTOMATICALLY bundles the
+	  tail(s) or
+	  low spots in a chisq, independent of where they occur. It looks
+	  like I
+	  failed to set ndof correctly, so there will be another round of
+	  tests
+	  and a quick checkin in a moment.
+
+2008-03-19 06:23  rgb
+
+	* .: THIS IS A WORKING STS SERIAL as far as I can tell. It
+	  correctly reveals
+	  known weak generators. It seems to pass known "decent"
+	  generators. It
+	  is very sensitive to certain kinds of failure.
+	  
+	  I now should redo rgb_bitdist to be the NON-overlapping version
+	  of this
+	  test, at the very least comparing the freq output (generated with
+	  the
+	  same code, I think, ported the other way) to a multinomial chisq
+	  on the
+	  expected values. If I can actually check the distribution of each
+	  number against an asymptotically normal curve, that would be
+	  great too.
+	  If I could IN THE SAME TEST check the asymptotic fraction --
+	  something
+	  like the monkey tests do -- that would be just fabulous!
+	  Especially if
+	  I use a normal and make the comparison very good and not
+	  empirical.
+
+2008-03-19 00:45  rgb
+
+	* .: This is very, very close to working perfectly WITH LABELS for
+	  all the histograms generated by sts_serial. We'll save it just
+	  because
+	  it looks really useful.
+
+2008-03-18 21:13  rgb
+
+	* .: As far as I can tell, sts_serial now works perfectly. Time to
+	  clean up
+	  its act. I will start by decrufting some of the superfluous
+	  output from
+	  the library call, then I'm going to FIX the test struct so that
+	  each
+	  test has its OWN descriptor line that can be set along with its
+	  pvalue
+	  and that will be used by the histogram and/or single line output
+	  routine
+	  to identify the associated statistic. I have to make it a bit
+	  easier
+	  to make a single test call and get back the MATRIX of p-values
+	  for a set
+	  of statistics all generated with the single call.
+
+2008-03-17 04:58  rgb
+
+	* .: This, finally, appears to work perfectly. The last thing I
+	  need to do
+	  is to put all of the pvalues somewhere to be passed back to the
+	  caller,
+	  in order.
+
+2008-03-17 01:44  rgb
+
+	* .: This fixes a build problem on x86_64 -- must not have an
+	  explicit
+	  -L/usr/lib on x86_64 systems, empirically.
+
+2008-03-17 00:55  rgb
+
+	* .: This is much closer. Fixed a few small bugs, and one fairly
+	  large one
+	  from the transition to a loop. This is "probably" right at this
+	  point.
+	  The interesting question is whether and how we can generate
+	  statistics,
+	  pvalues, and results for the whole vector of results. In
+	  principle we
+	  can, but I don't know that I've done 14 in a row. OR, maybe I'll
+	  figure
+	  out that all I need to do is m = 16 (as it includes all its
+	  smaller
+	  cousins, supposedly).
+
+2008-03-16 19:40  rgb
+
+	* .: This isn't really done, but we're going to check it in since
+	  it sort of
+	  mostly works.
+
+2008-03-12 21:47  rgb
+
+	* .: Let's see if this revision works...
+
+2008-03-12 17:34  rgb
+
+	* .: Sending it ALL in to Duke and upstairs. There is a bug
+	  of sorts in our chisq -- we don't have a good way of
+	  specifying the number of degrees of freedom for some
+	  of the tests and we need to.
+
+2008-03-12 11:09  rgb
+
+	* .: This is about as fixed as I can make it without doing algebra.
+	  Algebra
+	  later, fix code up now.
+
+2008-03-11 23:26  rgb
+
+	* .: This APPEARS to check with John E. Davis's patches.
+	  diehard_dna is no
+	  problem -- the drop-in replacement there produces identical
+	  numbers,
+	  runs in half the time. rgb_bitdist gives DIFFERENT numbers but is
+	  MUCH
+	  faster. I still have several "small bugs" to check out including
+	  bugs
+	  in specific tests, and I probably will need to test the static
+	  routines
+	  as well.
+
+2008-03-11 19:49  rgb
+
+	* .: Preparing to do the next round(s) of patches. I suppose we'll
+	  start
+	  with the get_bit_whatever patches. First I need to generate a
+	  "before"
+	  for at least one test that uses them, e.g. birthdays. Then we'll
+	  compare it to after with the fixed seed of 1.
+
+2008-03-11 04:53  rgb
+
+	* .: This is beefing up the tarball so it just works with the usual
+	  preexisting configure.
+
+2008-03-11 04:25  rgb
+
+	* .: RIGHT THIS INSTANT we finally have a clean F8 build with the
+	  new
+	  Makefile.am's and a hacked specfile. Alas, to fix the rpath
+	  problem
+	  I had to resort to using chrpath, which sucks big time. Unless
+	  there
+	  is a libtool directive for fixing it, though, I'm SOL.
+
+2008-03-10 13:41  rgb
+
+	* .: I don't know -- I think that we're getting closer and closer.
+	  We will
+	  have the code completely and cleanly GBT based by the end of the
+	  morning, I think. Well, maybe not since I'm going in to see if
+	  there
+	  is anything entrepreneurial going on with Thom LaBean.
+
+2008-03-10 12:08  rgb
+
+	* .: OK, this is pretty much all the patches, I think. We should be
+	  very
+	  close to BSD-ready. I wonder if I can add the word "beta" to the
+	  "release" or the "8" in VERSION?
+	  
+	  Oh, one other thing -- I very definitely need to fix the rpm
+	  build
+	  (specfile). Let's install into /tmp and see what we've got.
+
+2008-03-10 11:54  rgb
+
+	* .: Decrufted the makefiles, added a /dev/arandom rng for BSD,
+	  fixed tiny
+	  modulus bug in rng list display, added sensible error message
+	  extensions
+	  for people running across distros for the /dev/?random devices (I
+	  "could", of course, use fstat to determine if the devices are
+	  there and
+	  refuse to add them if they aren't, but that's for the future).
+
+2008-03-10 02:07  rgb
+
+	* .: Checking in a mildly broken set. FWIW, a full build actually
+	  works.
+	  OTOH, make rpm does not. Perhaps not too unsurprising. I need to
+	  do
+	  a full install into /tmp and see what comes up.
+
+2008-03-09 19:35  rgb
+
+	* .: This actually is getting close to being done "the right way".
+	  It still
+	  builds, and I think builds an RPM, but I need to work on the
+	  library
+	  side to clean it up as well.
+
+2008-03-09 18:57  rgb
+
+	* .: OK, this is really close to being what freebsd wants.
+
+2008-03-09 17:55  rgb
+
+	* .: OK, looks like the BSD patch for rngs_gnu_r.c works, and I'm
+	  guessing
+	  that it will work in general UNLESS it has to be the gnu error()
+	  program to interface with R, in which case the patch will have to
+	  be
+	  ifdef'd.
+
+2008-03-09 17:38  rgb
+
+	* .: OK, we are in the middle of a Major Patch Job. We're fixing
+	  various
+	  small things that are wrong with our GBT port, trying to get it
+	  so that
+	  it will automagically build on a wider set of systems. The stuff
+	  I've
+	  done so far still builds (I need to test the rpm build though)
+	  and
+	  "should" build on gentoo as well as Debian and Fedora/RH.
+
+2008-02-13 00:01  rgb
+
+	* .: This fixes the Crispin bug, -- a bad number in one column of
+	  s[i][j]
+	  relative to the original diehard. Sure hope it is the correct
+	  one; the
+	  later (c version) diehard matched what I had.
+	  
+	  I really need to compute the r and s directly. But then, I think
+	  I
+	  understand the operm5 test well enough to do it "directly"
+	  without
+	  overlap as a non-overlapping permutations test. It might even be
+	  fun to
+	  make overlap just an option.
+
+2008-01-30 12:47  rgb
+
+	* .: This fixes the abstract AGAIN...
+
+2008-01-02 16:23  rgb
+
+	* .: This should be the absolute minimum needed to build clean from
+	  tarball
+	  using "just" ./configure followed by make. Need to fix the
+	  configure
+	  script to check for the gsl and anything else that might be
+	  needed.
+
+2007-12-07 17:40  rgb
+
+	* .: This checkin just updates the release number.
+
+2007-12-06 19:39  rgb
+
+	* .: This patches two small things -- adds fflush(stdout); so tees
+	  of the
+	  results don't make you wait. Removes a development line from
+	  diehard_operm5 that shouldn't be there in any KIND of real
+	  release.
+	  
+	  Need to bump the snap revision and reinstall.
+
+2007-11-19 12:38  rgb
+
+	* .: This is pretty much a fully functional version. I fixed the
+	  last bug,
+	  which turned out to be that I had the right idea but missed the:
+	  
+	  I + P + P* + P^2 + P*^2 + ...
+	  
+	  and was accidentally doing (when I empirically noted that
+	  including k=0
+	  in the sum was necessary) either:
+	  
+	  I + P + P^2...
+	  
+	  or
+	  
+	  2I + P + P* + ...
+	  
+	  Added a conditional to eliminate the second k = 0 instance in the
+	  core
+	  loop summing the fi*fj and got perfect correspondance through -n
+	  3. The
+	  -n 3 matrix is different, but pretty obviously a permutation of
+	  the
+	  AKM matrix as to be expected since the permutation order is
+	  arbitrary
+	  and they probably didn't use lexical ordering. The eigenvalues,
+	  however, are dead on the same!
+	  
+	  So I'm back up to the point where I should be able to form a test
+	  statistic somehow. I have to covariance matrix precisely in hand
+	  --
+	  something at this point about weak inverses (weak because it is
+	  singular
+	  and has no inverse?). A bit curious, actually. We'll see.
+	  
+	  rgb
+
+2007-11-19 06:02  rgb
+
+	* .: OK, this SEEMS to repair everything, except for some spurious
+	  normalization stuff that is at least consistent between the exact
+	  and experimental matrices. They now come out the same, and I
+	  suspect
+	  they are proportional to the nilpotent markov processes paper
+	  result.
+	  For k=2 they clearly are -- a factor of 2. For k=3 it is harder
+	  to see
+	  for sure. Time to go back to the paper with a calculator.
+	  
+	  At least now the matrices are properly symmetric, as well. That
+	  means
+	  that their eigenvalues can be computed with my existing code with
+	  its
+	  symmetric matrix eigenvalue calls. It does leave me with the
+	  substantial problem of computing a test statistic automagically,
+	  but one
+	  small step at a time...
+
+2007-11-14 12:01  rgb
+
+	* .: This works, but my assumptions concerning the inverse of C are
+	  incorrect
+	  because (gasp) C isn't invertible. It has eigenvalues and
+	  eigenvectors.
+	  I can compute them, apparently -- that's what this snapshot does
+	  (I'm
+	  going to compare the results now to what's in my nilpotent
+	  processes
+	  paper). I still don't quite see how to make my results into a
+	  p-value,
+	  though, and may need help with this...
+
+2007-11-13 16:53  rgb
+
+	* .: It is SO key to preserve this in precisely this state. At this
+	  instant
+	  in time, cexact and cexpt are identically formed, one running
+	  over all
+	  permutations and the other from sampling, and they work perfectly
+	  EXECPT
+	  for the #!)#%@ sign error. I had the sign right, and don't quite
+	  see
+	  how I changed the code, so I'm about to look. In the meantime,
+	  though,
+	  we mustn't lose this working form...
+
+2007-11-01 02:11  rgb
+
+	* .: This is a broken checkin, but I'm on track for getting operm
+	  finished at
+	  last, if only I stick to it.
+
+2007-10-24 19:19  rgb
+
+	* .: Need to send to duke, dummy.s
+
+2007-10-24 19:18  rgb
+
+	* .: This is needed for development, I think.
+
+2007-10-24 19:17  rgb
+
+	* .: Trying again. Dunno how this got screwed up but it is.
+
+2007-10-03 20:16  rgb
+
+	* .: This is actually a pretty solid implementation of
+	  rgb_minimum_distance...
+
+2007-09-29 21:43  rgb
+
+	* .: works perfectly. fixed memory leak. about to improve 2dsphere
+	  with
+	  sort, then run -a.
+
+2007-09-29 15:24  rgb
+
+	* .: This is IT and works... rgb_minimum_distance is there.
+
+2007-09-20 09:37  rgb
+
+	* .: I need to fix this, but probably not today. In doc there is a
+	  "fix me"
+	  recipe for 2d spheres. I'm currently adding the Linux Magazine
+	  invoice.
+
+2007-09-19 18:44  rgb
+
+	* .: Checking in a fix for the BROKEN 2d spheres test. I should be
+	  able to
+	  fix 3dspheres as well from it.
+
+2007-08-28 16:54  rgb
+
+	* .: Bug reported by a user, sort of. The README still said you
+	  could just
+	  type "make" and you can't. Fixed.
+
+2007-08-13 22:30  rgb
+
+	* .: Will this go in? Time will tell...
+
+2007-07-16 15:20  rgb
+
+	* .: We are working HARD or confirming or denying dieharder_operm5
+	  AND
+	  working out a more general rgb_operm. The convertoperm.pl script
+	  once AGAIN confirms that I'm unpacking and repacking (for C) the
+	  r and s matrices of diehard_operm correctly.
+	  
+	  However, AFAICT, the diehard_operm5 JUST tallies up t[120], the
+	  count of
+	  the different permutation indices. However, all the permutations
+	  should
+	  occur with a SYMMETRIC probability -- I verified this directly by
+	  doing
+	  the actual integrals, but in retrospect it is pretty obvious from
+	  symmetry alone. The t-vector therefore has NOTHING TO DO with the
+	  covariance matrix no matter what you do with it, which may be why
+	  diehard_operm5() is a bad test. FWIW, I've added output
+	  statements to
+	  diehard_operm5() that dump the t-vector and verified empirically
+	  that
+	  yes, it produces a more or less uniform distribution of
+	  bin-probability
+	  1/120 -- one could in fact do a chisq test on this directly and
+	  very
+	  likely obtain an actual meaningful test, but that is not at all
+	  what is
+	  done.
+	  
+	  Note well that the sampled distribution of t[] will not
+	  SIGNIFICANTLY
+	  vary if computed from overlapping samples! This is simple to see
+	  -- it
+	  would be just like computing five distinct samplings of
+	  non-overlapping
+	  samples, each of which would be expected to have exactly the same
+	  mean
+	  and variance. Because of the overlap there could be a tiny bit of
+	  correlation between the FLUCTUATIONS in the MEASURED mean values
+	  for any
+	  given bin, but the bin mean would have to be unchanged for each
+	  overlapping sampling, and for that matter the bin variance for
+	  each
+	  sampling would ALSO have to be the same.
+	  
+	  The only effect of combining the overlapping five samplings (each
+	  with
+	  identical mean and variance!) would therefore be to AT MOST alter
+	  the
+	  sampled VARIANCE of the bin distribution, per bin, a tiny bit
+	  from what
+	  one might expect analytically from truly iid samples. One
+	  certainly
+	  isn't going to see this variation in the variance from two runs
+	  -- the
+	  expected statistical noise would overwhelm the signal as this is
+	  a
+	  second moment/cumulant effect, a susceptibility if you like, and
+	  hence
+	  VERY difficult to resolve.
+	  
+	  What we in fact must do is (I'm pretty sure) compute c[][]
+	  analytically,
+	  (which I have done) and then simulate the SAME c[][] directly
+	  from the
+	  data. Then difference them, which should make the components of
+	  c_exp[][] - c_exact[][] presented as vector a zero mean chisq
+	  distributed object with N! - (N-1)! DoF or something like that --
+	  120-24
+	  = 96 for N = 5? Here I'll defer to experts, eventually.
+
+2007-06-16 05:11  rgb
+
+	* .: Hopefully this has all the files needed for rgb_operm()
+	  checked in.
+
+2007-06-16 05:09  rgb
+
+	* .: This actually builds. Let's see if the new test shows up...
+
+2007-06-16 00:12  rgb
+
+	* .: Checking in several things. rgb_operm.c is a template for my
+	  eventual
+	  replacement for operm5. I have about concluded that operm5 is
+	  basically
+	  a joke -- it is conceptually incorrect. The correct statistic
+	  should be
+	  the overlapping permutations covariance matrix itself. This test
+	  just
+	  counts the occurrence of permutations -- the "overlap" part is
+	  completely irrelevant in this context. It returns an aggregate
+	  count
+	  vector whose mean is 1/120 (obviously, permutations of 5 objects
+	  = 5! =
+	  120). It makes NO DIFFERENCE AT ALL if this vector is evaluated
+	  from
+	  overlapping samples or from independent samples -- the mean will
+	  be the
+	  same. All that MIGHT change is the variance -- since the samples
+	  are
+	  drawn from an overlapping population, one would expect that their
+	  variance would be strictly less than one would expect from truly
+	  independent samples.
+	  
+	  In a minute I'll verify this with the overlap flag and a couple
+	  of runs
+	  with mt, but I now understand why the test fails. It remains to
+	  figure
+	  out how to build a CORRECT overlapping permutations test that
+	  uses the
+	  COVARIANCE of overlapping samples as a statistic. I actually
+	  think that
+	  this will be pretty easy, but I do have to also understand why
+	  the
+	  definition in the nilpotent markov chains paper doesn't (I think)
+	  lead
+	  to the numbers that they publish there. Or rather, why my MUCH
+	  SIMPLER
+	  algorithm doesn't lead to the same numbers they get.
+
+2007-06-14 18:54  rgb
+
+	* .: This should have no operm in it.
+
+2007-06-14 18:36  rgb
+
+	* .: Probably a good time to update to lucifer, since it is
+	  actually up...
+
+2007-06-08 14:14  rgb
+
+	* .: OK, NOW let's actually try to get rng_uvag in, THEN we'll try
+	  to
+	  increase its speed...
+
+2007-05-24 17:35  rgb
+
+	* .: I'm gradually refining the bitstream variance -- 290 is from
+	  over
+	  260000 samples. I'm shooting for a s.d. of a couple of tenths,
+	  although
+	  honestly it is overkill.
+
+2007-05-23 05:02  rgb
+
+	* .: OK, this is a major enough checkin. I have at long last fixed
+	  bitstream.c. Marsaglia's published value of sigma is off by close
+	  to a
+	  factor of two. sigma is in fact 288.6. I have verified this by
+	  simulation with very excellent RNGs, e.g. MT or gfsr4 AND with
+	  HARDWARE
+	  generators (which were failing bitstream before).
+	  
+	  Marsaglia couldn't resolve the error (which could just have been
+	  due to
+	  a typo at some point that was perpetuated) because his test
+	  didn't run
+	  enough times or plot the pvalues in a histogram, but if you plot
+	  the
+	  obtained means in a histogram and fit a normal to them, there is
+	  absolutely no doubt.
+
+2007-05-23 04:35  rgb
+
+	* .: Forgot to check this one in...
+
+2007-05-23 04:31  rgb
+
+	* .: OK, this is one of two ways to get things to metatron to run
+	  faster.
+
+2007-05-23 01:12  rgb
+
+	* .: This fixes several problems, and is working its way towards a
+	  new
+	  release.
+
+2007-05-22 14:04  rgb
+
+	* .: Silly checkin, as I dropped a file here that goes below.
+
+2007-05-21 23:46  rgb
+
+	* .: Well, we're making LOTS of little changes here. We're
+	  splitting off
+	  Exit() into its own file so it can be shred, we're moving
+	  db_gnu_r_rngs.c to gnu_r_rngs.c, we're adding prototypes and
+	  changing
+	  the namespace for RDH. All at once.
+
+2007-05-21 22:14  rgb
+
+	* .: Fixed small problem in makefile. Otherwise I'm not sure why
+	  these files
+	  are changing -- they really shouldn't.
+
+2007-05-21 19:04  rgb
+
+	* .: I do believe that this now is ready to rock and roll. AFAICT,
+	  it "just
+	  works".
+
+2007-05-21 18:39  rgb
+
+	* .: This is checking in dieharder WITH RDieHarder included and
+	  under version
+	  control. RDieHarder now depends on dieharder sources. I still
+	  haven't
+	  got the Makefile, with dependencies, built into the existing
+	  Makefile
+	  but I will. Basically, I plan three new targets: rdhprep, rdhlib
+	  (as
+	  root only) and rdhtgz (to make a "package" out of it).
+
+2007-05-21 13:34  rgb
+
+	* .: Well, we've been working hard here. Let me try to summarize.
+	  I've
+	  instrumented the code to make it "easy" to move it to RDieHarder.
+	  Dirk
+	  doesn't understand, quite, how I plan to make RDH a "part of" the
+	  dieharder source tree, but he will when I'm done as it will then
+	  be
+	  really easy to prep his cran/debian package. I think, I hope.
+	  
+	  I think that I'm going to need to pursue dieharder this summer
+	  pretty
+	  aggressively in addition to working on axioms and other books. I
+	  should
+	  probably look hard at getting money to support it, as well.
+
+2007-05-19 12:14  rgb
+
+	* .: We've got to get this to lucifer and then try to unpack it on
+	  metatron...
+
+2007-04-29 18:06  rgb
+
+	* .: This too has to go to lucifer...
+
+2007-03-12 13:50  rgb
+
+	* .: This is the last set of changes associated with 2.24.3 --
+	  which is
+	  hopefully getting really, really close to a release I can live
+	  with.
+	  I suppose I should fix the man pages, at least to some extent.
+
+2007-03-05 15:35  rgb
+
+	* .: This looks like it successfully splits off the manual so it is
+	  no longer
+	  autobuilt and is not in the rpms.
+	  
+	  From here out the manual will be a SEPARATE project aimed square
+	  at lulu
+	  publication as a book I might even make money from.
+
+2007-03-05 15:32  rgb
+
+	* .: We'll work our way there by hook or by crook.
+
+2007-03-05 15:32  rgb
+
+	* .: Grrr. I just lost a whole bunch of work...
+
+2007-03-02 01:00  rgb
+
+	* .: This has now been fixed, a la Charles Karney's suggestion and
+	  Janusz's
+	  paper demonstrates, to use overlapping samples by default. Some
+	  tests
+	  it really DOES matter, if those tests are valid at all (operm5
+	  being a
+	  classic example). I still doubt the bitstream-dna test series --
+	  I
+	  think that there is NO difference between overlapping and
+	  non-overlapping samples there, or at most a tiny shrinking of the
+	  distribution variance in the end, as they don't measure
+	  "overlap", only
+	  a CLT-limited mean. Overlapping 20 bit samples should make a tiny
+	  shift
+	  in the sample standard deviation and have no other effect in
+	  these
+	  tests.
+
+2007-03-02 00:38  rgb
+
+	* .: This fixes the Bug reported by Brian J. Wong, making bl and bu
+	  of a
+	  function in bits.c static uint (preserved between calls) instead
+	  of
+	  dynamic. Probably my bad...
+
+2007-02-28 15:39  rgb
+
+	* .: Sending this into SVN on general principles.
+
+2007-02-28 03:38  rgb
+
+	* .: This actually seems to work. So we now have 66 random number
+	  generators
+	  to test. Tony Pasqualoni's Cellular Automaton rng isn't anywhere
+	  NEARLY
+	  as fast as he alleges compared to the GSL routines inside
+	  identical
+	  packaging -- in fact it is about par for the course -- but so far
+	  it
+	  seems to be 1 bit and 2 bit random, and we're working on a -a run
+	  that
+	  will expose it to the latest/greatest operm5. It remains to be
+	  seen
+	  whether or not K. Janusz's paper contains algorithms that will
+	  let me
+	  check and/or correct Marsaglia's operm5, or perhaps extend the
+	  operm5
+	  into a RANGE of tests like rgb_bitdist.
+
+2007-02-28 03:19  rgb
+
+	* .: This is a very first cut of Tony Pasqualoni's Cellular
+	  Automaton
+	  random number generator, ported into a gsl standard wrapper. This
+	  will
+	  let me test Tony's assertion that this is a good, very fast rng
+	  in
+	  exactly the same wrapper that one can study the other "good" (but
+	  slower) rng's.
+
+2007-02-27 07:10  rgb
+
+	* .: This is a really modest checkin, but we'll see if it can
+	  manage...
+
+2007-02-27 07:04  rgb
+
+	* .: TAG 2.24.2
+	  
+	  I fixed the -q(uiet) flag so that it works, and decided to bundle
+	  all of
+	  the above bugfixes and feature shifts into a new minor minor
+	  bump. This
+	  is the "official" GBT build, if Dirk concurs when he tries it.
+	  
+	  As far as I know, we're at least back where we were when we
+	  started
+	  implementing GBT and then some.
+	  
+	  Now, if only I could figure out the trunk thing. Maybe I'll try
+	  doing a
+	  checkout and build without the trunk movement...
+
+2007-02-27 06:31  rgb
+
+	* .: TAG 2.24.1-2
+	  
+	  Fixed documentation and added a hard record of Janusz's bug in
+	  operm5.
+
+2007-02-27 06:06  rgb
+
+	* .: Sending this to Duke, at least...
+
+2007-02-27 06:06  rgb
+
+	* .: This contains a change suggested by the following:
+	  
+	  %<snip snip -----
+	  From: Janusz Kawczak <jkawczak@gmail.com>
+	  To: Robert G. Brown <rgb@phy.duke.edu>
+	  Cc: Dirk Eddelbuettel <edd@debian.org>
+	  Subject: Re: Random R-Package
+	  
+	  Hello, without going to much into peculiarities (for now, at
+	  least) of
+	  the rngs and numbers coming from Marsaglia and you (Robert), I
+	  would
+	  like to give the result from our paper that is directly
+	  applicable to
+	  the operm5 header you cited below:
+	  
+	  "...(with # rank 99)..." - this is the point I questioned in our
+	  paper.
+	  I asked Marsaglia how he got this rank, but I never received the
+	  reply
+	  from him. I can only presume that he either guessed this number
+	  or
+	  estimated it (somehow). It remains a mystery to me; like a
+	  Marsaglia's
+	  voodoo step. The answer should be 96=5!-4!. It is not a big deal
+	  of a difference in this case, however, the theorem we proved
+	  allows one
+	  to consider cased of perm6, perm7 ... and higher with the exact
+	  number
+	  of degree of freedom calculations. Thus, exact and not guessed
+	  results.
+	  
+	  It is my opinion that the operm-type test is very powerful for
+	  detecting
+	  local correlations (dependencies) and it should be used for such
+	  purpose. So, any algorithmic PRNG will suffer and most likely do
+	  not
+	  dwell well when exposed to this test. I have not had a chance to
+	  do
+	  serious experiments on the "natural-random" generators, e.g.
+	  alpha-particle counting, radio noise signals and many others.
+	  But, I
+	  suspect that the operm-type test should do well in this
+	  situation.
+	  
+	  I cannot promise at this time much, but I am going to look at the
+	  issues
+	  you addressed in your e-mail. However, the questions you've
+	  raised are a
+	  bit different animals to deal with.
+	  
+	  In summary, it would be useful, once and for all, to correct 99
+	  degrees
+	  to 96 in the operm5 Marsaglia's header file. Maybe, one day, this
+	  will
+	  happen :-)
+	  %<snip snip -----
+	  
+	  I've implemented this change -- 99 to 96 -- although I welcome
+	  any
+	  comments. The test still fails the big four -- gsfr4, taus2,
+	  ranlxd2,
+	  and mt19937 -- nearly all the time, overlapping or not. I still
+	  suspect
+	  either errors in r and s or (quite possibly) programming errors,
+	  but it
+	  ALMOST works and lacking a gold standard rng it is difficult to
+	  resolve
+	  the question numerically.
+
+2007-02-27 05:16  rgb
+
+	* .: This is an important change -- I fixed an annoyance (if not
+	  worse) with
+	  the libdieharder setting of the major revision number. I may need
+	  to
+	  propagate the expr back to the toplevel Make.
+
+2007-02-27 04:39  rgb
+
+	* .: Dirk found that I was still screwing up the PREFIX thing by
+	  stubbornly
+	  refusing to use (lower case) prefix, libdir, and includedir in my
+	  make
+	  install target. I think I've stripped out my own versions of
+	  these
+	  completely so that they can a) be set by configure and run with
+	  "just"
+	  make install or b) overridden on the make line, e.g make
+	  prefix=/tmp/usr
+	  install (as apparently he likes to do to make debian packages).
+
+2007-02-25 19:42  rgb
+
+	* .: This is definitely experimental, trying to write a web
+	  installer
+	  modification that I cannot test until I get back the net.
+
 2007-02-25 19:32  rgb
 
-	* Makefile.am, configure.ac, dieharder.abs, dieharder.spec,
-	  dieharder.spec.in, dieharder.svn.time, dieharder/Makefile.am,
-	  libdieharder/Makefile.am: Ok, this is TAG=2.24.1, the first Gnu
-	  Build Tools release that builds
+	* .: Ok, this is TAG=2.24.1, the first Gnu Build Tools release that
+	  builds
 	  rpms clean from (we hope) SVN. I do need to validate this with
 	  one
 	  last SVN checkout, but I'm pretty sure it is the case...
 
 2007-02-25 18:35  rgb
 
-	* Makefile.am, dieharder.spec, dieharder.spec.in,
-	  dieharder.svn.time: Well, a time to check in. We're about to see
-	  if an rpm build works...
+	* .: Well, a time to check in. We're about to see if an rpm build
+	  works...
 
 2007-02-25 18:15  rgb
 
-	* Makefile, dieharder.svn.time, dieharder/Makefile,
-	  dieharder/Makefile.am, libdieharder/Makefile,
-	  libdieharder/Makefile.am, manual/Makefile: This may be a really
-	  nice advance. The dieharder build now uses
+	* .: This may be a really nice advance. The dieharder build now
+	  uses
 	  ../include and ../libdieharder as -I and -L respectively, and
 	  plain old
 	  "make" in both cases should work, from a clean checkout. I'm
@@ -30,58 +1171,43 @@
 
 2007-02-25 17:47  rgb
 
-	* Makefile, dieharder.svn.time, dieharder/Makefile,
-	  dieharder/Makefile.am, libdieharder/Makefile, ltmain.sh,
-	  manual/Makefile: This should be REALLY REALLY close. We'll
-	  checkin, do a full checkout,
+	* .: This should be REALLY REALLY close. We'll checkin, do a full
+	  checkout,
 	  and try building. If/when we get there, we'll work strictly from
 	  build
 	  to build once again.
 
 2007-02-25 17:27  rgb
 
-	* AUTHORS, Makefile, NEWS, autogen.sh, configure.ac,
-	  dieharder.svn.time, dieharder/Makefile, libdieharder/Makefile,
-	  manual/Makefile: OK, this is one whole cut closer, and ALMOST
-	  works, but we're definitely
+	* .: OK, this is one whole cut closer, and ALMOST works, but we're
+	  definitely
 	  going to have to try this one more time... We also need at some
 	  point
 	  to stop svn control of Makefiles and maintain only Makefile.ams
 
 2007-02-25 17:17  rgb
 
-	* dieharder.svn.time, dieharder/Makefile.am,
-	  dieharder/configure.ac, libdieharder/Makefile.am,
-	  libdieharder/configure.ac, manual/Makefile.am,
-	  manual/configure.ac: Adding what MAY be all the things needed to
-	  enable full automated Gnu
+	* .: Adding what MAY be all the things needed to enable full
+	  automated Gnu
 	  style builds from the autogen.sh script.
 
 2007-02-25 17:16  rgb
 
-	* Makefile, Makefile.am, autogen.sh, configure.ac, dieharder.spec,
-	  dieharder.spec.in, dieharder.svn.time, dieharder/Makefile,
-	  dieharder_version.h.in, install-sh, libdieharder/Makefile,
-	  manual/Makefile, missing, mkinstalldirs, po, po/Makefile,
-	  po/Makefile.in, po/Makefile.in.in, po/POTFILES, po/POTFILES.in:
-	  Finished a first cut at adding GBT support. Need to check in the
-	  .in
+	* .: Finished a first cut at adding GBT support. Need to check in
+	  the .in
 	  files and configure.ac files one level down, and do a full
 	  checkout to
 	  see if it autobuilds from an svn checkout.
 
 2007-02-19 14:23  rgb
 
-	* ChangeLog, buildroot, dieharder.spec, dieharder.svn.time,
-	  dieharder/Makefile, libdieharder/Makefile: This dumps buildroot.
-	  We don't need or want this in the tarball or rpm
+	* .: This dumps buildroot. We don't need or want this in the
+	  tarball or rpm
 	  sources.
 
 2007-02-19 08:47  rgb
 
-	* ChangeLog, Makefile, dieharder.abs, dieharder.spec,
-	  dieharder.svn.time, dieharder/Makefile, libdieharder/Makefile: We
-	  are working quite hard on getting the ChangeLog to be
+	* .: We are working quite hard on getting the ChangeLog to be
 	  automagically
 	  registered. I'm guessing it should just go into %doc and we
 	  should
@@ -89,9 +1215,8 @@
 
 2007-02-19 08:05  rgb
 
-	* ChangeLog, Makefile, dieharder.spec, dieharder.svn.time,
-	  libdieharder/Makefile: This fixes a variety of problems with
-	  using shared libraries correctly,
+	* .: This fixes a variety of problems with using shared libraries
+	  correctly,
 	  and moves the project much closer to where it could e.g. be
 	  included in
 	  FC extras. The library builds nicely now, for example. However, I
@@ -101,30 +1226,24 @@
 
 2007-02-19 06:32  rgb
 
-	* dieharder.svn.time, dieharder/Makefile, libdieharder/Makefile:
-	  OK, this fixes some serious uglyness. Let's see if the rpm
+	* .: OK, this fixes some serious uglyness. Let's see if the rpm
 	  builds...
 
 2007-02-18 21:49  rgb
 
-	* dieharder.abs, dieharder.spec, dieharder.svn.time,
-	  dieharder/Makefile, libdieharder/Makefile: Updating the svn tree
-	  and sync'ing, perhaps for the last time. Will
+	* .: Updating the svn tree and sync'ing, perhaps for the last time.
+	  Will
 	  this now reside on code.google.com? We'll see.
 
 2007-02-18 13:37  rgb
 
-	* Makefile, README, dieharder.spec, dieharder.svn.time,
-	  dieharder/Makefile, dieharder/run_rgb_bitdist.c,
-	  dieharder/test.c, libdieharder/Makefile: Let's call this
-	  TAG=2.5.24 -- bumping the first minor to announce that
+	* .: Let's call this TAG=2.5.24 -- bumping the first minor to
+	  announce that
 	  we've cleaned up several bugs and repackaged.
 
 2007-02-15 18:55  rgb
 
-	* INSTALL, dieharder.spec, dieharder.svn.time, dieharder/Makefile,
-	  dieharder/test.c, libdieharder/Makefile, libdieharder/kstest.c:
-	  This fixes a bug reported by Matthias Braeunig
+	* .: This fixes a bug reported by Matthias Braeunig
 	  <mb.atelier@web.de>, who
 	  was running the test on a file of data just one time per test
 	  using more
@@ -170,18 +1289,15 @@
 
 2007-02-06 04:42  rgb
 
-	* Makefile, dieharder.abs, dieharder.spec, dieharder.svn.time,
-	  libdieharder/Makefile: I've just fired this up to the web. I deem
-	  it finished enough.
+	* .: I've just fired this up to the web. I deem it finished enough.
 	  Now to backport the library fix to wulfware, and call it a night,
 	  very
 	  much a night.
 
 2007-02-06 03:06  rgb
 
-	* Makefile, dieharder.spec, dieharder.svn.time, dieharder/Makefile,
-	  libdieharder/Makefile: OK, it installs and builds PERFECTLY, and
-	  THIS time it almost certainly
+	* .: OK, it installs and builds PERFECTLY, and THIS time it almost
+	  certainly
 	  is dynamically linking to libdieharder.so, as it linked without
 	  the .a
 	  library present at all. I'll now have to go retrofit this to
@@ -190,40 +1306,28 @@
 
 2007-02-06 02:39  rgb
 
-	* Makefile, dieharder.svn.time: This actually rand and built! Now
-	  to try to rebuild it WITHOUT the .a
+	* .: This actually rand and built! Now to try to rebuild it WITHOUT
+	  the .a
 	  library installed...
 
 2007-02-06 02:30  rgb
 
-	* Makefile, dieharder.spec, dieharder.svn.time, dieharder/Makefile,
-	  libdieharder/Makefile, manual/Makefile: Just in case I drop
-	  something, I finally seem to have "fixed" the
+	* .: Just in case I drop something, I finally seem to have "fixed"
+	  the
 	  libdieharder makefile. On to fame and glory.
 
 2007-02-05 20:06  rgb
 
-	* dieharder.spec, dieharder.svn.time, lib, libdieharder/Cruft,
-	  libdieharder/Makefile: OK, this is crawling on closer to ready to
-	  go...
+	* .: OK, this is crawling on closer to ready to go...
 
 2007-02-05 19:51  rgb
 
-	* Makefile, NOTES, R, buildroot, buildroot/usr, buildroot/usr/bin,
-	  buildroot/usr/lib, buildroot/usr/share, buildroot/usr/share/doc,
-	  buildroot/usr/share/man, dieharder, dieharder.spec,
-	  dieharder.svn.time, dieharder/Cruft, dieharder/Makefile,
-	  dieharder_src: Make this go away, please.
-
-2007-02-05 19:47  rgb
-
-	* dieharder_src/Makefile: This maybe will get to where I can clean
-	  this up the rest of the way.
+	* .: Make this go away, please.
 
 2007-01-28 15:58  rgb
 
-	* Makefile, dieharder.svn.time: This has a brand new ultra-cool
-	  target, "installrepo" that makes the
+	* .: This has a brand new ultra-cool target, "installrepo" that
+	  makes the
 	  rpms and installs them in the repo, from when yum can install
 	  them.
 	  
@@ -233,44 +1337,34 @@
 
 2007-01-28 00:11  rgb
 
-	* Makefile, dieharder.spec, dieharder.svn.time,
-	  libdieharder/Makefile: This works!
+	* .: This works!
 
 2007-01-27 22:39  rgb
 
-	* Makefile, dieharder.spec, dieharder.svn.time,
-	  libdieharder/Makefile: This is getting really close, worth
-	  checking in...
+	* .: This is getting really close, worth checking in...
 
 2007-01-27 18:27  rgb
 
-	* Copyright, Data/d_raw.h, Data/testrands.dat,
-	  Data/testrands.dat.bin, Makefile, copyright.h, d_raw.h,
-	  dieharder.svn.time, dieharder_web, lib/dieharder, testrands.dat,
-	  testrands.dat.bin: This now builds a perfectly rebuildable
-	  tarball. We can think about
+	* .: This now builds a perfectly rebuildable tarball. We can think
+	  about
 	  just what else we'd like to add to that tarball in a moment, but
 	  first
 	  we need to FINALLY get the rpm to build, maybe.
 
 2007-01-27 17:59  rgb
 
-	* Makefile, dieharder.abs, dieharder.svn.time: This updates the
-	  abstract.
+	* .: This updates the abstract.
 
 2007-01-27 17:50  rgb
 
-	* Makefile, dieharder.spec, dieharder.svn.time,
-	  dieharder_src/Makefile, libdieharder/Makefile: OK, this just
-	  maybe is working now with a target that rebuilds
+	* .: OK, this just maybe is working now with a target that rebuilds
 	  both specfiles and Makefiles when the toplevel Makefile is
 	  altered.
 
 2007-01-27 16:57  rgb
 
-	* dieharder.svn.time, dieharder_src/Makefile,
-	  libdieharder/Makefile: This is just peachy. make and make install
-	  targets work for BOTH
+	* .: This is just peachy. make and make install targets work for
+	  BOTH
 	  dieharder_src and libdieharder directories, which is pretty cool,
 	  really. The remaining problem will be how to force a rebuild
 	  of the library in such a way that it works when we're developing
@@ -281,77 +1375,19 @@
 
 2007-01-27 16:41  rgb
 
-	* dieharder.svn.time, dieharder_src/Makefile,
-	  libdieharder/Makefile: OK, this is making progress. Time to go
-	  back to libdieharder and get
+	* .: OK, this is making progress. Time to go back to libdieharder
+	  and get
 	  a build to work there...
 
 2007-01-27 16:13  rgb
 
-	* dieharder.all, dieharder.svn.time: Just making sure this is all
-	  ready to run when I start to edit
+	* .: Just making sure this is all ready to run when I start to edit
 	  the Makefile in libdieharder.
 
 2007-01-27 16:08  rgb
 
-	* dieharder.svn.time, dieharder_src/user_template.h,
-	  include/dieharder/Dtest.h, include/dieharder/Vtest.h,
-	  include/dieharder/Xtest.h, include/dieharder/copyright.h,
-	  include/dieharder/diehard_2dsphere.h,
-	  include/dieharder/diehard_3dsphere.h,
-	  include/dieharder/diehard_birthdays.h,
-	  include/dieharder/diehard_bitstream.h,
-	  include/dieharder/diehard_count_1s_byte.h,
-	  include/dieharder/diehard_count_1s_stream.h,
-	  include/dieharder/diehard_craps.h,
-	  include/dieharder/diehard_dna.h,
-	  include/dieharder/diehard_operm5.h,
-	  include/dieharder/diehard_opso.h,
-	  include/dieharder/diehard_oqso.h,
-	  include/dieharder/diehard_parking_lot.h,
-	  include/dieharder/diehard_rank_32x32.h,
-	  include/dieharder/diehard_rank_6x8.h,
-	  include/dieharder/diehard_runs.h,
-	  include/dieharder/diehard_squeeze.h,
-	  include/dieharder/diehard_sums.h,
-	  include/dieharder/libdieharder.h,
-	  include/dieharder/marsaglia_tsang_gcd.h,
-	  include/dieharder/marsaglia_tsang_gorilla.h,
-	  include/dieharder/operm5_rdata.h, include/dieharder/parse.h,
-	  include/dieharder/rgb_bitdist.h, include/dieharder/rgb_lmn.h,
-	  include/dieharder/rgb_persist.h, include/dieharder/rgb_timing.h,
-	  include/dieharder/std_test.h, include/dieharder/sts_monobit.h,
-	  include/dieharder/sts_runs.h, include/dieharder/tests.h,
-	  include/dieharder/verbose.h, libdieharder, libdieharder/COPYING,
-	  libdieharder/Makefile, libdieharder/NOTES, libdieharder/README,
-	  libdieharder/Vtest.c, libdieharder/Xtest.c, libdieharder/bits.c,
-	  libdieharder/bits.cruft, libdieharder/chisq.c,
-	  libdieharder/copyright.h, libdieharder/diehard_2dsphere.c,
-	  libdieharder/diehard_3dsphere.c,
-	  libdieharder/diehard_birthdays.c,
-	  libdieharder/diehard_bitstream.c,
-	  libdieharder/diehard_count_1s_byte.c,
-	  libdieharder/diehard_count_1s_stream.c,
-	  libdieharder/diehard_craps.c, libdieharder/diehard_dna.c,
-	  libdieharder/diehard_operm5.c, libdieharder/diehard_opso.c,
-	  libdieharder/diehard_oqso.c, libdieharder/diehard_parking_lot.c,
-	  libdieharder/diehard_rank_32x32.c,
-	  libdieharder/diehard_rank_6x8.c, libdieharder/diehard_runs.c,
-	  libdieharder/diehard_squeeze.c, libdieharder/diehard_sums.c,
-	  libdieharder/kstest.c, libdieharder/libdieharder.3,
-	  libdieharder/libdieharder.svn.time,
-	  libdieharder/marsaglia_tsang_gcd.c,
-	  libdieharder/marsaglia_tsang_gorilla.c, libdieharder/parse.c,
-	  libdieharder/prob.c, libdieharder/random_seed.c,
-	  libdieharder/rank.c, libdieharder/rgb_bitdist.c,
-	  libdieharder/rgb_bitdist.cruft, libdieharder/rgb_lmn.c,
-	  libdieharder/rgb_persist.c, libdieharder/rgb_timing.c,
-	  libdieharder/rng_dev_random.c, libdieharder/rng_dev_urandom.c,
-	  libdieharder/rng_file_input.c, libdieharder/rng_file_input_raw.c,
-	  libdieharder/rng_kiss.c, libdieharder/sample.c,
-	  libdieharder/std_test.c, libdieharder/sts_monobit.c,
-	  libdieharder/sts_runs.c, libdieharder/timing.c, user_template.h:
-	  OK, this is a very painful move. We will, of course, mothball and
+	* .: OK, this is a very painful move. We will, of course, mothball
+	  and
 	  preserve libdieharder's original svn tree, but now that we're
 	  figuring
 	  out how to do one specfile, many packages from a single toplevel
@@ -368,9 +1404,7 @@
 
 2007-01-27 15:53  rgb
 
-	* dieharder.h, dieharder.svn.time, dieharder_src/Makefile,
-	  dieharder_src/dieharder.h: This is a first cut at making
-	  dieharder actually build, after
+	* .: This is a first cut at making dieharder actually build, after
 	  libdieharder is built and installed. From now on BOTH will use
 	  ONLY
 	  the include files that are stored in ./include, which will
@@ -382,11 +1416,8 @@
 
 2007-01-27 15:31  rgb
 
-	* Exclude/still_more_karney.bugs, Results/standard_run,
-	  Results/standard_run.S1, dieharder.1, dieharder.cvs.time,
-	  dieharder.svn.time, dieharder_src/dieharder.1, standard_run,
-	  standard_run.S1: OK, we are within a single step (removing or
-	  moving some include files)
+	* .: OK, we are within a single step (removing or moving some
+	  include files)
 	  of being cleaned up and ready to proceed. I'll probably copy at
 	  least
 	  part of the sm Makefile to get the hang of looping a make through
@@ -394,1270 +1425,10 @@
 	  directories in order to achieve the make install in the right
 	  sequence.
 
-2007-01-27 15:26  rgb
-
-	* Restricted, bugs, db_dieharder.patch, dieharder.svn.time,
-	  example_ascii.input, makepofk, manual/example_ascii.input,
-	  pofk.gfsr4.avg.tbl, pofk.gfsr4.tbl, pofk.mt19937_1999.avg.tbl,
-	  pofk.mt19937_1999.tbl, pofk.ranldx2.avg.tbl, pofk.ranldx2.tbl,
-	  pofk.stats.tbl, pofk.taus2.avg.tbl, pofk.taus2.tbl, pofk.tbl,
-	  scripts, scripts/makepofk, standard_run: Please?
-
-2007-01-27 15:26  rgb
-
-	* Results, Results/gfsr4: Still proceeding.
-
-2007-01-27 15:25  rgb
-
-	* Exclude, Exclude/64_bit_URNG.ps, Exclude/cern_stats.pdf,
-	  Exclude/db_dieharder.patch, Exclude/diehard.f,
-	  Exclude/gaeblmar.email, Exclude/karney_bugs,
-	  Exclude/marsaglia_tsang.pdf, Exclude/monty_python.pdf,
-	  Exclude/more_karney_bugs: Working through what works...
-
-2007-01-27 15:25  rgb
-
-	* Data, Data/pofk.gfsr4.avg.tbl, Data/pofk.gfsr4.tbl,
-	  Data/pofk.mt19937_1999.avg.tbl, Data/pofk.mt19937_1999.tbl,
-	  Data/pofk.ranldx2.avg.tbl, Data/pofk.ranldx2.tbl,
-	  Data/pofk.stats.tbl, Data/pofk.taus2.avg.tbl,
-	  Data/pofk.taus2.tbl, Data/pofk.tbl: Let's work through what we
-	  can.
-
-2007-01-27 15:22  rgb
-
-	* pofk.gfsr4.tbl, pofk.mt19937_1999.tbl, pofk.ranldx2.tbl,
-	  pofk.stats.tbl, pofk.taus2.tbl: Adding these -- we should save
-	  this stuff even though we don't
-	  really need it anymore, I don't think. Part of documenting our
-	  work.
-
-2007-01-27 15:18  rgb
-
-	* bugs: Adding this. Wish I could do more of these adds at once.
-
-2007-01-27 15:17  rgb
-
-	* db_dieharder.patch: Adding this, so I can move it.
-
-2007-01-27 15:16  rgb
-
-	* Restricted/64_bit_URNG.ps, Restricted/cern_stats.pdf,
-	  Restricted/diehard.f, Restricted/marsaglia_tsang.pdf,
-	  Restricted/more_karney_bugs: This is all stuff to be excluded.
-	  Some of this doesn't really need
-	  to be version controlled, but if I plan to use the svn tree as
-	  the
-	  only PERMANENT storage receptacle for the project, well, it does.
-
-2007-01-27 15:15  rgb
-
-	* Restricted/gaeblmar.email: Adding this too.
-
-2007-01-27 15:14  rgb
-
-	* Restricted/monty_python.pdf, db_gnu_r_rngs.c, dieharder.svn.time,
-	  dieharder_src/COPYING, dieharder_src/Makefile,
-	  dieharder_src/NOTES, dieharder_src/README,
-	  dieharder_src/copyright.h, dieharder_src/db_gnu_r_rngs.c:
-	  Checking in what SHOULD be enough to get a successful toplevel
-	  build
-	  at some future time, we hope. Still have to reorganize the
-	  toplevel
-	  dir and Makefile as the make rpm target will from now on ONLY
-	  live
-	  in the toplevel dieharder projects.
-	  
-	  Obviously we're going to have to go through all of this all over
-	  again for the wulfware project -- libwulf, wulfstat, gwulfstat,
-	  wulfweb, wulflogger, etc will all be magically and properly
-	  packaged
-	  so that they "just run".
-
-2007-01-27 15:09  rgb
-
-	* add_my_types.c, db_gnu_r_rngs.c, dieharder.c, dieharder.svn.time,
-	  dieharder_src/add_my_types.c, dieharder_src/dieharder.c,
-	  dieharder_src/empty_random.c, dieharder_src/help.c,
-	  dieharder_src/histogram.c, dieharder_src/list_rand.c,
-	  dieharder_src/list_rngs.c, dieharder_src/output_rnds.c,
-	  dieharder_src/parsecl.c, dieharder_src/run_diehard_2dsphere.c,
-	  dieharder_src/run_diehard_3dsphere.c,
-	  dieharder_src/run_diehard_birthdays.c,
-	  dieharder_src/run_diehard_bitstream.c,
-	  dieharder_src/run_diehard_count_1s_byte.c,
-	  dieharder_src/run_diehard_count_1s_stream.c,
-	  dieharder_src/run_diehard_craps.c,
-	  dieharder_src/run_diehard_dna.c,
-	  dieharder_src/run_diehard_operm5.c,
-	  dieharder_src/run_diehard_opso.c,
-	  dieharder_src/run_diehard_oqso.c,
-	  dieharder_src/run_diehard_parking_lot.c,
-	  dieharder_src/run_diehard_rank_32x32.c,
-	  dieharder_src/run_diehard_rank_6x8.c,
-	  dieharder_src/run_diehard_runs.c,
-	  dieharder_src/run_diehard_squeeze.c,
-	  dieharder_src/run_diehard_sums.c,
-	  dieharder_src/run_marsaglia_tsang_gcd.c,
-	  dieharder_src/run_rgb_bitdist.c, dieharder_src/run_rgb_persist.c,
-	  dieharder_src/run_rgb_timing.c, dieharder_src/run_sts_monobit.c,
-	  dieharder_src/run_sts_runs.c, dieharder_src/run_user_template.c,
-	  dieharder_src/startup.c, dieharder_src/test.c,
-	  dieharder_src/testbits.c, dieharder_src/user_template.c,
-	  dieharder_src/work.c, empty_random.c, help.c, histogram.c,
-	  list_rand.c, list_rngs.c, output_rnds.c, parsecl.c,
-	  run_diehard_2dsphere.c, run_diehard_3dsphere.c,
-	  run_diehard_birthdays.c, run_diehard_bitstream.c,
-	  run_diehard_count_1s_byte.c, run_diehard_count_1s_stream.c,
-	  run_diehard_craps.c, run_diehard_dna.c, run_diehard_operm5.c,
-	  run_diehard_opso.c, run_diehard_oqso.c,
-	  run_diehard_parking_lot.c, run_diehard_rank_32x32.c,
-	  run_diehard_rank_6x8.c, run_diehard_runs.c,
-	  run_diehard_squeeze.c, run_diehard_sums.c,
-	  run_marsaglia_tsang_gcd.c, run_rgb_bitdist.c, run_rgb_persist.c,
-	  run_rgb_timing.c, run_sts_monobit.c, run_sts_runs.c,
-	  run_user_template.c, startup.c, test.c, testbits.c,
-	  user_template.c, work.c: Moving sources to their new location in
-	  a toplevel packaged version of
-	  the dieharder project.
-
-2007-01-27 15:04  rgb
-
-	* dieharder.svn.time, dieharder_src: OK, this is where we're going
-	  to put the actual dieharder (tty
-	  interface) sources.
-
-2007-01-27 15:00  rgb
-
-	* dieharder.svn.time: Jeeze, I left this one out, so the record of
-	  changes is alas distributed
-	  per file, which sucks.
-
-2007-01-27 14:58  rgb
-
-	* dieharder.spec: We are going to make this a one-source-package,
-	  two (or three)
-	  output binary/noarch package project, the most complex rpm we've
-	  built to date. This will require that we completely reconsider
-	  how everything, and I mean everything, is packaged. Basically
-	  we're going to need to create a SINGLE source tarball, which
-	  therefore needs to be very neatly organized. It needs to use
-	  PREFIX in its makefile to determine its library and include
-	  paths (as this can be reset in the spec file build). It needs
-	  to cycle through a set of source directories in order and do
-	  e.g. a make install in each with the appropriate prefix to ensure
-	  that all required files are installed from the library sources
-	  before they are needed by the UI(s). Basically, this is going
-	  to be a PITA and will likely break the shit out of things before
-	  I get it right. Sigh.
-
-2007-01-27 14:24  rgb
-
-	* Makefile, dieharder.spec, doc/Makefile, doc/dieharder.tex,
-	  manual, manual/Makefile, manual/dieharder.tex: Oops -- I need to
-	  make sure that I save this now, in a state where the
-	  rpm WILL build if I install libdieharder first and use the
-	  appropriate
-	  -I tag.
-	  
-	  I'm in midstream trying to learn the %package directive for
-	  specfiles,
-	  though, which SHOULD permit me to do integrated one-stop
-	  development of
-	  both the toplevel dieharder UI and libdieharder for the moment,
-	  and in
-	  the not infinitely distant future a GUI (gdieharder?), the tty
-	  UI, the
-	  library libdieharder, a manual pdf for the whole thing, whatever.
-
-2007-01-19 13:57  rgb
-
-	* Makefile, dieharder.spec: I don't know exactly what changes I'm
-	  checking in, but let's give it a
-	  shot.
-
-2006-10-24 22:36  rgb
-
-	* standard_run.S1: Sending a standard run result set into SVN...
-
-2006-10-24 22:33  rgb
-
-	* startup.c, testbits.c: Just forcing this through, out of sheer
-	  necessity.
-
-2006-10-10 16:01  rgb
-
-	* NOTES: Checking in an update to NOTES only. Plans plans plans.
-
-2006-10-09 19:00  rgb
-
-	* run_rgb_persist.c, startup.c: This removes the bit test routine
-	  from startup (easily replaced) and
-	  fixes the output of rgb_persist for the new CR-free dumpbits.
-
-2006-10-09 18:56  rgb
-
-	* startup.c, testbits.c: This is a final version with testbits in
-	  place and ACTIVE -- we will now
-	  deprecate its old routines and try to use only its new ones for
-	  bitlevel
-	  tests e.g. birthdays and the various "overlapping buffer" tests.
-	  We can
-	  now test all rngs as source of BITS in a stream and not UINTS in
-	  a
-	  stream that just happen to have a bunch of zero bits in the high
-	  order
-	  slots.
-
-2006-10-07 12:39  rgb
-
-	* Makefile, startup.c, test.c, testbits.c: This SEEMS to be a
-	  working version of a very complex and somewhat nasty
-	  routine that can grab arbitrary windows from a buffer of rands
-	  and
-	  return them, with cyclic wraparound. This will be useful for many
-	  tests.
-	  
-	  I'm going to guess that my next chore is to create a routine that
-	  precisely fills a uint from any of the generators, without
-	  wasting or
-	  skipping any bits.
-
-2006-10-04 06:20  rgb
-
-	* test.c: Fixed the output so grepping on Assessment will yield all
-	  results from
-	  a -a run.
-
-2006-10-04 05:54  rgb
-
-	* makepofk, pofk.gfsr4.avg.tbl, pofk.mt19937_1999.avg.tbl,
-	  pofk.ranldx2.avg.tbl, pofk.taus2.avg.tbl, pofk.tbl, startup.c:
-	  This is all simply lovely and very important stuff to fire on in.
-
-2006-10-03 23:32  rgb
-
-	* Makefile: Sending this at LEAST to the server upstairs...
-
-2006-10-03 22:38  rgb
-
-	* run_rgb_bitdist.c: This now runs completely through, randomly
-	  sampling pvalues for the
-	  various target values. Alas, it will require significant
-	  rewriting (and
-	  a really long runtime) to sample EACH value 100x -- say 256 x 2.5
-	  minutes. Say 12 hours to do 8 bits.
-
-2006-10-03 18:55  rgb
-
-	* run_rgb_bitdist.c: This is a working checkin for rgb_bitdist, at
-	  last, again. Now to
-	  enable -a to run 1 through 10 bit tests...(the latter taking
-	  roughly 10
-	  minutes to complete).
-
-2006-09-28 06:27  rgb
-
-	* help.c, run_diehard_runs.c, run_rgb_bitdist.c: This is well
-	  underway. I've "fixed" diehard_birthdays, maybe but
-	  still have a ways to go on rgb_bitdist.
-
-2006-09-21 18:46  rgb
-
-	* dieharder_web, doc/cdf6850_badrand.pdf, doc/charles_karney.txt,
-	  startup.c: Well, dunno, but this seems to fix an important build
-	  bug AND still
-	  works. Clearly I have a lot that I could do with dieharder today
-	  or
-	  this week; equally clearly I have too many other things to do as
-	  well --
-	  I could work all night without blinking, for the next six months,
-	  and
-	  just about break even on task completion...
-
-2006-08-23 01:41  rgb
-
-	* Makefile, help.c, run_diehard_birthdays.c, run_rgb_persist.c,
-	  run_sts_monobit.c, run_sts_runs.c, work.c: This should be "it" --
-	  all done. Quite some testing to do first, but
-	  overall we've even killed off global rand_int. We're close to
-	  the point where we can a) do a major decrufting to clean up the
-	  library, implement the MYDEBUG macro, etc. b) put it out to the
-	  world for testing; c) add the winxx #ifdefs; d) start real work
-	  on it
-	  again with some more sts tests!
-
-2006-08-22 22:46  rgb
-
-	* run_rgb_timing.c: This is definitely time to quit for the day,
-	  regardless of what is
-	  working or what isn't.
-
-2006-08-22 22:30  rgb
-
-	* Makefile, help.c, run_marsaglia_tsang_gcd.c, run_rgb_timing.c,
-	  run_user_template.c, work.c: This is working, AFAICT, through
-	  Marsaglia and Tsang GCD. I do need to
-	  test sums again, but everything else seems good (rgb_bitdist,
-	  recall
-	  isn't finished yet nor are the sts tests).
-
-2006-08-22 18:59  rgb
-
-	* dieharder.h, run_diehard_2dsphere.c, run_diehard_3dsphere.c,
-	  run_diehard_birthdays.c, run_diehard_bitstream.c,
-	  run_diehard_count_1s_byte.c, run_diehard_count_1s_stream.c,
-	  run_diehard_craps.c, run_diehard_dna.c, run_diehard_operm5.c,
-	  run_diehard_opso.c, run_diehard_oqso.c,
-	  run_diehard_parking_lot.c, run_diehard_rank_32x32.c,
-	  run_diehard_rank_6x8.c, run_diehard_runs.c,
-	  run_diehard_squeeze.c, run_diehard_sums.c, test.c: This is
-	  diehard working through dieharder's UI, entirely from
-	  libdieharder calls. That leaves us with a few minor changes to
-	  get
-	  to where things all work again, plus some decrufting...
-
-2006-08-22 16:19  rgb
-
-	* Makefile, help.c, run_diehard_2dsphere.c, run_diehard_3dsphere.c,
-	  run_diehard_bitstream.c, run_diehard_count_1s_byte.c,
-	  run_diehard_count_1s_stream.c, run_diehard_craps.c,
-	  run_diehard_opso.c, run_diehard_parking_lot.c,
-	  run_diehard_runs.c, run_diehard_squeeze.c, run_diehard_sums.c,
-	  run_rgb_bitdist.c, work.c: This works through sums -- runs and
-	  craps don't quite work yet...
-
-2006-08-22 05:32  rgb
-
-	* Makefile, help.c, run_diehard_rank_32x32.c,
-	  run_diehard_rank_32x32c, run_diehard_rank_6x8.c, work.c: This
-	  works through diehard_rank_6x8(), I believe. Only 3/4 or so of
-	  the
-	  tests to go. Sigh. Or maybe even 5/6. Or more. Double sigh.
-
-2006-08-21 22:33  rgb
-
-	* Makefile, help.c, run_diehard_operm5.c, run_diehard_rank_32x32c,
-	  work.c: Oops, missed a name. BTW, note well that operm5 appears
-	  to work now.
-
-2006-08-19 05:19  rgb
-
-	* Makefile, dieharder.h, help.c, run_diehard_birthdays.c, work.c:
-	  Well, diehard_birthdays is totally screwed, but we'll gradually
-	  unscrew
-	  it. It is, kinda, in standard format at this point, but something
-	  isn't
-	  working right at all.
-
-2006-08-19 04:26  rgb
-
-	* Makefile, help.c, run_diehard_2dsphere.c, run_diehard_3dsphere.c,
-	  run_diehard_birthdays.c, run_diehard_bitstream.c,
-	  run_diehard_count_1s_byte.c, run_diehard_count_1s_stream.c,
-	  run_diehard_craps.c, run_diehard_operm5.c, run_diehard_opso.c,
-	  run_diehard_oqso.c, run_diehard_parking_lot.c,
-	  run_diehard_rank_32x32c, run_diehard_rank_6x8.c,
-	  run_diehard_runs.c, run_diehard_squeeze.c, run_diehard_sums.c,
-	  run_sts_monobit.c, run_sts_runs.c, work.c: This adds blanks for
-	  all of the tests that haven't been converted into
-	  standard libdieharder form yet. I should be able to convert a
-	  bunch at
-	  a time, almost.
-
-2006-08-19 04:05  rgb
-
-	* run_diehard_dna.c, run_dieharder_dna.c: This now runs, I think,
-	  using the new encapsulation of diehard_dna.
-
-2006-08-19 03:44  rgb
-
-	* Makefile, help.c, run_dieharder_dna.c, run_user_template.c,
-	  work.c: Check in this stuff so I can move run_dieharder_dna.c
-
-2006-08-18 16:39  rgb
-
-	* run_user_template.c, user_template.c: Fixed a tiny bug (made a
-	  change in user_template.h that had to be
-	  implemented in code).
-
-2006-08-18 16:36  rgb
-
-	* Makefile, dieharder.h, run_rgb_bitdist.c, run_user_template.c,
-	  test.c, user_template.c, user_template.h, work.c: This is a
-	  WORKING version of the user_template test, functioning on top
-	  of a new "standard" testing shell that is part of the library.
-	  Now all
-	  I have to do is port all STANDARD tests to this format. Sigh.
-
-2006-08-17 13:15  rgb
-
-	* Makefile, dieharder.h, help.c, run_rgb_bitdist.c,
-	  run_rgb_persist.c, test.c, user_template.c, work.c: Sending it in
-	  (working on bitdist).
-
-2006-08-17 06:34  rgb
-
-	* Makefile, dieharder.h, help.c, run_rgb_timing.c, work.c: This
-	  works for exactly one test. Lots of work tomorrow.
-
-2006-08-16 22:51  rgb
-
-	* Makefile, NOTES, copyright.h, dieharder.h, dieharder.spec: All
-	  right, the rpm building of dieharder will not work until we are
-	  ready to actually install the libdieharder rpm. This is to be
-	  expected,
-	  really. I'm just going to have to build straight binary dieharder
-	  versions while working on the library and develop and alternative
-	  make
-	  target set (sigh) to build the rpm iff the libdieharder rpm is
-	  installed
-	  and up to date.
-
-2006-08-16 21:00  rgb
-
-	* Makefile, Vtest.h, default.sm, example_ascii.input, kiss.c,
-	  kstest.c, measure_rate.c, parse.h, prob.c, random_seed.c, rank.c,
-	  sample.c, showrand.sm, timing.c: This SEEMS to still build, and
-	  is starting to look pretty well stripped.
-
-2006-08-16 20:49  rgb
-
-	* Makefile, Ntest.c, Vtest.c, Vtest.h, Xtest.c, Xtest.h, bits.c,
-	  block.c, block.h, chisq.c, dev_random.c, dev_urandom.c,
-	  diehard_2dsphere.c, diehard_2dsphere.h, diehard_3dsphere.c,
-	  diehard_3dsphere.h, diehard_birthdays.c, diehard_birthdays.h,
-	  diehard_bitstream.c, diehard_bitstream.h,
-	  diehard_count_1s_byte.c, diehard_count_1s_byte.h,
-	  diehard_count_1s_stream.c, diehard_count_1s_stream.h,
-	  diehard_craps.c, diehard_craps.h, diehard_dna.c, diehard_dna.h,
-	  diehard_operm5.c, diehard_operm5.h, diehard_opso.c,
-	  diehard_opso.h, diehard_oqso.c, diehard_oqso.h,
-	  diehard_parking_lot.c, diehard_parking_lot.h,
-	  diehard_rank_32x32.c, diehard_rank_32x32.h, diehard_rank_6x8.c,
-	  diehard_rank_6x8.h, diehard_runs.c, diehard_runs.h,
-	  diehard_squeeze.c, diehard_squeeze.h, diehard_sums.c,
-	  diehard_sums.h, dieharder.h, file_input.c, file_input_raw.c,
-	  include, include/dieharder, lib, lib/dieharder,
-	  marsaglia_tsang_gcd.c, marsaglia_tsang_gcd.h,
-	  marsaglia_tsang_gorilla.c, marsaglia_tsang_gorilla.h, matrix.c,
-	  matrix.h, operm5_rdata.h, parse.c, rgb_bitdist.c, rgb_bitdist.h,
-	  rgb_lmn.c, rgb_lmn.h, rgb_persist.c, rgb_persist.h, rgb_timing.c,
-	  rgb_timing.h, sts_monobit.c, sts_monobit.h, sts_runs.c,
-	  sts_runs.h, tensor.c, tensor.h: This is ALMOST partitioned into
-	  library and UI. I'm decrufting the
-	  separation, but have a long way to go. The main thing now is to
-	  ensure
-	  that the program WORKS at every step of the way.
-
-2006-08-10 01:33  rgb
-
-	* Makefile, dieharder.h, help.c, rgb_lmn.c, rgb_lmn.h, startup.c,
-	  work.c: This is an update with two purposes. 1) Fix Usage() as
-	  file input
-	  now "works". 2) introduce a template "lmn" test that will be
-	  developed as a super version of rgb_bitdist as soon as I figure
-	  out
-	  the CORRECT statistic.
-
-2006-07-27 17:42  rgb
-
-	* Xtest.h, dieharder.h, dieharder.spec: This is a decrufting
-	  checkin. I've moved almost all of the possibly
-	  encumbered files from diehard (all the sources, for sure) into
-	  the
-	  Restricted directory, cleaned up doc a bit, removed all *.cruft
-	  files,
-	  removed some data and temp run files, all to try to strip down
-	  the size
-	  of the tarball. At this point the irreducible "problem" is
-	  probably
-	  SP800-22b.pdf, which is a whopping 1.2 MB. I could probably just
-	  link
-	  to it somehow in dieharder.pdf and stop including it... but not
-	  yet. It
-	  is too useful to me in development. Ditto tests.txt --
-	  Marsaglia's raw
-	  test descriptions. I'm considering its inclusion to be fair use
-	  of
-	  published material, but if he really objects I'll rewrite the
-	  text
-	  descriptions in prose text of my own and screw the whole thing,
-	  both
-	  here and in the code. I am not going to abandon dieharder per se,
-	  period.
-
-2006-07-27 16:43  rgb
-
-	* Makefile: This is a minor version bump to get the damn binary
-	  file out of the
-	  source tarball.
-
-2006-07-25 18:57  rgb
-
-	* Btest.c, COPYING, Makefile, README, Restricted,
-	  Restricted/diehard.f90, Restricted/diehard_tests.txt, Vtest.c,
-	  confidence.c, diehard.f90, diehard_operm5.c, dieharder.h,
-	  dieharder.spec, dieharder_wp.pdf, doc/Makefile,
-	  doc/diehard_tests.txt, doc/dieharder.tex, marsaglia_tsang_gcd.h:
-	  OK, this contains a lot of rearrangements. I've moved possible
-	  copyright-violating stuff into Restricted so I don't redistribute
-	  it.
-	  I've added a "dieharder manual" under construction, using the
-	  journal
-	  article that isn't as a base. I've started to rearrange Btest
-	  into
-	  Vtest to make it make sense, somewhat. I've ignored the gorilla
-	  test
-	  for now.
-
-2006-07-21 19:49  rgb
-
-	* kiss.c, marsaglia_tsang_gorilla.c, marsaglia_tsang_gorilla.h:
-	  Checking in this stuff before I lose it. kiss in particular needs
-	  to go
-	  in pretty soon.
-
-2006-07-21 19:47  rgb
-
-	* Makefile, dieharder.abs, dieharder.h, dieharder.spec, help.c,
-	  marsaglia_tsang_gcd.c, marsaglia_tsang_gcd.h, startup.c, work.c:
-	  This is a final checkin of GCD -- the next time I mess with it
-	  will be
-	  to include one or more of the CUMULATED kprob vectors for
-	  analysis
-	  and averaging. I'm sending this to the website as a minor number
-	  bump,
-	  indicating another test. Note that I've also started on the kiss
-	  RNG
-	  (to be able to better compare to Marsaglia) and will likely also
-	  work
-	  on adding several others of his favorites.
-
-2006-07-21 18:07  rgb
-
-	* Btest.c, marsaglia_tsang_gcd.c, marsaglia_tsang_gcd.h: This may
-	  be really close to being "done" and ready for a major
-	  version bump. The only thing I lack is the very large statistic
-	  samples of kprob from the s nodes.
-
-2006-07-21 14:19  rgb
-
-	* Btest.c, Makefile, marsaglia_tsang_gcd.c, marsaglia_tsang_gcd.h,
-	  parsecl.c, startup.c, template.c, template.h, user_template.c,
-	  user_template.h, work.c: This is a semi-functioning MT GCD test.
-	  At the moment, although
-	  the k sampling works perfectly, we FAIL because the binomial
-	  distribution MT suggest is way far away from the experiments for
-	  large tsamples. I'm therefore going to roll my own target
-	  distribution, using mt19937_1999 AND rndlx2 to make the tables
-	  (I believe that they'll agree to something like four or five
-	  places,
-	  maybe more).
-
-2006-07-21 13:03  rgb
-
-	* Makefile, diehard_bitstream.c, dieharder.h, help.c,
-	  marsaglia_tsang_gcd.c, marsaglia_tsang_gcd.h, template.c, work.c:
-	  Check these in so we can move things around...
-
-2006-07-20 18:48  rgb
-
-	* doc/marsaglia_tsang.pdf: Adding a NEW paper by Marsaglia and
-	  Tsang. Marsaglia is apparently
-	  somehow hooked into the Hong Kong effort.
-
-2006-07-20 18:35  rgb
-
-	* doc/RNGVS.pdf, doc/fips1402annexc.pdf: Adding two more NIST
-	  publications...
-
-2006-07-20 14:12  rgb
-
-	* dieharder.h, dieharder.spec, output_rnds.c, parsecl.c: FWIW, I
-	  have now verified that I get PRECISELY the same results for the
-	  operm5 test (which I find "worrisome" in that nothing passes it,
-	  which
-	  I deem to be most unlikely) as die.c. I suppose I should give the
-	  diehard.f90 version a shot, if I can get it to compile.
-
-2006-07-19 22:08  rgb
-
-	* Makefile: Finally, this is revision 1.2.26, including the
-	  template test (which
-	  works, after all...).
-	  
-	  I wonder if bub bub shum is going into GSL?
-
-2006-07-19 22:07  rgb
-
-	* dieharder.spec, dieharder_wp.pdf: OK, checking these in...
-
-2006-07-19 22:06  rgb
-
-	* Btest.c, Ntest.c, Xtest.c, diehard_2dsphere.c,
-	  diehard_2dsphere.h, diehard_3dsphere.c, diehard_3dsphere.h,
-	  diehard_birthdays.c, diehard_bitstream.c,
-	  diehard_count_1s_byte.c, diehard_count_1s_stream.c,
-	  diehard_craps.c, diehard_dna.c, diehard_operm5.c,
-	  diehard_operm5.h, diehard_opso.c, diehard_oqso.c,
-	  diehard_parking_lot.c, diehard_rank_32x32.c, diehard_rank_6x8.c,
-	  diehard_runs.c, diehard_runs.h, diehard_squeeze.c,
-	  diehard_sums.c, dieharder.h, dieharder.spec, help.c,
-	  rgb_bitdist.c, sts_monobit.c, sts_runs.c, template.c: OK, I guess
-	  I've made many changes, although at this point God knows
-	  what they are. This program is really about ready to roll, though
-	  -- I
-	  think I'll bump another bugfix number and push it out. With the
-	  documentation PDF, come to think of it...
-
-2006-07-17 20:55  rgb
-
-	* dieharder.all: Just in case there is ANY doubt, the whole suite
-	  FINALLY passed this
-	  simple test. Next we'll do a run with file based input to see if
-	  that
-	  works too.
-
-2006-07-17 20:25  rgb
-
-	* dieharder.all, rgb_persist.c, rgb_timing.c, rgb_timing.h: Grrr.
-	  Yes, even rgb_timing.h has to be done correctly...
-
-2006-07-17 20:18  rgb
-
-	* diehard_2dsphere.h, diehard_3dsphere.h, diehard_bitstream.c,
-	  diehard_count_1s_byte.h, diehard_craps.c, diehard_dna.c,
-	  diehard_opso.c, diehard_oqso.c, diehard_osums.c,
-	  diehard_parking_lot.c, diehard_sums.c, dieharder.abs,
-	  dieharder.all, dieharder.h, rgb_bitdist.c, rgb_bitdist.h,
-	  rgb_persist.c, rgb_persist.h, sts_runs.c, work.c: This may,
-	  finally, at last, possibly, could conceivably be the last fix
-	  required to get diehard -a to WORK again all the way through, at
-	  least
-	  for the default rng. I'll need to test it independently for file
-	  based test(s) with the -a flag, as there may be rewind issues to
-	  deal
-	  with there (as in the need to do a rewind at the beginning of
-	  each test
-	  call so that a rewind isn't necessary inside the test if there
-	  are
-	  enough rands in the file).
-
-2006-07-14 20:10  rgb
-
-	* diehard_2dsphere.c, diehard_2dsphere.h, diehard_3dsphere.c,
-	  diehard_3dsphere.h, diehard_birthdays.c, diehard_bitstream.c,
-	  diehard_bitstream.h, diehard_count_1s_byte.c,
-	  diehard_count_1s_byte.h, diehard_count_1s_stream.c,
-	  diehard_count_1s_stream.h, diehard_craps.c, diehard_dna.c,
-	  diehard_dna.h, diehard_operm5.c, diehard_opso.c, diehard_opso.h,
-	  diehard_oqso.c, diehard_oqso.h, diehard_parking_lot.c,
-	  diehard_parking_lot.h, diehard_rank_32x32.c, diehard_rank_6x8.c,
-	  diehard_rank_6x8.h, diehard_runs.c, diehard_squeeze.c,
-	  diehard_squeeze.h, diehard_sums.c, diehard_sums.h, dieharder.all,
-	  dieharder.h, rgb_bitdist.c, rgb_bitdist.h, rgb_timing.h,
-	  sts_monobit.c, sts_monobit.h, sts_runs.c, sts_runs.h, template.c:
-	  This FINALLY should be DONE -- completely reworked to avoid at
-	  least
-	  one cause of memory management madness, and entirely consistent
-	  in
-	  test structure top to bottom. It is really time to redo the -a
-	  trial and see what if anything fails...
-
-2006-07-14 17:25  rgb
-
-	* d_raw.h, diehard_birthdays.h, diehard_operm5.c, diehard_operm5.h,
-	  diehard_rank_32x32.c, diehard_rank_32x32.h, diehard_runs.h,
-	  dieharder.all, dieharder.h, help.c, operm5_rdata.h,
-	  rgb_persist.c, rgb_persist.h, template.c: OK ALL of these are
-	  updated, but something is still making dieharder
-	  die before it makes it through a dieharder -a. We can only
-	  soldier
-	  on...
-
-2006-07-14 16:17  rgb
-
-	* diehard_birthdays.c, dieharder.all, startup.c, template.c: This
-	  fixes diehard birthdays. Gotta stop changing e.g. template as I
-	  go...
-
-2006-07-14 15:45  rgb
-
-	* histogram.c, template.c, template.h: This should complete
-	  template.c and fix histogram for larger p-values.
-
-2006-07-14 15:38  rgb
-
-	* Makefile, dc2.c, dc2.h, diehard_runs.c, dieharder.h, histogram.c,
-	  template.c, template.h, work.c: This adds a template program
-	  (that is actually a test of sorts) to
-	  use to help users add tests and to use to replace parts of
-	  existing
-	  tests.
-
-2006-07-14 12:48  rgb
-
-	* diehard_craps.c, diehard_craps.h, diehard_runs.c: We continue to
-	  clean up craps as a decent example of a good
-	  implementation of the new tweaks on test encapsulation.
-	  Test-specific
-	  data is looking good. We are CLOSE to where we can block-copy in
-	  a template for the test shell, change the names, and be ready to
-	  tweak
-	  just a bit from the old sources for 2/3 of the remaining tests.
-
-2006-07-13 21:02  rgb
-
-	* Makefile, dc2.c, dc2.h, diehard_craps.c, diehard_craps.h: OK,
-	  this is now FIXED and we've got a prototype (of sorts) for the
-	  new
-	  test encapsulation, working.
-
-2006-07-13 20:54  rgb
-
-	* Makefile, dc2.c, dc2.h, diehard_craps.c, diehard_craps.h: I don't
-	  know exactly what is wrong, but I do know I'd better figure it
-	  out.
-
-2006-07-13 20:43  rgb
-
-	* Makefile, diehard_craps.c, dieharder.h, help.c, sample.c,
-	  startup.c, test.c, work.c: There are two major things here -- one
-	  is a real live bugfix in
-	  diehard_craps where one little 22 was supposed to be a little old
-	  21.
-	  
-	  Also, I've experimented with improving the test encapsulation and
-	  think that I've succeeded. The attempt is in dc2 (a user level
-	  program
-	  I used to debug the craps problem) but I will now backport what I
-	  figured out there to the mainstream tests as rapidly as possible.
-
-2006-07-13 08:23  rgb
-
-	* Makefile, diehard_craps.c, diehard_squeeze.c, dieharder.abs,
-	  rgb_bitdist.c, sts_monobit.c, sts_runs.c: This SHOULD BE DONE
-	  sort of, a full pass through and version numbers
-	  bumped. However, I'm not hardly done with rgb or sts -- they need
-	  the
-	  rest of the transformation (although I've fixed the ks_pvalue
-	  thing so
-	  they should run). I'm also getting some memory management
-	  strangeness
-	  when I try to free memory in certain places. Hopefully it won't
-	  last.
-
-2006-07-13 08:01  rgb
-
-	* Makefile, diehard_2dsphere.c, diehard_3dsphere.c,
-	  diehard_squeeze.c, diehard_sums.c, work.c: OK, this adds a NEW
-	  test, diehard sums, and gets all the tests
-	  up to date through sums. Whew!
-
-2006-07-12 23:56  rgb
-
-	* diehard_parking_lot.c: OK, that one was pretty quick...
-
-2006-07-12 23:51  rgb
-
-	* diehard_count_1s_byte.c: Yet another. This is up to number 10, 11
-	  done, six to go.
-
-2006-07-12 23:31  rgb
-
-	* diehard_count_1s_stream.c, diehard_dna.c, diehard_oqso.c: OK,
-	  here are three more converted...
-
-2006-07-12 23:02  rgb
-
-	* diehard_opso.c, diehard_oqso.c: Up to number 7. 9 to go (runs
-	  being done, sorta).
-
-2006-07-12 22:23  rgb
-
-	* diehard_bitstream.c, diehard_opso.c: Up to test number 6. On to 7
-	  in a bit... so to speak.
-
-2006-07-12 21:54  rgb
-
-	* diehard_birthdays.c, diehard_bitstream.c, diehard_operm5.c,
-	  diehard_rank_32x32.c, diehard_rank_6x8.c, histogram.c: OK, all of
-	  these tests are cleaned up and appear to function.
-	  I've fixed yet another feature of histogram -- one that pretty
-	  much guarantees that the entire histogram will be on scale
-	  even when all entries are in a single column. In fact, it is
-	  probably the only scaling required (the ceil() statement is
-	  likely NOT as desireable).
-
-2006-07-12 20:56  rgb
-
-	* diehard_birthdays.c, diehard_runs.c, dieharder.h, histogram.c,
-	  rgb_persist.c, startup.c: This is a whole bunch of changes,
-	  consistent with a major bugfix
-	  and decrufting release.
-	  
-	  * I've fixed the order of diehard tests so they match diehard's
-	  order
-	  
-	  * I've cleaned up runs and birthdays so birthdays in particular
-	  can be a template for the rest.
-	  
-	  * I've discovered (damn!) that I'm still missing the SUMS test!
-	  
-	  * I've fixed histogram() so that it autoscales! At last!
-
-2006-07-12 19:36  rgb
-
-	* Makefile, dieharder.h, file_input.c, file_input_raw.c: This
-	  cleans up and decrufts both the file_input sources, makes them
-	  completely compatible and self-similar EXCEPT for differences
-	  relevant
-	  to the raw vs cooked issue, makes it so that get_rewind_cnt and
-	  get_rtot
-	  work for both of them transparently.
-	  
-	  Next we need to clean up rgb_persist so that it is a kind of
-	  Xtest
-	  with a vector of ks_pvalues to pass to a final kstest and make a
-	  histogram out of.
-	  
-	  Then we have to clean up ALL the tests, especially with regard to
-	  allocating variables like ks_pvalues[] and rand_ints[].
-
-2006-07-12 16:41  rgb
-
-	* add_my_types.c, dieharder.h, file_input.c, file_input_raw.c,
-	  help.c, list_rngs.c, parsecl.c, rgb_persist.c, startup.c: This is
-	  a "dangerous" checkin, but we've resolved many of the
-	  problematic details of the file_input interface (and learned a
-	  bit
-	  about the gsl_rng interface in the process). I have to still fix
-	  file_input_raw AND then patch ALL the tests.
-
-2006-07-12 08:03  rgb
-
-	* diehard_runs.c, dieharder.abs, dieharder.spec: This fixes an
-	  annoying and pernicious bug in diehard_runs(). I don't
-	  think I'll bump the revision number (yet).
-
-2006-07-12 05:55  rgb
-
-	* Makefile, diehard_operm5.c, startup.c: OK, I'm calling it a wrap.
-	  It agrees perfectly with diehard's operm5
-	  test results when run on the same binary data file, I've tested
-	  everything I can, I've fixed a wierd negative chisq problem that
-	  MAY
-	  WELL suggest a numerical problem with e.g. r[][], s[][], or map[]
-	  -- but
-	  at the moment it works at least as well as the old diehard with
-	  the
-	  same data as the old diehard.
-	  
-	  diehard is now completely swallowed within dieharder. I'm bumping
-	  the revision to 1.0.21, meaning "diehard is finished", "initial
-	  revision, lots bugs", "21 tests total supported". I believe I'll
-	  tag this revision too, if svn tag works...
-
-2006-07-12 05:11  rgb
-
-	* diehard_operm5.c: This MAY be completely and fully functional.
-	  With the -O flag it
-	  precisely corresponds to diehard (c version) on the same input
-	  binary
-	  file. The one problem that remains is that all generators appear
-	  to
-	  fail this test (again) and chisq ends being negative for certain
-	  runs, which cannot happen. Or rather, SHOULD not be able too
-	  happen.
-	  It crashes things when it happens. So I somewhat believe that I
-	  have
-	  a bug (as it were) but if so, it is a very occassional one.
-
-2006-07-12 02:54  rgb
-
-	* diehard_operm5.c, diehard_operm5.h: We'll hope that this one is
-	  "good" and ready to have the statistic
-	  computation part completed. It looks decent, anyway -- the right
-	  "kind"
-	  of stuff in the frequency vector...
-
-2006-07-11 21:18  rgb
-
-	* Makefile, diehard_operm4.c, diehard_operm5.c, diehard_operm5.h,
-	  diehard_opso.c, dieharder.h, dieharder.spec, startup.c, work.c:
-	  We need to check this in to preserve the r, s and map matrices.
-
-2006-07-11 18:36  rgb
-
-	* Makefile, diehard_count_1s_byte.c, diehard_count_1s_stream.c,
-	  diehard_count_byte_1s.c, dieharder.abs, dieharder.h,
-	  dieharder.spec, startup.c, work.c: OK, this is a working
-	  diehard_count_1s_byte. There is just ONE
-	  DIEHARD TEST TO GO! I could finish this TODAY and announce the
-	  fact
-	  on e.g. gsl list.
-
-2006-07-11 17:53  rgb
-
-	* Makefile, diehard_count_1s_stream.c: One last time, this fixes up
-	  the non-quiet test description in really
-	  useful ways. I really need to do this for all tests, or else I
-	  need to
-	  add a counter to all calls to the rng generator. I also need to
-	  at
-	  the VERY LEAST add a counter to the file-based rng and print out
-	  the
-	  total number of rewinds during each test...
-
-2006-07-11 17:33  rgb
-
-	* NOTES, diehard_count_1s_stream.c: One last checkin to get a
-	  comment into the sources as well. I should
-	  really clean up the comments themselves as well, but perhaps I'll
-	  do
-	  so when doing count_1s_byte next.
-
-2006-07-11 17:18  rgb
-
-	* Btest.c, Makefile, bits.c, diehard_count_1s.c,
-	  diehard_count_1s_stream.c: diehard_count_1s_stream() now WORKS!
-	  What a PITA! And (I suspect) how
-	  unnecessary all the complexity! This test (as it turns out)
-	  computes
-	  chisq on what amounts to a strangely remapped rgb_bitdist test
-	  (precisely!) on four and five digit base 5 integers obtained by
-	  remapping bytes based on the number of 1's therein.
-	  
-	  That is, 256 possibilities are reduced to 5, each with a
-	  trivial-to-compute frequency/probability, the base 5 integer is
-	  left
-	  shifted (base 5!) and added to the next one to cumulate 4 or 5
-	  digit
-	  numbers, those numbers are then counted, and the counts compared
-	  to the
-	  EXPECTED counts given the number of samples and turned into chisq
-	  (one
-	  each, for 4 and for 5 digit numbers). Sigh.
-	  
-	  OK then, we COULD just print the p-value of those chisq's -- an
-	  absolutely straightforward process. Alternatively, we could do
-	  what
-	  Marsaglia does -- compute the DIFFERENCE of the chisq's
-	  themselves,
-	  which of course are supposedly distributed around the number of
-	  degrees
-	  of freedom of each one separately, that is 3125 - 625 = 2500!
-	  This is
-	  the mean value of the difference, with stddev = sqrt(2*2500).
-	  This
-	  final result is turned into a p-value.
-	  
-	  This of course is wierd and wrong in so many ways. For one, it is
-	  entirely possible for chisq_4 and chisq_5 to differ
-	  systematically from
-	  their expected values, and it is perfectly possible and likely
-	  that
-	  those deviations would occur in the same direction -- e.g. down
-	  -- so
-	  that the 4 byte and 5 byte streams BOTH have fewer degrees of
-	  freedom
-	  than expected. Of course in this case part of the individual
-	  deviations
-	  CANCEL and is not visible in the final p-value!
-	  
-	  Honestly, I can think of pretty much "no" reasonable ways that
-	  this
-	  final pvalue can fail where any/all of the p-values for the 4 or
-	  5 (or 2
-	  or 3 or 1 or 17) digit distributions would not also fail, but I
-	  can (and
-	  just did) think of a way that the final p-value might MARGINALLY
-	  pass
-	  while the individual p-values fail.
-	  
-	  Although the general approach is a good one, what is clearly
-	  needed is a
-	  new test -- one that extends rgb_bitdist to multidigit strings of
-	  smaller
-	  base. For example, right now rgb_bitdist tests the FREQUENCY of
-	  the
-	  occurrence of all 5 digit strings but not all 5 digit strings
-	  taken two
-	  at a time (32 x 32 = 1K possbilities). Of course one REASON that
-	  I
-	  don't do that is that I >>already<< do e.g. 10 bit strings -- the
-	  DIRECT
-	  frequency distribution of those 1K possibilities, which obviously
-	  samples all the 5 bit combos taken two at a time!. And besides,
-	  every
-	  rng I have tested fails at the level of what amounts to two digit
-	  octal
-	  numbers -- six bit strings. So I'm cynical about this.
-	  
-	  I also don't think that this really counts 1's. How is this one
-	  iota
-	  different from simply evaluating the distribution of bytes (8 bit
-	  randoms)? If the complete distribution of 8 bit bytes
-	  (rgb_bitdist at 8
-	  bits) is random, ALL DERIVED DISTRIBUTIONS are random, with the
-	  only
-	  catchy part being temporal/sequential correlations that might be
-	  revealed from taking the strings four or five bytes at a time (at
-	  the
-	  expense of compressing the information tremendously).
-	  
-	  Once again, this test seems reduceable to but not as sensitive as
-	  rgb_bitdist at a given level, unfortunately a level far beyond
-	  where all
-	  known rng's fail anyway. It is a MEASURE of the lack of
-	  sensitivity
-	  that this does does NOT fail for many of those rng's where
-	  rgb_bitdist
-	  does...
-
-2006-07-11 13:06  rgb
-
-	* Makefile, bits.c, diehard_count_1s.c, dieharder.h, startup.c,
-	  work.c: Check this in so we can move diehard_count_1s
-
-2006-07-11 12:14  rgb
-
-	* NOTES, diehard_bitstream.c, dieharder.h, help.c, parsecl.c: This
-	  has -O to control overlap in diehard tests, although I haven't
-	  retroactively implemented it in say birthdays. First we finish
-	  the last
-	  three tests, THEN we worry about toggling overlap in all the
-	  tests.
-	  Generally speaking, overlap is silly and will no longer be done
-	  as I'm
-	  sure it was an economy measure back in the mid-90's with storage
-	  past
-	  the MB level at a premium cost (one beyond most PC owners).
-
-2006-07-11 11:47  rgb
-
-	* diehard_bitstream.c, diehard_count_1s.c: Oh gladsome day, calloo,
-	  callay -- bitstream doth work, and I feel gay.
-	  I think that I'm going to introduce a new command line flag, -o
-	  for
-	  "use overlap" for diehard tests where it is relevant/possible,
-	  and by
-	  default NOT use overlap since that seems the best way by far to
-	  really
-	  test the bitstreams, given the obvious bitlevel correlations
-	  retained
-	  by left or right shifting a "random" bit pattern.
-
-2006-07-08 14:58  rgb
-
-	* Makefile, bits.c, diehard_bitstream.c, diehard_dna.c,
-	  diehard_oqso.c, dieharder.abs, dieharder.h, dieharder.spec,
-	  startup.c, work.c: This is the bitstream test. I'm down to
-	  operm5, which looks relatively
-	  "difficult", and two count the ones tests, which look easy. I'll
-	  probably do easy first, then finish off with operm5.
-	  
-	  I'm not absolutely certain that bitstream is valid -- BOTH mt1997
-	  and
-	  rndldx2 fail it! Of course, I've implemented it to be more
-	  sensitive
-	  than diehard was with a much more serious and revealing KS test
-	  on the
-	  larger number of psamples. I'm going to try the semi-hardware rng
-	  and
-	  then the hardware rng. If those fail it, the test is probably
-	  flawed
-	  in some subtle way...
-
-2006-07-08 07:48  rgb
-
-	* Makefile, diehard_opso.c, diehard_oqso.c, dieharder.abs,
-	  dieharder.h, dieharder.spec, startup.c, work.c: OK, that was
-	  fast. Looks like oqso works as well, probably well
-	  enough to fire up yet another revision...
-
-2006-07-08 07:07  rgb
-
-	* Makefile, diehard_opso.c, dieharder.abs: I dunno, maybe I should
-	  "tag" it, but I don't know that it matters.
-	  The diehard tests are falling, falling -- quickly now. Hopefully
-	  QPSO will be a simple adaptation of OPSO.
-
-2006-07-08 06:41  rgb
-
-	* Makefile, bits.c, diehard_opso.c, dieharder.abs, dieharder.h,
-	  dieharder.spec, startup.c, work.c: This is worth checking in,
-	  lest we lose everything. opso almost/maybe
-	  works, actually, but there is something still a bit flaky in it.
-	  I
-	  need to do some more testing and remove the debugging cruft when
-	  I'm
-	  done.
-
-2006-07-08 04:12  rgb
-
-	* Makefile, diehard_craps.c, diehard_squeeze.c, dieharder.h,
-	  work.c: This is a working squeeze test, ready to have the version
-	  number
-	  bumped and documentation fixed yet again.
-
-2006-07-07 06:20  rgb
-
-	* Makefile, NOTES, diehard_craps.c, dieharder.1, dieharder.abs,
-	  dieharder.h, dieharder.spec, startup.c, work.c: This is dieharder
-	  0.6.13, where the 6 means that files are now
-	  supported (last major revision bump) and the 13 means that there
-	  are now 13 supported tests include 8/10 diehard tests! We
-	  are making serious progress here -- perhaps one more day of
-	  middling hard work, a bit of debugging on the one test with
-	  a screwed up histogram of values, and I might (finally) have
-	  COMPLETED diehard's encapsulation. Then I only have to
-	  increase the visibility of the project and I'm in great shape.
-	  
-	  This might even be worth announcing on the gsl list (again).
-
-2006-07-07 03:35  rgb
-
-	* Makefile, diehard_parking_lot.c, dieharder.h, help.c, startup.c,
-	  sts_monobit.c, work.c: This appears to be a semi-final checkin
-	  for the parking lot test,
-	  which -- as it happens -- is very, very insensitive. I'm still
-	  struggling to find a generator that fails it in gsl, alas.
-
-2006-07-06 19:04  rgb
-
-	* dieharder.abs: OK, added a new section on using it with gentoo
-	  and a link to the only
-	  remaining diehard mirror.
-
-2006-07-05 22:19  rgb
-
-	* startup.c: Fixed a tiny casting problem in startup().
-
-2006-07-05 22:16  rgb
-
-	* parse.h: This is interesting. I continue to leave key files out
-	  of SVN. Sigh.
-
-2006-07-05 21:30  rgb
-
-	* Makefile, dieharder.1, dieharder.abs, dieharder.spec,
-	  file_input_raw.c: This is a final commit with the right version
-	  numbers, an updated
-	  abstract and man page, just basically documented and so on.
-
-2006-07-05 18:13  rgb
-
-	* file_input_raw.c, rgb_bitdist.c, sample.c, startup.c: OK, this
-	  fixes a few small things that cause failure on files (like
-	  reseeding once per sample, which skews the sample distributions
-	  like crazy).
-
-2006-07-05 17:46  rgb
-
-	* dieharder.h, file_input_raw.c: This REALLY almost works now,
-	  although I completely and totally rewrote
-	  it compared to last time I said that. This version counts the
-	  ints to
-	  be had and precisely cycles the file.
-
-2006-07-04 03:14  rgb
-
-	* add_my_types.c, file_input.c, file_input_raw.c, startup.c: This
-	  actually works, sort of. It reads in the binary file well enough,
-	  and from the look of things the test "works" on the data,
-	  rewinding the
-	  file every time it runs out The biggest problem is that I need a
-	  LOT of
-	  rands to actually pass the tests, I think...
-
-2006-07-04 02:24  rgb
-
-	* Makefile, diehard_runs.c, dieharder.h, file_input_raw.c: This is
-	  a first cut for file_input_raw, ready to test except for a lack
-	  of debugging statements and no way to activate it on e.g. the
-	  command
-	  line and it not being added to the list of gsl-supported
-	  generators
-	  and all that. But it is close... and hey, it might work.
-
-2006-06-26 18:10  rgb
-
-	* bits.c, dieharder.h, file_input.c, testrands.dat.bin: This is at
-	  this moment completely functional for at LEAST type 'd'
-	  and type 'b'. It would be fun to somehow be able to flag output
-	  file type and force different kinds of rand lists to be stored
-	  (since
-	  e.g. hex is more efficient than decimal) but NOT NOW.
-
-2006-06-26 15:51  rgb
-
-	* add_my_types.c, dev_random.c, dieharder.h, file_input.c, parse.c,
-	  parsecl.c, startup.c: This appears to be a completely working
-	  version of the program.
-	  The only real hassle is the warning on rewind -- I should really
-	  be sure to send this to stderr so it can go away on a pipe into
-	  an output file.
-
-2006-06-26 13:45  rgb
-
-	* output_rnds.c, testrands.dat: OK, this pretty much does the
-	  output_rnds() call for the time being.
-	  It is simply lovely. Now I need to return to file_input.c and get
-	  the program to where it can read this IN.
-
-2006-06-26 11:56  rgb
-
-	* Makefile, output_rnds.c, parsecl.c, startup.c, work.c: This now
-	  supports -o for output, sort of. A bit ugly but easy to fix
-	  in time. NOW to use THIS to test file-based INPUT!
-
-2006-06-26 11:37  rgb
-
-	* help.c, output_rnds.c, parsecl.c, startup.c, work.c: I'm most of
-	  the way through adding support for
-	  
-	  dieharder -o testrands.dat
-	  
-	  so that I can turn around and run
-	  
-	  dieharder -f testrands.dat -r 2
-	  
-	  to run rgb test 2 on file data with the default parameters. -o
-	  will
-	  supercede any other commands (in work.c) and get executed FIRST,
-	  but one
-	  CAN use
-	  
-	  dieharder -o testrands.dat -r 2
-	  
-	  to simultaneously create an output file and use it as input for a
-	  test
-	  or suite of tests. I think -- this may take some tuning to get
-	  just
-	  right...
-
-2006-06-26 08:47  rgb
-
-	* block.c, dieharder.h: This is a "perfect" build, and hence should
-	  be checked in. Now all I
-	  need is a list of random numbers in a file to test.
-
-2006-06-26 08:43  rgb
-
-	* Makefile, dieharder.h, file_input.c, parse.c: This now builds,
-	  although I have no idea if it will actually work. I
-	  rather doubt it...
-
-2006-06-26 08:24  rgb
-
-	* Makefile: Well, this one seems to be going in.
-
 2005-03-14 13:57  rgb
 
-	* dieharder.cvs.time, parse.c: This sends in parse.c. Y'know, I'll
-	  bet that this is what breaks
+	* : This sends in parse.c. Y'know, I'll bet that this is what
+	  breaks
 	  Dan's access. Shit, looks like I'll have to kiss "make sync"
 	  goodbye...
 	  or give him an "account" locally with the same uid/gid -- nope
@@ -1666,22 +1437,16 @@
 
 2005-03-11 03:42  rgb
 
-	* dieharder.cvs.time, work.c: This goes home and into laptop...
+	* : This goes home and into laptop...
 
 2005-03-11 03:05  rgb
 
-	* dieharder.cvs.time: Sending this all home, so I can make it on
-	  metatron?
-
-2005-03-11 02:56  rgb
-
-	* Makefile, dieharder.h, rgb_timing.c, work.c: This checks in a
-	  fairly crude but still useful timing test.
+	* : Sending this all home, so I can make it on metatron?
 
 2004-11-30 14:14  rgb
 
-	* dieharder.all, dieharder.cvs.time: I think we'll add this to the
-	  repository as the "reference run" against
+	* : I think we'll add this to the repository as the "reference run"
+	  against
 	  the default generator, dieharder -a > dieharder.all. If we update
 	  this
 	  at the end of every new addition, we'll be able to advance to
@@ -1690,34 +1455,30 @@
 
 2004-11-29 21:36  rgb
 
-	* dieharder.cvs.time: This looks like it ran nicely.
+	* : This looks like it ran nicely.
 
 2004-11-29 19:30  rgb
 
-	* Makefile, diehard_2dsphere.c, diehard_3dsphere.c,
-	  diehard_birthdays.c, diehard_rank_32x32.c, diehard_rank_6x8.c,
-	  diehard_runs.c, dieharder.cvs.time, dieharder.h, histogram.c,
-	  parsecl.c, rank.c, rgb_bitdist.c, sts_monobit.c, sts_runs.c: This
-	  MIGHT just be a reference run followed by tag bump and checkin.
+	* : This MIGHT just be a reference run followed by tag bump and
+	  checkin.
 	  Looks pretty nifty, right up to a first draft of histogram.
 
 2004-11-29 19:03  rgb
 
-	* diehard.f90, dieharder.cvs.time: Adding the published diehard F90
-	  source code to the tree for
+	* : Adding the published diehard F90 source code to the tree for
 	  porting convenience, although we will not use any of it verbatim,
 	  obviously, in a c port.
 
 2004-11-29 17:18  rgb
 
-	* dieharder.cvs.time, rank.c: I'm hoping that this is the needed
-	  binary rank program that analyzes
+	* : I'm hoping that this is the needed binary rank program that
+	  analyzes
 	  binary (bitlevel) matrices for the diehard binary rank tests.
 
 2004-11-24 06:14  rgb
 
-	* diehard_rank_32x32.c, dieharder.cvs.time: This seems to "work",
-	  although it is consistently producing an overall
+	* : This seems to "work", although it is consistently producing an
+	  overall
 	  p-value that is in the .9 range and hence "too high". I'm going
 	  to
 	  start up a full run of 100 x 40000 in a second to see if I get a
@@ -1725,14 +1486,13 @@
 
 2004-11-24 06:00  rgb
 
-	* diehard_rank_32x32.c, dieharder.cvs.time: Well, not JUST that. I
-	  suppose that next we'll have to actually debug.
+	* : Well, not JUST that. I suppose that next we'll have to actually
+	  debug.
 
 2004-11-24 05:58  rgb
 
-	* Makefile, diehard_rank_32x32.c, diehard_rank_6x8.c,
-	  dieharder.cvs.time, dieharder.h, help.c, startup.c, work.c: This
-	  is ALMOST working. I'd say the binary rank part is working, hence
+	* : This is ALMOST working. I'd say the binary rank part is
+	  working, hence
 	  the checkin. It is the rank_32x32 part that isn't, but I'll work
 	  on it.
 	  
@@ -1741,21 +1501,20 @@
 
 2004-11-22 20:08  rgb
 
-	* Makefile, diehard_rank_32x32.c, dieharder.cvs.time, dieharder.h,
-	  doc/tests.txt, help.c, startup.c: This is simply lovely, simply
-	  lovely, with a good start on adding
+	* : This is simply lovely, simply lovely, with a good start on
+	  adding
 	  Diehard's Binary Rank test. All I need is a suitably scaled
 	  matrix
 	  and a few zillion rands...
 
 2004-11-22 19:23  rgb
 
-	* dieharder.cvs.time: Why didn't these make it to Duke?
+	* : Why didn't these make it to Duke?
 
 2004-11-22 08:35  rgb
 
-	* dieharder.abs, dieharder.cvs.time, dieharder.php: This is 0.5.8
-	  stable, I hope. Time to go beddy-bye, hoping that this is
+	* : This is 0.5.8 stable, I hope. Time to go beddy-bye, hoping that
+	  this is
 	  now ready for real development and grantseeking work. I should be
 	  able to add a couple more diehard tests "easily" at this point, I
 	  think.
@@ -1764,9 +1523,7 @@
 
 2004-11-22 06:47  rgb
 
-	* diehard_birthdays.c, diehard_runs.c, dieharder.1,
-	  dieharder.cvs.time, dieharder.h, help.c, parsecl.c, startup.c,
-	  work.c: This is VERY VERY close to being a fairly serious tagged
+	* : This is VERY VERY close to being a fairly serious tagged
 	  checkin.
 	  We've resolved the problem of multiline strings in gcc, snagged a
 	  C tutorial for gcc, completely fixed the documentation -- this is
@@ -1774,12 +1531,8 @@
 
 2004-11-22 04:24  rgb
 
-	* Makefile, bits.c, diehard_2dsphere.c, diehard_3dsphere.c,
-	  diehard_birthdays.c, diehard_runs.c, dieharder.cvs.time,
-	  dieharder.h, dieharder.spec, help.c, list_rand.c, measure_rate.c,
-	  parsecl.c, rgb_bitdist.c, rgb_persist.c, sample.c, startup.c,
-	  sts_monobit.c, sts_runs.c, work.c: This is really close to
-	  working with all the changes in the command
+	* : This is really close to working with all the changes in the
+	  command
 	  line options and associated global variables. In fact, it might
 	  BE
 	  working.
@@ -1797,19 +1550,8 @@
 
 2004-11-20 18:17  rgb
 
-	* Btest.c, Makefile, NOTES, Ntest.c, Xtest.c, add_my_types.c,
-	  bits.c, chisq.c, confidence.c, dev_random.c, dev_urandom.c,
-	  diehard_2dsphere.c, diehard_3dsphere.c, diehard_birthdays.c,
-	  diehard_bitstream.c, diehard_count_1s.c, diehard_count_byte_1s.c,
-	  diehard_craps.c, diehard_dna.c, diehard_operm4.c, diehard_opso.c,
-	  diehard_oqso.c, diehard_osums.c, diehard_parking_lot.c,
-	  diehard_rank_32x32.c, diehard_runs.c, diehard_squeeze.c,
-	  dieharder.abs, dieharder.c, dieharder.cvs.time, dieharder.spec,
-	  empty_random.c, kstest.c, list_rand.c, list_rngs.c,
-	  measure_rate.c, parsecl.c, prob.c, random_seed.c, rgb_bitdist.c,
-	  rgb_persist.c, sample.c, startup.c, sts_monobit.c, sts_runs.c,
-	  timing.c, work.c: This is now really truly ready to go, EXCEPT
-	  that NOW I have to alter
+	* : This is now really truly ready to go, EXCEPT that NOW I have to
+	  alter
 	  all sorts of command options according to the latest
 	  prescriptions in
 	  the checkin logs and abstract/web page. And get it "working
@@ -1820,20 +1562,14 @@
 
 2004-11-20 15:55  rgb
 
-	* dieharder.cvs.time, doc, doc/SP800-22b.pdf, doc/cern_stats.pdf,
-	  doc/diehard_tests.txt, doc/fnal_prob.pdf,
-	  doc/goodness_of_fit_nr.pdf, tests.txt: This is the REALLY final
-	  checkin of rand_rate, I think, before we clone
+	* : This is the REALLY final checkin of rand_rate, I think, before
+	  we clone
 	  it into dieharder.
 
 2004-11-20 15:50  rgb
 
-	* diehard_bitstream.c, diehard_count_1s.c, diehard_count_byte_1s.c,
-	  diehard_craps.c, diehard_dna.c, diehard_operm4.c, diehard_opso.c,
-	  diehard_oqso.c, diehard_osums.c, diehard_parking_lot.c,
-	  diehard_rank_32x32.c, diehard_squeeze.c, dieharder.abs,
-	  dieharder.cvs.time, dieharder.spec, tests.txt: This is the last
-	  checkin of rand_rate AS rand_rate. I'm going to change
+	* : This is the last checkin of rand_rate AS rand_rate. I'm going
+	  to change
 	  the name of this suite to dieharder. I'm also going to change the
 	  test numbering schema and option naming so that e.g.
 	  
@@ -1961,21 +1697,18 @@
 
 2004-11-20 08:07  rgb
 
-	* diehard_2dsphere.c, diehard_3dsphere.c, diehard_birthdays.c,
-	  diehard_runs.c, dieharder.cvs.time, rgb_bitdist.c, sample.c,
-	  sts_monobit.c, sts_runs.c: Fixed silly spelling error (sigh).
+	* : Fixed silly spelling error (sigh).
 
 2004-11-20 07:50  rgb
 
-	* diehard_runs.c, dieharder.cvs.time: Well, that was quick. A nasty
-	  (but easy) little bug in diehard_runs
+	* : Well, that was quick. A nasty (but easy) little bug in
+	  diehard_runs
 	  squashed (size -> tsamples).
 
 2004-11-20 07:47  rgb
 
-	* Makefile, diehard_2dsphere.c, diehard_3dsphere.c,
-	  dieharder.cvs.time, dieharder.h: This should/maybe be a serious v
-	  0.5.3 checkin. We are about to try
+	* : This should/maybe be a serious v 0.5.3 checkin. We are about to
+	  try
 	  -v -1. If it works, it will cycle through all of the working
 	  tests
 	  (and all the tests are working). All the tests are now written in
@@ -1999,13 +1732,11 @@
 
 2004-11-20 07:34  rgb
 
-	* dieharder.cvs.time: Try again (network down).
+	* : Try again (network down).
 
 2004-11-20 07:34  rgb
 
-	* chisq.c, diehard_2dsphere.c, diehard_birthdays.c, diehard_runs.c,
-	  dieharder.abs, dieharder.cvs.time, dieharder.h, dieharder.spec:
-	  This clears diehard_birthdays AND diehard_2dsphere. Only one
+	* : This clears diehard_birthdays AND diehard_2dsphere. Only one
 	  diehard
 	  to go and we'll have EVERYTHING running with sample and the new
 	  test
@@ -2013,24 +1744,20 @@
 
 2004-11-20 03:11  rgb
 
-	* Makefile, diehard_runs.c, dieharder.abs, dieharder.cvs.time,
-	  dieharder.h, dieharder.spec, measure_rate.c, rgb_bitdist.c,
-	  work.c: Fixed up diehard_runs so it uses the new test format.
-	  Works charmlike.
+	* : Fixed up diehard_runs so it uses the new test format. Works
+	  charmlike.
 
 2004-11-19 23:38  rgb
 
-	* Makefile, Xtest.c, dieharder.cvs.time, sts_runs.c: This is v
-	  0.5.1, which is nicely fixed for BOTH sts_monobit AND
+	* : This is v 0.5.1, which is nicely fixed for BOTH sts_monobit AND
 	  sts_runs, both in the new format, with a consistent Xtest_eval()
 	  routine. This fixes lots of things -- both tests are very likely
 	  to be "good".
 
 2004-11-19 23:34  rgb
 
-	* Xtest.c, dieharder.cvs.time, dieharder.h, startup.c,
-	  sts_monobit.c, sts_runs.c: OK, this looks like sts_runs is now
-	  "good" in the new format. However,
+	* : OK, this looks like sts_runs is now "good" in the new format.
+	  However,
 	  it may have broken sts_monobit. The problem is, is there or is
 	  there
 	  not a sqrt(2.0) in the erfc relative to sigma, and if there is is
@@ -2042,12 +1769,12 @@
 
 2004-11-19 21:06  rgb
 
-	* dieharder.cvs.time: Sending this home, I hope.
+	* : Sending this home, I hope.
 
 2004-11-19 20:09  rgb
 
-	* dieharder.cvs.time, dieharder.h, sts_monobit.c, sts_runs.c: This
-	  is now squeaky clean for rgb_bitdist and sts_monobit, and we're
+	* : This is now squeaky clean for rgb_bitdist and sts_monobit, and
+	  we're
 	  working on sts_runs. Then a quick dash through the diehards and
 	  we'll
 	  be back to where we were but a bit cleaner.
@@ -2058,51 +1785,36 @@
 
 2004-11-19 18:55  rgb
 
-	* Xtest.c, dieharder.cvs.time, dieharder.h, sts_monobit.c: This is
-	  a checkin to Duke of the nifty neato cool new improved
+	* : This is a checkin to Duke of the nifty neato cool new improved
 	  version. It may be time to change the name and everything.
 
 2004-11-19 17:35  rgb
 
-	* dieharder.cvs.time, rgb_bitdist.c, sample.c: OK so there was one
-	  more teeny bug in rgb_bitdist() -- wrong order in
+	* : OK so there was one more teeny bug in rgb_bitdist() -- wrong
+	  order in
 	  the final output statement. Fixed. I also added a feature,
 	  reseeding
 	  the rng in sample on an -i flag.
 
 2004-11-19 17:28  rgb
 
-	* Makefile, dieharder.cvs.time: This is just ensuring that the tag
-	  for version 0.5.0 is noted. This
+	* : This is just ensuring that the tag for version 0.5.0 is noted.
+	  This
 	  version works through rgb_bitdist, which I'll bet a nickel is a
 	  very
 	  powerful test indeed.
 
 2004-11-19 17:26  rgb
 
-	* Btest.c, dieharder.cvs.time, kstest.c, rgb_bitdist.c: This is a
-	  "permanent" checkin. I think that this fixes rgb_bitdist
+	* : This is a "permanent" checkin. I think that this fixes
+	  rgb_bitdist
 	  nicely to use sample() and provides a prototype for doing other
 	  tests.
 
-2004-11-19 17:09  rgb
-
-	* Makefile, dieharder.abs, dieharder.c, dieharder.h,
-	  dieharder.spec, kstest.c, rgb_bitdist.c, sample.c, startup.c,
-	  work.c: This is actually a pretty damn functional run. The
-	  remaining problem
-	  is that the pearson chisq appears to be failing for very large
-	  numbers
-	  of samples (and very few bins populated) where the relative error
-	  in
-	  the smaller bins is vastly amplified relative to the principle
-	  (0) bin.
-
 2004-11-19 02:09  rgb
 
-	* Makefile, bits.c, dieharder.cvs.time, dieharder.h, parsecl.c,
-	  rgb_binomial.c, rgb_bitdist.c, work.c: This is a fairly major fix
-	  -- I was truncating blen in bits.c at
+	* : This is a fairly major fix -- I was truncating blen in bits.c
+	  at
 	  the sizeof(uint), not 8*sizeof(uint). One lesson is that this
 	  truncation isn't right anyway. We rather need to just punt/die.
 	  
@@ -2119,8 +1831,8 @@
 
 2004-11-18 23:43  rgb
 
-	* dieharder.cvs.time, rgb_bitdist.c: Now it REALLY looks like it
-	  works, and even the best rng's look like
+	* : Now it REALLY looks like it works, and even the best rng's look
+	  like
 	  they FAIL the test in fairly short order. Now we're cookin' with
 	  gas,
 	  although I've got to see the details of the failure soon enough.
@@ -2129,14 +1841,14 @@
 
 2004-11-18 23:25  rgb
 
-	* dieharder.cvs.time, rgb_bitdist.c: Just to verify that it APPEARS
-	  to work to quite high precision through
+	* : Just to verify that it APPEARS to work to quite high precision
+	  through
 	  triplets. We could just keep adding things, I suppose...
 
 2004-11-18 23:17  rgb
 
-	* dieharder.cvs.time, dieharder.h, rgb_bitdist.c: This is now
-	  working. Working amazingly well, actually. Well enough
+	* : This is now working. Working amazingly well, actually. Well
+	  enough
 	  to double the size of the bits in rgb_bitdist_test().
 	  
 	  The one MAJOR remaining problem is that I cannot use samples for
@@ -2173,17 +1885,15 @@
 
 2004-11-18 22:28  rgb
 
-	* bits.c, dieharder.cvs.time, rgb_bitdist.c: This MIGHT be working.
+	* : This MIGHT be working.
 
 2004-11-18 20:42  rgb
 
-	* dieharder.cvs.time: I sent this home, I did, I did.
+	* : I sent this home, I did, I did.
 
 2004-11-18 20:08  rgb
 
-	* Btest.c, Makefile, bits.c, dieharder.cvs.time, dieharder.h,
-	  parsecl.c, rgb_bit2.c, rgb_bitdist.c, startup.c, work.c: This is
-	  still fairly screwed up, at least in the sense that
+	* : This is still fairly screwed up, at least in the sense that
 	  it doesn't look like rgb_bitdist works. Curiously, it LOOKS like
 	  it WORKS -- walking through the code, it looks VERY much like it
 	  is collecting two bits at a time and correctly incrementing the
@@ -2202,11 +1912,8 @@
 
 2004-11-18 16:27  rgb
 
-	* bits.c, chisq.c, diehard_2dsphere.c, diehard_3dsphere.c,
-	  diehard_birthdays.c, diehard_runs.c, dieharder.abs,
-	  dieharder.cvs.time, dieharder.spec, rgb_binomial.c, rgb_bit2.c,
-	  rgb_bitdist.c, rgb_persist.c, sts_monobit.c, sts_runs.c: We have
-	  to go into Duke, but we are very much ready to finish off bits.c
+	* : We have to go into Duke, but we are very much ready to finish
+	  off bits.c
 	  and rgb_bitdist.c to where we can eliminate BOTH rgb_binomial AND
 	  rgb_bit2.c AND at least one, maybe 3-4 diehard tests AND a couple
 	  or
@@ -2229,18 +1936,15 @@
 
 2004-11-17 19:57  rgb
 
-	* Makefile, dieharder.cvs.time, dieharder.h, parsecl.c,
-	  rgb_bitdist.c, sample.c: This is HIGHLY BROKEN but is absolutely
-	  necessary. We have to break
+	* : This is HIGHLY BROKEN but is absolutely necessary. We have to
+	  break
 	  this code up to unify the replicated pieces and streamline the
 	  testing processes now that we know how a test "works" in the
 	  abstract.
 
 2004-11-17 03:40  rgb
 
-	* Btest.c, Makefile, bits.c, dieharder.abs, dieharder.cvs.time,
-	  dieharder.spec: A bugfix commit. The sanity check in get_bit() is
-	  broken and is
+	* : A bugfix commit. The sanity check in get_bit() is broken and is
 	  commented out -- if I'm going to allocate rand_int[] vectors
 	  other than
 	  size in length, I cannot test on a global size to see if
@@ -2267,40 +1971,34 @@
 
 2004-11-16 23:46  rgb
 
-	* dieharder.cvs.time: This is a tagged checkin, about to push.
+	* : This is a tagged checkin, about to push.
 
 2004-11-16 23:45  rgb
 
-	* dieharder.cvs.time, kstest.c, rgb_binomial.c: This appears ready
-	  for a checkin.
+	* : This appears ready for a checkin.
 
 2004-11-16 23:19  rgb
 
-	* Btest.c, Makefile, chisq.c, dieharder.cvs.time, dieharder.h,
-	  rgb_binomial.c: This appears to FINALLY fix rgb_binomial so that
-	  it reliably works.
+	* : This appears to FINALLY fix rgb_binomial so that it reliably
+	  works.
 	  It remains to be seen whether or not it is any more senstitive
 	  than e.g.
 	  sts_monobit.
 
 2004-11-16 20:11  rgb
 
-	* Makefile, Ntest.c, bits.c, chisq.c, dieharder.cvs.time, kstest.c,
-	  rgb_binomial.c, startup.c: This is STILL broken as far as the
-	  Ntests are concerned. I've really
+	* : This is STILL broken as far as the Ntests are concerned. I've
+	  really
 	  got to figure this out...
 
 2004-11-16 15:51  rgb
 
-	* Makefile, diehard_2dsphere.c, diehard_3dsphere.c, dieharder.abs,
-	  dieharder.cvs.time, dieharder.h, dieharder.spec, rgb_binomial.c,
-	  work.c: Send this to Duke to finish this morning.
+	* : Send this to Duke to finish this morning.
 
 2004-11-14 17:40  rgb
 
-	* diehard_3dsphere.c, diehard_birthdays.c, diehard_runs.c,
-	  dieharder.cvs.time, dieharder.h, kstest.c: This is a pretty
-	  serious bugfix -- probably need to update the website.
+	* : This is a pretty serious bugfix -- probably need to update the
+	  website.
 	  Basically, my kstest was simply wrong last night; now it is
 	  working,
 	  I've also added the Kuiper form of the KS test, and will program
@@ -2404,21 +2102,17 @@
 
 2004-11-14 09:38  rgb
 
-	* dieharder.cvs.time: Tagged and on the repository as 0.4.3, with
-	  diehard 3d spheres and a
+	* : Tagged and on the repository as 0.4.3, with diehard 3d spheres
+	  and a
 	  MAYBE working KS test.
 
 2004-11-14 09:37  rgb
 
-	* Makefile, diehard_3dsphere.c, diehard_birthdays.c,
-	  diehard_runs.c, dieharder.abs, dieharder.cvs.time, dieharder.h,
-	  dieharder.spec, kstest.c: Sort of playing with KS -- I'm not done
-	  here yet...
+	* : Sort of playing with KS -- I'm not done here yet...
 
 2004-11-14 08:04  rgb
 
-	* diehard_3dsphere.c, dieharder.cvs.time: OK, found my REALLY
-	  stupid bug. I was computing the absolute
+	* : OK, found my REALLY stupid bug. I was computing the absolute
 	  length of r from the origin, not the distance between point
 	  pairs.
 	  No, I wasn't even doing that well -- I was computing the dot
@@ -2431,10 +2125,8 @@
 
 2004-11-14 07:22  rgb
 
-	* Makefile, block.c, block.h, diehard_3dsphere.c,
-	  dieharder.cvs.time, dieharder.h, matrix.c, matrix.h, tensor.c,
-	  tensor.h: This "works". Except that it doesn't. It's very odd,
-	  but although
+	* : This "works". Except that it doesn't. It's very odd, but
+	  although
 	  it works perfectly as far as I can tell by any measure, r is
 	  simply not
 	  as small as it should be in order to make the pvalue come out
@@ -2443,20 +2135,16 @@
 
 2004-11-14 01:19  rgb
 
-	* Makefile, chisq.c, diehard_3dsphere.c, diehard_birthdays.c,
-	  dieharder.abs, dieharder.cvs.time, dieharder.h, dieharder.spec,
-	  work.c: THis is on the way to being another test.
+	* : THis is on the way to being another test.
 
 2004-11-13 22:19  rgb
 
-	* Makefile, dieharder.abs, dieharder.cvs.time: This is hopefully a
-	  tagged snapshot with a new test!
+	* : This is hopefully a tagged snapshot with a new test!
 
 2004-11-13 21:50  rgb
 
-	* Ntest.c, chisq.c, diehard_birthdays.c, dieharder.cvs.time,
-	  dieharder.h: OK, time to bump the revision number, as birthdays
-	  is home and even
+	* : OK, time to bump the revision number, as birthdays is home and
+	  even
 	  works tolerably, as far as I can tell.
 	  
 	  SOON I'm going to do the KS test on vectors of p's. SOON I'm
@@ -2468,18 +2156,18 @@
 
 2004-11-13 17:17  rgb
 
-	* chisq.c, dieharder.cvs.time: This is it, ready to proceed.
+	* : This is it, ready to proceed.
 
 2004-11-13 17:12  rgb
 
-	* Makefile, dieharder.cvs.time, kstest.c: This checks in a
-	  placeholder for a Kolmogorov-Smirnov test, likely to
+	* : This checks in a placeholder for a Kolmogorov-Smirnov test,
+	  likely to
 	  be applied to a vector of p-values.
 
 2004-11-13 17:06  rgb
 
-	* Makefile, chisq.c, dieharder.cvs.time: We'll commit this for the
-	  moment. I think the sensible thing to do is
+	* : We'll commit this for the moment. I think the sensible thing to
+	  do is
 	  to create as general as possible a tool for generating Pearson's
 	  chisq
 	  for discretely binned data, in particular and immediately for the
@@ -2496,15 +2184,14 @@
 
 2004-11-13 09:34  rgb
 
-	* diehard_birthdays.c, dieharder.cvs.time: Just added output of
-	  lambda, which is indeed 2 with the parameters
+	* : Just added output of lambda, which is indeed 2 with the
+	  parameters
 	  given...
 
 2004-11-13 09:32  rgb
 
-	* bits.c, diehard_birthdays.c, dieharder.cvs.time, dieharder.h,
-	  work.c: This is REALLY CLOSE to having diehard birthdays
-	  finished. We just
+	* : This is REALLY CLOSE to having diehard birthdays finished. We
+	  just
 	  need to add a chisq test for Poisson distributions sampled
 	  samples times
 	  with known (per sample) lambda, and a loop to convert a table of
@@ -2517,24 +2204,21 @@
 
 2004-11-13 02:02  rgb
 
-	* Makefile, diehard_birthdays.c, dieharder.cvs.time, dieharder.h:
-	  This is a simple checkin prior to doing diehard birthdays test.
+	* : This is a simple checkin prior to doing diehard birthdays test.
 
 2004-11-13 01:32  rgb
 
-	* Makefile, confidence.c, diehard_runs.c, dieharder.cvs.time: This
-	  splits off the confidence interval test from STS docs.
+	* : This splits off the confidence interval test from STS docs.
 
 2004-11-13 01:28  rgb
 
-	* Makefile, dieharder.abs, dieharder.cvs.time, dieharder.spec: This
-	  is a small adjustment (still in 0.4.1 I guess). Let's try another
+	* : This is a small adjustment (still in 0.4.1 I guess). Let's try
+	  another
 	  diehard, I think.
 
 2004-11-13 01:16  rgb
 
-	* Makefile, diehard_runs.c, dieharder.cvs.time: This is actually a
-	  fairly functional diehard test!
+	* : This is actually a fairly functional diehard test!
 	  
 	  I think that we can actually implement a test for the uniformity
 	  of
@@ -2552,35 +2236,34 @@
 
 2004-11-12 22:32  rgb
 
-	* diehard_runs.c, dieharder.cvs.time, dieharder.h: This is actually
-	  sort of semi-functional. What I >>really<< need now
+	* : This is actually sort of semi-functional. What I >>really<<
+	  need now
 	  is canned Kolmogorov-Smirnov code. Could it be that this is in
 	  the
 	  GSL already? I'll be it is...
 
 2004-11-11 15:59  rgb
 
-	* diehard_runs.c, dieharder.cvs.time: Continuing to hack this up.
+	* : Continuing to hack this up.
 
 2004-11-10 22:19  rgb
 
-	* Makefile, Ntest.c, Xtest.c, bits.c, diehard_runs.c,
-	  dieharder.cvs.time, dieharder.h, work.c: This is a nearly
-	  functional diehard_runs -- I just need to figure out
+	* : This is a nearly functional diehard_runs -- I just need to
+	  figure out
 	  what the expected values and sigmas are...
 
 2004-11-10 05:32  rgb
 
-	* Makefile, dieharder.abs, dieharder.cvs.time: This is simply
-	  lovely. A nice litte addition to the Makefile that
+	* : This is simply lovely. A nice litte addition to the Makefile
+	  that
 	  automatically indicates the current version in the abstract. I
 	  actually
 	  have things fairly distributable!
 
 2004-11-10 05:24  rgb
 
-	* dieharder.cvs.time, rgb_bit2.c, startup.c: OK, added a few minor
-	  changes to manage the bits issue yet another way.
+	* : OK, added a few minor changes to manage the bits issue yet
+	  another way.
 	  
 	  Really, I'm going to have to figure out a consistent way of
 	  indicating
@@ -2595,34 +2278,23 @@
 
 2004-11-10 04:53  rgb
 
-	* dieharder.cvs.time: This is it and running, version 0.4.0 as
-	  published. Seems to work.
+	* : This is it and running, version 0.4.0 as published. Seems to
+	  work.
 
 2004-11-10 04:53  rgb
 
-	* Makefile, dieharder.1, dieharder.abs, dieharder.cvs.time,
-	  dieharder.php, dieharder.spec: One last checkin, then a tag, then
-	  a checkin as published.
-
-2004-11-10 03:03  rgb
-
-	* Makefile, dieharder.abs, dieharder.h, dieharder.php, list_rand.c,
-	  measure_rate.c, rgb_binomial.c, rgb_bit2.c, rgb_bitdist.c,
-	  rgb_persist.c, startup.c, sts_monobit.c, sts_runs.c: This is
-	  about to become version 0.4.0 and be posted under general or
-	  some such on my website at Duke.
+	* : One last checkin, then a tag, then a checkin as published.
 
 2004-11-10 01:43  rgb
 
-	* Makefile, dieharder.cvs.time: This is a tagged release, mostly
-	  bugfixes. At the moment it all looks
+	* : This is a tagged release, mostly bugfixes. At the moment it all
+	  looks
 	  like it works.
 
 2004-11-10 01:37  rgb
 
-	* dieharder.cvs.time, parsecl.c, random_seed.c, rgb_binomial.c,
-	  rgb_bit2.c, rgb_bitdist.c, sts_monobit.c, sts_runs.c: This seems
-	  to work perfectly, for the very short moment. It is by no
+	* : This seems to work perfectly, for the very short moment. It is
+	  by no
 	  means perfect or mutually exclusive. We very definitely need to
 	  generalize the bitdist test to handle bit ntuples of arbitrary
 	  length,
@@ -2635,31 +2307,30 @@
 
 2004-11-09 22:14  rgb
 
-	* dieharder.cvs.time, rgb_bit2.c: Because it wasn't checked in!
+	* : Because it wasn't checked in!
 
 2004-11-09 22:14  rgb
 
-	* dieharder.cvs.time: Why didn't bit2.c go home?
+	* : Why didn't bit2.c go home?
 
 2004-11-09 20:09  rgb
 
-	* Makefile, add_my_types.c, dieharder.cvs.time, dieharder.h,
-	  parsecl.c, rgb_bitdist.c, work.c: This is going home with a split
-	  out routine and some nice changes that
+	* : This is going home with a split out routine and some nice
+	  changes that
 	  will make it easier to add new tests with arbitrary numbers.
 
 2004-11-09 19:30  rgb
 
-	* dieharder.cvs.time: Just checking repository Root.
+	* : Just checking repository Root.
 
 2004-11-09 19:30  rgb
 
-	* dieharder.cvs.time, parsecl.c: Let's send this home...
+	* : Let's send this home...
 
 2004-11-09 14:51  rgb
 
-	* Makefile, dieharder.cvs.time: OK, fixing Makefile to actually get
-	  this home, AND adding the URL
+	* : OK, fixing Makefile to actually get this home, AND adding the
+	  URL
 	  of the web reference from the last checkin:
 	  
 	  http://world.std.com/~franl/crypto/random-numbers.html
@@ -2668,8 +2339,8 @@
 
 2004-11-09 14:48  rgb
 
-	* NOTES, dieharder.cvs.time, list_rngs.c, parsecl.c: We're actually
-	  working on this once again. I need to get my own "runs"
+	* : We're actually working on this once again. I need to get my own
+	  "runs"
 	  test working, as it will replace a whole RANGE of STS, and I need
 	  to
 	  implement a spectral distribution test with bins as is done in
@@ -2678,21 +2349,18 @@
 
 2004-11-08 14:52  rgb
 
-	* Makefile, add_my_types.c, dev_urandom.c, dieharder.cvs.time,
-	  parsecl.c, rgb_bitdist.c: This adds yet another built-in device
-	  to GSL.
+	* : This adds yet another built-in device to GSL.
 
 2003-06-10 15:21  rgb
 
-	* Makefile, add_my_types.c, dieharder.cvs.time, empty_random.c,
-	  random_seed.c: This adds an "empty" generator to help us
-	  determine gsl call overhead
+	* : This adds an "empty" generator to help us determine gsl call
+	  overhead
 	  separately.
 
 2003-01-30 22:16  rgb
 
-	* dieharder.cvs.time, dieharder.h, rgb_bitdist.c: This is broken as
-	  shit. I see what I did -- I made the ntest evaluation
+	* : This is broken as shit. I see what I did -- I made the ntest
+	  evaluation
 	  and presentation routines use n+1 bits (because in rgb_binomial I
 	  needed
 	  to do the end of the binomial). However, I have to fix it
@@ -2700,24 +2368,23 @@
 
 2003-01-30 20:12  rgb
 
-	* dieharder.cvs.time, rgb_bitdist.c: Forgot to send this...
+	* : Forgot to send this...
 
 2003-01-29 19:19  rgb
 
-	* dieharder.cvs.time, rgb_bitdist.c: Not obviously broken, and time
-	  to add bitpair counters. Should be
+	* : Not obviously broken, and time to add bitpair counters. Should
+	  be
 	  really easy -- left-shift in two bits at a time to creat the int
 	  index
 	  of the counter, then increment it.
 
 2003-01-29 14:27  rgb
 
-	* NOTES, dieharder.cvs.time: Some NOTES on future work.
+	* : Some NOTES on future work.
 
 2003-01-29 14:14  rgb
 
-	* Makefile, dieharder.cvs.time, dieharder.h, rgb_bitdist.c, work.c:
-	  This checks in a whole new test, which should probably be
+	* : This checks in a whole new test, which should probably be
 	  combined with
 	  sts_monobit (it generates monobit stats as it goes)
 	  rgb_persist (one can easily generate a bitmask as one goes)
@@ -2729,8 +2396,8 @@
 
 2003-01-26 07:54  rgb
 
-	* dieharder.cvs.time, measure_rate.c, work.c: This last little pair
-	  of changes causes measure_rate to use its own,
+	* : This last little pair of changes causes measure_rate to use its
+	  own,
 	  fixed, number of samples ("more than enough"). It also installs a
 	  "summary report" mode that isn't horribly useful because of
 	  conflict
@@ -2742,9 +2409,8 @@
 
 2003-01-26 07:23  rgb
 
-	* bits.c, dieharder.cvs.time, dieharder.h, rgb_binomial.c,
-	  rgb_persist.c, startup.c: OK, we haven't done TOO much, but we
-	  have definitely learned that
+	* : OK, we haven't done TOO much, but we have definitely learned
+	  that
 	  all the rng's that are weak in rgb_persist will definitely fail
 	  the
 	  monobit test (for obvious reasons). Furthermore, when a generator
@@ -2759,24 +2425,23 @@
 
 2003-01-26 05:00  rgb
 
-	* NOTES, bits.c, dieharder.cvs.time, parsecl.c, rgb_persist.c: This
-	  is a VERY IMPORTANT new test, rgb_persist(), and a very useful
+	* : This is a VERY IMPORTANT new test, rgb_persist(), and a very
+	  useful
 	  new routine, dumpbits(). Read NOTES (and inline comments and
 	  output)
 	  to see a bit of what it does and why it is important.
 
 2003-01-25 21:55  rgb
 
-	* bits.c, dieharder.cvs.time, rgb_persist.c: This actually works.
-	  In fact, it works fabulously. I can directly
+	* : This actually works. In fact, it works fabulously. I can
+	  directly
 	  and fairly powerfully look for bitlevel correlations in the
 	  output.
 
 2003-01-25 20:53  rgb
 
-	* Makefile, NOTES, bits.c, dieharder.cvs.time, dieharder.h,
-	  rgb_binomial.c, rgb_persist.c, work.c: OK, we've learned the hard
-	  way that some bits in e.g. boroshi don't
+	* : OK, we've learned the hard way that some bits in e.g. boroshi
+	  don't
 	  change AT ALL, EVER. Which makes it pretty hard to be random, of
 	  course.
 	  
@@ -2802,24 +2467,21 @@
 
 2003-01-25 15:54  rgb
 
-	* NOTES, bits.c, dieharder.cvs.time, dieharder.h, parsecl.c,
-	  prob.c, rgb_binomial.c, sts_monobit.c, sts_runs.c: This is well
-	  on the way to being MUCH better, and ready to
+	* : This is well on the way to being MUCH better, and ready to
 	  systematically extend.
 
 2003-01-25 00:50  rgb
 
-	* dieharder.cvs.time: And now we send the tagged package to Duke.
+	* : And now we send the tagged package to Duke.
 
 2003-01-25 00:50  rgb
 
-	* Makefile, NOTES, dieharder.cvs.time: Checking in the notes.
+	* : Checking in the notes.
 
 2003-01-24 22:52  rgb
 
-	* bits.c, dieharder.cvs.time, dieharder.h, sts_monobit.c,
-	  sts_runs.c: This is worth a minor bump. First, we fixed
-	  get_bit(). Second, we
+	* : This is worth a minor bump. First, we fixed get_bit(). Second,
+	  we
 	  completed sts_runs (for what it is worth, which isn't a whole lot
 	  as
 	  nearly everything that fails it also fails monobit and binomial
@@ -2851,8 +2513,8 @@
 
 2003-01-24 21:43  rgb
 
-	* bits.c, dieharder.cvs.time, sts_monobit.c, sts_runs.c: This is my
-	  home-grown version of sts_runs. It is no better than the
+	* : This is my home-grown version of sts_runs. It is no better than
+	  the
 	  actual sts version, really, but the sts version is not terribly
 	  good.
 	  I'm going to add a (hopefully vastly improved) binomial version
@@ -2862,20 +2524,17 @@
 
 2003-01-23 05:51  rgb
 
-	* Makefile, NOTES, dieharder.cvs.time, dieharder.h, sts_runs.c,
-	  work.c: Just adding some notes, and preparing to add the next sts
-	  test,
+	* : Just adding some notes, and preparing to add the next sts test,
 	  TOMORROW.
 
 2003-01-23 04:52  rgb
 
-	* dieharder.cvs.time: I have no idea why the tag went down into
-	  fitany...
+	* : I have no idea why the tag went down into fitany...
 
 2003-01-23 04:52  rgb
 
-	* Makefile, dieharder.cvs.time, parsecl.c: This ups the minor
-	  revision number to 0.3.0. Worthwhile because now I
+	* : This ups the minor revision number to 0.3.0. Worthwhile because
+	  now I
 	  have BOTH an erfc AND a Q evaluation of p-value. I could
 	  certainly
 	  prettify sts_monobit, but since I generally think that it isn't
@@ -2900,9 +2559,8 @@
 
 2003-01-23 04:46  rgb
 
-	* bits.c, dieharder.cvs.time, dieharder.h, rgb_binomial.c,
-	  startup.c, sts_monobit.c: All right, this LOOKS like it correctly
-	  implements the STS monobit
+	* : All right, this LOOKS like it correctly implements the STS
+	  monobit
 	  frequency test. I would still claim that anything that fails this
 	  test
 	  will also fail the binomial test, and that in addition things
@@ -2914,8 +2572,7 @@
 
 2003-01-22 18:04  rgb
 
-	* bits.c, dieharder.cvs.time, dieharder.h, prob.c, rgb_binomial.c:
-	  This is working incredibly well, and I've split off nearly
+	* : This is working incredibly well, and I've split off nearly
 	  everything
 	  required to make further n-point chisq tests trivial to implement
 	  and
@@ -2928,12 +2585,11 @@
 
 2003-01-22 13:33  rgb
 
-	* dieharder.cvs.time: Just making SURE this is at Duke...
+	* : Just making SURE this is at Duke...
 
 2003-01-21 23:56  rgb
 
-	* bits.c, dieharder.cvs.time, dieharder.h, rgb_binomial.c: This
-	  works just lovely!
+	* : This works just lovely!
 	  
 	  HOWEVER, it is also clear that running it once, twice, three
 	  times,
@@ -2963,35 +2619,30 @@
 
 2003-01-21 21:40  rgb
 
-	* Makefile, bits.c, dieharder.cvs.time, dieharder.h,
-	  rgb_binomial.c, work.c: This is now VERY CLOSE. I should be able
-	  to determine chisq in a matter
+	* : This is now VERY CLOSE. I should be able to determine chisq in
+	  a matter
 	  of minutes when I return...
 
 2003-01-21 19:05  rgb
 
-	* dieharder.cvs.time, dieharder.h, parsecl.c: This is considerably
-	  cleaner and more decrufted...
+	* : This is considerably cleaner and more decrufted...
 
 2003-01-21 18:35  rgb
 
-	* Makefile, dieharder.cvs.time, dieharder.h, list_rand.c,
-	  list_rngs.c, startup.c, work.c: This finishes the split off of
-	  list_rand and list_rngs from the code.
+	* : This finishes the split off of list_rand and list_rngs from the
+	  code.
 	  I do need to "fix" the Usage() routine to reflect the change.
 
 2003-01-21 18:08  rgb
 
-	* Makefile, dieharder.cvs.time, dieharder.h, list_rand.c,
-	  list_rngs.c, parsecl.c, prob.c, startup.c, work.c: Breaking
-	  things up into subroutines a bit better to clarify the program
+	* : Breaking things up into subroutines a bit better to clarify the
+	  program
 	  structure.
 
 2003-01-17 20:37  rgb
 
-	* Makefile, dieharder.cvs.time, dieharder.h, prob.c,
-	  rgb_binomial.c: This is coming along, although I'm silly for not
-	  just finishing the
+	* : This is coming along, although I'm silly for not just finishing
+	  the
 	  monobit test before introducing a binomial test. Still, all very
 	  instructive.
 	  
@@ -3001,8 +2652,8 @@
 
 2003-01-17 19:28  rgb
 
-	* dieharder.cvs.time, showrand.sm, startup.c, sts_monobit.c: Fixes
-	  a nasty bug in sts_monobit, which I think I'm gonna rename
+	* : Fixes a nasty bug in sts_monobit, which I think I'm gonna
+	  rename
 	  rgb_binomial (and screw sts's monobit test, which is immensely
 	  sloppy
 	  compared to actually systematically exploring the binomial
@@ -3019,12 +2670,11 @@
 
 2003-01-17 06:06  rgb
 
-	* dieharder.cvs.time: Sending off the tag
+	* : Sending off the tag
 
 2003-01-17 06:06  rgb
 
-	* Makefile, dieharder.cvs.time, dieharder.h, sts_monobit.c, work.c:
-	  OK, this is good for a full minor number bump to 0.2.0. We have
+	* : OK, this is good for a full minor number bump to 0.2.0. We have
 	  basically installed the guts of the STS monobit test. All that we
 	  lack is the computation of the statistics and p-value, which
 	  should be
@@ -3037,20 +2687,18 @@
 
 2003-01-17 05:16  rgb
 
-	* NOTES, default.sm, dieharder.cvs.time, showrand.sm, startup.c:
-	  Just a bit of cleanup, and some moderately important additions.
+	* : Just a bit of cleanup, and some moderately important additions.
 	  
 	  Now we REALLY need to think about tests.
 
 2003-01-17 04:23  rgb
 
-	* dieharder.cvs.time: Tagged.
+	* : Tagged.
 
 2003-01-17 04:23  rgb
 
-	* Makefile, add_my_types.c, dieharder.cvs.time, dieharder.h,
-	  measure_rate.c, startup.c: This is about ready for a
-	  semipermanent snapshot, so I bumped the
+	* : This is about ready for a semipermanent snapshot, so I bumped
+	  the
 	  minor version number. I'd say that we are now "good" with the
 	  ability
 	  to add sw rng's, including interfaces to hw rng's square within
@@ -3061,9 +2709,8 @@
 
 2003-01-17 03:54  rgb
 
-	* Makefile, add_my_types.c, dev_random.c, dieharder.c,
-	  dieharder.cvs.time, dieharder.h, my_gsl_rng.h, startup.c, work.c:
-	  Hot diggity dawg! It works! However, I don't need types.c. All I
+	* : Hot diggity dawg! It works! However, I don't need types.c. All
+	  I
 	  need is to follow the dev_random.c template and call a routine
 	  add_my_rngs() (to be defined) before working with gsl's rng's,
 	  and
@@ -3073,17 +2720,15 @@
 
 2003-01-17 02:54  rgb
 
-	* add_my_types.c, dieharder.cvs.time, my_gsl_rng.h: We'll try these
-	  as the basic wrappers required. With luck we'll
+	* : We'll try these as the basic wrappers required. With luck we'll
 	  override the types subroutine in gsl itself, although I do have
 	  my
 	  doubts...
 
 2003-01-17 02:38  rgb
 
-	* dieharder.cvs.time, dieharder.h, measure_rate.c, parsecl.c,
-	  startup.c: This significantly improves the Usage and cl parsing,
-	  and pre-structures
+	* : This significantly improves the Usage and cl parsing, and
+	  pre-structures
 	  it for addition of sts/diehard tests.
 	  
 	  We still need to see if we can gsl-wrap our own tests without a
@@ -3092,16 +2737,16 @@
 
 2003-01-16 20:40  rgb
 
-	* dieharder.cvs.time: Sending the tagged copy home...
+	* : Sending the tagged copy home...
 
 2003-01-16 20:40  rgb
 
-	* Makefile, dieharder.cvs.time: This is now going to be v_0_1_0.
+	* : This is now going to be v_0_1_0.
 
 2003-01-16 20:39  rgb
 
-	* dieharder.cvs.time, dieharder.h, measure_rate.c: This is now
-	  functional UP TO all the gsl rngs, not any of the add-ons.
+	* : This is now functional UP TO all the gsl rngs, not any of the
+	  add-ons.
 	  
 	  Which is fine, as we'll probably completely change how the
 	  add-ons work.
@@ -3123,15 +2768,14 @@
 
 2003-01-16 20:14  rgb
 
-	* dieharder.cvs.time: This SHOULD split rand_rate off so it has its
-	  own CVS tree outside of
+	* : This SHOULD split rand_rate off so it has its own CVS tree
+	  outside of
 	  the "random" project overall, which I think is for the best.
 
 2003-01-16 20:13  rgb
 
-	* dieharder.cvs.time, dieharder.h, measure_rate.c, parsecl.c,
-	  startup.c: This actually works, and needs to be saved in snapshot
-	  form. I'm not
+	* : This actually works, and needs to be saved in snapshot form.
+	  I'm not
 	  at ALL certain that I'm getting accurate measurements in terms of
 	  the
 	  number of rands per second I can generate, but this too, we shall
@@ -3139,23 +2783,14 @@
 
 2003-01-13 22:12  rgb
 
-	* Makefile, NOTES, dieharder.c, dieharder.cvs.time, dieharder.h,
-	  measure_rate.c, parsecl.c, random_seed.c, startup.c, timing.c,
-	  work.c: This is a fair amount of progress to having something
+	* : This is a fair amount of progress to having something
 	  working...
 
 2003-01-12 00:07  rgb
 
-	* COPYING, Makefile, NOTES, README, copyright.h, dieharder.1,
-	  dieharder.c, dieharder.cvs.time, dieharder.h, dieharder.spec,
-	  measure_rate.c, parsecl.c, showrand.sm, startup.c, timing.c,
-	  work.c: This is basically the original checkin for my
-	  lookin-major random number
+	* : This is basically the original checkin for my lookin-major
+	  random number
 	  project. By the time this is done, I'd doggone better have a
 	  paper or
 	  two out of it, if not more.
-
-2003-01-12 00:07  
-
-	* branches, tags, .: New repository initialized by cvs2svn.
 

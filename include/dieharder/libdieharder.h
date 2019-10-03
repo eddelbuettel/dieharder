@@ -8,8 +8,12 @@
 
 #include "copyright.h"
 
+/* To enable large file support */
+#define _FILE_OFFSET_BITS 64
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -35,7 +39,7 @@
 #include <dieharder/Vtest.h>
 #include <dieharder/std_test.h>
 #include <dieharder/tests.h>
-#include <dieharder/add_lib_rngs.h>
+#include <dieharder/dieharder_types.h>
 
 /*
  *========================================================================
@@ -50,6 +54,7 @@
 #define NO	0
 #define PI      3.141592653589793238462643
 #define K       1024
+#define LINE    80
 #define PAGE    4096
 #define M       1048576
 #define M_2     2097152
@@ -105,14 +110,6 @@
  
  void add_lib_rngs();
     
-
- 
-
- 
- 
- 
- 
-
  /*
   *========================================================================
   *                           Global Variables
@@ -139,7 +136,7 @@
  int rgb;               /* rgb test number */
  int sts;               /* sts test number */
  uint Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
- uint tsamples;         /* Generally should be "a lot". */
+ off_t tsamples;         /* Generally should be "a lot".  off_t is u_int64_t. */
  int user;              /* user defined test number */
  int verbose;           /* Default is not to be verbose. */
  double x_user;         /* General purpose command line inputs for use */
@@ -184,7 +181,12 @@
  char filename[K];      /* Input file name */
  int fromfile;		/* set true if file is used for rands */
  int filenumbits;	/* number of bits per integer */
- uint filecount;	/* number of rands in file */
+ /*
+  * If we have large files, we can have a lot of rands.  off_t is
+  * automagically u_int64_t if FILE_OFFSET_BITS is 64, according to
+  * legend.
+  */
+ off_t filecount;	/* number of rands in file */
  char filetype;         /* file type */
 /*
  * This struct contains the data maintained on the operation of
@@ -199,7 +201,7 @@
  */
  typedef struct {
     FILE *fp;
-    uint flen;
+    off_t flen;
     uint rptr;
     uint rtot;
     uint rewind_cnt;
@@ -209,7 +211,7 @@
  /*
   * rng global vectors and variables for setup and tests.
   */
- const gsl_rng_type **types;    /* where all the rng types go */
+ const gsl_rng_type **types;       /* where all the rng types go */
  gsl_rng *rng;               /* global gsl random number generator */
 
  /*
@@ -224,5 +226,4 @@
  unsigned int rmax;             /* scratch space for random_max manipulation */
  unsigned int rmax_bits;        /* Number of valid bits in rng */
  unsigned int rmax_mask;        /* Mask for valid section of uint */
- int num_gsl_rngs,num_my_rngs,num_rngs;  /* number of rng's */
  

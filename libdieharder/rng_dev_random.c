@@ -7,10 +7,6 @@
 
 #include <dieharder/libdieharder.h>
 
-/*
- * This is a wrapping of the /dev/random hardware rng
- */
-
 static unsigned long int dev_random_get (void *vstate);
 static double dev_random_get_double (void *vstate);
 static void dev_random_set (void *vstate, unsigned long int s);
@@ -50,6 +46,7 @@ dev_random_set (void *vstate, unsigned long int s)
 
  if ((state->fp = fopen("/dev/random","r")) == NULL) {
    fprintf(stderr,"Error: Cannot open /dev/random, exiting.\n");
+   fprintf(stderr,"/dev/random may only be available on Linux systems.\n");
    exit(0);
  }
 

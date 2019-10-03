@@ -1,0 +1,616 @@
+
+#========================================================================
+#                      RGB Timing Test
+#
+# This test times the selected random number generator only.  It is
+# generally run at the beginning of a run of -a(ll) the tests to provide
+# some measure of the relative time taken up generating random numbers
+# for the various generators and tests.
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 1000000 (test default is 1000000)
+# P-values in final KS test = 10 (test default is 10)
+#========================================================================
+# rgb_timing() test using the mt19937 generator 
+# Average time per rand = 8.649100e+00 nsec.
+# Rands per second = 1.156190e+08.
+
+#========================================================================
+#                   RGB Bit Persistence Test
+# This test generates 256 sequential samples of an random unsigned
+# integer from the given rng.  Successive integers are logically
+# processed to extract a mask with 1's whereever bits do not
+# change.  Since bits will NOT change when filling e.g. unsigned
+# ints with 16 bit ints, this mask logically &'d with the maximum
+# random number returned by the rng.  All the remaining 1's in the
+# resulting mask are therefore significant -- they represent bits
+# that never change over the length of the test.  These bits are
+# very likely the reason that certain rng's fail the monobit
+# test -- extra persistent e.g. 1's or 0's inevitably bias the
+# total bitcount.  In many cases the particular bits repeated
+# appear to depend on the seed.  If the -i flag is given, the
+# entire test is repeated with the rng reseeded to generate a mask
+# and the extracted mask cumulated to show all the possible bit
+# positions that might be repeated for different seeds.
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 256 (test default is 256)
+# P-values in final KS test = 1 (test default is 1)
+#==================================================================
+#                          Results
+# Results for mt19937 rng, using its 32 valid bits:
+# (Cumulated mask of zero is good.)
+# cumulated_mask =          0 = 00000000000000000000000000000000
+# randm_mask     = 4294967295 = 11111111111111111111111111111111
+# random_max     = 4294967295 = 11111111111111111111111111111111
+# rgb_persist test PASSED (no bits repeat)
+#==================================================================
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 1-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 1
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |****|
+#     14|    |    |    |    |    |    |    |    |    |****|
+#       |    |    |    |    |    |    |    |    |    |****|
+#     12|****|****|    |    |    |    |    |    |    |****|
+#       |****|****|    |    |    |****|    |    |****|****|
+#     10|****|****|    |    |    |****|    |    |****|****|
+#       |****|****|    |    |    |****|****|    |****|****|
+#      8|****|****|****|****|    |****|****|    |****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.326429
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 2-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 2
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |****|    |    |    |    |
+#     14|****|    |    |    |    |****|    |    |    |    |
+#       |****|    |    |    |    |****|    |    |    |    |
+#     12|****|    |****|    |****|****|    |    |    |    |
+#       |****|    |****|    |****|****|    |    |    |****|
+#     10|****|    |****|    |****|****|    |****|    |****|
+#       |****|    |****|****|****|****|    |****|    |****|
+#      8|****|    |****|****|****|****|    |****|    |****|
+#       |****|    |****|****|****|****|    |****|****|****|
+#      6|****|    |****|****|****|****|    |****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.845305
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 3-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 3
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |****|    |
+#       |    |    |    |    |    |    |    |    |****|    |
+#     14|    |    |    |    |    |    |    |    |****|    |
+#       |    |****|    |    |    |    |    |    |****|    |
+#     12|    |****|    |    |    |    |****|    |****|    |
+#       |    |****|    |    |    |    |****|    |****|    |
+#     10|    |****|    |****|****|    |****|    |****|    |
+#       |    |****|****|****|****|    |****|****|****|    |
+#      8|****|****|****|****|****|    |****|****|****|    |
+#       |****|****|****|****|****|****|****|****|****|    |
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.987859
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 4-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 4
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |****|    |    |    |    |    |    |    |
+#       |    |    |****|    |    |    |    |    |    |    |
+#     14|****|    |****|    |    |    |    |    |    |    |
+#       |****|    |****|    |    |    |    |    |    |    |
+#     12|****|    |****|    |    |    |    |    |    |    |
+#       |****|****|****|****|    |    |    |    |    |    |
+#     10|****|****|****|****|    |    |****|    |    |    |
+#       |****|****|****|****|    |    |****|    |****|****|
+#      8|****|****|****|****|    |****|****|    |****|****|
+#       |****|****|****|****|    |****|****|    |****|****|
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.113363
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 5-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 5
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |****|    |    |    |
+#     18|    |    |    |    |    |    |****|    |    |    |
+#       |    |    |    |    |    |    |****|    |    |    |
+#     16|    |    |    |    |    |    |****|    |    |    |
+#       |    |    |    |    |    |    |****|    |    |    |
+#     14|    |    |    |    |    |    |****|    |    |    |
+#       |    |    |    |    |    |    |****|    |****|    |
+#     12|    |    |    |****|    |    |****|    |****|****|
+#       |    |    |    |****|    |    |****|****|****|****|
+#     10|    |    |    |****|    |    |****|****|****|****|
+#       |    |    |    |****|****|    |****|****|****|****|
+#      8|    |    |    |****|****|****|****|****|****|****|
+#       |    |    |    |****|****|****|****|****|****|****|
+#      6|****|    |****|****|****|****|****|****|****|****|
+#       |****|    |****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.021163
+Assessment: POSSIBLY WEAK at < 5% for RGB Bit Distribution Test
+Recommendation:  Repeat test to verify failure.
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 6-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 6
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     14|    |    |    |    |    |    |    |    |    |    |
+#       |****|    |    |    |****|    |    |    |****|    |
+#     12|****|    |    |    |****|****|    |    |****|    |
+#       |****|    |    |    |****|****|****|    |****|    |
+#     10|****|    |****|    |****|****|****|    |****|    |
+#       |****|    |****|    |****|****|****|    |****|    |
+#      8|****|    |****|****|****|****|****|    |****|****|
+#       |****|    |****|****|****|****|****|****|****|****|
+#      6|****|    |****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.914496
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 7-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 7
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |****|
+#       |    |    |    |    |    |    |    |    |    |****|
+#     16|    |    |    |    |    |    |    |    |    |****|
+#       |    |    |    |    |    |    |    |    |    |****|
+#     14|    |    |    |    |    |    |    |    |    |****|
+#       |    |    |    |****|    |    |    |    |    |****|
+#     12|    |    |****|****|****|****|    |    |    |****|
+#       |    |    |****|****|****|****|    |    |    |****|
+#     10|    |    |****|****|****|****|    |    |    |****|
+#       |    |    |****|****|****|****|    |    |    |****|
+#      8|****|    |****|****|****|****|    |    |    |****|
+#       |****|    |****|****|****|****|****|    |    |****|
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.353014
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 8-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 8
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |****|    |    |    |    |    |    |    |    |
+#     14|    |****|    |    |    |    |    |    |    |    |
+#       |    |****|    |    |    |****|    |    |****|    |
+#     12|    |****|    |    |    |****|    |    |****|    |
+#       |****|****|    |    |    |****|    |    |****|    |
+#     10|****|****|    |    |    |****|    |****|****|    |
+#       |****|****|    |    |    |****|    |****|****|****|
+#      8|****|****|****|****|    |****|    |****|****|****|
+#       |****|****|****|****|****|****|    |****|****|****|
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.780981
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 9-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 9
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     14|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |****|    |    |    |    |    |    |    |
+#     12|    |****|****|    |    |    |    |    |    |****|
+#       |    |****|****|    |    |    |****|    |    |****|
+#     10|****|****|****|    |    |****|****|    |    |****|
+#       |****|****|****|****|****|****|****|    |    |****|
+#      8|****|****|****|****|****|****|****|    |****|****|
+#       |****|****|****|****|****|****|****|    |****|****|
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.288435
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 10-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 10
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     14|****|    |    |    |    |    |    |    |    |    |
+#       |****|    |    |    |****|    |    |    |    |    |
+#     12|****|    |****|    |****|    |    |    |    |    |
+#       |****|    |****|    |****|    |    |    |****|    |
+#     10|****|    |****|    |****|    |    |    |****|****|
+#       |****|****|****|    |****|****|    |    |****|****|
+#      8|****|****|****|****|****|****|****|    |****|****|
+#       |****|****|****|****|****|****|****|    |****|****|
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.891590
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 11-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 11
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     14|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |****|    |    |    |    |    |    |    |
+#     12|    |    |****|    |    |    |    |    |    |    |
+#       |****|****|****|    |    |    |    |    |****|    |
+#     10|****|****|****|****|    |    |****|****|****|    |
+#       |****|****|****|****|    |    |****|****|****|****|
+#      8|****|****|****|****|****|    |****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      6|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.914597
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                 RGB Bit Distribution Test
+# Accumulates the frequencies of all n-tuples of bits in a list
+# of random integers and compares the distribution thus generated
+# with the theoretical (binomial) histogram, forming chisq and the
+# associated p-value.  In this test n-tuples are selected without
+# WITHOUT overlap (e.g. 01|10|10|01|11|00|01|10) so the samples
+# are independent.  Every other sample is offset modulus of the
+# sample index and ntuple_max.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 12-bit ntuples in 32-bit random words
+#==================================================================
+#                Histogram of p-values
+# Normal p-value for RGB Bitdist test for n = 12
+# Counting histogram bins, binscale = 0.100000
+#     20|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     18|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |    |    |
+#     16|    |    |    |    |    |    |    |    |    |    |
+#       |    |    |    |    |    |    |    |    |****|    |
+#     14|    |    |    |    |    |    |    |    |****|    |
+#       |    |    |    |    |    |    |****|    |****|    |
+#     12|    |    |    |    |    |    |****|****|****|    |
+#       |    |    |    |    |    |****|****|****|****|****|
+#     10|****|    |    |    |****|****|****|****|****|****|
+#       |****|    |    |    |****|****|****|****|****|****|
+#      8|****|    |    |    |****|****|****|****|****|****|
+#       |****|    |    |****|****|****|****|****|****|****|
+#      6|****|    |****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      4|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#      2|****|****|****|****|****|****|****|****|****|****|
+#       |****|****|****|****|****|****|****|****|****|****|
+#       |--------------------------------------------------
+#       | 0.1| 0.2| 0.3| 0.4| 0.5| 0.6| 0.7| 0.8| 0.9| 1.0|
+#==================================================================
+#                          Results
+Kuiper KS: p = 0.053806
+Assessment: PASSED at > 5% for RGB Bit Distribution Test
+
+#========================================================================
+#                       RGB Permutations Test
+# This is a non-overlapping test that simply counts order permutations of
+# random numbers, pulled out n at a time.  There are n! permutations
+# and all are equally likely.  The samples are independent, so one can
+# do a simple chisq test on the count vector with n! - 1 degrees of
+# freedom.  This is a poor-man's version of the overlapping permutations
+# tests, which are much more difficult because of the covariance of the
+# overlapping samples.
+#
+#                        Run Details
+# Random number generator tested: mt19937
+# Samples per test pvalue = 100000 (test default is 100000)
+# P-values in final KS test = 100 (test default is 100)
+# Testing 2-permutations 

@@ -14,6 +14,7 @@
  typedef struct {
    unsigned int nvec;  /* Length of x,y vectors */
    unsigned int ndof;  /* Number of degrees of freedom, default nvec-1 */
+   double cutoff;      /* y has to be greater than this to be included */
    double *x;          /* Vector of measurements */
    double *y;          /* Vector of expected values */
    double chisq;       /* Resulting Pearson's chisq */

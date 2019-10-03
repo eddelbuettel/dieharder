@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: startup.c 349 2007-09-29 15:24:16Z rgb $
+ * $Id: startup.c 422 2008-08-18 19:50:15Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -30,96 +30,114 @@ void startup()
   * save all sorts of work.
   */
  if(list == YES) {
-
-printf("\n\
-                     DieHarder Test Suite\n\
-========================================================================\n\
-The following tests are available and will be run when diehard -a is\n\
-invoked.  Special options or suggested parameters are indicated if\n\
-they are needed to get a satisfactory result (such as completion in a\n\
-reasonable amount of time).\n\
-\n\
-            Diehard Tests\n\
-   -d 1  Diehard Birthdays test\n\
-   -d 2  Diehard Overlapping Permutations test\n\
-   -d 3  Diehard 32x32 Binary Rank test\n\
-   -d 4  Diehard 6x8 Binary Rank test\n\
-   -d 5  Diehard Bitstream test\n\
-   -d 6  Diehard OPSO test\n\
-   -d 7  Diehard OQSO test\n\
-   -d 8  Diehard DNA test\n\
-   -d 9  Diehard Count the 1s (stream) test\n\
-   -d 10 Diehard Count the 1s (byte) test\n\
-   -d 11 Diehard Parking Lot test\n\
-   -d 12 Diehard Minimum Distance (2D Spheres) test\n\
-   -d 13 Diehard 3D Spheres (minimum distance) test\n\
-   -d 14 Diehard Squeeze test\n\
-   -d 15 Diehard Sums test\n\
-   -d 16 Diehard Runs test\n\
-   -d 17 Diehard Craps test\n\
-   -d 18 Marsaglia and Tsang GCD test\n\
-   -d 19 Marsaglia and Tsang Gorilla test\n\
-\n\
-             RGB Tests\n\
-   -r 1 Timing test (times the rng)\n\
-   -r 2 Bit Persist test\n\
-   -r 3 Bit Ntuple Distribution test suite (-n ntuple)\n\
-   -r 4 L-M-Ntuple Distribution test suite (quite long)\n\
-   -r 5 Overlapping Permutations test (new)\n\
-   -r 6 Generalized Minimum Distance test (new)\n\
-\n\
-      Statistical Test Suite (STS)\n\
-   -s 1 STS Monobit test\n\
-   -s 2 STS Runs test\n\
-\n\
-            User Tests\n\
-   -u 1 User Template (Lagged Sum Test)\n\
-\n");
-
+   list_tests();
    Exit(0);
  }
 
  /*
-  * Allocate fields early in case we need to parse()
- fields = allocate_fields(MAXFIELDNUMBER,K);
+  * Set up the built-in gls generators.  We have to
+  *
+  *  a) keep the numbers the same from version to version.
+  *
+  *  b) permit calling rngs by name.
+  *
+  * Here we set up for this.  This means counting and adding and
+  * optionally listing the available, built in gsl generators plus
+  * any added generators, plus a parse routine for selecting a generator
+  * from the command line.
   */
+ types = dieharder_rng_types_setup();
 
  /*
-  * Count and optionally list the available, built in gsl generators
+  * We new have to work a bit harder to determine how many
+  * generators we have of the different types because there are
+  * different ranges for different sources of generator.
+  *
+  * We start with the basic GSL generators, which start at offset 0.
   */
- types = gsl_rng_types_setup ();
  i = 0;
  while(types[i] != NULL){
    i++;
  }
  num_gsl_rngs = i;
-
- /*
-  * Now add the library gsl-wrapped generators
-  */
- add_lib_rngs();
- while(types[i] != NULL){
-   i++;
+ MYDEBUG(D_STARTUP){
+   printf("# startup:  Found %u GSL rngs.\n",num_gsl_rngs);
  }
 
  /*
-  * If there are any, we can even add generators at the UI level
+  * Next come the dieharder generators, which start at offset 200.
   */
- add_ui_rngs();
+ i = 200;
+ j = 0;
  while(types[i] != NULL){
    i++;
+   j++;
+ }
+ num_dieharder_rngs = j;
+ MYDEBUG(D_STARTUP){
+   printf("# startup:  Found %u dieharder rngs.\n",num_dieharder_rngs);
  }
 
- num_rngs = i;
- num_my_rngs = num_rngs - num_gsl_rngs;
+ /*
+  * Next come the R generators, which start at offset 400.
+  */
+ i = 400;
+ j = 0;
+ while(types[i] != NULL){
+   i++;
+   j++;
+ }
+ num_R_rngs = j;
+ MYDEBUG(D_STARTUP){
+   printf("# startup:  Found %u R rngs.\n",num_R_rngs);
+ }
+
+ /*
+  * Next come the hardware generators, which start at offset 500.
+  */
+ i = 500;
+ j = 0;
+ while(types[i] != NULL){
+   i++;
+   j++;
+ }
+ num_hardware_rngs = j;
+ MYDEBUG(D_STARTUP){
+   printf("# startup:  Found %u hardware rngs.\n",num_hardware_rngs);
+ }
+
+ /*
+  * Finally, any generators added by the user at the interface level.
+  * That is, if you are hacking dieharder to add your own rng, add it
+  * below and it should "just appear" in the dieharder list of available
+  * generators and be immediately useful.
+  */
+ i = 600;
+ j = 0;
+ types[i] = gsl_rng_empty_random;
+ i++;
+ j++;
+ num_ui_rngs = j;
+ MYDEBUG(D_STARTUP){
+   printf("# startup:  Found %u user interface generators.\n",num_ui_rngs);
+ }
+
+ num_rngs = num_gsl_rngs + num_dieharder_rngs + num_R_rngs +
+            num_hardware_rngs + num_ui_rngs;
 
  if(generator == -1){
    list_rngs();
    Exit(0);
  }
 
- if(generator > num_rngs-1){
-   fprintf(stderr,"Error:  rng %d (> %d) does not exist!\n",generator,num_rngs-1);
+ if(generator < 0 || generator >= MAXRNGS){
+   fprintf(stderr,"Error:  rng %d does not exist!\n",generator);
+   list_rngs();
+   Exit(0);
+ }
+
+ if(types[generator] == 0){
+   fprintf(stderr,"Error:  rng %d does not exist!\n",generator);
    list_rngs();
    Exit(0);
  }

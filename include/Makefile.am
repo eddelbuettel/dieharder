@@ -1,0 +1,37 @@
+nobase_include_HEADERS = dieharder/copyright.h \
+	dieharder/dieharder_types.h \
+	dieharder/diehard_2dsphere.h \
+	dieharder/diehard_3dsphere.h \
+	dieharder/diehard_birthdays.h \
+	dieharder/diehard_bitstream.h \
+	dieharder/diehard_count_1s_byte.h \
+	dieharder/diehard_count_1s_stream.h \
+	dieharder/diehard_craps.h \
+	dieharder/diehard_dna.h \
+	dieharder/diehard_operm5.h \
+	dieharder/diehard_opso.h \
+	dieharder/diehard_oqso.h \
+	dieharder/diehard_parking_lot.h \
+	dieharder/diehard_rank_32x32.h \
+	dieharder/diehard_rank_6x8.h \
+	dieharder/diehard_runs.h \
+	dieharder/diehard_squeeze.h \
+	dieharder/diehard_sums.h \
+	dieharder/Dtest.h \
+	dieharder/libdieharder.h \
+	dieharder/marsaglia_tsang_gcd.h \
+	dieharder/marsaglia_tsang_gorilla.h \
+	dieharder/parse.h \
+	dieharder/rgb_bitdist.h \
+	dieharder/rgb_lmn.h \
+	dieharder/rgb_minimum_distance.h \
+	dieharder/rgb_operm.h \
+	dieharder/rgb_persist.h \
+	dieharder/rgb_timing.h \
+	dieharder/std_test.h \
+	dieharder/sts_monobit.h \
+	dieharder/sts_runs.h \
+	dieharder/tests.h \
+	dieharder/verbose.h \
+	dieharder/Vtest.h \
+	dieharder/Xtest.h

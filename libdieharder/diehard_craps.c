@@ -65,6 +65,7 @@ void diehard_craps(Test **test, int irun)
   * it with the expected values.
   */
  Vtest_create(&vtest,21,"diehard_craps",gsl_rng_name(rng));
+ vtest.cutoff = 5.0;
  sum = 1.0/3.0;
  vtest.y[0] = sum;
  for(i=1;i<20;i++){
