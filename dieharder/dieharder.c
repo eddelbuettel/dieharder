@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: dieharder.c 320 2007-05-21 13:34:44Z rgb $
+ * $Id: dieharder.c 438 2008-09-05 11:16:01Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -16,29 +16,41 @@
 int main(int argc, char *argv[]) 
 {
 
+ int i;
+
  /*
   * Parse command line and set global variables
   */
  parsecl(argc,argv);
 
  /*
-  * Note that most of my cpu_rates (except the terminally simple/stupid) 
-  * have three phases after parsecl():
-  *
   * Startup: Allocate memory, initialize all derivative variables from
   * command line values.  
   */
+ /* for(i=0;i<=2;i++){ */
+ /* printf("Running startup for i = %d\n",i); */
+ /* printf("Seed = %u, seed = %u\n",Seed,seed); */
  startup();
 
  /*
-  * Work: Do all the work.  In a complicated cpu_rate, project_work would
-  * itself be a shell for a lot of other modular routines.
+  * Work: Do all the work.
   */
+ /* printf("Running work for i = %d\n",i); */
  work();
 
- /* 
-  * Quit:  Done. Clean up (if necessary) and exit.
- dieharder_quit();
+ /*
+  * Clean up:  If we're going to run inside a loop, we MUST free the
+  * generator allocated in startup() and reset the bit buffers used in
+  * bits.c or we won't get consistent results run to run and might leak
+  * memory slowly.
   */
+
+ /* printf("Freeing generator %s and moving on.\n",gsl_rng_name(rng)); */
+ gsl_rng_free(rng);
+
+ /* printf("Clearing/resetting bit buffers.\n"); */
+ reset_bit_buffers();
+
+ /* } */
 
 }

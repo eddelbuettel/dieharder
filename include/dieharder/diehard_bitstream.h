@@ -9,6 +9,7 @@ void diehard_bitstream(Test **test,int irun);
 
 static Dtest diehard_bitstream_dtest = {
   "Diehard Bitstream Test",
+  "diehard_bitstream",
   "\n\
 #==================================================================\n\
 #                  Diehard Bitstream Test.\n\

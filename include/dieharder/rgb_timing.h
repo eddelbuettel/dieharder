@@ -13,7 +13,8 @@ void rgb_timing(Test **test, Rgb_Timing *timing);
 
 static Dtest rgb_timing_dtest = {
   "RGB Timing Test",
-  "\n\
+  "rgb_timing",
+  "\
 #========================================================================\n\
 #                      RGB Timing Test\n\
 #\n\

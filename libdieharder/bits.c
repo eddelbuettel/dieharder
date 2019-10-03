@@ -1430,3 +1430,24 @@ void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng)
  
 
 }
+
+/*
+ * The bits.c module doesn't malloc anything, but it does maintain some
+ * static buffers that must be cleared in order to achieve consistent
+ * results from a rng reseed on, per run.
+ */
+void reset_bit_buffers(){
+
+  int i;
+  
+  bits_rand[0] = bits_rand[1] = 0;
+  bleft = -1;
+  for(i = 0;i<BRBUF;i++){
+    bits_randbuf[i] = 0;
+    bits_output[i] = 0;
+  }
+  brindex = -1;
+  iclear = -1;
+  bitindex = -1;
+
+}

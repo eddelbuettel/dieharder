@@ -8,7 +8,8 @@
 void diehard_birthdays(Test **test, int irun);
 
 static Dtest diehard_birthdays_dtest = {
-  "Diehard(er) Birthdays Test",
+  "Diehard Birthdays Test",
+  "diehard_birthdays",
   "\n\
 #==================================================================\n\
 #                Diehard \"Birthdays\" test (modified).\n\

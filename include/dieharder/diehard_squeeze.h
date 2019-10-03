@@ -8,8 +8,9 @@
 void diehard_squeeze(Test **test,int irun);
 
 static Dtest diehard_squeeze_dtest = {
-  "Example Dieharder Test",
-  "\n\
+  "Diehard Squeeze Test",
+  "diehard_squeeze",
+  "\
 #==================================================================\n\
 #                  Diehard Squeeze Test.\n\
 #  Random integers are floated to get uniforms on [0,1). Start- \n\

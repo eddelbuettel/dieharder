@@ -8,9 +8,10 @@
 #include <dieharder/rgb_timing.h>
 #include <dieharder/rgb_persist.h>
 #include <dieharder/rgb_bitdist.h>
+#include <dieharder/rgb_lagged_sums.h>
+#include <dieharder/rgb_minimum_distance.h>
 #include <dieharder/rgb_operm.h>
 #include <dieharder/rgb_permutations.h>
-#include <dieharder/rgb_minimum_distance.h>
 #include <dieharder/diehard_birthdays.h>
 #include <dieharder/diehard_operm5.h>
 #include <dieharder/diehard_rank_32x32.h>
@@ -71,6 +72,7 @@
    RGB_BITDIST,
    RGB_MINIMUM_DISTANCE,
    RGB_PERMUTATIONS,
+   RGB_LAGGED_SUMS,
    RGB_LMN,
    RGB_OPERM,
    N_RGB_TESTS

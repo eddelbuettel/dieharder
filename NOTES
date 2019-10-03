@@ -1043,3 +1043,53 @@ various interleaved displacements of any generator.  They would then all
 "magically" become second order (or higher order) tests!
 
    rgb
+
+==========================================================================
+09/04/08
+
+I've made many changes and bugfixes -- one of which is to fix the
+run_test() routines so that they create, run, and destroy the tests, one
+at a time (which suggests that it may well be time to alter the way
+results are passed back or futher encapsulate tests to simplify
+dieharder's logic, even at the expense of having tests that "function
+like diehard's" did.  As in some diehard tests generate two statistics
+in one run; it may be time to separate them into two tests and run them
+independently with their own names and their own pvalue returns, even at
+the expense of efficiency.
+
+However, I'm writing to post this as my current design goal for -T(able)
+output with an optional flat to control just what is included in the
+table and header.  Here's the proposed "standard" table output:
+
+#========================================================================
+# Generator Tested: mt19937
+# Test Name              | n-bits | p-samples | t-samples | p-value(s)
+#========================================================================
+RGB Bit Distribution Test|      1 |       100 |    100000 | 0.55579848
+RGB Bit Distribution Test|      2 |       100 |    100000 | 0.69322169
+...
+
+Each field's presence or absence will be able to be turned on or off by
+means of a flag bit.  The presence of the header, and whether or not it
+contains e.g. the rng descriptors (name and/or filename) will be flag
+bit controlled as well, with -q basically setting the bits to suppress
+headers altogether.
+
+In this way, with suitable flag settings, one can "just" output pvalues,
+can output names and pvalues, can output just names and assessments,
+etc.
+
+I'm guessing that the following are all fields we want to be able to
+control with their own flag bits:
+
+THEADER
+TGEN
+TNAME
+TSNAME
+TNBITS
+TPSAMPLES
+TTSAMPLES
+TPVALUE
+TASSESSMENT
+
+Anyway, let's do it...

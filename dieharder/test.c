@@ -78,12 +78,14 @@ void show_test_results(Dtest *dtest,Test **test)
    }
 
    /*
-    * This isn't quiet-surpressible, as it is important information
+    * This isn't quiet-suppressible, as it is important information; we do
+    * print it to stderr, though, so that one can fairly easily filter even
+    * it away...
     */
    if(strncmp("file_input",gsl_rng_name(rng),10) == 0){
-     printf("# %u rands were used in this test\n",file_input_get_rtot(rng));
-     printf("# The file %s was rewound %u times\n",gsl_rng_name(rng),file_input_get_rewind_cnt(rng));
-     fflush(stdout);
+     fprintf(stderr,"# %u rands were used in this test\n",file_input_get_rtot(rng));
+     fprintf(stderr,"# The file %s was rewound %u times\n",gsl_rng_name(rng),file_input_get_rewind_cnt(rng));
+     fflush(stderr);
    }
 
    #if !defined(RDIEHARDER)
@@ -92,7 +94,7 @@ void show_test_results(Dtest *dtest,Test **test)
      fflush(stdout);
    }
    if(test[i]->psamples == 1){
-     printf("Single test: p = %8.6f\n",test[i]->ks_pvalue);
+     printf("Single test: p = %10.8f\n",test[i]->ks_pvalue);
      printf("Assessment: ");
      /* Work through some ranges here */
      if(test[i]->ks_pvalue < 0.0001 || test[i]->ks_pvalue > 0.9999){
@@ -105,7 +107,7 @@ void show_test_results(Dtest *dtest,Test **test)
      }
      fflush(stdout);
    } else {
-     printf("Kuiper KS: p = %8.6f\n",test[i]->ks_pvalue);
+     printf("Kuiper KS: p = %10.8f\n",test[i]->ks_pvalue);
      printf("Assessment: ");
      /* Work through some ranges here */
      if(test[i]->ks_pvalue < 0.0001){

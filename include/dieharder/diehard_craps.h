@@ -8,8 +8,9 @@
 void diehard_craps(Test **test,int irun);
 
 static Dtest diehard_craps_dtest = {
-  "Diehard(er) Craps Test",
-  "\n\
+  "Diehard Craps Test",
+  "diehard_craps",
+  "\
 #==================================================================\n\
 #                   Diehard Craps Test\n\
 #  This is the CRAPS TEST. It plays 200,000 games of craps, finds  \n\

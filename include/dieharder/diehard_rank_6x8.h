@@ -9,6 +9,7 @@ void diehard_rank_6x8(Test **test,int irun);
 
 static Dtest diehard_rank_6x8_dtest = {
   "Diehard 6x8 Binary Rank Test",
+  "diehard_rank_6x8",
   "\n\
 #==================================================================\n\
 #              Diehard 6x8 Binary Rank Test\n\

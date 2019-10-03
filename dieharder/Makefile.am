@@ -35,6 +35,7 @@ dieharder_SOURCES = \
 	list_rand.c \
 	list_rngs.c \
 	list_tests.c \
+	output.c output.h \
 	output_rnds.c \
 	parsecl.c \
 	rdieharder.c \
@@ -58,6 +59,7 @@ dieharder_SOURCES = \
 	run_diehard_sums.c \
 	run_marsaglia_tsang_gcd.c \
 	run_rgb_bitdist.c \
+	run_rgb_lagged_sums.c \
 	run_rgb_minimum_distance.c \
 	run_rgb_operm.c \
 	run_rgb_permutations.c \
@@ -68,7 +70,6 @@ dieharder_SOURCES = \
 	run_sts_serial.c \
 	run_user_template.c \
 	startup.c \
-	test.c \
 	testbits.c \
 	user_template.c \
 	work.c

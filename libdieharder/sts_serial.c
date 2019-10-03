@@ -119,6 +119,7 @@ void sts_serial(Test **test,int irun)
    printf("# Starting sts_serial.\n");
    printf("# sts_serial: Testing ntuple = %u\n",nb);
  }
+
  /*
   * This is useful as a limit here and there as we have things that range
   * from 0 to nb INclusive (unless/until we fix the mallocs up a bit).
@@ -294,18 +295,27 @@ void sts_serial(Test **test,int irun)
  mono_mean = (double) 2*freq[1][0] - bsize;   /* Should be 0.0 */
  mono_sigma = sqrt((double)bsize);
  /* printf("mono mean = %f   mono_sigma = %f\n",mono_mean,mono_sigma); */
+ if(irun == 0){
+   test[j]->ntuple = 1;
+ }
  test[j++]->pvalues[irun] = gsl_cdf_gaussian_P(mono_mean,mono_sigma);
 
  for(m=2;m<nb1;m++){
    delpsi2[m] = psi2[m] - psi2[m-1];
    del2psi2[m] = psi2[m] - 2.0*psi2[m-1] + psi2[m-2];
    pvalue = gsl_sf_gamma_inc_Q(pow(2,m-2),delpsi2[m]/2.0);
+   if(irun == 0){
+     test[j]->ntuple = m;
+   }
    test[j++]->pvalues[irun] = pvalue;
    MYDEBUG(D_STS_SERIAL){
      printf("pvalue 1[%u] = %f\n",m,pvalue);
    }
    if(m>2){
      pvalue = gsl_sf_gamma_inc_Q(pow(2,m-3),del2psi2[m]/2.0);
+     if(irun == 0){
+       test[j]->ntuple = m;
+     }
      test[j++]->pvalues[irun] = pvalue;
      MYDEBUG(D_STS_SERIAL){
        printf("pvalue 2[%u] = %f\n",m,pvalue);

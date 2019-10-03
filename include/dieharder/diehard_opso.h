@@ -9,7 +9,8 @@ void diehard_opso(Test **test, int irun);
 
 static Dtest diehard_opso_dtest = {
   "Diehard OPSO",
-  "\n\
+  "diehard_opso",
+  "\
 #==================================================================\n\
 #        Diehard Overlapping Pairs Sparse Occupance (OPSO)\n\
 # The OPSO test considers 2-letter words from an alphabet of    \n\

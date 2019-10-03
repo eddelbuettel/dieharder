@@ -1,12 +1,12 @@
 <center><H1>Dieharder: A Random Number Test Suite</H1></center>
-<center><H2>Version 2.27.13</H2></center>
+<center><H2>Version 2.28.1</H2></center>
 
 <center><H3>Robert G. Brown (rgb)</H3></center>
 <center><H3>Dirk Eddelbuettel</H3></center>
 
 <p>Welcome to the dieharder distribution website.</p>
 
-<p>Version 2.27.12 is the current snapshot.  Some of the documentation
+<p>Version 2.28.1 is the current snapshot.  Some of the documentation
 below may not quite be caught up to it, but it should be close.</p>
 
 <p>Dieharder is a <i>random number generator (rng) testing suite</i>.
@@ -357,9 +357,15 @@ it as:</p>
 
 <p>it should run -a(ll) tests on the default GSL generator.</p>
 
+<tt>dieharder -a -T 0</tt>
+
+<p>should provide a look at the <b>new</b> "table" output mode.  This is
+a concise and informative report that can be selected -- and customized
+via the flag (argument) -- to "just test" any given rng.
+
 <p>Choose alternative tests with -g number where:</p>
 
-<tt>dieharder</tt>
+<tt>dieharder -g -1</tt>
 
 <p>will list all possible numbers known to the current snapshot of the
 dieharder.</p>
@@ -503,17 +509,19 @@ in testing BEFORE using this testing tool!
    -r 2 RGB Bit Persistence test
    -r 3 RGB Ntuple Bit Distribution test suite (-n ntuple)
    -r 4 RGB Generalized Minimum Distance test
-   [rft: -r 5 RGB Permutations test (new, partial replacement for operm tests)]
-   [dev: -r 6 RGB L-M-Ntuple Distribution test suite (quite long)]
-   [dev: -r 7 RGB Overlapping Permutations test]
+   -r 5 RGB Permutations test
+   [rft: -r 6 RGB Lagged Sums test (runs over all lags out to 32)]
+         (do not use the following as tests yet)
+   [dev: -r 7 RGB L-M-Ntuple Distribution test suite (quite long)]
+   [dev: -r 8 RGB Overlapping Permutations test]
 
       Statistical Test Suite (STS)
    -s 1 STS Monobit test
    -s 2 STS Runs test
-   -s 3 STS Serial test
+   -s 3 STS Serial test [for all bit combinations out to 16 bits]
 
             User Tests
-   -u 1 User Template (Lagged Sum Test)
+   -u 1 User Template [Lagged Sum Test, one bit pattern]
 
 </pre>
 
@@ -529,8 +537,31 @@ can <i>fix it</i> if it bothers you and/or I don't fix it first).</p>
 
 <center><h2>Development Notes</h2></center>
 
-<p>All tests are encapsulated to be as standard as possible in the way
-they compute p-values from single statistics or from vectors of
+<p>Be warned that <i>very few rngs</i> come through dieharder
+flawlessly.  The best ones currently available appear to be <i>a bit too
+uniform</i> (not quite "random enough") for at least certain sampling
+displacements.  This appears as having a p-value that is <i>too
+high</i>, not too low.  Also, as is documented in the list of tests,
+there are both development tests and tests that are "suspect" in the
+full suite of available tests.</p>  
+
+<p>Don't use the development tests -- they will often crash dieharder
+and don't yet work anyway (and are there to facilitate development so I
+can release snapshots with future tests "in place" but not necessarily
+yet functional).  The suspect tests are tests that consistently fail
+<i>all</i> rngs tested, including hardware tests.  Theoretically this
+could just mean that these are really good tests and very sensitive to
+non-randomness.  Practically it could equally well mean that the
+software implementation of the test contains a subtle bug or flawed
+initialization data.  Use the suspect tests with a grain of salt.  For
+sure don't assume that a generator that fails those tests is "bad" in
+any way.  Be sure to let me know if you encounter a generator that
+<i>consistently passes</i> the suspect tests (and does optimally well
+on the rest of them) because I am eagerly searching for a "gold
+standard" rng to aid me in testing the tests.</p>
+
+<p>Note that all tests are encapsulated to be as standard as possible in
+the way they compute p-values from single statistics or from vectors of
 statistics, and in the way they implement the underlying KS and chisq
 tests.  Diehard is now complete in dieharder, and attention will turn
 towards implementing more selected tests from the STS.  I also have my
@@ -538,22 +569,6 @@ eye on the as-yet unimplemented tests from Knuth's <i>The Art of
 Programming</i>, lagged correlation, and more bitwise tests that have
 occurred to me as I ported diehard (which does some things somewhat
 backwards or indirectly, IMO).</p>
-
-<p>Note that a few tests appear to have stubborn bugs.  In particular,
-the diehard operm5 test seems to fail all generators in dieharder.
-Several users have attempted to help debug this problem, and it
-tentatively appears that the problem is in the original diehard code and
-not just dieharder.  There is extensive literature on overlapping tests,
-which are highly non-trivial to implement and involve things like
-forming the weak inverse of covariance matrices in order to correct for
-overlapping (non-independent) statistics.  The rgb bitdist test
-actually tests the same thing with non-overlapping samples, and the only
-real point to using overlapping samples appears to be the ability to
-perform a test to a given resolution with fewer random numbers.</p>
-
-<p> A revised version of overlapping permutations is underway (as an rgb
-test), but is still buggy.  It is suggested that overlapping permutation
-results be ignored for the time being.</p>
 
 <center><h2>Thoughts for the Future/Wish List/To Do</h2></center>
 

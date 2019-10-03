@@ -63,8 +63,8 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_dieharder_OBJECTS = dieharder.$(OBJEXT) dieharder_exit.$(OBJEXT) \
 	help.$(OBJEXT) histogram.$(OBJEXT) list_rand.$(OBJEXT) \
-	list_rngs.$(OBJEXT) list_tests.$(OBJEXT) output_rnds.$(OBJEXT) \
-	parsecl.$(OBJEXT) rdieharder.$(OBJEXT) \
+	list_rngs.$(OBJEXT) list_tests.$(OBJEXT) output.$(OBJEXT) \
+	output_rnds.$(OBJEXT) parsecl.$(OBJEXT) rdieharder.$(OBJEXT) \
 	rng_empty_random.$(OBJEXT) run_diehard_2dsphere.$(OBJEXT) \
 	run_diehard_3dsphere.$(OBJEXT) run_diehard_birthdays.$(OBJEXT) \
 	run_diehard_bitstream.$(OBJEXT) \
@@ -77,11 +77,12 @@ am_dieharder_OBJECTS = dieharder.$(OBJEXT) dieharder_exit.$(OBJEXT) \
 	run_diehard_rank_6x8.$(OBJEXT) run_diehard_runs.$(OBJEXT) \
 	run_diehard_squeeze.$(OBJEXT) run_diehard_sums.$(OBJEXT) \
 	run_marsaglia_tsang_gcd.$(OBJEXT) run_rgb_bitdist.$(OBJEXT) \
+	run_rgb_lagged_sums.$(OBJEXT) \
 	run_rgb_minimum_distance.$(OBJEXT) run_rgb_operm.$(OBJEXT) \
 	run_rgb_permutations.$(OBJEXT) run_rgb_persist.$(OBJEXT) \
 	run_rgb_timing.$(OBJEXT) run_sts_monobit.$(OBJEXT) \
 	run_sts_runs.$(OBJEXT) run_sts_serial.$(OBJEXT) \
-	run_user_template.$(OBJEXT) startup.$(OBJEXT) test.$(OBJEXT) \
+	run_user_template.$(OBJEXT) startup.$(OBJEXT) \
 	testbits.$(OBJEXT) user_template.$(OBJEXT) work.$(OBJEXT)
 dieharder_OBJECTS = $(am_dieharder_OBJECTS)
 dieharder_DEPENDENCIES = ../libdieharder/libdieharder.la
@@ -123,7 +124,7 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LT_VERSION = 2:27:13
+DIEHARDER_LT_VERSION = 2:28:1
 ECHO = echo
 ECHO_C = 
 ECHO_N = -n
@@ -149,9 +150,9 @@ OBJEXT = o
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 2.27.13
+PACKAGE_STRING = dieharder 2.28.1
 PACKAGE_TARNAME = dieharder
-PACKAGE_VERSION = 2.27.13
+PACKAGE_VERSION = 2.28.1
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -163,7 +164,7 @@ STRIP = strip
 
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
-VERSION = 2.27.13
+VERSION = 2.28.1
 abs_builddir = /home/rgb/Src/Projects/dieharder/dieharder
 abs_srcdir = /home/rgb/Src/Projects/dieharder/dieharder
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -223,6 +224,7 @@ dieharder_SOURCES = \
 	list_rand.c \
 	list_rngs.c \
 	list_tests.c \
+	output.c output.h \
 	output_rnds.c \
 	parsecl.c \
 	rdieharder.c \
@@ -246,6 +248,7 @@ dieharder_SOURCES = \
 	run_diehard_sums.c \
 	run_marsaglia_tsang_gcd.c \
 	run_rgb_bitdist.c \
+	run_rgb_lagged_sums.c \
 	run_rgb_minimum_distance.c \
 	run_rgb_operm.c \
 	run_rgb_permutations.c \
@@ -256,7 +259,6 @@ dieharder_SOURCES = \
 	run_sts_serial.c \
 	run_user_template.c \
 	startup.c \
-	test.c \
 	testbits.c \
 	user_template.c \
 	work.c
@@ -357,6 +359,7 @@ include ./$(DEPDIR)/histogram.Po
 include ./$(DEPDIR)/list_rand.Po
 include ./$(DEPDIR)/list_rngs.Po
 include ./$(DEPDIR)/list_tests.Po
+include ./$(DEPDIR)/output.Po
 include ./$(DEPDIR)/output_rnds.Po
 include ./$(DEPDIR)/parsecl.Po
 include ./$(DEPDIR)/rdieharder.Po
@@ -380,6 +383,7 @@ include ./$(DEPDIR)/run_diehard_squeeze.Po
 include ./$(DEPDIR)/run_diehard_sums.Po
 include ./$(DEPDIR)/run_marsaglia_tsang_gcd.Po
 include ./$(DEPDIR)/run_rgb_bitdist.Po
+include ./$(DEPDIR)/run_rgb_lagged_sums.Po
 include ./$(DEPDIR)/run_rgb_minimum_distance.Po
 include ./$(DEPDIR)/run_rgb_operm.Po
 include ./$(DEPDIR)/run_rgb_permutations.Po
@@ -390,7 +394,6 @@ include ./$(DEPDIR)/run_sts_runs.Po
 include ./$(DEPDIR)/run_sts_serial.Po
 include ./$(DEPDIR)/run_user_template.Po
 include ./$(DEPDIR)/startup.Po
-include ./$(DEPDIR)/test.Po
 include ./$(DEPDIR)/testbits.Po
 include ./$(DEPDIR)/user_template.Po
 include ./$(DEPDIR)/work.Po

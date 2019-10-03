@@ -25,7 +25,8 @@ double output_rnds()
   * If Seed is set, use it.  Otherwise reseed from /dev/random
   */
  if(Seed){
-   gsl_rng_set(rng,Seed);
+   seed = Seed;
+   gsl_rng_set(rng,seed);
  } else {
    seed = random_seed();
    gsl_rng_set(rng,seed);

@@ -9,6 +9,7 @@ void diehard_rank_32x32(Test **test,int irun);
 
 static Dtest diehard_rank_32x32_dtest = {
   "Diehard 32x32 Binary Rank Test",
+  "diehard_rank_32x32",
   "\n\
 #==================================================================\n\
 #                Diehard 32x32 Binary Rank Test\n\

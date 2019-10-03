@@ -71,14 +71,15 @@ am_libdieharder_la_OBJECTS = bits.lo chisq.lo countx.lo \
 	diehard_rank_6x8.lo diehard_runs.lo diehard_squeeze.lo \
 	diehard_sums.lo dieharder_types.lo kstest.lo \
 	marsaglia_tsang_gcd.lo marsaglia_tsang_gorilla.lo parse.lo \
-	prob.lo random_seed.lo rank.lo rgb_bitdist.lo rgb_lmn.lo \
-	rgb_minimum_distance.lo rgb_operm.lo rgb_permutations.lo \
-	rgb_persist.lo rgb_timing.lo rngav.lo rng_ca.lo \
-	rng_dev_random.lo rng_dev_arandom.lo rng_dev_urandom.lo \
-	rng_file_input.lo rng_file_input_raw.lo rngs_gnu_r.lo \
-	rng_kiss.lo rng_jenkins.lo rng_stdin_input_raw.lo rng_uvag.lo \
-	sample.lo std_test.lo sts_monobit.lo sts_runs.lo sts_serial.lo \
-	timing.lo Vtest.lo Xtest.lo
+	prob.lo random_seed.lo rank.lo rgb_bitdist.lo \
+	rgb_lagged_sums.lo rgb_lmn.lo rgb_minimum_distance.lo \
+	rgb_operm.lo rgb_permutations.lo rgb_persist.lo rgb_timing.lo \
+	rngav.lo rng_ca.lo rng_dev_random.lo rng_dev_arandom.lo \
+	rng_dev_urandom.lo rng_file_input.lo rng_file_input_raw.lo \
+	rngs_gnu_r.lo rng_kiss.lo rng_jenkins.lo \
+	rng_stdin_input_raw.lo rng_uvag.lo sample.lo std_test.lo \
+	sts_monobit.lo sts_runs.lo sts_serial.lo timing.lo Vtest.lo \
+	Xtest.lo
 libdieharder_la_OBJECTS = $(am_libdieharder_la_OBJECTS)
 libdieharder_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
@@ -256,6 +257,7 @@ libdieharder_la_SOURCES = \
 	random_seed.c \
 	rank.c \
 	rgb_bitdist.c \
+	rgb_lagged_sums.c \
 	rgb_lmn.c \
 	rgb_minimum_distance.c \
 	rgb_operm.c \
@@ -404,6 +406,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/random_seed.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rank.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rgb_bitdist.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rgb_lagged_sums.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rgb_lmn.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rgb_minimum_distance.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rgb_operm.Plo@am__quote@

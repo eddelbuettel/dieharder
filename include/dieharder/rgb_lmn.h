@@ -4,6 +4,7 @@
 
 static Dtest temp = {
   "RGB lmn Test",
+  "rgb_lmn_test",
   "\n\
 #==================================================================\n\
 #                      RGB lmn Test\n\

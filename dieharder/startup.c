@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: startup.c 422 2008-08-18 19:50:15Z rgb $
+ * $Id: startup.c 442 2008-09-06 18:37:53Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -15,6 +15,7 @@
  */
 
 #include "dieharder.h"
+static int firstcall=1;
 
 void startup()
 {
@@ -23,108 +24,123 @@ void startup()
  uint mask;
  struct stat sbuf;
 
-
  /*
-  * The very first thing we do is see if any simple help options
-  * were requested, as we exit immediately if they were and can
-  * save all sorts of work.
+  * Large chunks of the following should only be done on the first call
+  * to dieharder startup().  Maybe all of it, we'll see.  Either way,
+  * the firstcall flag can be used to ensure that only the parts that can
+  * safely be repeated or are required to be repeated are repeated.
   */
- if(list == YES) {
-   list_tests();
-   Exit(0);
- }
 
- /*
-  * Set up the built-in gls generators.  We have to
-  *
-  *  a) keep the numbers the same from version to version.
-  *
-  *  b) permit calling rngs by name.
-  *
-  * Here we set up for this.  This means counting and adding and
-  * optionally listing the available, built in gsl generators plus
-  * any added generators, plus a parse routine for selecting a generator
-  * from the command line.
-  */
- types = dieharder_rng_types_setup();
+ if(firstcall == 1){
+   /* printf("This is the first call to startup(), I hope.\n"); */
+   /*
+    * The very first thing we do is see if any simple help options
+    * were requested, as we exit immediately if they were and can
+    * save all sorts of work.
+    */
+   if(list == YES) {
+     list_tests();
+     Exit(0);
+   }
 
- /*
-  * We new have to work a bit harder to determine how many
-  * generators we have of the different types because there are
-  * different ranges for different sources of generator.
-  *
-  * We start with the basic GSL generators, which start at offset 0.
-  */
- i = 0;
- while(types[i] != NULL){
-   i++;
- }
- num_gsl_rngs = i;
- MYDEBUG(D_STARTUP){
-   printf("# startup:  Found %u GSL rngs.\n",num_gsl_rngs);
- }
+   /*
+    * Set up the built-in gls generators.  We have to
+    *
+    *  a) keep the numbers the same from version to version.
+    *
+    *  b) permit calling rngs by name.
+    *
+    * Here we set up for this.  This means counting and adding and
+    * optionally listing the available, built in gsl generators plus
+    * any added generators, plus a parse routine for selecting a generator
+    * from the command line.
+    */
+   types = dieharder_rng_types_setup();
 
- /*
-  * Next come the dieharder generators, which start at offset 200.
-  */
- i = 200;
- j = 0;
- while(types[i] != NULL){
+   /*
+    * We new have to work a bit harder to determine how many
+    * generators we have of the different types because there are
+    * different ranges for different sources of generator.
+    *
+    * We start with the basic GSL generators, which start at offset 0.
+    */
+   i = 0;
+   while(types[i] != NULL){
+     i++;
+   }
+   num_gsl_rngs = i;
+   MYDEBUG(D_STARTUP){
+     printf("# startup:  Found %u GSL rngs.\n",num_gsl_rngs);
+   }
+
+   /*
+    * Next come the dieharder generators, which start at offset 200.
+    */
+   i = 200;
+   j = 0;
+   while(types[i] != NULL){
+     i++;
+     j++;
+   }
+   num_dieharder_rngs = j;
+   MYDEBUG(D_STARTUP){
+     printf("# startup:  Found %u dieharder rngs.\n",num_dieharder_rngs);
+   }
+
+   /*
+    * Next come the R generators, which start at offset 400.
+    */
+   i = 400;
+   j = 0;
+   while(types[i] != NULL){
+     i++;
+     j++;
+   }
+   num_R_rngs = j;
+   MYDEBUG(D_STARTUP){
+     printf("# startup:  Found %u R rngs.\n",num_R_rngs);
+   }
+
+   /*
+    * Next come the hardware generators, which start at offset 500.
+    */
+   i = 500;
+   j = 0;
+   while(types[i] != NULL){
+     i++;
+     j++;
+   }
+   num_hardware_rngs = j;
+   MYDEBUG(D_STARTUP){
+     printf("# startup:  Found %u hardware rngs.\n",num_hardware_rngs);
+   }
+
+   /*
+    * Finally, any generators added by the user at the interface level.
+    * That is, if you are hacking dieharder to add your own rng, add it
+    * below and it should "just appear" in the dieharder list of available
+    * generators and be immediately useful.
+    */
+   i = 600;
+   j = 0;
+   types[i] = gsl_rng_empty_random;
    i++;
    j++;
- }
- num_dieharder_rngs = j;
- MYDEBUG(D_STARTUP){
-   printf("# startup:  Found %u dieharder rngs.\n",num_dieharder_rngs);
+   num_ui_rngs = j;
+   MYDEBUG(D_STARTUP){
+     printf("# startup:  Found %u user interface generators.\n",num_ui_rngs);
+   }
+
+   num_rngs = num_gsl_rngs + num_dieharder_rngs + num_R_rngs +
+              num_hardware_rngs + num_ui_rngs;
+
  }
 
  /*
-  * Next come the R generators, which start at offset 400.
+  * In principle, in Rdh, one could change to an illegal generator
+  * in a new call.  This is probably not a good way to manage it, but
+  * it will do for now.
   */
- i = 400;
- j = 0;
- while(types[i] != NULL){
-   i++;
-   j++;
- }
- num_R_rngs = j;
- MYDEBUG(D_STARTUP){
-   printf("# startup:  Found %u R rngs.\n",num_R_rngs);
- }
-
- /*
-  * Next come the hardware generators, which start at offset 500.
-  */
- i = 500;
- j = 0;
- while(types[i] != NULL){
-   i++;
-   j++;
- }
- num_hardware_rngs = j;
- MYDEBUG(D_STARTUP){
-   printf("# startup:  Found %u hardware rngs.\n",num_hardware_rngs);
- }
-
- /*
-  * Finally, any generators added by the user at the interface level.
-  * That is, if you are hacking dieharder to add your own rng, add it
-  * below and it should "just appear" in the dieharder list of available
-  * generators and be immediately useful.
-  */
- i = 600;
- j = 0;
- types[i] = gsl_rng_empty_random;
- i++;
- j++;
- num_ui_rngs = j;
- MYDEBUG(D_STARTUP){
-   printf("# startup:  Found %u user interface generators.\n",num_ui_rngs);
- }
-
- num_rngs = num_gsl_rngs + num_dieharder_rngs + num_R_rngs +
-            num_hardware_rngs + num_ui_rngs;
-
  if(generator == -1){
    list_rngs();
    Exit(0);
@@ -155,7 +171,7 @@ void startup()
      list_rngs();
      Exit(0);
    }
-   if(output){
+   if(output_file){
      fprintf(stderr,"Error: generator %s uses file input but output flag set.",types[generator]->name);
      Usage();
      Exit(0);
@@ -166,8 +182,9 @@ void startup()
   * If we get here, in principle the generator is valid and the right
   * inputs are defined to run it (in the case of file_input). We therefore
   * initialize the selected gsl rng using (if possible) random_seed()
-  * seeds from /dev/random.  Note that we had to wait until now for the to
-  * do this or we'd miss our own additions!
+  * seeds from /dev/random.  If this is a second or third pass through
+  * startup, as long as gsl_rng_free(rng) has run, we SHOULD be clear
+  * to re-allocate it or a new one now.
   */
  if(verbose == D_STARTUP || verbose == D_SEED || verbose == D_ALL){
    fprintf(stdout,"# startup(): Creating and seeding generator %s\n",types[generator]->name);
@@ -185,6 +202,10 @@ void startup()
    }
  }
  gsl_rng_set(rng,seed);
+ /* It is indeed the same on looped calls, so this is really cruft.
+ printf("Just for grins, the first rand returned by the generator is %lu\n",
+  gsl_rng_get(rng));
+  */
 
  /*
   * Simultaneously count the number of significant bits in the rng
@@ -205,7 +226,7 @@ void startup()
    rmax_bits++;
  }
 
- if(output){
+ if(output_file){
    output_rnds();
    /* We'll fix it so we don't have to exit here later, maybe. */
    Exit(0);
@@ -222,27 +243,13 @@ void startup()
 
 
  /*
-  * This is the global vector of p-values generated by each test
-  * run many times.  It has to be oversized because resizing it
-  * to just right is more of a hassle then just spending the memory
-  * in an era where systems with less than a GB of active memory
-  * will be increasingly rare.  These p-values are ONLY used in
-  * the end-stage e.g. KS tests that globally validate the distribution
-  * of p-values returned by the test.  Set the kspi index to point to
-  * the first element of the vector.
-  *
-  * I think the following is cruft
- ks_pvalue = (double *)malloc((size_t) KS_SAMPLES_PER_TEST_MAX*psamples*sizeof(double));
- ks_pvalue2 = (double *)malloc((size_t) KS_SAMPLES_PER_TEST_MAX*psamples*sizeof(double));
-  *
-  * and I'm HOPING that every test uses an absolute maximum of psamples
-  * samples for its concluding KS test, although in the case of e.g. diehard
-  * tests this is probably not always true.  I actually think that the
-  * right way to do this at this point is to malloc the memory inside
-  * the test itself and free it at the end.  Why not?
+  * Probably cruft, but in any event the right solution is to malloc the
+  * memory inside the test itself and free it at the end.
   */
  ks_pvalue = 0;
  ks_pvalue2 = 0;
  kspi = 0;
+
+ firstcall = 0;
 
 }

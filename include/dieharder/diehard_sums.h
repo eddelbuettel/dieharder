@@ -9,7 +9,8 @@ void diehard_sums(Test **test,int irun);
 
 static Dtest diehard_sums_dtest = {
   "Diehard Sums Test",
-  "\n\
+  "diehard_sums",
+  "\
 #==================================================================\n\
 #                  Diehard Sums Test\n\
 # Integers are floated to get a sequence U(1),U(2),... of uni-  \n\

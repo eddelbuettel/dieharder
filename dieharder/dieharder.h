@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: dieharder.h 420 2008-08-18 18:29:17Z rgb $
+ * $Id: dieharder.h 448 2008-09-07 17:58:00Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -29,6 +29,12 @@
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 #include <dieharder/libdieharder.h>
+
+/*
+ * Flags to control all output formatting etc.
+ */
+#include "output.h"
+
 /*
  * user_template sources are here, not in library
  */
@@ -98,6 +104,7 @@
  void add_my_types(void);
  void help_user_template(void);
  void list_rngs(void);
+ void list_tests(void);
  void parsecl(int argc, char **argv);
  void run_diehard_2dsphere(void);
  void run_diehard_3dsphere(void);
@@ -120,8 +127,13 @@
  void run_rgb_bitdist(void);
  void run_rgb_persist(void);
  void run_rgb_timing(void);
+ void run_rgb_minimum_distance(void);
+ void run_rgb_permutations(void);
+ void rgb_lmn(void);
+ void run_rgb_operm(void);
  void run_sts_monobit(void);
  void run_sts_runs(void);
+ void run_sts_serial(void);
  void run_user_template(void);
  void startup(void);
  void user_template(Test **test,int irun);
@@ -129,7 +141,7 @@
  void Xtest_eval(Xtest *xtest);
 
 #ifdef RDIEHARDER
- int histogram(double *input,int inum,double min,double max,int nbins,char *label);
+ int histogram(double *input, char *pvlabel, int inum, double min, double max, int nbins, char *label);
  Test *rdh_testptr;		/* kludge: need a global to report back to main + R */
  Dtest *rdh_dtestptr;	/* kludge: need a global to report back to main + R */
 #endif
@@ -153,14 +165,16 @@
  int list;              /* List all tests flag */
  int List;              /* List all generators flag */
  int ntuple;            /* n-tuple size for n-tuple tests */
- int num_randoms;		/* the number of randoms stored into memory and usable */
- int output;		/* equals 1 if you output to file, otherwise 0. */
+ int num_randoms;	/* the number of randoms stored into memory and usable */
+ int output_file;	/* equals 1 if you output to file, otherwise 0. */
  int overlap;           /* equals 1 if you really want to use diehard overlap */
  int psamples;          /* Number of test runs in final KS test */
  int quiet;             /* quiet flag -- surpresses full output report */
  int rgb;               /* rgb test number */
  int sts;               /* sts test number */
  uint Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
+ uint table;            /* selects "table" output mode */
+ uint tflag;            /* binary flag(s) to control what goes in the table */
  off_t tsamples;        /* Generally should be "a lot".  off_t is u_int64_t. */
  int user;              /* user defined test number */
  int verbose;           /* Default is not to be verbose. */
@@ -190,6 +204,7 @@
  double *ks_pvalue,*ks_pvalue2;
  unsigned int kspi;
  struct timeval tv_start,tv_stop;
+ double rng_avg_time_nsec,rng_rands_per_second;
  int dummy,idiot;
  FILE *fp;
 #define MAXFIELDNUMBER 8

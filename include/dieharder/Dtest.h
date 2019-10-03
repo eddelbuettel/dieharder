@@ -10,6 +10,9 @@
    /* The name of the test */
    char *name;
 
+   /* The SHORT name of the test (its call name) */
+   char *sname;
+
    /* pointer to a test description */
    char *description;
 

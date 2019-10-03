@@ -76,8 +76,14 @@
 void user_template(Test **test,int irun)
 {
 
- uint t,i;
+ uint t,i,lag;
  Xtest ptest;
+
+ /*
+  * Get the lag from ntuple.  Note that a lag of zero means
+  * "don't throw any away".
+  */
+ lag = test[0]->ntuple;
 
  /*
   * ptest.x = actual sum of tsamples lagged samples from rng
@@ -88,29 +94,19 @@ void user_template(Test **test,int irun)
  ptest.y = (double) test[0]->tsamples*0.5;
  ptest.sigma = sqrt(test[0]->tsamples/12.0);
 
- /*
-  * sample only every lag returns from the rng, discard the rest.
-  * Note the use of the void *args list to pass in lag.  This may
-  * requires some care for complex argument lists, be warned, although
-  * of course for non-library tests global variables can be used to
-  * pass arguments.
-  */
- if(user_template_lag == 0) {
-   user_template_lag = 2; /* Why not?  Anything but 0, really... */
- }
-
  if(verbose == D_USER_TEMPLATE || verbose == D_ALL){
-   printf("# user_template(): Doing a test on lag %u\n",user_template_lag);
+   printf("# user_template(): Doing a test with lag %u\n",lag);
  }
 
  for(t=0;t<test[0]->tsamples;t++){
 
    /*
-    * A VERY SIMPLE test (probably not too sensitive)
+    * A VERY SIMPLE test, but sufficient to demonstrate the
+    * weaknesses in e.g. mt19937.
     */
 
-   /* Throw away lag-1 per sample */
-   for(i=0;i<(user_template_lag-1);i++) gsl_rng_uniform(rng);
+   /* Throw away lag per sample */
+   for(i=0;i<lag;i++) gsl_rng_uniform(rng);
 
    /* sample only every lag numbers, reset counter */
    ptest.x += gsl_rng_uniform(rng);

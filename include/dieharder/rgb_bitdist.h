@@ -9,6 +9,7 @@ void rgb_bitdist(Test **test,int irun);
 
 static Dtest rgb_bitdist_dtest = {
   "RGB Bit Distribution Test",
+  "rgb_bitdist",
   "\n\
 #========================================================================\n\
 #                 RGB Bit Distribution Test\n\
@@ -25,7 +26,3 @@ static Dtest rgb_bitdist_dtest = {
   1        /* We magically make all the bit tests return a single histogram */
 };
 
-/*
- * Global variables, each with a "locally identifiable" name.
- */
-uint rgb_bitdist_ntuple;

@@ -63,8 +63,8 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_dieharder_OBJECTS = dieharder.$(OBJEXT) dieharder_exit.$(OBJEXT) \
 	help.$(OBJEXT) histogram.$(OBJEXT) list_rand.$(OBJEXT) \
-	list_rngs.$(OBJEXT) list_tests.$(OBJEXT) output_rnds.$(OBJEXT) \
-	parsecl.$(OBJEXT) rdieharder.$(OBJEXT) \
+	list_rngs.$(OBJEXT) list_tests.$(OBJEXT) output.$(OBJEXT) \
+	output_rnds.$(OBJEXT) parsecl.$(OBJEXT) rdieharder.$(OBJEXT) \
 	rng_empty_random.$(OBJEXT) run_diehard_2dsphere.$(OBJEXT) \
 	run_diehard_3dsphere.$(OBJEXT) run_diehard_birthdays.$(OBJEXT) \
 	run_diehard_bitstream.$(OBJEXT) \
@@ -77,11 +77,12 @@ am_dieharder_OBJECTS = dieharder.$(OBJEXT) dieharder_exit.$(OBJEXT) \
 	run_diehard_rank_6x8.$(OBJEXT) run_diehard_runs.$(OBJEXT) \
 	run_diehard_squeeze.$(OBJEXT) run_diehard_sums.$(OBJEXT) \
 	run_marsaglia_tsang_gcd.$(OBJEXT) run_rgb_bitdist.$(OBJEXT) \
+	run_rgb_lagged_sums.$(OBJEXT) \
 	run_rgb_minimum_distance.$(OBJEXT) run_rgb_operm.$(OBJEXT) \
 	run_rgb_permutations.$(OBJEXT) run_rgb_persist.$(OBJEXT) \
 	run_rgb_timing.$(OBJEXT) run_sts_monobit.$(OBJEXT) \
 	run_sts_runs.$(OBJEXT) run_sts_serial.$(OBJEXT) \
-	run_user_template.$(OBJEXT) startup.$(OBJEXT) test.$(OBJEXT) \
+	run_user_template.$(OBJEXT) startup.$(OBJEXT) \
 	testbits.$(OBJEXT) user_template.$(OBJEXT) work.$(OBJEXT)
 dieharder_OBJECTS = $(am_dieharder_OBJECTS)
 dieharder_DEPENDENCIES = ../libdieharder/libdieharder.la
@@ -223,6 +224,7 @@ dieharder_SOURCES = \
 	list_rand.c \
 	list_rngs.c \
 	list_tests.c \
+	output.c output.h \
 	output_rnds.c \
 	parsecl.c \
 	rdieharder.c \
@@ -246,6 +248,7 @@ dieharder_SOURCES = \
 	run_diehard_sums.c \
 	run_marsaglia_tsang_gcd.c \
 	run_rgb_bitdist.c \
+	run_rgb_lagged_sums.c \
 	run_rgb_minimum_distance.c \
 	run_rgb_operm.c \
 	run_rgb_permutations.c \
@@ -256,7 +259,6 @@ dieharder_SOURCES = \
 	run_sts_serial.c \
 	run_user_template.c \
 	startup.c \
-	test.c \
 	testbits.c \
 	user_template.c \
 	work.c
@@ -357,6 +359,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_rand.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_rngs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/list_tests.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output_rnds.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsecl.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rdieharder.Po@am__quote@
@@ -380,6 +383,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_diehard_sums.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_marsaglia_tsang_gcd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_rgb_bitdist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_rgb_lagged_sums.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_rgb_minimum_distance.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_rgb_operm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_rgb_permutations.Po@am__quote@
@@ -390,7 +394,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_sts_serial.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/run_user_template.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/startup.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testbits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/user_template.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/work.Po@am__quote@
