@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: help.c 447 2008-09-07 14:00:25Z rgb $
+ * $Id: help.c 522 2011-03-10 16:00:48Z rgbatduke $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -11,6 +11,10 @@
 void help()
 {
 
+ int i;
+
+ dieharder_test_types();
+
  /*
   * help for EACH test must be defined in the test.c package, even if
   * it is null or says "sorry, no help available".  help should be
@@ -18,282 +22,189 @@ void help()
   * "#" so it is easy to filter out of standard test results output.
   */
  if(all==YES){
-   printf("%s",rgb_timing_dtest.description);
-   fflush(stdout);
-   printf("%s",rgb_persist_dtest.description);
-   fflush(stdout);
-   printf("%s",rgb_bitdist_dtest.description);
-   fflush(stdout);
-   printf("%s",rgb_minimum_distance_dtest.description);
-   fflush(stdout);
-   printf("%s",rgb_permutations_dtest.description);
-   fflush(stdout);
-   printf("%s",rgb_lagged_sums_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_birthdays_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_operm5_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_rank_32x32_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_rank_6x8_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_bitstream_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_opso_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_oqso_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_dna_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_count_1s_stream_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_count_1s_byte_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_parking_lot_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_2dsphere_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_3dsphere_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_squeeze_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_sums_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_runs_dtest.description);
-   fflush(stdout);
-   printf("%s",diehard_craps_dtest.description);
-   fflush(stdout);
-   printf("%s",marsaglia_tsang_gcd_dtest.description);
-   fflush(stdout);
-   printf("%s",sts_monobit_dtest.description);
-   fflush(stdout);
-   printf("%s",sts_runs_dtest.description);
-   fflush(stdout);
-   printf("%s",sts_serial_dtest.description);
-   fflush(stdout);
-   help_user_template();
-   fflush(stdout);
-   exit(0);
+   for(i=0;i<900;i++){
+     if(dh_test_types[i]){
+       fprintf(stdout,"%s",dh_test_types[i]->description);
+     }
+   }
+   Exit(0);
  }
 
- /*
-  * Switches to do each test by number
-  */
- switch(diehard){
-   case DIEHARD_BDAY:
-     printf("%s",diehard_birthdays_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_OPERM5:
-     printf("%s",diehard_operm5_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_RANK_32x32:
-     printf("%s",diehard_rank_32x32_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_RANK_6x8:
-     printf("%s",diehard_rank_6x8_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_BITSTREAM:
-     printf("%s",diehard_bitstream_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_OPSO:
-     printf("%s",diehard_opso_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_OQSO:
-     printf("%s",diehard_oqso_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_DNA:
-     printf("%s",diehard_dna_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_COUNT_1S_STREAM:
-     printf("%s",diehard_count_1s_stream_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_COUNT_1S_BYTE:
-     printf("%s",diehard_count_1s_byte_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_PARKING_LOT:
-     printf("%s",diehard_parking_lot_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_2DSPHERE:
-     printf("%s",diehard_2dsphere_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_3DSPHERE:
-     printf("%s",diehard_3dsphere_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_SQUEEZE:
-     printf("%s",diehard_squeeze_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_SUMS:
-     printf("%s",diehard_sums_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_RUNS:
-     printf("%s",diehard_runs_dtest.description);
-     fflush(stdout);
-     break;
-   case DIEHARD_CRAPS:
-     printf("%s",diehard_craps_dtest.description);
-     fflush(stdout);
-     break;
-   case MARSAGLIA_TSANG_GCD:
-     printf("%s",marsaglia_tsang_gcd_dtest.description);
-     fflush(stdout);
-     break;
-   case MARSAGLIA_TSANG_GORILLA:
-     break;
-   default:
-     break;
- }
- switch(rgb){
-   case RGB_TIMING:
-     printf("%s",rgb_timing_dtest.description);
-     fflush(stdout);
-     break;
-   case RGB_PERSIST:
-     printf("%s",rgb_persist_dtest.description);
-     fflush(stdout);
-     break;
-   case RGB_BITDIST:
-     printf("%s",rgb_bitdist_dtest.description);
-     fflush(stdout);
-     break;
-   case RGB_MINIMUM_DISTANCE:
-     printf("%s",rgb_minimum_distance_dtest.description);
-     fflush(stdout);
-     break;
-   case RGB_PERMUTATIONS:
-     printf("%s",rgb_permutations_dtest.description);
-     fflush(stdout);
-     break;
-   case RGB_LAGGED_SUMS:
-     printf("%s",rgb_lagged_sums_dtest.description);
-     fflush(stdout);
-     break;
-   case RGB_LMN:
-     break;
-   default:
-     break;
- }
- switch(sts){
-   case STS_MONOBIT:
-     printf("%s",sts_monobit_dtest.description);
-     fflush(stdout);
-     break;
-   case STS_RUNS:
-     printf("%s",sts_runs_dtest.description);
-     fflush(stdout);
-     break;
-   case STS_SERIAL:
-     printf("%s",sts_serial_dtest.description);
-     fflush(stdout);
-     break;
-   default:
-     break;
- }
- /*
-  * Add user-defined tests here following the pattern above.  Be sure
-  * to add the new tests to the enum in dieharder.h.  Also add its
-  * prototypes there, following the patterns of the tests already
-  * implemented.
-  */
- switch(user){
-   case USER_TEMPLATE:
-     printf("%s",user_template_dtest.description);
-     fflush(stdout);
-     break;
-   default:
-     break;
- }
+ /* printf("OK, what is dtest_num = %u\n",dtest_num);*/
 
- if(diehard == NO && rgb == NO && sts == NO && user == NO && all == NO){
+ if(dh_test_types[dtest_num]){
+   fprintf(stdout,"%s",dh_test_types[dtest_num]->description);
+   Exit(0);
+ } else {
    Usage();
+   Exit(0);
  }
- exit(0);
 
 }
 
 void Usage()
 {
 
+ dh_header();
+
  fprintf(stdout, "\n\
-dieharder version %s Copyright 2003 Robert G. Brown\n\
- \n\
 Usage:\n\
-  dieharder [-a] [-b bits] [-d diehard test number] [-f filename]\n\
-           [-g generator number] [-h] [-i iterations] [-l] \n\
-           [-n ntuple] [-p number of p samples] [-q] [-o filename] \n\
-           [-N] [-r rgb test number] [-s sts test number] \n\
-	   [-t number of test samples] [-u user test number] \n\
-	   [-v verbose flag] [-x xvalue] [-y yvalue] [-z zvalue] \n\
 \n\
-  -a Runs all the tests with standard/default options to create a report\n\
-  -b bits - sets the number of bits to be used in tests that act on a bit\n\
-     string of variable length, e.g. the rgb bitdist test.\n\
+dieharder [-a] [-d dieharder test number] [-f filename] [-B]\n\
+          [-D output flag [-D output flag] ... ] [-F] [-c separator]\n\
+          [-g generator number or -1] [-h] [-k ks_flag] [-l] \n\
+          [-L overlap] [-m multiply_p] [-n ntuple] \n\
+          [-p number of p samples] [-P Xoff]\n\
+          [-o filename] [-s seed strategy] [-S random number seed]\n\
+          [-n ntuple] [-p number of p samples] [-o filename]\n\
+          [-s seed strategy] [-S random number seed]\n\
+          [-t number of test samples] [-v verbose flag]\n\
+          [-W weak] [-X fail] [-Y Xtrategy]\n\
+          [-x xvalue] [-y yvalue] [-z zvalue]\n\
+\n\
+  -a - runs all the tests with standard/default options to create a report\n\
   -d test number -  selects specific diehard test.\n\
-  -f filename - two generators permit either formatted ASCII numbers\n\
-     or raw binary numbers to be read in from a file for testing.\n\
-     Note well that some (default) tests require 10,000,000 or more rands!\n\
+  -f filename - generators 201 or 202 permit either raw binary or \n\
+     formatted ASCII numbers to be read in from a file for testing.\n\
+     generator 200 reads in raw binary numbers from stdin.\n\
+     Note well: many tests with default parameters require a lot of rands!\n\
      To see a sample of the (required) header for ASCII formatted input, run\n\
 \n\
          dieharder -o -f example.input -t 10\n\
 \n\
      and then examine the contents of example.input.\n\
      Raw binary input reads 32 bit increments of the specified data stream.\n\
+     stdin_input_raw accepts a pipe from a raw binary stream.\n\
+  -B binary output (used with -o)\n\
+  -D output flag - permits fields to be selected for inclusion in dieharder\n\
+     output.  Each flag can be entered as a binary number that turns\n\
+     on a specific output field or header or by flag name; flags are\n\
+     aggregated.  To see all currently known flags use the -F command.\n\
+  -F - lists all known flags by name and number.\n\
+  -c table separator - where separator is e.g. ',' (CSV) or ' ' (whitespace).\n\
   -g generator number - selects a specific generator for testing.  Using\n\
      -1 causes all known generators to be printed out to the display.\n\
   -h prints context-sensitive help -- usually Usage (this message) or a\n\
-     test synopsis if entered as e.g. dieharder -d 3 -h.\n\
-  -i iterations - sets iteration count for timing runs (should not be\n\
-     needed).\n\
+     test synopsis if entered as e.g. dieharder -D 3 -h.\n\
+  -k ks_flag - ks_flag\n\
+\n\
+     0 is fast but slightly sloppy for psamples > 4999 (default).\n\
+\n\
+     1 is MUCH slower but more accurate for larger numbers of psamples.\n\
+\n\
+     2 is very slow and accurate to machine precision.\n\
+\n\
+     3 is kuiper ks, fast, quite inaccurate for small samples, deprecated.\n\
+\n\
   -l list all known tests.\n\
+  -L overlap \n\
+\n\
+     1 (use overlap, default) \n\
+\n\
+     0 (don't use overlap) \n\
+\n\
+     in operm5 or other tests that support overlapping and non-overlapping \n\
+     sample modes. \n\
+  -m multiply_p - multiply default # of psamples in -a(ll) runs to crank\n\
+     up the resolution of failure.\n\
   -n ntuple - set ntuple length for tests on short bit strings that permit\n\
      the length to be varied (e.g. rgb bitdist).\n\
-  -o filename - output -t count random numbers to file.\n\
-  -N force the usage of non-overlapping samples in certain diehard tests.\n\
+  -o filename - output -t count random numbers from current generator to file.\n\
   -p count - sets the number of p-value samples per test (default 100).\n\
-  -q selects \"quiet\" operation: results only are printed on a single line\n\
-     (where applicable).  This is a way of getting a very compact report.\n\
-  -r test number - selects specific rgb test.\n\
-  -S seed.  Any (uint) seed but (default) 0 surpresses per-test,\n\
-     fully automated reseeding from /dev/random if available or the \n\
-     clock if not (where the latter is NOT really desireable).\n\
-  -s test number - selects specific sts test.\n\
+  -P Xoff - sets the number of psamples that will cumulate before deciding \n\
+     that a generator is 'good' and really, truly passes even a -Y 2 T2D run. \n\
+     Currently the default is 100000; eventually it will be set from \n\
+     AES-derived T2D test failure thresholds for fully automated reliable \n\
+     operation, but for now it is more a 'boredom' threshold set by how long \n\
+     one might reasonably want to wait on any given test run. \n\
+  -S seed - where seed is a uint.  Overrides the default random seed\n\
+     selection.  Ignored for file or stdin input.\n\
+  -s strategy - if strategy is the (default) 0, dieharder reseeds (or\n\
+     rewinds) once at the beginning when the random number generator is\n\
+     selected and then never again.  If strategy is nonzero, the generator\n\
+     is reseeded or rewound at the beginning of EACH TEST.  If -S seed was\n\
+     specified, or a file is used, this means every test is applied to the\n\
+     same sequence (which is useful for validation and testing of dieharder,\n\
+     but not a good way to test rngs).  Otherwise a new random seed is\n\
+     selected for each test.\n\
   -t count - sets the number of random entities used in each test, where\n\
      possible.  Be warned -- some tests will take a long time with the\n\
      default value of 10000.  Read the test synopses for suggested settings\n\
-     for -t or use -a first.\n\
-  -u test number - selects specific user-developed test, if you've added\n\
-     one or more to this tool.  dieharder provides this interface to make\n\
-     it easy to add your own tests.\n\
+     for -t or use -a first.  Many tests will ignore -t as they require\n\
+     a very specific number of samples to be used in generating their\n\
+     statistic.\n\
+  -W weak - sets the 'weak' threshold to make the test(s) more or less \n\
+     forgiving during e.g. a test-to-destruction run.  Default is currently \n\
+     0.005. \n\
+  -X fail - sets the 'fail' threshold to make the test(s) more or less \n\
+     forgiving during e.g. a test-to-destruction run.  Default is currently \n\
+     0.000001, which is basically 'certain failure of the null hypothesis', \n\
+     the desired mode of reproducible generator failure. \n\
+  -Y Xtrategy - the Xtrategy flag controls the new 'test to failure' (T2F)\n\
+     modes.  These flags and their modes act as follows:\n\
+\n\
+     0 - just run dieharder with the specified number of tsamples and\n\
+     psamples, do not dynamically modify a run based on results.  This is\n\
+     the way it has always run, and is still the default.\n\
+     \n\
+     1 - 'resolve ambiguity' (RA) mode.  If a test returns 'weak', this is \n\
+     an undesired result.  What does that mean, after all?  If you run a long\n\
+     test series, you will see occasional weak returns for a perfect\n\
+     generators because p is uniformly distributed and will appear in any\n\
+     finite interval from time to time.  Even if a test run returns more than\n\
+     one weak result, you cannot be certain that the generator is failing.\n\
+     RA mode adds psamples (usually in blocks of 100) until the\n\
+     test result ends up solidly not weak or proceeds to unambiguous failure.\n\
+     This is morally equivalent to running the test several times to see if a\n\
+     weak result is reproducible, but eliminates the bias of personal\n\
+     judgement in the process since the default failure threshold is very\n\
+     small and very unlikely to be reached by random chance even in many\n\
+     runs.\n\
+\n\
+     This option should only be used with -k 2.\n\
+\n\
+     2 - 'test to destruction' (T2D) mode.  Sometimes you just want to know\n\
+     where or if a generator will .I ever fail a test (or test series).  -Y 2\n\
+     causes psamples to be added 100 at a time until a test returns an\n\
+     overall pvalue lower than the failure threshold or a specified maximum\n\
+     number of psamples (see -P) is reached.  \n\
+\n\
+     Note well!  In this mode one may well fail due to the alternate\n\
+     null hypothesis -- the test itself is a bad test and fails!  Many\n\
+     dieharder tests, despite our best efforts, are numerically unstable or\n\
+     have only approximately known target statistics or are straight up\n\
+     asymptotic results, and will eventually return a failing result even for\n\
+     a gold-standard generator (such as AES), or for the hypercautious the\n\
+     XOR generator with AES, threefish, kiss, all loaded at once and xor'd\n\
+     together.  It is therefore safest to use this mode comparatively,\n\
+     executing a T2D run on AES to get an idea of the test failure\n\
+     threshold(s) (something I will eventually do and publish on the web so\n\
+     everybody doesn't have to do it independently) and then running it on\n\
+     your target generator.  Failure with numbers of psamples within an order\n\
+     of magnitude of the AES thresholds should probably be considered\n\
+     possible test failures, not generator failures.  Failures at levels\n\
+     significantly less than the known gold standard generator failure\n\
+     thresholds are, of course, probably failures of the generator.\n\
+\n\
+     This option should only be used with -k 2.\n\
+\n\
   -v verbose flag -- controls the verbosity of the output for debugging\n\
      only.  Probably of little use to non-developers, and developers can\n\
      read the enum(s) in dieharder.h and the test sources to see which\n\
-     flag values turn on output on which routines.  1 is \"all\" and will\n\
-     result in a fairly detailed trace of program activity.\n\
-  -x,-y,-z number - Some tests have parameters that can safely be varied\n\
-     from their default value.  For example, in the diehard birthdays test,\n\
-     one can vary the number of \"dates\" drawn from the \"year\" of some\n\
-     length, which can also be varied.  -x 2048 -y 30 alters these two\n\
-     values but should still run fine.\n\
+     flag values turn on output on which routines.  1 is 'all' and will\n\
+     result in a highly detailed trace of program activity.\n\
 \n\
-  NOTE WELL:  The \"bogomegarates\" returned by this tool are BOGUS\n\
-  and may not be even approximately correct in your context.  Also, the\n\
-  quality assessment(s) for the rngs may, in fact, be completely incorrect\n\
-  or misleading.  Use them at your Own Risk!  Be Warned!\n\
+     -x,-y,-z number - Some tests have parameters that can safely be varied\n\
+     from their default value.  For example, in the diehard birthdays test,\n\
+     one can vary the number of 'dates' drawn from the 'year' of some\n\
+     length, which can also be varied.  -x 2048 -y 30 alters these two values\n\
+     but should still run fine.  These parameters should be documented\n\
+     internally (where they exist) in the e.g. -d 0 -h visible notes.\n\
+\n\
+  NOTE WELL:  The assessment(s) for the rngs may, in fact, be completely\n\
+  incorrect or misleading.  In particular, 'Weak' pvalues should occur\n\
+  one test in a hundred, and 'Failed' pvalues should occur one test in\n\
+  a thousand -- that's what p MEANS.  Use them at your Own Risk!  Be Warned!\n\
 \n",QUOTEME(VERSION));
 
  exit(0);

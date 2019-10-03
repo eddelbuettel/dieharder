@@ -19,16 +19,27 @@ double output_rnds()
 {
 
  uint i,j;
+ double d;
  FILE *fp;
+
+ if(verbose) {
+   fprintf(stderr,"# output_rnds: Dumping %u rands\n",tsamples);
+ }
 
  /*
   * If Seed is set, use it.  Otherwise reseed from /dev/random
   */
  if(Seed){
    seed = Seed;
+   if(verbose) {
+     fprintf(stderr,"# output_rnds: seeding rng %d with %ul\n",rng,seed);
+   }
    gsl_rng_set(rng,seed);
  } else {
    seed = random_seed();
+   if(verbose) {
+     fprintf(stderr,"# output_rnds: seeding rng %d with %ul\n",rng,seed);
+   }
    gsl_rng_set(rng,seed);
  }
 
@@ -36,6 +47,9 @@ double output_rnds()
   * Open the output file.  If no filename is specified, or if
   * filename is "-", use stdout.
   */
+ if(verbose) {
+   fprintf(stderr,"# output_rnds: Opening file %s\n",filename);
+ }
  if( (filename[0] == 0) || (strncmp("-",filename,1)==0) ){
    fp = stdout;
  } else {
@@ -45,37 +59,82 @@ double output_rnds()
    }
  }
 
- /*
-  * If the binary file flag is set, we must have no header
-  * or it will be treated as binary input.  If we're outputting
-  * an ASCII list, we MUST have a header as the program is too
-  * stupid (still) to count things for itself, although I suppose
-  * it could.  I like a human readable header on a human readable
-  * file, though, so mote it be.
-  */
- if(binary == NO){
-   fprintf(fp,"#==================================================================\n");
-   fprintf(fp,"# generator %s  seed = %u\n",gsl_rng_name(rng),seed);
-   fprintf(fp,"#==================================================================\n");
-   fprintf(fp,"type: d\ncount: %i\nnumbit: 32\n",tsamples);
- } else {
-   if(verbose && fp != stdout) {
-     printf("Ascii values of binary data being written into file %s:\n",filename);
-   }
+ if(verbose) {
+   fprintf(stderr,"# output_rnds: Opened %s as fp = %u\n",filename,fp);
  }
  /*
-  * make the samples and output them.
+  * We completely change the way we control output.
+  *
+  *   -O output_format
+  *      output_format = 0 (binary), 1 (uint), 2 (decimal)
+  *
+  * We just do a case switch, since each of them has its own
+  * peculiarities.
   */
- for(i=0;i<tsamples;i++){
-   j = gsl_rng_get(rng);
-   if(binary){
-     fwrite(&j,sizeof(uint),1,fp);
-     if(verbose && fp != stdout) {
-       printf("%10u\n",j);
+ switch(output_format){
+   case 0:
+     if(verbose) {
+       fprintf(stderr,"Ascii values of binary data being written into file %s:\n",filename);
      }
-   } else {
-     fprintf(fp,"%10u\n",j);
-   }
+     /*
+      * make the samples and output them.  If we run binary with tsamples
+      * = 0, we just loop forever or until the program is interrupted by
+      * hand.
+      */
+     if(tsamples > 0){
+       for(i=0;i<tsamples;i++){
+         j = gsl_rng_get(rng);
+         fwrite(&j,sizeof(uint),1,fp);
+         /*
+          * Printing to stderr lets me read it and pass the binaries on through
+          * to stdout and a pipe.
+          */
+         if(verbose) {
+           fprintf(stderr,"%10u\n",j);
+         }
+       }
+     } else {
+       /*
+        * If tsamples = 0, just pump them into stdout.  One HOPES that this
+        * blocks when out goes into a pipe -- but that's one of the
+        * questions I need to resolve.  This will make an infinite number of
+        * binary rands (until the pipe is broken and this instance of
+        * dieharder dies).
+        */
+       while(1){
+         j = gsl_rng_get(rng);
+         fwrite(&j,sizeof(uint),1,fp);
+         /*
+          * Printing to stderr lets me read it and pass the binaries on through
+          * to stdout and a pipe.
+          */
+         if(verbose) {
+           fprintf(stderr,"%10u\n",j);
+         }
+       }
+     }
+     break;
+   case 1:
+     fprintf(fp,"#==================================================================\n");
+     fprintf(fp,"# generator %s  seed = %u\n",gsl_rng_name(rng),seed);
+     fprintf(fp,"#==================================================================\n");
+     fprintf(fp,"type: d\ncount: %i\nnumbit: 32\n",tsamples);
+     for(i=0;i<tsamples;i++){
+       j = gsl_rng_get(rng);
+       fprintf(fp,"%10u\n",j);
+     }
+     break;
+   case 2:
+     fprintf(fp,"#==================================================================\n");
+     fprintf(fp,"# generator %s  seed = %u\n",gsl_rng_name(rng),seed);
+     fprintf(fp,"#==================================================================\n");
+     fprintf(fp,"type: f\ncount: %i\nnumbit: 32\n",tsamples);
+     for(i=0;i<tsamples;i++){
+       d = gsl_rng_uniform(rng);
+       fprintf(fp,"%0.10f\n",d);
+     }
+     break;
+
  }
 
  fclose(fp);

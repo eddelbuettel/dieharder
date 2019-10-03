@@ -92,6 +92,15 @@ double chisq_poisson(uint *observed,double lambda,int kmax,uint nsamp)
 
 }
 
+/*
+ * Pearson is the test for a straight up binned histogram, where bin
+ * membership is with "independent" probabilities (that sum to 1).
+ * Observed is the vector of observed histogram values.  Expected is
+ * the vector of expected histogram values (where the two should
+ * agree in total count).  kmax is the dimension of the data vectors.
+ * It returns a pvalue PRESUMING kmax-1 degrees of freedom (independent
+ * bin probabilities, but with a constraint that they sum to 1).
+ */
 double chisq_pearson(double *observed,double *expected,int kmax)
 {
 
@@ -130,6 +139,13 @@ double chisq_pearson(double *observed,double *expected,int kmax)
 
 }
 
+/*
+ * This does the pearson above, but computes histogram occupation using a
+ * binomial distribution.  This is useful to compute e.g. the pvalue for a
+ * vector of tally results from flipping 100 coins, performed 100 times.
+ * It automatically cuts off the tails where bin membership isn't large
+ * enough to give a good result.
+ */
 double chisq_binomial(double *observed,double prob,uint kmax,uint nsamp)
 {
 
@@ -148,7 +164,7 @@ double chisq_binomial(double *observed,double prob,uint kmax,uint nsamp)
  }
  for(n = 0;n <= nmax;n++){
    if(observed[n] > 10.0){
-     expected = nsamp*binomial(nmax,n,prob);
+     expected = nsamp*gsl_ran_binomial_pdf(n,prob,nmax);
      obstotal += observed[n];
      exptotal += expected;
      delchisq = (observed[n] - expected)*(observed[n] - expected)/expected;
@@ -180,5 +196,83 @@ double chisq_binomial(double *observed,double prob,uint kmax,uint nsamp)
 
  return(pvalue);
 
+}
+
+/*
+ * Contributed by David Bauer to do a Pearson chisq on a 2D
+ * histogram.
+ */
+double chisq2d(uint *obs, uint rows, uint columns, uint N) {
+	double chisq = 0.0;
+	uint i, j, k;
+	uint ndof = (rows - 1) * (columns - 1);
+
+	for (i = 0; i < rows; i++) {
+		for (j = 0; j < columns; j++) {
+			uint sum1 = 0, sum2 = 0;
+			double expected, top;
+			for (k = 0; k < columns; k++) sum1 += obs[i * columns + k];
+			for (k = 0; k < rows; k++) sum2 += obs[k * columns + j];
+			expected = (double) sum1 * sum2 / N;
+			top = (double) obs[i * columns + j] - expected;
+			chisq += (top * top) / expected;
+		}
+	}
+
+	return( gsl_sf_gamma_inc_Q((double)(ndof)/2.0,chisq/2.0) );
+}
+
+/*
+ * Contributed by David Bauer, copied from chisq_poisson, with trivial
+ * modifications to change it to use the geometric distribution.
+ */
+double chisq_geometric(uint *observed,double prob,int kmax,uint nsamp)
+{
+
+ uint i,j,k;
+ double *expected;
+ double delchisq,chisq,pvalue;
+
+ /*
+  * Allocate a vector for the expected value of the bin frequencies up
+  * to kmax-1.
+  */
+ expected = (double *)malloc(kmax*sizeof(double));
+ for(k = 0;k<kmax;k++){
+   expected[k] = nsamp*gsl_ran_geometric_pdf(k+1,prob);
+ }
+
+ /*
+  * Compute Pearson's chisq for this vector of the data with poisson
+  * expected values.
+  */
+ chisq = 0.0;
+ for(k = 0;k < kmax;k++){
+   delchisq = ((double) observed[k] - expected[k])*
+      ((double) observed[k] - expected[k])/expected[k];
+   chisq += delchisq;
+   if(verbose == D_CHISQ || verbose == D_ALL){
+     printf("%u:  observed = %f,  expected = %f, delchisq = %f, chisq = %f\n",
+        k,(double)observed[k],expected[k],delchisq,chisq);
+   }
+ }
+
+ if(verbose == D_CHISQ || verbose == D_ALL){
+   printf("Evaluated chisq = %f for %u k values\n",chisq,kmax);
+ }
+
+ /*
+  * Now evaluate the corresponding pvalue.  The only real question
+  * is what is the correct number of degrees of freedom.  We have
+  * kmax bins, so it should be kmax-1.
+  */
+ pvalue = gsl_sf_gamma_inc_Q((double)(kmax-1)/2.0,chisq/2.0);
+ if(verbose == D_CHISQ || verbose == D_ALL){
+   printf("pvalue = %f in chisq_geometric.\n",pvalue);
+ }
+
+ free(expected);
+
+ return(pvalue);
 }
 

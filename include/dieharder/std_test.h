@@ -13,7 +13,6 @@
  * what to do with it.
  */
 typedef struct {
-  void (*testfunc)();  /* Test function name */
   uint nkps;           /* Number of test statistics created per run */
   uint tsamples;       /* Number of samples per test (if applicable) */
   uint psamples;       /* Number of test runs per final KS p-value */
@@ -27,7 +26,7 @@ typedef struct {
 } Test;
 
 
-Test **create_test(Dtest *dtest, uint tsamples, uint psamples, void (*testfunc)() );
+Test **create_test(Dtest *dtest, uint tsamples, uint psamples);
 void destroy_test(Dtest *dtest, Test **test);
 void std_test(Dtest *dtest, Test **test);
 

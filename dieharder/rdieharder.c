@@ -6,6 +6,17 @@
  *========================================================================
  */
 
+
+/*
+ * RDieHarder interface to DieHarder
+ * Copyright (C) 2006 - 2008 Dirk Eddelbuettel
+ * GPL'ed
+ *
+ * Based on dieharder.c from DieHarder, and interfacing DieHarder
+ * DieHarder is Copyright 2002 - 2008 (C) Robert G. Brown and GPL'ed
+ *
+ */
+
 #ifdef RDIEHARDER
 #include <stdio.h>
 #include <string.h>
@@ -17,162 +28,213 @@
 
 #include "dieharder.h"		/* from the front-end sources */
 
-SEXP dieharder(SEXP genS, SEXP testS, SEXP seedS, SEXP psamplesS, SEXP verbS) {
-  int verb;
-  unsigned int i;
-  SEXP result = NULL, vec, pv, name, desc, nkps;
+SEXP dieharder(SEXP genS, SEXP testS, SEXP seedS, SEXP psamplesS, SEXP verbS, SEXP infileS, SEXP ntupleS) {
 
-  /*
-   * Parse command line and set global variables
-   */
-  char *argv[] = { "foo" };
-  parsecl(1, argv); 
+    int verb, testarg;
+    unsigned int i;
+    SEXP result = NULL, vec, pv, name, desc, nkps;
+    char *inputfile;
 
-  generator  = INTEGER_VALUE(genS);
-  diehard = INTEGER_VALUE(testS);
-  Seed = INTEGER_VALUE(seedS); /* (user-select) Seed, not (save switch) seed */
-  psamples = INTEGER_VALUE(psamplesS);
-  verb = INTEGER_VALUE(verbS);
+    /* Setup argv to allow call of parsecl() to let dieharder set globals */
+    char *argv[] = { "dieharder" };
+    optind = 0;
+    parsecl(1, argv); 			
 
-  if (Seed == 0) {
-    seed = random_seed();
-  } else {
-    seed = (unsigned int) Seed;
-  }
+    /* Parse 'our' parameters from R */
+    generator  = INTEGER_VALUE(genS);
+    testarg = INTEGER_VALUE(testS);
+    diehard = rgb = sts = user = 0;
+    if (testarg < 100) {
+	diehard = testarg;
+    } else if (testarg < 200) {
+	rgb = testarg - 100;
+    } else if (testarg < 300) {
+	sts = testarg - 200;
+    } else {
+	user = testarg - 300;
+    }
+    Seed = (unsigned long int) INTEGER_VALUE(seedS); /* (user-select) Seed, not (save switch) seed */
+    psamples = INTEGER_VALUE(psamplesS);
+    verb = INTEGER_VALUE(verbS);
+    inputfile = (char*) CHARACTER_VALUE(infileS);
+    ntuple = INTEGER_VALUE(ntupleS);
 
-  if (verb) {
-    Rprintf("Dieharder called with gen=%d test=%d seed=%u\n", 
-	    generator, diehard, seed);
-    quiet = 0;
-    hist_flag = 1;
-  } else {
-    quiet = 1; 			/* override dieharder command-line default */
-    hist_flag = 0;
-  }
+    rdh_testptr = NULL;
+    rdh_dtestptr = NULL; 	/* to be safe, explicitly flag as NULL; cf test in output.c */
 
-  /*
-   * Note that most of my cpu_rates (except the terminally simple/stupid) 
-   * have three phases after parsecl():
-   *
-   * Startup: Allocate memory, initialize all derivative variables from
-   * command line values.  
-   */
-  startup();
+    if (strcmp(inputfile, "") != 0) {
+	strncpy(filename, inputfile, 128);
+	fromfile = 1;			/* flag this as file input */
+    }
+ 
+   if (Seed == 0) {
+    	seed = random_seed();
+    } else {
+    	seed = (unsigned long int) Seed;
+    }
 
-  /*
-   * Work: Do all the work.  In a complicated cpu_rate, project_work would
-   * itself be a shell for a lot of other modular routines.
-   */
-  work();
+    if (verb) {
+	Rprintf("Dieharder called with gen=%d test=%d seed=%lu\n", generator, diehard, seed);
+	quiet = 0;
+	hist_flag = 1;
+    } else {
+	quiet = 1; 			/* override dieharder command-line default */
+	hist_flag = 0;
+    }
 
-  /* vector of size three: [0] is scalar ks_pv, [1] is pvalues vec, [2] name */
-  PROTECT(result = allocVector(VECSXP, 3)); 
-  /* alloc scalar, and set it */
-  PROTECT(pv = allocVector(REALSXP, 1));
-  REAL(pv)[0] = rdh_testptr->ks_pvalue;
-  /* vector and set it */
-  PROTECT(vec = allocVector(REALSXP, rdh_testptr->psamples)); 
-  for (i = 0; i < rdh_testptr->psamples; i++) {
-    REAL(vec)[i] = rdh_testptr->pvalues[i];
-  }
-  PROTECT(name = allocVector(STRSXP, 1));
-  SET_STRING_ELT(name, 0, mkChar(rdh_dtestptr->name));
-  //PROTECT(desc = allocVector(STRSXP, 1));
-  //SET_STRING_ELT(desc, 0, mkChar(rdh_dtestptr->description));
-  //PROTECT(nkps = allocVector(REALSXP, 1));
-  //REAL(nkps)[0] = (double) rdh_testptr->nkps;
-
-  /* insert scalar and vector */
-  SET_VECTOR_ELT(result, 0, pv);
-  SET_VECTOR_ELT(result, 1, vec);
-  SET_VECTOR_ELT(result, 2, name);
-  
-  //SET_VECTOR_ELT(result, 3, desc);  /* too long, and C formatted */
-  //SET_VECTOR_ELT(result, 4, nkps);  /* not sure this is needed or useful */
-  
-  UNPROTECT(4);
-  return result;
-}
-
-SEXP dieharderVectorised(SEXP genS, SEXP testS, SEXP verbS) {
-  //int *genvec = INTEGER(genS);
-  int ngen, i;
-  diehard = INTEGER_VALUE(testS);
-  int verb = INTEGER_VALUE(verbS);
-  SEXP result = NULL;
-  ngen = length(genS);
-
-  if (verb) {
-    Rprintf("C function dieharder called with gen=%d test=%d\n", 
-	    generator, diehard);
-  }
-
-  /*
-   * Parse command line and set global variables
-   */
-  /*parsecl(argc,argv); */
-
-  quiet = 1; 			/* override dieharder command-line default */
-
-  PROTECT(result = allocVector(REALSXP, ngen));
-
-  for (i=0; i<ngen; i++) {
-    generator = INTEGER( VECTOR_ELT(genS, i) )[0];
-
-
-  /*
-   * Note that most of my cpu_rates (except the terminally simple/stupid) 
-   * have three phases after parsecl():
-   *
-   * Startup: Allocate memory, initialize all derivative variables from
-   * command line values.  
-   */
+    /* Now do the work that dieharder.c does */
     startup();
-
-  /*
-   * Work: Do all the work.  In a complicated cpu_rate, project_work would
-   * itself be a shell for a lot of other modular routines.
-   */
-
     work();
-    Rprintf("C function dieharder called with gen=%d test=%d -> %f\n", generator, diehard, rdh_testptr->ks_pvalue);
-    REAL(result)[i] = rdh_testptr->ks_pvalue;
-  }
+    gsl_rng_free(rng);
+    reset_bit_buffers();
 
-  UNPROTECT(1);
-  return result;
+    /* And then bring our results back to R */
+
+    /* create vector of size four: [0] is vector (!!) ks_pv, [1] is pvalues vec, [2] name, [3] nkps */
+    PROTECT(result = allocVector(VECSXP, 4)); 
+
+    /* alloc vector and scalars, and set it */
+    PROTECT(pv = allocVector(REALSXP, rdh_dtestptr->nkps));
+    PROTECT(name = allocVector(STRSXP, 1));
+    PROTECT(nkps = allocVector(INTSXP, 1));
+
+    if (rdh_testptr != NULL && rdh_dtestptr != NULL) {
+	for (i=0; i<rdh_dtestptr->nkps; i++) { 		/* there can be nkps p-values per test */
+	    REAL(pv)[i] = rdh_testptr[i]->ks_pvalue;
+	}
+	PROTECT(vec = allocVector(REALSXP, rdh_testptr[0]->psamples)); /* alloc vector and set it */
+	for (i = 0; i < rdh_testptr[0]->psamples; i++) {
+	    REAL(vec)[i] = rdh_testptr[0]->pvalues[i];
+	}
+	SET_STRING_ELT(name, 0, mkChar(rdh_dtestptr->name));
+	INTEGER(nkps)[0] = rdh_dtestptr->nkps; 		/* nb of Kuiper KS p-values in pv vector */
+    } else {
+	PROTECT(vec = allocVector(REALSXP, 1)); 
+	REAL(pv)[0] = R_NaN;
+	REAL(vec)[0] = R_NaN;
+	SET_STRING_ELT(name, 0, mkChar(""));
+	INTEGER(nkps)[0] = R_NaN;
+    }
+
+    /* insert vectors and scalars into result vector */
+    SET_VECTOR_ELT(result, 0, pv);
+    SET_VECTOR_ELT(result, 1, vec);
+    SET_VECTOR_ELT(result, 2, name);
+    SET_VECTOR_ELT(result, 3, nkps);
+  
+    UNPROTECT(5);
+
+    return result;
 }
+
 
 SEXP dieharderGenerators(void) {
-  SEXP result, gens;
-  int i;
+    SEXP result, gens, genid;
+    unsigned int i,j;
 
-  /* from startup.c */
-  types = gsl_rng_types_setup ();
-  i = 0;
-  while(types[i] != NULL){
+    /* from startup.c */
+    /*
+     * We new have to work a bit harder to determine how many
+     * generators we have of the different dh_types because there are
+     * different ranges for different sources of generator.
+     *
+     * We start with the basic GSL generators, which start at offset 0.
+     */
+    dh_types = dieharder_rng_dh_types_setup ();
+    i = 0;
+    while(dh_types[i] != NULL){
+	i++;
+	j++;
+    }
+    num_gsl_rngs = i;
+
+    /*
+     * Next come the dieharder generators, which start at offset 200.
+     */
+    i = 200;
+    j = 0;
+    while(dh_types[i] != NULL){
+	i++;
+	j++;
+    }
+    num_dieharder_rngs = j;
+
+    /*
+     * Next come the R generators, which start at offset 400.
+     */
+    i = 400;
+    j = 0;
+    while(dh_types[i] != NULL){
+	i++;
+	j++;
+    }
+    num_R_rngs = j;
+
+    /*
+     * Next come the hardware generators, which start at offset 500.
+     */
+    i = 500;
+    j = 0;
+    while(dh_types[i] != NULL){
+	i++;
+	j++;
+    }
+    num_hardware_rngs = j;
+
+    /*
+     * Finally, any generators added by the user at the interface level.
+     * That is, if you are hacking dieharder to add your own rng, add it
+     * below and it should "just appear" in the dieharder list of available
+     * generators and be immediately useful.
+     */
+    i = 600;
+    j = 0;
+    dh_types[i] = gsl_rng_empty_random;  
     i++;
-  }
-  num_gsl_rngs = i;
+    j++;
+    num_ui_rngs = j;
 
-  /*
-   * Now add my own types and count THEM.
-   */
-  add_my_types();
-  while(types[i] != NULL){
-    i++;
-  }
-  num_rngs = i;
+    /* /\* */
+    /*  * Now add my own dh_types and count THEM. */
+    /*  *\/ */
+    /* add_ui_rngs(); */
+    /* while(dh_types[i] != NULL){ */
+    /* 	i++; */
+    /* } */
 
-  /* vector of size onetwo: [0] is scalar ks_pv, [1] is vector of pvalues */
-  PROTECT(result = allocVector(VECSXP, 1)); 
-  PROTECT(gens = allocVector(STRSXP, num_rngs)); 
-  for (i = 0; i < num_rngs; i++) {
-    SET_STRING_ELT(gens, i, mkChar(types[i]->name));
-  }
-  SET_VECTOR_ELT(result, 0, gens);
+    num_rngs = num_gsl_rngs + num_dieharder_rngs + num_R_rngs +
+	num_hardware_rngs + num_ui_rngs;
+
+    /* vector of size onetwo: [0] is scalar ks_pv, [1] is vector of pvalues */
+    PROTECT(result = allocVector(VECSXP, 2)); 
+    PROTECT(gens = allocVector(STRSXP, num_rngs)); 
+    PROTECT(genid = allocVector(INTSXP, num_rngs)); 
+
+    j = 0;
+    for (i = 0; i < num_gsl_rngs; i++) {
+	SET_STRING_ELT(gens,  j,   mkChar(dh_types[i]->name));
+	INTEGER(genid)[j++] = i;
+    }
+    for (i = 200; i < 200 + num_dieharder_rngs; i++) {
+	SET_STRING_ELT(gens,  j,   mkChar(dh_types[i]->name));
+	INTEGER(genid)[j++] = i;
+    }
+    for (i = 400; i < 400 + num_R_rngs; i++) {
+	SET_STRING_ELT(gens,  j,   mkChar(dh_types[i]->name));
+	INTEGER(genid)[j++] = i;
+    }
+    for (i = 500; i < 500 + num_hardware_rngs; i++) {
+	SET_STRING_ELT(gens,  j,   mkChar(dh_types[i]->name));
+	INTEGER(genid)[j++] = i;
+    }
+    for (i = 600; i < 600 + num_ui_rngs; i++) {
+	SET_STRING_ELT(gens,  j,   mkChar(dh_types[i]->name));
+	INTEGER(genid)[j++] = i;
+    }
+    SET_VECTOR_ELT(result, 0, gens);
+    SET_VECTOR_ELT(result, 1, genid);
   
-  UNPROTECT(2);
-  return result;
+    UNPROTECT(3);
+    return result;
 }
 #endif   /* RDIEHARDER */

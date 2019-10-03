@@ -1,5 +1,6 @@
 /*
- * diehard_rgb_persist test header.
+ * diehard_rgb_persist test header.  This test needs to just go
+ * away...
  */
 
 /*
@@ -10,7 +11,7 @@ typedef struct {
   uint and_mask;
   uint cumulative_mask;
 } Rgb_Persist;
-void rgb_persist(Test **test, Rgb_Persist *persist);
+int rgb_persist(Test **test, Rgb_Persist *persist);
 
 static Dtest rgb_persist_dtest = {
   "RGB Bit Persistence Test",
@@ -36,7 +37,9 @@ static Dtest rgb_persist_dtest = {
 ",
   1,
   256,
-  1
+  1,
+  rgb_persist,
+  0
 };
 
 uint *rgb_persist_rand_uint;

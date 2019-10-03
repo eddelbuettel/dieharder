@@ -1,12 +1,13 @@
 /*
+ * ========================================================================
  * $Id: diehard_birthdays.c 250 2006-10-10 05:02:26Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
- *
+ * ========================================================================
  */
 
 /*
- *========================================================================
+ * ========================================================================
  * This is the Diehard Birthdays test, rewritten from the description
  * in tests.txt on George Marsaglia's diehard site.
  *
@@ -39,25 +40,38 @@
 
 
 #include <dieharder/libdieharder.h>
+#define NMS   512
+#define NBITS 24
 
 static double lambda;
 static unsigned int *intervals;
 static unsigned int nms,nbits,kmax;
 
-void diehard_birthdays(Test **test, int irun)
+int diehard_birthdays(Test **test, int irun)
 {
 
- unsigned int i,j,k,t,m,mnext,ns;
- unsigned int bitstring,offset;
- unsigned int *js;
-
+ uint i,j,k,t,m,mnext,ns;
+ uint bitstring,offset;
+ uint *js;
+ uint rand_uint[NMS];
+ 
  double binfreq;
 
  /*
-  * Grab these and put them into locals just to save typing.
+  * for display only.  0 means "ignored".
   */
- nms = diehard_birthdays_nms;
- nbits = diehard_birthdays_nbits;
+ test[0]->ntuple = 0;
+
+ /*
+  * We are taking a small step backwards and fixing these
+  * so that they are the old diehard values until we figure
+  * out how to deal with variable argument lists, which may be
+  * never in the CLI version.
+  */
+ /* Cruft nms = diehard_birthdays_nms; */
+ nms = NMS;
+ /* Cruft nbits = diehard_birthdays_nbits; */
+ nbits = NBITS;
  if(nbits>rmax_bits) nbits = rmax_bits;
 
  /*
@@ -99,19 +113,10 @@ void diehard_birthdays(Test **test, int irun)
  js = (unsigned int *)malloc(kmax*sizeof(unsigned int));
  for(i=0;i<kmax;i++) js[i] = 0;
 
-/* Cruft
- printf("# diehard_birthdays initialization: nms = %u and nbits = %u\n",nms,nbits);
- printf("# diehard_birthdays initialization: lambda = %f and kmax = %u\n",lambda,kmax);
- */
-
  /*
-  * Each sample uses a unique set of tsample diehard_birthday_rand_uint[]'s, but evaluates
+  * Each sample uses a unique set of tsample rand_uint[]'s, but evaluates
   * the Poissonian statistic for each cyclic rotation of the bits across
   * the 24 bit mask.
-  */
-
- /*
-  * Accumulate tsamples of this test into our histogram.
   */
  for(t=0;t<test[0]->tsamples;t++) {
 
@@ -123,33 +128,19 @@ void diehard_birthdays(Test **test, int irun)
     * over any particular bit position used as a starting point with
     * cyclic/periodic bit wrap.
     */
-   memset(diehard_birthdays_rand_uint,0,nms*sizeof(uint));
+   memset(rand_uint,0,nms*sizeof(uint));
    for(m = 0;m<nms;m++){
-     if(overlap){
-       /*
-        * This tests PRECISELY nbits guaranteed sequential bits from the
-        * generator, with no gaps.  We could actually test 32
-        */
-       get_rand_bits(&diehard_birthdays_rand_uint[m],sizeof(uint),nbits,rng);
-     } else {
-       bitstring = get_uint_rand(rng);
-       offset = bitstring%rmax_bits;
-       /*
-        * Fix suggested by Charles Karney.  I'm using new routines from
-	* bits to make this faster.  Note that this gets an nbits-wide
-	* window from 32 guaranteed sequential bits returned from the rng
-	* with a random offset, discarding 64-nbits bits from the generator
-	* per nbits tested.  Not that desireable, really, but as far as I
-	* can tell NONE of this matters.
-        */
-       bitstring = get_uint_rand(rng);
-       diehard_birthdays_rand_uint[m] =
-            b_rotate_right(bitstring,offset)&b_umask(8,31);
-     }
+     /*
+      * This tests PRECISELY nbits guaranteed sequential bits from the
+      * generator, with no gaps.  We could actually test 32.
+      *
+      * Note -- removed all reference to overlap.
+      */
+     get_rand_bits(&rand_uint[m],sizeof(uint),nbits,rng);
      MYDEBUG(D_DIEHARD_BDAY){
        printf("  %d-bit int = ",nbits);
        /* Should count dump from the right, sorry */
-       dumpbits(&diehard_birthdays_rand_uint[m],32);
+       dumpbits(&rand_uint[m],32);
        printf("\n");
      }
    }
@@ -160,13 +151,13 @@ void diehard_birthdays(Test **test, int irun)
     */
    MYDEBUG(D_DIEHARD_BDAY){
      for(m=0;m<nms;m++){
-       printf("Before sort %u:  %u\n",m,diehard_birthdays_rand_uint[m]);
+       printf("Before sort %u:  %u\n",m,rand_uint[m]);
      }
    }
-   gsl_sort_uint(diehard_birthdays_rand_uint,1,nms);
+   gsl_sort_uint(rand_uint,1,nms);
    MYDEBUG(D_DIEHARD_BDAY){
      for(m=0;m<nms;m++){
-       printf("After sort %u:  %u\n",m,diehard_birthdays_rand_uint[m]);
+       printf("After sort %u:  %u\n",m,rand_uint[m]);
      }
    }
 
@@ -174,9 +165,9 @@ void diehard_birthdays(Test **test, int irun)
     * We create the intervals between entries in the sorted
     * list and sort THEM.
     */
-   intervals[0] = diehard_birthdays_rand_uint[0];
+   intervals[0] = rand_uint[0];
    for(m=1;m<nms;m++){
-     intervals[m] = diehard_birthdays_rand_uint[m] - diehard_birthdays_rand_uint[m-1];
+     intervals[m] = rand_uint[m] - rand_uint[m-1];
    }
    gsl_sort_uint(intervals,1,nms);
    MYDEBUG(D_DIEHARD_BDAY){
@@ -259,6 +250,11 @@ void diehard_birthdays(Test **test, int irun)
  MYDEBUG(D_DIEHARD_BDAY){
    printf("# diehard_birthdays(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
+
+ nullfree(intervals);
+ nullfree(js);
+
+ return(0);
 
 }
 

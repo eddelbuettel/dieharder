@@ -59,6 +59,7 @@ PHP = $(PROJECT).php
 #========================================================================
 VERSION=@VERSION@
 RELEASE=@RELEASE@
+ENDIAN=@ENDIAN@
 
 #========================================================================
 # RPM/tarball target objects.  We need rules for all of these.
@@ -118,6 +119,7 @@ tgz: Makefile COPYING Copyright NOTES README $(SPEC) $(ABS) $(PHP)
 	cd ..; \
 	cp -r $(MANUAL) $(PROJECTDIR); \
 	cp -r include $(PROJECTDIR); \
+	cp -r m4 $(PROJECTDIR); \
 	cp $(ABS) $(PROJECTDIR); \
 	cp $(PHP) $(PROJECTDIR); \
 	cp Makefile $(PROJECTDIR); \
@@ -128,6 +130,7 @@ tgz: Makefile COPYING Copyright NOTES README $(SPEC) $(ABS) $(PHP)
 	cp $(SPEC).in $(PROJECTDIR); \
 	cp dieharder_version.h.in $(PROJECTDIR); \
 	cp dieharder.html.in $(PROJECTDIR); \
+	cp dieharder-config.in $(PROJECTDIR); \
 	cp autogen.sh $(PROJECTDIR); \
 	cp missing $(PROJECTDIR); \
 	cp aclocal.m4 $(PROJECTDIR); \

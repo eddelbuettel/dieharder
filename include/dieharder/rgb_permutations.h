@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void rgb_permutations(Test **test,int irun);
+int rgb_permutations(Test **test,int irun);
 
 static Dtest rgb_permutations_dtest = {
   "RGB Permutations Test",
@@ -23,13 +23,8 @@ static Dtest rgb_permutations_dtest = {
 #\n",
   100,     /* Default psamples */
   100000,  /* Default tsamples */
-  1        /* We magically make all the bit tests return a single histogram */
+  1,       /* We magically make all the bit tests return a single histogram */
+  rgb_permutations,
+  0
 };
 
-/*
- * Global variables.
- *
- * rgb_permutations_k is the number of rands used to form a permutation
- * index for the count vector.
- */
-uint rgb_permutations_k;

@@ -128,7 +128,7 @@ static int report( u4 *data, u4 *data2, u4 length, int print)
   worst /= length;
   if (worst > CUTOFF) {
     if (print) {
-      printf("iii=%2d jjj=%2d kkk=%2d worst=%14.4f\n", 
+      printf("iii=%2lu jjj=%2lu kkk=%2lu worst=%14.4f\n", 
 	     iii, jjj, kkk, (float)worst);
     }
     return 1;
@@ -175,5 +175,8 @@ int main_rngav( int argc, char **argv)
 
   time(&z);
 
-  printf("number of seconds: %6d\n", (size_t)(z-a));
+  printf("number of seconds: %6lu\n", (size_t)(z-a));
+
+  return 0;
+
 }

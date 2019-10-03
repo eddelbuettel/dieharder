@@ -1,9 +1,13 @@
 /*
+ * ========================================================================
+ * $Id: diehard_birthdays.c 250 2006-10-10 05:02:26Z rgb $
+ *
  * See copyright in copyright.h and the accompanying file COPYING
+ * ========================================================================
  */
 
 /*
- *========================================================================
+ * ========================================================================
  * This is the Diehard BINARY RANK 6x8 test, rewritten from the 
  * description in tests.txt on George Marsaglia's diehard site.
  *
@@ -16,8 +20,7 @@
  * random matrices, and a chi-square test is performed on        ::
  * counts for ranks 6,5 and <=4.                                 ::
  *
- *                          Comments
- *===================================================================
+ * ===================================================================
  */
 
 #include <dieharder/libdieharder.h>
@@ -27,17 +30,31 @@
  */
 #include "static_get_bits.c"
 
-void diehard_rank_6x8(Test **test, int irun)
+int diehard_rank_6x8(Test **test, int irun)
 {
 
 
  int i,j,k,t,rank,offset;
  double r,smax,s;
- 
  uint bitstring,rmask,mask;
+ uint **mtx;
  Vtest vtest;
 
- Vtest_create(&vtest,7,"diehard_rank_6x8",gsl_rng_name(rng));
+ MYDEBUG(D_DIEHARD_RANK_6x8){
+   fprintf(stdout,"# diehard_rank_6x8():  Starting test.\n");
+ }
+
+ /*
+  * for display only.  0 means "ignored".
+  */
+ test[0]->ntuple = 0;
+
+ mtx = (uint **)malloc(6*sizeof(uint *));
+ for(i=0;i<6;i++){
+   mtx[i] = (uint *)malloc(8*sizeof(uint));
+ }
+
+ Vtest_create(&vtest,7);
  vtest.cutoff = 5.0;
  for(i=0;i<2;i++){
    vtest.x[0] = 0.0;
@@ -59,26 +76,27 @@ void diehard_rank_6x8(Test **test, int irun)
    /*
     * We generate 6 random rmax_bits-bit integers and put a
     * randomly chosen byte into the LEFTMOST byte position
-    * of the row/slot of diehard_rank_6x8_mtx.
+    * of the row/slot of mtx.
     */
-   if(verbose == D_DIEHARD_RANK_6x8 || verbose == D_ALL){
-     printf("# diehard_rank_6x8(): Input random matrix = \n");
+   MYDEBUG(D_DIEHARD_RANK_6x8){
+     fprintf(stdout,"# diehard_rank_6x8(): Input random matrix = \n");
    }
    for(i=0;i<6;i++){
-     if(verbose == D_DIEHARD_RANK_6x8 || verbose == D_ALL){
-       printf("# ");
+     MYDEBUG(D_DIEHARD_RANK_6x8){
+       fprintf(stdout,"# ");
      }
 
      bitstring = get_rand_bits_uint(32,0xffffffff,rng);
-     diehard_rank_6x8_mtx[i][0] = bitstring;
+     mtx[i][0] = bitstring;
 
-     if(verbose == D_DIEHARD_RANK_6x8 || verbose == D_ALL){
-       dumpbits(diehard_rank_6x8_mtx[i],32);
+     MYDEBUG(D_DIEHARD_RANK_6x8){
+       dumpbits(mtx[i],32);
+       fprintf(stdout,"\n");
      }
    }
 
-   rank = binary_rank(diehard_rank_6x8_mtx,6,8);
-   if(verbose == D_DIEHARD_RANK_6x8 || verbose == D_ALL){
+   rank = binary_rank(mtx,6,8);
+   MYDEBUG(D_DIEHARD_RANK_6x8){
      printf("binary rank = %d\n",rank);
    }
 
@@ -98,6 +116,13 @@ void diehard_rank_6x8(Test **test, int irun)
  }
 
  Vtest_destroy(&vtest);
+
+ for(i=0;i<6;i++){
+   free(mtx[i]);
+ }
+ free(mtx);
+
+ return(0);
 
 }
 

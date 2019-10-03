@@ -22,13 +22,27 @@
 
 #include <dieharder/libdieharder.h>
 
-void diehard_3dsphere(Test **test, int irun)
+#define POINTS_3D 4000
+#define DIM_3D 3
+
+typedef struct {
+  double x[DIM_3D];
+} C3_3D;
+ 
+int diehard_3dsphere(Test **test, int irun)
 {
 
  int i,j,k,l,m;
  C3_3D *c3;
  double r1,r2,r3,rmin,r3min;
  double xdelta,ydelta,zdelta;
+
+ /*
+  * for display only.  Test dimension is 3, of course.
+  */
+ test[0]->ntuple = 3;
+
+ r3min = 0;
 
  /*
   * This one should be pretty straightforward.  Generate a vector
@@ -80,6 +94,10 @@ void diehard_3dsphere(Test **test, int irun)
  MYDEBUG(D_DIEHARD_3DSPHERE) {
    printf("# diehard_3dsphere(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
+
+ nullfree(c3);
+
+ return(0);
 
 }
 

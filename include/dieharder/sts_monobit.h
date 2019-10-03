@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void sts_monobit(Test **test,int irun);
+int sts_monobit(Test **test,int irun);
 
 static Dtest sts_monobit_dtest = {
   "STS Monobit Test",
@@ -20,6 +20,8 @@ static Dtest sts_monobit_dtest = {
 #==================================================================\n",
   100,
   100000,
-  1
+  1,
+  sts_monobit,
+  0
 };
 

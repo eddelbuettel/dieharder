@@ -35,17 +35,24 @@
  * maximal reuse of code in the UI or elsewhere.
  */
 
+static uint save_psamples;
+
 /*
  * Create a new test that will return nkps p-values per single pass,
  * for psamples passes.  dtest is a pointer to a struct containing
  * the test description and default values for tsamples and psamples.
  * This should be called before a test is started in the UI.
  */
-Test **create_test(Dtest *dtest, uint tsamples,uint psamples, void (*testfunc)())
+Test **create_test(Dtest *dtest, uint tsamples,uint psamples)
 {
 
- int i,j,k;
+ uint i,j,k;
+ uint pcutoff;
  Test **newtest;
+
+ MYDEBUG(D_STD_TEST){
+   fprintf(stdout,"# create_test(): About to create test %s\n",dtest->sname);
+ }
 
  /*
   * Here we have to create a vector of tests of length nkps
@@ -58,13 +65,20 @@ Test **create_test(Dtest *dtest, uint tsamples,uint psamples, void (*testfunc)()
  }
 
  /*
-  * Initialize the newtests
+  * Initialize the newtests.  The implementation of TTD (test to
+  * destruction) modes makes this inevitably a bit complex.  In
+  * particular, we have to malloc the GREATER of Xoff and psamples in
+  * newtest[i]->pvalues to make room for more pvalues right up to the
+  * Xoff cutoff.
   */
  for(i=0;i<dtest->nkps;i++){
+
    /*
     * Do a standard test if -a(ll) is selected no matter what people enter
     * for tsamples or psamples.  ALSO use standard values if tsamples or
-    * psamples are 0 (not initialized).
+    * psamples are 0 (not initialized).  HOWEVER, note well the new control
+    * for psamples that permits one to scale the standard number of psamples
+    * in an -a(ll) run by multiply_p.
     */
    if(all == YES || tsamples == 0){
      newtest[i]->tsamples = dtest->tsamples_std;
@@ -72,40 +86,43 @@ Test **create_test(Dtest *dtest, uint tsamples,uint psamples, void (*testfunc)()
      newtest[i]->tsamples = tsamples;
    }
    if(all == YES || psamples == 0){
-     newtest[i]->psamples = dtest->psamples_std;
+     newtest[i]->psamples = dtest->psamples_std*multiply_p;
+	 if (newtest[i]->psamples < 1) newtest[i]->psamples = 1;
    } else {
      newtest[i]->psamples = psamples;
    }
-     
+
+   /* Give ntuple an initial value of zero; most tests will set it. */
+   newtest[i]->ntuple = 0;
+
    /*
     * Now we can malloc space for the pvalues vector, and a
     * single (80-column) LINE for labels for the pvalues.  We default
     * the label to a line of #'s.
     */
-   newtest[i]->pvalues = (double *)malloc((size_t)newtest[i]->psamples*sizeof(double));
+   if(Xtrategy != 0 && Xoff > newtest[i]->psamples){
+     pcutoff = Xoff;
+   } else {
+     pcutoff = newtest[i]->psamples;
+   }
+   newtest[i]->pvalues = (double *)malloc((size_t)pcutoff*sizeof(double));
    newtest[i]->pvlabel = (char *)malloc((size_t)LINE*sizeof(char));
    snprintf(newtest[i]->pvlabel,LINE,"##################################################################\n");
-   for(j=0;j<newtest[i]->psamples;j++){
+   for(j=0;j<pcutoff;j++){
      newtest[i]->pvalues[j] = 0.0;
    }
 
    /*
-    * This is the actual test function.  It should take a test pointer as
-    * input and fill in nkps pvalues at the appropriate offset in the
-    * pvalues vector.
-    */
-   newtest[i]->testfunc = testfunc;
-
-   /*
-    * Finally, we initialize ks_pvalue "just because".
+    * Finally, we initialize ks_pvalue so that std_test() knows the next
+    * call is the first call.  It will be nonzero after the first call.
     */
    newtest[i]->ks_pvalue = 0.0;
 
-   /*
-   printf("Allocated and set newtest->tsamples = %d\n",newtest[i]->tsamples);
-   printf("Allocated and set newtest->psamples = %d\n",newtest[i]->psamples);
-   printf("Allocated a vector of pvalues at %0x\n",newtest[i]->pvalues);
-   */
+   MYDEBUG(D_STD_TEST){
+     printf("Allocated and set newtest->tsamples = %d\n",newtest[i]->tsamples);
+     printf("Xtrategy = %u -> pcutoff = %u\n",Xtrategy,pcutoff);
+     printf("Allocated and set newtest->psamples = %d\n",newtest[i]->psamples);
+   }
 
  }
 
@@ -144,43 +161,136 @@ void destroy_test(Dtest *dtest, Test **test)
 
 }
 
+/*
+ * Clear a test.  This must be called if one wants to call std_test()
+ * twice after creating it and have the second call just add samples to
+ * the previous call.  std_test needs the vector of ks_psamples
+ * accumulated so far to be clear, and for test[i]->psamples to be
+ * reset to its original/default value.  I'm not sure that one cannot
+ * screw this up by creating multiple tests and running interleaved
+ * std_tests and clear_tests, but at least it makes it challenging to
+ * do so.
+ */
+void clear_test(Dtest *dtest, Test **test)
+{
+
+ int i;
+
+ /*
+  * reset psamples and clear the ks_pvalues
+  */
+ for(i=0;i<dtest->nkps;i++){
+   if(all == YES || psamples == 0){
+     test[i]->psamples = dtest->psamples_std*multiply_p;
+   } else {
+     test[i]->psamples = psamples;
+   }
+   test[i]->ks_pvalue = 0.0;
+ }
+
+ /*
+  * At this point you can call std_test() and it will start over, instead
+  * of just adding more samples to a run for this particular test.
+  */
+   
+}
+
+/*
+ * Test To Destruction (TTD) or Resolve Ambiguity (RA) modes require one
+ * to iterate, adding psamples until:
+ *
+ *    TTD -- a test either fails or completes Xoff psamples without
+ *           completely failing.
+ *     RA -- a test that is initially "weak" (compared to Xweak) either
+ *           fails or gets back up over 0.05 or completes Xoff psamples
+ *           without completely failing.
+ *
+ * This routine just adds count (usually Xstep) psamples to a test.  It
+ * is called by std_test() in two modes -- first call and TTD/RA (add more
+ * samples) mode.  This is completely automagic, though.
+ *
+ * Note that Xoff MUST remain global, if nothing else.  Otherwise we
+ * can run out of allocated headroom in the pvalues vector.
+ */
+void add_2_test(Dtest *dtest, Test **test, int count)
+{
+
+ uint i,j,k,imax;
+
+
+ /*
+  * Will count carry us over Xoff?  If it will, stop at Xoff and
+  * adjust count to match.  test[0]->psamples is the running total
+  * of how many samples we have at the end of it all.
+  */
+ imax = test[0]->psamples + count;
+ if(imax > Xoff) imax = Xoff;
+ count = imax - test[0]->psamples;
+ for(i = test[0]->psamples; i < imax; i++){
+   dtest->test(test,i);
+ }
+
+ for(j = 0;j < dtest->nkps;j++){
+   /*
+    * Don't forget to count the new number of samples and use it in the
+    * new KS test.
+    */
+   test[j]->psamples += count;
+
+   if(ks_test >= 3){
+     /*
+      * This (Kuiper KS) can be selected with -k 3 from the command line.
+      * Generally it is ignored.  All smaller values of ks_test are passed
+      * through to kstest() and control its precision (and speed!).
+      */
+     test[j]->ks_pvalue = kstest_kuiper(test[j]->pvalues,test[j]->psamples);
+   } else {
+     /* This is (symmetrized Kolmogorov-Smirnov) is the default */
+     test[j]->ks_pvalue = kstest(test[j]->pvalues,test[j]->psamples);
+   }
+
+ }
+ /* printf("test[0]->ks_pvalue = %f\n",test[0]->ks_pvalue); */
+
+}
+   
+/*
+ * std_test() checks to see if this is the first call by looking at
+ * all the ks_pvalues.  If they are zero, it assumes first call (in
+ * general they will be clear only right after create_test or clear_test
+ * have been called).  If it is first call, it calls add_2_test() in just
+ * the right way to create test[0]->psamples, starting with 0.  If it is
+ * the second or beyond call, it just adds Xstep more psamples to the
+ * vector, up to the cutoff Xoff.
+ */
 void std_test(Dtest *dtest, Test **test)
 {
 
- int i,j;
+ int i,j,count;
+ double pmax = 0.0;
 
  /*
-  * Use test[0]->psamples by default.  The others (if any) should
-  * be the same anyway, see create_test() above.
-  */
- for(i=0;i<test[0]->psamples;i++){
-
-   /*
-    * Reseed every sample IF input isn't from a file AND if no seed was
-    * specified on the command line.  Note that this should not generally
-    * be necessary or desireable, so there really should be an additional
-    * control parameter that regulates whether or not this reseeding
-    * occurs.  The main reason I do it is so that NO TWO RUNS ARE ALIKE,
-    * permitting marginal results to be at least occasionally resolved
-    * with a few more runs (although it is better in general to do this
-    * by increasing psamples).
-    */
-   if(fromfile == 0 && Seed == 0){
-     seed = random_seed();
-     gsl_rng_set(rng,seed);
-   }
-
-   test[0]->testfunc(test,i);
-
- }
-
- /*
-  * evaluate the final test p-values for each individual test statistic
-  * computed during the one run of nkps trials.
+  * First we see if this is the first call.  If it is, we save
+  * test[0]->psamples as count, then call add_2_test().  We determine
+  * first call by checking the vector of pvalues and seeing if they
+  * are all still zero (something that should pretty much never happen
+  * except on first call).
   */
  for(j = 0;j < dtest->nkps;j++){
-   test[j]->ks_pvalue = kstest_kuiper(test[j]->pvalues,test[j]->psamples);
+   if(test[j]->ks_pvalue > pmax) pmax = test[j]->ks_pvalue;
  }
+ if(pmax == 0.0){
+   /* First call */
+   count = test[0]->psamples;
+   for(j = 0;j < dtest->nkps;j++){
+     test[j]->psamples = 0;
+   }
+ } else {
+   /* Add Xstep more samples */
+   count = Xstep;
+ }
+
+ add_2_test(dtest,test,count);
 
 }
 

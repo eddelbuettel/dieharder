@@ -28,7 +28,7 @@ static void file_input_raw_set (void *vstate, unsigned long int s);
  *   fp is the file pointer
  *   flen is the number of rands in the file (filecount)
  *   rptr is a count of rands returned since last rewind
- *   rtot is  * a count of rands returned since the file was opened or it
+ *   rtot is a count of rands returned since the file was opened or it
  *      was deliberately reset.
  *   rewind_cnt is a count of how many times the file was rewound since
  *      its last open.
@@ -63,7 +63,7 @@ static unsigned long int file_input_raw_get(void *vstate)
    state->rptr++;
    state->rtot++;
    if(verbose){
-     fprintf(stdout,"# file_input() %u: %u/%u -> %u\n",state->rtot,state->rptr,state->flen,iret);
+     fprintf(stdout,"# file_input() %u: %u/%u -> %u\n",(uint)state->rtot,(uint)state->rptr,(uint)state->flen,(uint)iret);
    }
 
    /*
@@ -108,7 +108,7 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
 
  if(verbose == D_FILE_INPUT_RAW || verbose == D_ALL){
    fprintf(stdout,"# file_input_raw(): entering file_input_raw_set\n");
-   fprintf(stdout,"# file_input_raw(): state->fp = %0x, seed = %lu\n",state->fp,s);
+   fprintf(stdout,"# file_input_raw(): state->fp = %p, seed = %lu\n",state->fp,s);
  }
 
  /*
@@ -119,6 +119,14 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
    if(verbose){
      fprintf(stdout,"# file_input_raw(): entering file_input_raw_set 1st call.\n");
    }
+
+   /*
+    * This clears an obscure bug in FreeBSD reported by Lucius Windschuh,
+    * lwindschuh@googlemail.com, I think.  Otherwise it should be
+    * harmless.  It just initializes state->fp to 0 so that the file
+    * correctly opens later.
+    */
+   state->fp = NULL;
 
    if(stat(filename, &sbuf)){
      if(errno == EBADF){
@@ -141,7 +149,7 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
      state->flen = sbuf.st_size/sizeof(uint);
      filecount = state->flen;
      if (filecount < 16) {
-       fprintf(stderr,"# file_input_raw(): Error -- file is too small.\n",filename);
+       fprintf(stderr,"# file_input_raw(): Error -- file %s is too small.\n",filename);
        exit(0);
      }
    } else if (S_ISDIR(sbuf.st_mode)){
@@ -195,7 +203,7 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
     */
    if(verbose == D_FILE_INPUT_RAW || verbose == D_ALL){
      fprintf(stdout,"# file_input_raw(): Opened %s for the first time.\n", filename);
-     fprintf(stdout,"# file_input_raw(): state->fp is %08x, file contains %u unsigned integers.\n",state->fp,state->flen);
+     fprintf(stdout,"# file_input_raw(): state->fp is %8p, file contains %u unsigned integers.\n",state->fp,(uint)state->flen);
    }
    state->rptr = 0;  /* No rands read yet */
    /*
@@ -219,8 +227,8 @@ static void file_input_raw_set (void *vstate, unsigned long int s)
      state->rptr = 0;
      state->rewind_cnt++;
      if(verbose == D_FILE_INPUT_RAW || verbose == D_ALL){
-       fprintf(stderr,"# file_input_raw(): Rewinding %s at rtot = %u\n", filename,state->rtot);
-       fprintf(stderr,"# file_input_raw(): Rewind count = %u, resetting rptr = %lu\n",state->rewind_cnt,state->rptr);
+       fprintf(stderr,"# file_input_raw(): Rewinding %s at rtot = %u\n", filename,(uint) state->rtot);
+       fprintf(stderr,"# file_input_raw(): Rewind count = %u, resetting rptr = %u\n",state->rewind_cnt,(uint) state->rptr);
      }
    } else {
      return;

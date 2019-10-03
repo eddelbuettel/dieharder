@@ -1,7 +1,5 @@
 /*
  *========================================================================
- * $Id: libdieharder.h 248 2006-10-09 17:59:54Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
  */
@@ -39,7 +37,8 @@
 #include <dieharder/Vtest.h>
 #include <dieharder/std_test.h>
 #include <dieharder/tests.h>
-#include <dieharder/dieharder_types.h>
+#include <dieharder/dieharder_rng_types.h>
+#include <dieharder/dieharder_test_types.h>
 
 /*
  *========================================================================
@@ -70,6 +69,14 @@
  */
 #define nullfree(a) {free(a);a = 0;}
 
+/*
+ * This is how one gets a macro into quotes; an important one to keep
+ * in all program templates.
+ */
+#define _QUOTEME(x) #x
+#define QUOTEME(x) _QUOTEME(x)
+
+
  /*
   *========================================================================
   * Subroutine Prototypes
@@ -86,18 +93,24 @@
  double chisq_eval(double *x,double *y,double *sigma, unsigned int n);
  double chisq_poisson(uint *observed,double lambda,int kmax,uint nsamp);
  double chisq_binomial(double *observed,double prob,uint kmax,uint nsamp);
+ double chisq_pearson(double *observed,double *expected,int kmax);
  double sample(void *testfunc());
  double kstest(double *pvalue,int count);
  double kstest_kuiper(double *pvalue,int count);
  double q_ks(double x);
- double q_ks_kuiper(double x);
+ double q_ks_kuiper(double x,int count);
+
+ void histogram(double *input, char *pvlabel, int inum, double min, double max, int nbins, char *label);
 
  uint get_bit_ntuple(uint *bitstring,uint bslen,uint blen,uint boffset);
  void dumpbits(unsigned int *data, unsigned int nbits);
- uint get_uint_rand(gsl_rng *gsl_rng);
+ void dumpbitwin(uint data, uint nbits);
+ void dumpuintbits(unsigned int *data, unsigned int nbits);
  void cycle(unsigned int *data, unsigned int nbits);
  int get_bit(uint *rand_uint, unsigned int n);
- int get_int_bit(uint i, uint n);
+ int get_bit(uint *rand_uint, unsigned int n);
+ void dumpbits_left(unsigned int *data, unsigned int nbits);
+ unsigned int bit2uint(char *abit,unsigned int blen);
  void fill_uint_buffer(uint *data,uint buflength);
  uint b_umask(uint bstart,uint bstop);
  uint b_window(uint input,uint bstart,uint bstop,uint boffset);
@@ -107,8 +120,17 @@
     uint *output,uint jlen,uint ntuple,uint offset);
  uint get_uint_rand(gsl_rng *gsl_rng);
  void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng);
- 
+ void mybitadd(char *dst, int doffset, char *src, int soffset, int slen);
+ void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng);
+ void reset_bit_buffers();
+
+/* Cruft
+ int get_int_bit(uint i, uint n);
+*/
+
  void add_lib_rngs();
+
+ int binary_rank(uint **mtx,int mrows,int ncols);
     
  /*
   *========================================================================
@@ -117,30 +139,59 @@
   * The primary control variables, in alphabetical order, with comments.
   *========================================================================
   */
- int all;               /* Flag to do all tests on selected generator */
- int binary;            /* Flag to output rands in binary (with -o -f) */
- int bits;              /* bitstring size (in bits) */
- int diehard;           /* Diehard test number */
- int generator;         /* GSL generator id number to be tested */
- int help_flag;         /* Help flag */
- int hist_flag;         /* Histogram display flag */
- int iterations;	/* For timing loop, set iterations to be timed */
- int list;              /* List all tests flag */
- int List;              /* List all generators flag */
- int ntuple;            /* n-tuple size for n-tuple tests */
- int num_randoms;	/* the number of randoms stored into memory and usable */
- int output_file;	/* equals 1 if you output to file, otherwise 0. */
- int overlap;           /* equals 1 if you really want to use diehard overlap */
- int psamples;          /* Number of test runs in final KS test */
- int quiet;             /* quiet flag -- surpresses full output report */
- int rgb;               /* rgb test number */
- int sts;               /* sts test number */
+ uint all;              /* Flag to do all tests on selected generator */
+ uint binary;           /* Flag to output rands in binary (with -o -f) */
+ uint bits;             /* bitstring size (in bits) */
+ uint diehard;          /* Diehard test number */
+ uint generator;        /* GSL generator id number to be tested */
+ /*
+  * We will still need generator above, if only to select the XOR
+  * generator.  I need to make its number something that will pretty much
+  * never collide, e.g. -1 cast to a uint.  I'm making an arbitrary
+  * decision to set the upper bound of the number of generators that can
+  * be XOR'd together to 100, but of course as a macro you can increase or
+  * decrease it and recompile.  Ordinarily, users will not select XOR --
+  * they will just select multiple generators and XOR will automatically
+  * become the generator.
+  *
+  * Note well that at the moment one will NOT be able to XOR multiple
+  * instances of the file or stdin generators, in the latter case for
+  * obvious reasons.  One SHOULD be able to XOR a file stream with any
+  * of the built in generators.
+  */
+#define GVECMAX 100
+ char gnames[GVECMAX][128];  /* VECTOR of names to be XOR'd into a "super" generator */
+ uint gseeds[GVECMAX];       /* VECTOR of uint seeds used for the "super" generators */
+ uint gnumbs[GVECMAX];       /* VECTOR of GSL generators to be XOR'd into a "super" generator */
+ uint gvcount;               /* Number of generators to be XOR'd into a "super" generator */
+ uint gscount;               /* Number of seeds entered on the CL in XOR mode */
+ uint help_flag;        /* Help flag */
+ uint hist_flag;        /* Histogram display flag */
+ uint iterations;	/* For timing loop, set iterations to be timed */
+ uint ks_test;          /* Selects the KS test to be used, 0 = Kuiper 1 = Anderson-Darling */
+ uint list;             /* List all tests flag */
+ uint List;             /* List all generators flag */
+ double multiply_p;	/* multiplier for default # of psamples in -a(ll) */
+ uint ntuple;           /* n-tuple size for n-tuple tests */
+ uint num_randoms;      /* the number of randoms stored into memory and usable */
+ uint output_file;      /* equals 1 if you output to file, otherwise 0. */
+ uint output_format;    /* equals 0 (binary), 1 (uint), 2 (decimal) output */
+ uint overlap;          /* 1 use overlapping samples, 0 don't (for tests with the option) */
+ uint psamples;         /* Number of test runs in final KS test */
+ uint quiet;            /* quiet flag -- surpresses full output report */
+ uint rgb;              /* rgb test number */
+ uint sts;              /* sts test number */
  uint Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
- off_t tsamples;         /* Generally should be "a lot".  off_t is u_int64_t. */
- int user;              /* user defined test number */
- int verbose;           /* Default is not to be verbose. */
- double x_user;         /* General purpose command line inputs for use */
- double y_user;         /* in any test. */
+ off_t tsamples;        /* Generally should be "a lot".  off_t is u_int64_t. */
+ uint user;             /* user defined test number */
+ uint verbose;          /* Default is not to be verbose. */
+ double Xweak;          /* "Weak" generator cut-off (one sided) */
+ double Xfail;          /* "Unambiguous Fail" generator cut-off (one sided) */
+ uint Xtrategy;         /* Strategy used in TTD mode */
+ uint Xstep;            /* Number of additional psamples in TTD/RA mode */
+ uint Xoff;             /* Max number of psamples in TTD/RA mode */
+ double x_user;         /* Reserved general purpose command line inputs for */
+ double y_user;         /* use in any new user test. */
  double z_user;
   
  /*
@@ -175,7 +226,7 @@
   * file_input_raw.
   */
  uint file_input_get_rewind_cnt(gsl_rng *rng);
- uint file_input_get_rtot(gsl_rng *rng);
+ off_t file_input_get_rtot(gsl_rng *rng);
  void file_input_set_rtot(gsl_rng *rng,uint value);
 
  char filename[K];      /* Input file name */
@@ -202,8 +253,8 @@
  typedef struct {
     FILE *fp;
     off_t flen;
-    uint rptr;
-    uint rtot;
+    off_t rptr;
+    off_t rtot;
     uint rewind_cnt;
   } file_input_state_t;
 
@@ -226,4 +277,16 @@
  unsigned int rmax;             /* scratch space for random_max manipulation */
  unsigned int rmax_bits;        /* Number of valid bits in rng */
  unsigned int rmax_mask;        /* Mask for valid section of uint */
+ 
+/*
+ * dTuple is used in a couple of my tests, but it seems like an
+ * accident waiting to happen with it only 5 dimensions.
+ *
+ * For the moment we'll restrict ourselves to the five dimensions
+ * for which we have Q.  To go further, we need more Q.
+ */
+#define RGB_MINIMUM_DISTANCE_MAXDIM 5
+typedef struct {
+  double c[RGB_MINIMUM_DISTANCE_MAXDIM];
+} dTuple;
  

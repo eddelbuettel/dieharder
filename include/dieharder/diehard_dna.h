@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_dna(Test **test,int irun);
+int diehard_dna(Test **test,int irun);
 
 static Dtest diehard_dna_dtest = {
   "Diehard DNA Test",
@@ -30,9 +30,8 @@ static Dtest diehard_dna_dtest = {
 #==================================================================\n",
   100,
   2097152,
-  1
+  1,
+  diehard_dna,
+  0
 };
 
-/*
- * Global variables (none in this case)
- */

@@ -1,8 +1,7 @@
 /*
- * $Id: diehard_operm5.c 230 2006-08-22 05:31:54Z rgb $
- *
+ * ========================================================================
  * See copyright in copyright.h and the accompanying file COPYING
- *
+ * ========================================================================
  */
 
 /*
@@ -10,7 +9,7 @@
  * This is the Diehard OPERM5 test, rewritten from the description
  * in tests.txt on George Marsaglia's diehard site.
  *
- *          THE OVERLAPPING 5-PERMUTATION TEST                 ::
+ *          THE OVERLAPPING 5-PERMUTATION TEST                   ::
  * This is the OPERM5 test.  It looks at a sequence of one mill- ::
  * ion 32-bit random integers.  Each set of five consecutive     ::
  * integers can be in one of 120 states, for the 5! possible or- ::
@@ -24,21 +23,40 @@
  * tribution with the specified 120x120 covariance matrix (with  ::
  * rank 99).  This version uses 1,000,000 integers, twice.       ::
  *
- * Note -- this test almost certainly has errors.  It has been
- * suggested that the actual rank is 5!-4!=96, not 99.  However,
- * "good" generators still fail this test with the lower rank.
- * I really think that the covariance matrix is going to have to
- * recomputed...
+ * Note -- the original diehard test almost certainly had errors,
+ * as did the documentation.  For example, the actual rank is
+ * 5!-4!=96, not 99.  The original dieharder version validated
+ * against the c port of dieharder to give the same answers from
+ * the same data, but failed gold-standard generators such as AES
+ * or the XOR supergenerator with AES and several other top rank
+ * generators.  Frustration with trying to fix the test with very
+ * little useful documentation caused me to eventually write
+ * the rgb permutations test, which uses non-overlapping samples
+ * (and hence avoids the covariance problem altogether) and can
+ * be used for permutations of other than 5 integers.  I was able
+ * to compute the covariance matrix for the problem, but was unable
+ * break it down into the combination of R, S and map that Marsaglia
+ * used, and I wanted to (if possible) use the GSL permutations
+ * routines to count/index the permutations, which yield a different
+ * permutation index from Marsaglia's (adding to the problem).
  *
- *                       Comment
- * Good test.  Just about everything fails it.  It is validated
- * to the extent humanly possible against the last c port of
- * diehard that I could find (die.c) on the remaining diehard
- * mirror but it is complicated enough (and poorly documented
- * enough) that I worry.  One lousy error in the r[][], s[][]
- * or map[] vector data and we'd get slightly wrong answers
- * and never know it, but we get the SAME answers right now
- * either way from the same data.
+ * Fortunately, Stephen Moenkehues (moenkehues@googlemail.com) was
+ * bored and listless and annoyed all at the same time while using
+ * dieharder to test his SWIFFTX rng, a SHA3-candidate and fixed
+ * diehard_operm5.  His fix avoids the R, S and map -- he too went
+ * the route of directly computing the correlation matrix but he
+ * figured out how to transform the correlation matrix plus the
+ * counts from a run directly into the desired statistic (a thing
+ * that frustrated me in my own previous attempts) and now it works!
+ * He even made it work (correctly) in overlapping and non-overlapping
+ * versions, so one can invoke dieharder with the -L 1 option and run
+ * what should be the moral equivalent of the rgb permutation test at
+ * -n 5!
+ *
+ * So >>thank you<< Stephen!  Thank you Open Source development
+ * process!  Thank you Ifni, Goddess of Luck and Numbers!  And anybody
+ * who wants to tackle the remaining diehard "problem" tests, (sums in
+ * particular) should feel free to play through...
  *========================================================================
  */
 
@@ -49,19 +67,19 @@ static int tflag=0;
 static double tcount[120];
 
 /*
- * kperm computes the permutation number of a vector of five integers
- * passed to it.
- */
-uint kperm(uint v[],uint voffset)
+* kperm computes the permutation number of a vector of five integers
+* passed to it.
+*/
+int kperm(uint v[],uint voffset)
 {
 
- uint i,j,k,max;
- uint w[5];
- uint pindex,uret,tmp;
+ int i,j,k,max;
+ int w[5];
+ int pindex,uret,tmp;
 
  /*
-  * work on a copy of v, not v itself in case we are using overlapping
-  * 5-patterns.
+  * work on a copy of v, not v itself in case we are using
+  * overlapping 5-patterns.
   */
  for(i=0;i<5;i++){
    j = (i+voffset)%5;
@@ -73,6 +91,7 @@ uint kperm(uint v[],uint voffset)
    printf("%10u %10u %10u %10u %10u\n",w[0],w[1],w[2],w[3],w[4]);
    printf(" Permutations = \n");
  }
+
  pindex = 0;
  for(i=4;i>0;i--){
    max = w[0];
@@ -91,48 +110,24 @@ uint kperm(uint v[],uint voffset)
      printf("%10u %10u %10u %10u %10u\n",w[0],w[1],w[2],w[3],w[4]);
    }
  }
- if(pindex < 60 ){
-   uret = map[pindex];
- } else {
-   uret = pindex;
- }
+
+ uret = pindex;
 
  if(verbose == -1){
    printf(" => %u\n",pindex);
-   printf("map[%u] = %u\n",pindex,uret);
  }
 
  return uret;
-   
+
 }
 
-void diehard_operm5(Test **test, int irun)
+int diehard_operm5(Test **test, int irun)
 {
 
- uint i,j,k,kp,t,vind,v[5];
+ int i,j,k,kp,t,vind;
+ uint v[5];
  double count[120];
- double av,norm,x[60],y[60],chisq,ndof,pvalue;
-
- if(verbose == D_DIEHARD_OPERM5 || verbose == D_ALL){
-   printf("int r[][] = {\n");
-   for(i=0;i<60;i++){
-     printf("{");
-     for(j=0;j<59;j++){
-       printf("%10d, ",r[i][j]);
-     }
-     printf("%10d},\n",r[i][59]);
-   }
-   printf("};\n");
-   printf("int s[][] = {\n");
-   for(i=0;i<60;i++){
-     printf("{");
-     for(j=0;j<59;j++){
-       printf("%10d, ",s[i][j]);
-     }
-     printf("%10d},\n",s[i][59]);
-   }
-   printf("};\n");
- }
+ double av,norm,x[120],chisq,ndof,pvalue;
 
  /*
   * Zero count vector, was t(120) in diehard.f90.
@@ -144,6 +139,7 @@ void diehard_operm5(Test **test, int irun)
      tflag = 1;
    }
  }
+
  if(overlap){
    for(i=0;i<5;i++){
      v[i] = gsl_rng_get(rng);
@@ -154,6 +150,7 @@ void diehard_operm5(Test **test, int irun)
      v[i] = gsl_rng_get(rng);
    }
  }
+
  for(t=0;t<test[0]->tsamples;t++){
 
    /*
@@ -163,91 +160,91 @@ void diehard_operm5(Test **test, int irun)
     * determine whether or not to refill the entire v vector or just
     * rotate bytes.
     */
-   if(overlap){
-     kp = kperm(v,vind);
-     /* printf("kp = %u\n",kp); */
-     count[kp]++;
-     v[vind] = gsl_rng_get(rng);
-     vind = (vind+1)%5;
-   } else {
-     for(i=0;i<5;i++){
-       v[i] = gsl_rng_get(rng);
-     }
-     kp = kperm(v,0);
-     count[kp]++;
-     /*
-      * This is the other way to get the same result as above.  It
-      * yields the exact same numbers.  This strongly suggests that
-      * there is nothing wrong with the code, overlapping or not,
-      * relative to diehard.
-     for(i=0;i<4;i++){
-       v[i] = v[i+1];
-     }
-     v[4] = gsl_rng_get(rng);
-      */
-   }
+  if(overlap){
+    kp = kperm(v,vind);
+    count[kp] += 1;
+    v[vind] = gsl_rng_get(rng);
+    vind = (vind+1)%5;
+  } else {
+    for(i=0;i<5;i++){
+      v[i] = gsl_rng_get(rng);
+    }
+    kp = kperm(v,0);
+    count[kp] += 1;
+  }
  }
 
- MYDEBUG(D_DIEHARD_OPERM5){
-   for(i=0;i<120;i++){
-     printf("%u: %f\n",i,count[i]);
-   }
- }
  for(i=0;i<120;i++){
    tcount[i] += count[i];
    /* printf("%u: %f\n",i,tcount[i]); */
  }
 
- /*
-  * Now (at last) we compute the statistic and get a p-value.  The
-  * computation is straightforward, but involves the r and s matrices
-  * so it doesn't fit the existing X or B models.
-  */
  chisq = 0.0;
+ av = test[0]->tsamples/120.0;
+ norm = test[0]->tsamples; // this belongs to the pseudoinverse
  /*
-  * Not at all sure about this, yet.
+  * The pseudoinverse P of the covariancematrix C is computed for n = 1.
+  * If n = 100 the new covariancematrix is C_100 = 100*C. Therefore the
+  * new pseudoinverse is P_100 = (1/100)*P.  You can see this from the
+  * equation C*P*C = C
   */
- av = 2.0*test[0]->tsamples/120.0;
- norm = 2.e5*test[0]->tsamples;
- for(i=0;i<60;i++){
-   x[i] = count[i] + count[i+60] - av;
-   y[i] = count[i] - count[i+60];
-   /* printf("count[%u] = %f  count[%u] = %f  x[%u] = %f  y[%u] = %f\n",i,count[i],i+60,count[i+60],i,x[i],i,y[i]);*/
+	
+ if(overlap==0){
+   norm = av;
  }
- for(i=0;i<60;i++){
-   for(j=0;j<60;j++){
-     chisq = chisq + x[i]*r[i][j]*x[j] + y[i]*s[i][j]*y[j];
+ for(i=0;i<120;i++){
+   x[i] = count[i] - av;
+ }
+
+ if(overlap){
+   for(i=0;i<120;i++){
+     for(j=0;j<120;j++){
+       chisq = chisq + x[i]*pseudoInv[i][j]*x[j];
+     }
    }
  }
- /*
-  * The absolute value "shouldn't" be necessary but it is -- every
-  * few hundred runs we get a negative chisq, which seems very
-  * plausible (actually) given the numbers and wierd chisq in the
-  * first place.  The other possibility (alas a very reasonable one)
-  * is that some of the numbers in r[][], s[][] or map[] are incorrect.
-  * Noting well that they AGREE with an INDEPENDENT PORT of diehard
-  * to C to 12 significant figures when run on identical binary files
-  * and flagged to use the same algorithm...
-  *
-  * It would be nice, so nice, to have SOME clue how to actually generate
-  * the matrices and other numbers since even a simple sign error on
-  * a single number could make the test useless and (incidentally) cause
-  * it to sometimes return a negative chisq.
-  *
-  * In the meantime, negative chisq causes the incomplete gamma function
-  * routine to crash, so we protect it with the fabs() call.
-  */
+
+ if(overlap==0){
+   for(i=0;i<120;i++){
+     chisq = chisq + x[i]*x[i];
+   }
+ }
+
+ if(verbose == -2){
+   printf("norm = %10.2f, av = %10.2f",norm,av);
+   for(i=0;i<120;i++){
+     printf("count[%u] = %4.0f; x[%u] = %3.2f ",i,count[i],i,x[i]);
+     if((i%2)==0){printf("\n");}
+   }
+   if((chisq/norm) >= 0){
+     printf("\n\nchisq/norm: %10.5f :-) and chisq: %10.5f\n",(chisq/norm), chisq);
+   }
+ }
+	
+ if((chisq/norm) < 0){
+   printf("\n\nCHISQ NEG.! chisq/norm: %10.5f and chisq: %10.5f",(chisq/norm), chisq);
+ }
+	
  chisq = fabs(chisq / norm);
- ndof = 96;
+
+ ndof = 96; /* the rank of the covariancematrix and the pseudoinverse */
+ if(overlap == 0){
+   ndof = 120-1;
+ }
+
  MYDEBUG(D_DIEHARD_OPERM5){
    printf("# diehard_operm5(): chisq[%u] = %10.5f\n",kspi,chisq);
  }
+
  test[0]->pvalues[irun] = gsl_sf_gamma_inc_Q((double)(ndof)/2.0,chisq/2.0);
+
  MYDEBUG(D_DIEHARD_OPERM5){
    printf("# diehard_operm5(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
 
  kspi++;
+
+ return(0);
 
 }
 

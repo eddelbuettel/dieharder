@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_sums(Test **test,int irun);
+int diehard_sums(Test **test,int irun);
 
 static Dtest diehard_sums_dtest = {
   "Diehard Sums Test",
@@ -22,17 +22,23 @@ static Dtest diehard_sums_dtest = {
 # to uniform variables for a KSTEST. The  p-values from ten     \n\
 # KSTESTs are given still another KSTEST.                       \n\
 #\n\
-# Note well:  -O causes the old diehard version to be run (more or\n\
-# less).  Omitting it causes non-overlapping sums to be used and \n\
-# directly tests the overall balance of uniform rands.\n\
+#                       Comments\n\
+#\n\
+# At this point I think there is rock solid evidence that this test\n\
+# is completely useless in every sense of the word.  It is broken,\n\
+# and it is so broken that there is no point in trying to fix it.\n\
+# The problem is that the transformation above is not linear, and\n\
+# doesn't work.  Don't use it.\n\
+#\n\
+# For what it is worth, rgb_lagged_sums with ntuple 0 tests for\n\
+# exactly the same thing, but scalably and reliably without the\n\
+# complication of overlapping samples and covariance.  Use it\n\
+# instead.\n\
 #==================================================================\n",
   100,
   100,
-  1
+  1,
+  diehard_sums,
+  0
 };
-
-/*
- * Global memory
- */
-double *diehard_sums_rand_dbl;
 

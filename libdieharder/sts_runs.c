@@ -18,13 +18,24 @@
 
 #include <dieharder/libdieharder.h>
 
-void sts_runs(Test **test, int irun)
+int sts_runs(Test **test, int irun)
 {
 
  int i,b,t;
- unsigned int nbits,bitstring,value;
+ uint nbits,bitstring,value;
+ uint *rand_int;
  Xtest ptest;
  double pks_monobit,pones,c00,c01,c10,c11;;
+
+ /*
+  * for display only.  2 means sts_runs tests 2-tuples.
+  */
+ test[0]->ntuple = 2;
+
+ /*
+  * Allocate the space needed by the test.
+  */
+ rand_int = (uint *)malloc(test[0]->tsamples*sizeof(uint));
 
  /*
   * Number of total bits from -t test[0]->tsamples = size of rand_int[]
@@ -40,7 +51,7 @@ void sts_runs(Test **test, int irun)
   * Create entire bitstring to be tested
   */
  for(t=0;t<test[0]->tsamples;t++){
-   sts_runs_rand_int[t] = gsl_rng_get(rng);
+   rand_int[t] = gsl_rng_get(rng);
  }
 
  /*
@@ -57,7 +68,7 @@ void sts_runs(Test **test, int irun)
     * This gets the integer value of the ntuple at index position
     * n in the current bitstring, from a window with cyclic wraparound.
     */
-   value = get_bit_ntuple(sts_runs_rand_int,test[0]->tsamples,2,b);
+   value = get_bit_ntuple(rand_int,test[0]->tsamples,2,b);
    switch(value){
      case 0:   /* 00 no new ones */
        c00++;
@@ -105,6 +116,10 @@ void sts_runs(Test **test, int irun)
  MYDEBUG(D_STS_RUNS) {
    printf("# sts_runs(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
+
+ free(rand_int);
+
+ return(0);
 
 }
 

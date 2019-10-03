@@ -24,12 +24,11 @@ void testbits()
  int pattern[10];
 
  off = get_uint_rand(rng);
- dumpuintbits(&off,1);
  printf("\n");
  printf(" off = ");
- dumpbitwin(&off,4,0,32);
+ dumpuintbits(&off,1);
  printf("\n");
- mybitadd(&tuple,0,&off,4,16);
+ mybitadd((char*) &tuple,0, (char*) &off,4,16);
  printf(" Result = ");
  dumpuintbits(&tuple,1);
  printf("\n");

@@ -1093,3 +1093,83 @@ TPVALUE
 TASSESSMENT
 
 Anyway, let's do it...
+
+9/19/08
+
+That worked really well.  However, I now have to handle some way of
+managing the tests that take ntuple as an argument for e.g. lag or
+ntuple size.  I >>think<< that the only correct way to manage this will
+be to move the loops to the run_all_tests() function, since that is ONLY
+a CLI feature, and call the execute_test within it as per usual.  That
+way run_test WITH a setting of ntuple will be entirely API driven and
+consistent.
+
+The other thing(s) I have to implement include:  Some sort of CLI flags
+or control variables to tell dieharder when and how to set a random
+number seed.  We have several possible seed strategies, you see:
+
+  a) Dieharder reseeds from /dev/random or clock one time at the time
+the rng is initialized, and then left alone (CLI) until the rng is freed
+(UI) or the program is ended (CLI).  The Rdh UI could in principle
+permit the seed to be interactively reset by the user at any time;
+that's up to Dirk.
+
+When dieharder outputs results, one of the output flags will indicate
+whether or not the rng seed should appear.  In general it probably
+should, but only the one seed randomly picked at the beginning.
+
+  b) Dieharder uses a seed entered by the user one time at the
+beginning.  This should clearly be able to perfectly reproduce any
+identical sequence of tests (including dieharder -a results) that began
+with just that seed, so this specific thing should be a possibility.
+
+  c) Dieharder uses a seed entered by the user at the beginning to set
+the seed at the beginning of each test.  This usage is primarily for
+validation purposes, since doing this makes results from "series" tests
+that run closely related tests on various ntuples or lags not
+independent.  For example, rgb_bitstream for an ntuple of 4 is obviously
+going to be strongly correlated with the results for an ntuple of 8
+STARTED FROM THE SAME SEED; the two half-bytes that make up each 8 were
+previously tested and the results of that test will clearly affect the
+results for 8.  The same problem exists for the closely related
+sts_serial, but it keeps track and attempts to correct for it.
+
+Still, entering a seed and having it used to reseed EACH test run means
+that dieharder -a -S 1 can EASILY generate an entire set of
+reference/validation results that can then be generated and compared one
+at a time in Rdh (which doesn't "do" a -a test).  If we seeded only at
+the beginning, any tiny variation in e.g. the number of rands called or
+test order would produce different downstream numbers and a failure to
+validate.
+
+Obviously this mode should not be used for testing, as one expects
+"failures" to cluster in linked tests because of the aforementioned
+non-independent of the results.  If 4 bit numbers lead to a "weak"
+pvalue, testing 8 bit numbers should also lead to a weak pvalue and/or
+vice versa.
+
+Our current difficulty is that we have THREE possibilities but only TWO
+CLI control states -- with -S whatever or without.  Without is fine --
+that can and should select random seeding.  With, however, requires a
+second CLI switch option to select between the two seeding strategies.
+
+There really isn't anything wrong with providing the fourth combination
+of two separate toggles as follows:
+
+
+   Strategy \ Seed|            0         |           1
+------------------------------------------------------------------
+         beginning|  random at beginning | from Seed at beginning
+         per test |  random per test     | from Seed per test
+
+SO, it looks like we need to introduce TWO variables.  -s sets the
+strategy.  -S sets the seed to the selected value, or left alone at 0,
+sets seed to a "random" choice.
+
+This works because -s is liberated now that we don't need to select sts
+tests that way.  So is -r and -d.  We should probably keep -d and use it
+for -d(ieharder test name/test number) the same way -g allows or will
+allow one to pick either one.  -r, well, we'll have to think about what
+to do with it, eventually.
+
+This is enough for now.

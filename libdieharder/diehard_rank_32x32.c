@@ -1,9 +1,11 @@
 /*
+ * ========================================================================
  * See copyright in copyright.h and the accompanying file COPYING
+ * ========================================================================
  */
 
 /*
- *========================================================================
+ * ========================================================================
  * This is the Diehard BINARY RANK 31x31 test, rewritten from the 
  * description in tests.txt on George Marsaglia's diehard site.
  *
@@ -16,7 +18,7 @@
  * re test is performed on counts for ranks 31,30,29 and <=28.   ::
  *
  *                          Comments
- *========================================================================
+ * ========================================================================
  */
 
 
@@ -27,20 +29,49 @@
  */
 #include "static_get_bits.c"
 
-void diehard_rank_32x32(Test **test, int irun)
+int diehard_rank_32x32(Test **test, int irun)
 {
 
  int i,j,k,t,rank;
  double r,smax,s;
  uint bitstring;
+ /* uint mtx[32][1]; */
+ uint **mtx;
  Vtest vtest;
 
- Vtest_create(&vtest,33,"diehard_rank_32x32",gsl_rng_name(rng));
+ /*
+  * for display only.  0 means "ignored".
+  */
+ test[0]->ntuple = 0;
+
+ mtx=(uint **)malloc(32*sizeof(uint*));
+ for(i=0;i<32;i++){
+   mtx[i] = (uint*)malloc(sizeof(uint));
+ }
+
+ MYDEBUG(D_DIEHARD_RANK_32x32){
+   fprintf(stdout,"# diehard_rank_32x32(): Starting test\n");
+ }
+
+ Vtest_create(&vtest,33);
  vtest.cutoff = 5.0;
  for(i=0;i<29;i++){
    vtest.x[0] = 0.0;
    vtest.y[0] = 0.0;
  }
+
+ /*
+  * David Bauer contributes -- 
+  * From "On the Rank of Random Matrices":
+  * 0.2887880951, 0.5775761902, 0.1283502645,
+  * 0.0052387863, 0.0000465670, 0.0000000969
+  *
+  * rgb continues -- 
+  * An interesting question is -- should we not bother to pool
+  * and include all six of these terms?  That would in principle
+  * permit the number of tsamples to be cranked up without distorting
+  * the final p distribution from the chisq...
+  */
  vtest.x[29] = 0.0;
  vtest.y[29] = test[0]->tsamples*0.0052854502e+00;
  vtest.x[30] = 0.0;
@@ -50,35 +81,32 @@ void diehard_rank_32x32(Test **test, int irun)
  vtest.x[32] = 0.0;
  vtest.y[32] = test[0]->tsamples*0.2887880952e+00;
 
- for(t=0;t<test[0]->tsamples;t++){
+ for(t=0;t<test[0]->tsamples;t++) {
 
-   /*
-    * We've tried a variety of things here.  For example, we've used
-    * a single most significant bit from each of 32x32 consecutive integers
-    * but that is very "expensive" in integers.
-    *
-    * The original diehard would use 32 bit uints at a time.  We'll now
-    * do the same.  This is easy with get_rand_bits().
-    */
-   if(verbose == D_DIEHARD_RANK_32x32 || verbose == D_ALL){
-     printf("# diehard_rank_32x32(): Input random matrix = \n");
+   MYDEBUG(D_DIEHARD_RANK_32x32){
+     fprintf(stdout,"# diehard_rank_32x32(): Input random matrix = \n");
    }
+
    for(i=0;i<32;i++){
-     if(verbose == D_DIEHARD_RANK_32x32 || verbose == D_ALL){
-       printf("# ");
+     MYDEBUG(D_DIEHARD_RANK_32x32){
+       fprintf(stdout,"# ");
      }
 
      bitstring = get_rand_bits_uint(32,0xffffffff,rng);
-     diehard_rank_32x32_mtx[i][0] = bitstring;
+     mtx[i][0] = bitstring;
 
-     if(verbose == D_DIEHARD_RANK_32x32 || verbose == D_ALL){
-       dumpbits(diehard_rank_32x32_mtx[i],32);
+     MYDEBUG(D_DIEHARD_RANK_32x32){
+       dumpbits(mtx[i],32);
+       fprintf(stdout,"\n");
      }
    }
 
-   rank = binary_rank(diehard_rank_32x32_mtx,32,32);
-   if(verbose == D_DIEHARD_RANK_32x32 || verbose == D_ALL){
-     printf("binary rank = %d\n",rank);
+   /*
+    * This is a silly thing to quiet gcc complaints about twin puns.
+    */
+   rank = binary_rank(mtx,32,32);
+   MYDEBUG(D_DIEHARD_RANK_32x32){
+     fprintf(stdout,"# binary rank = %d\n",rank);
    }
 
    if(rank <= 29){
@@ -87,6 +115,7 @@ void diehard_rank_32x32(Test **test, int irun)
      vtest.x[rank]++;
    }
  }
+
  /* for(i=0;i<33;i++) printf("vtest.x[%d] =  %f\n",i,vtest.x[i]); */
 
  Vtest_eval(&vtest);
@@ -96,6 +125,13 @@ void diehard_rank_32x32(Test **test, int irun)
  }
 
  Vtest_destroy(&vtest);
+
+ for(i=0;i<32;i++){
+   free(mtx[i]);
+ }
+ free(mtx);
+
+ return(0);
 
 }
 

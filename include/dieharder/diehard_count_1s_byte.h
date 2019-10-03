@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void diehard_count_1s_byte(Test **test,int irun);
+int diehard_count_1s_byte(Test **test,int irun);
 
 static Dtest diehard_count_1s_byte_dtest = {
   "Diehard Count the 1s Test (byte)",
@@ -42,9 +42,8 @@ static Dtest diehard_count_1s_byte_dtest = {
 #==================================================================\n",
   100,
   256000,
-  1
+  1,
+  diehard_count_1s_byte,
+  0
 };
 
-/*
- * Global variables (none in this case)
- */

@@ -1,5 +1,6 @@
 nobase_include_HEADERS = dieharder/copyright.h \
-	dieharder/dieharder_types.h \
+	dieharder/dieharder_rng_types.h \
+	dieharder/dieharder_test_types.h \
 	dieharder/diehard_2dsphere.h \
 	dieharder/diehard_3dsphere.h \
 	dieharder/diehard_birthdays.h \
@@ -23,6 +24,8 @@ nobase_include_HEADERS = dieharder/copyright.h \
 	dieharder/marsaglia_tsang_gorilla.h \
 	dieharder/parse.h \
 	dieharder/rgb_bitdist.h \
+	dieharder/rgb_kstest_test.h \
+	dieharder/rgb_lagged_sums.h \
 	dieharder/rgb_lmn.h \
 	dieharder/rgb_minimum_distance.h \
 	dieharder/rgb_operm.h \

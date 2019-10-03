@@ -23,24 +23,32 @@
  * simply to use all of the data when observing whether or not
  * the quantities are uniformly distributed.  The use of a
  * covariance matrix doesn't test anything different, it just
- * uses fewer rands to achieve a given sensitivity. We'll
- * eventually simplify the heck out of this test in an rgb
- * version; in the meantime the test MUST use overlapping sources.
+ * uses fewer rands to achieve a given sensitivity.  I would therefore
+ * strongly suggest that users use the far more sensitive and reliable
+ * rgb_lagged_sum test which tests more or less the same thing in an
+ * unbroken and scalable way.
  *
- * Empirically, either this test reveals failures in lots of
- * rngs thought to be good, or (more likely) the other conjunctive
- * null hypothesis (that the rng test is "good") is the one we should
- * reject, so that we should look for bugs in the code.  For the
- * moment I suspect the latter and that's what I'm working on.  As
- * is the case for all the overlapping tests, though, the statistic
- * is nontrivial to compute from a purely theoretical point of view.
+ * At this point I think there is rock solid evidence that this test
+ * is completely useless in every sense of the word.  It is broken,
+ * and it is so broken that there is no point in trying to fix it.
+ * If I crank up tsamples to where one can actually see the asymptotic
+ * distribution (which should be uniform) it is visibly non-uniform and
+ * indeed the final kstest CONVERGES to a non-zero pvalue of 0.09702690
+ * for ALL rngs tested, which hardly seems useful.  If one runs the test
+ * on only 100 samples (as Marsaglia's code did in both the original
+ * fortran or the newer C version) but then increases the number of
+ * runs of the test from the default 100, it is easy to make it fail for
+ * gold standard generators.  The test just doesn't work.  It cannot be
+ * used to identify a generator that fails the null hypothesis.
+ *
+ * Don't use it.
  *========================================================================
  */
 
 
 #include <dieharder/libdieharder.h>
 
-void diehard_sums(Test **test, int irun)
+int diehard_sums(Test **test, int irun)
 {
 
  int i,j,k,m,t;
@@ -48,6 +56,11 @@ void diehard_sums(Test **test, int irun)
  double *x,*y,*rand_list;
  double newrand;
  double a,b,qq,p,h;
+
+ /*
+  * for display only.  0 means "ignored".
+  */
+ test[0]->ntuple = 0;
 
  /*
   * SUMS requires that we evaluate y[i] = \sum_i^{100+i} u[i].  Naturally,
@@ -102,6 +115,10 @@ void diehard_sums(Test **test, int irun)
   * out and contributing a fix -- otherwise I'll fix it (or at least
   * address it) when I have time to get to it.
   */
+
+ if(verbose == D_DIEHARD_SUMS || verbose == D_ALL){
+   printf("# diehard_sums:  focus with -v %d.\n",D_DIEHARD_SUMS);
+ }
 
  /*
   * John E. Davis noticed that I failed to initialize m.
@@ -160,7 +177,8 @@ void diehard_sums(Test **test, int irun)
    printf("# Initializing initial y[0] and rand_list\n");
  }
  for(t=0;t<m;t++){
-   y[0] += rand_list[t] = gsl_rng_uniform(rng);
+   rand_list[t] = gsl_rng_uniform(rng);
+   y[0] += rand_list[t];
    if(verbose == D_DIEHARD_SUMS || verbose == D_ALL){
      printf("y[0] =  y[0] + %f = %f\n",rand_list[t],y[0]);
    }
@@ -176,9 +194,10 @@ void diehard_sums(Test **test, int irun)
     * Each successive sum is the previous one, with its first
     * entry in rand_list[] removed.
     */
-   y[t] = y[t-1] - rand_list[t-1] + gsl_rng_uniform(rng);
+   newrand = gsl_rng_uniform(rng);
+   y[t] = y[t-1] - rand_list[t-1] + newrand;
    if(verbose == D_DIEHARD_SUMS || verbose == D_ALL){
-     printf("y[%u] =  %f (raw) ",t,y[t]);
+     printf("y[%u] =  %f - %f + %f = %f (raw)\n",t,y[t-1],rand_list[t-1],newrand,y[t]);
    }
 
    /* We're done with y[t-1] as a raw sum.  Convert it to be N(0,1) */
@@ -191,7 +210,7 @@ void diehard_sums(Test **test, int irun)
  /* We're done with y[m-1] as a raw sum.  Convert it to be N(0,1) */
  y[m-1] = (y[m-1] - mean)*std;
  if(verbose == D_DIEHARD_SUMS || verbose == D_ALL){
-   printf("                         y[%u] =  %f (converted)\n",m-1,y[m-1]);
+   printf("y[%u] =  %f (converted)\n",m-1,y[m-1]);
  }
 
  /*
@@ -212,31 +231,23 @@ void diehard_sums(Test **test, int irun)
  }
 
  for(t=2;t<m;t++){
-   /* t is offset by 1 relative to diehard's i */
-   /* diehard: do i=3,m:  a = 2m + 2 - i  */
-   a = 2.0*m + 1.0 - t;
    /*
+    * t is offset by 1 relative to diehard's i.
+    *
+    * diehard: do i=3,m:  a = 2m + 2 - i
+    *
+    *  and
+    *
     * diehard: b = 4m + 2 - 2i
-    * We note that diehard: 2a = 4m + 4 - 2i
-    * so b = 2a - 2 independent of t or i.
+    *
+    * We note that diehard: 2a = 4m + 4 - 2i so b = 2a - 2 independent
+    * of t or i.
     */
 
+   a = 2.0*m + 1.0 - t;
    b = 2.0*a - 2.0;
-   /*
-    * This looks wrong.  I'm pretty sure it should be a tridiagonal
-    * sum over the previous three y's and that this is a typo in
-    * diehard.  Otherwise, why y[0]?  But when I try other things,
-    * I get wrong answers.  Here is where I'm going to eventually
-    * HAVE TO actually compute the analytic form of the matrix,
-    * because something's jut not quite right.
-    *
-    * I must admit, though, that the answer appears "righter" with
-    * Marsaglia's form with y[0] -- just still so very wrong.
-   x[t] = y[t-2]/sqrt(a*b) - sqrt((a-1.0)/(b+2.0))*y[t-1] + sqrt(a/b)*y[t];
-   x[t] = y[0]/sqrt(a*b) - sqrt((a-1.0)/(b+2.0))*y[t-1] + sqrt(a/b)*y[t];
-   x[1] = -y[0]*(m-1)/sqrt(2.0*m*m - m) + y[1]*sqrt(m/(2.0*m - 1.0));
-    */
-   x[t] = y[0]/sqrt(a*b) - y[t-1]*sqrt((a-1.0)/(b+2.0)) + y[t]*sqrt(a/b);
+   /* x[t] = y[0]/sqrt(a*b) - y[t-1]*sqrt((a-1.0)/(b+2.0)) + y[t]*sqrt(a/b);*/
+   x[t] = y[t-2]/sqrt(a*b) - y[t-1]*sqrt((a-1.0)/(b+2.0)) + y[t]*sqrt(a/b);
    x[t] =  gsl_cdf_gaussian_P(x[t],1.0);
    if(verbose == D_DIEHARD_SUMS || verbose == D_ALL){
      printf("x[%u] = %f\n",t,x[t]);
@@ -246,30 +257,15 @@ void diehard_sums(Test **test, int irun)
 
  /*
   * If everything above went well, the x[i]'s are a somewhat noisy UNIFORM
-  * distribution from 0-1, in fact a distribution of test[0]->tsamples
-  * p-values!  We do the same old ks test on them that we'll
+  * distribution from 0-1.  We do the same old ks test on them that we'll
   * eventually do on ks_pvalue[] to make the "one" p-value for this test.
-  *
-  * Note well that this is a kstest of kstests.  One seriously must ask
-  * if this is a sensible thing to do.  Should we just cumulate all the
-  * p-values and run a single test?
-  *
-  * In some very deep sense I think we're just looking at the distribution
-  * of lagged deltas  delta[t] = gsl_rng_uniform(rng) - rand_list[t-1].
-  * The base value of y[0] is clearly irrelevant as long as the sums
-  * are not egregiously different from 0.5*m.  The difference of two
-  * uniform deviates with a lag between them appears to be what, if
-  * anything beyond the mean value, this test is senstive to.  Seems
-  * as though we could look at that directly if we could derive 
-  * its distribution.
+  * However, it is very important to be able to SEE this distribution for
+  * large numbers of tsamples.
+ histogram(x,"pvalues",m,0.0,1.0,10,"x-values");
   */
  if(verbose == D_DIEHARD_SUMS || verbose == D_ALL){
-   histogram(x,m,0.0,1.0,10,"x-values");
+   histogram(x,"pvalues",m,0.0,1.0,10,"x-values");
  }
- /*  Choose one.  They should give about the same answer, but
-  * maybe not for only 100 tsamples.
- test[0]->pvalues[irun] = kstest_kuiper(x,m);
- */
  test[0]->pvalues[irun] = kstest(x,m);
  MYDEBUG(D_DIEHARD_SUMS) {
    printf("# diehard_sums(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
@@ -278,6 +274,8 @@ void diehard_sums(Test **test, int irun)
  free(x);
  free(y);
  free(rand_list);
+
+ return(0);
 
 }
 

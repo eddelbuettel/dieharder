@@ -1,5 +1,7 @@
 /*
- * diehard_rgb_timing test header.
+ * diehard_rgb_timing test header.  This is a nonstandard test and
+ * returns no pvalues, and should probably be converted so that it
+ * doesn't LOOK like a test.
  */
 
 /*
@@ -9,7 +11,7 @@ typedef struct {
  double avg_time_nsec;
  double rands_per_sec;
 } Rgb_Timing;
-void rgb_timing(Test **test, Rgb_Timing *timing);
+int rgb_timing(Test **test, Rgb_Timing *timing);
 
 static Dtest rgb_timing_dtest = {
   "RGB Timing Test",
@@ -25,6 +27,8 @@ static Dtest rgb_timing_dtest = {
 ",
   10,        /* Number of psamples (passes) */
   1000000,   /* Number of samples in inner loop */
-  1          /* Number of tests */
+  1,         /* Number of tests */
+  rgb_timing,
+  0
 };
 

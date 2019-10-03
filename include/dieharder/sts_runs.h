@@ -5,7 +5,7 @@
 /*
  * function prototype
  */
-void sts_runs(Test **test,int irun);
+int sts_runs(Test **test,int irun);
 
 static Dtest sts_runs_dtest = {
   "STS Runs Test",
@@ -25,7 +25,9 @@ static Dtest sts_runs_dtest = {
 #==================================================================\n",
   100,
   100000,
-  1
+  1,
+  sts_runs,
+  0
 };
 
- uint *sts_runs_rand_int;
+

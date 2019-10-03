@@ -1,18 +1,20 @@
 /*
+ * ========================================================================
  * $Id: diehard_2dsphere.c 231 2006-08-22 16:18:05Z rgb $
  *
  * See copyright in copyright.h and the accompanying file COPYING
+ * ========================================================================
  */
 
 /*
- *========================================================================
+ * ========================================================================
  *
  *            THE GENERALIZED MINIMUM DISTANCE TEST
  *
- * This is the generalized minimum distance test, based on the paper of M.
- * Fischler in the doc directory and private communications.  This test
- * utilizes correction terms that are essential in order for the test not
- * to fail for large numbers of trials.  It replaces both
+ * This is the generalized minimum distance test, based on the paper of 
+ * Mark Fischler in the doc directory and private communications.  This
+ * test utilizes correction terms that are essential in order for the
+ * test not to fail for large numbers of trials.  It replaces both
  * diehard_2dsphere.c and diehard_3dsphere.c, and generalizes the test
  * itself so that it can be run for any d = 2,3,4,5.  There is no
  * fundamental obstacle to running it for d = 1 or d>5, but one would need
@@ -32,12 +34,14 @@
  * as thoroughly as one likes subject to the generous constraints
  * associated with the eventual need for still higher order corrections
  * as n and p are made large enough.
- *
- *========================================================================
+ * ========================================================================
  */
 
 
 #include <dieharder/libdieharder.h>
+
+double rgb_mindist_avg;
+static double rgb_md_Q[] = {0.0,0.0,0.4135,0.5312,0.6202,1.3789};
 
 int compare_points(const dTuple *a,const dTuple *b)
 {
@@ -59,7 +63,7 @@ double distance(const dTuple a,const dTuple b,uint dim)
   return(distance);
 }
 
-void rgb_minimum_distance(Test **test, int irun)
+int rgb_minimum_distance(Test **test, int irun)
 {
 
  int i,j,d,t;
@@ -74,6 +78,8 @@ void rgb_minimum_distance(Test **test, int irun)
   */
  dTuple point,*points;
  double earg,qarg,dist,mindist,dvolume;
+
+ rgb_mindist_avg = 0.0;
 
  /*
   * Generate d-tuples of tsamples random coordinates in the range
@@ -96,12 +102,18 @@ void rgb_minimum_distance(Test **test, int irun)
   * what the "scale" is?  I don't think so.
   */
  points = (dTuple *)malloc(test[0]->tsamples*sizeof(dTuple));
+ /*
+  * Set this for output.  ntuple should be set from the CLI or from
+  * -a(ll) (run_all_tests()).
+  */
+ test[0]->ntuple = ntuple;
  rgb_md_dim = test[0]->ntuple;
 
  if(verbose == D_RGB_MINIMUM_DISTANCE || verbose == D_ALL){
      printf("Generating a list of %u points in %d dimensions\n",test[0]->tsamples,rgb_md_dim);
  }
  for(t=0;t<test[0]->tsamples;t++){
+
    /*
     * Generate a new d-dimensional point in the unit d-cube (with
     * periodic boundary conditions).
@@ -181,7 +193,6 @@ void rgb_minimum_distance(Test **test, int irun)
   * again, we may not -- seems like a research issue, right?
   * People might well want to experiment without being pestered.
   */
-
  if((rgb_md_dim % 2) == 0){
    dvolume = pow(PI,rgb_md_dim/2)*pow(mindist,rgb_md_dim)/gsl_sf_fact(rgb_md_dim/2);
  } else {
@@ -195,12 +206,15 @@ void rgb_minimum_distance(Test **test, int irun)
  /* qarg = 1.0; */
  test[0]->pvalues[irun] = 1.0 - exp(earg)*qarg;
 
- /* Oops.  Leaking all sieve-y like I am. */
  free(points);
 
  MYDEBUG(D_RGB_MINIMUM_DISTANCE) {
    printf("# diehard_2dsphere(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
 
+ /*
+  * I guess we return 0 on normal healthy return
+  */
+ return(0);
 }
 

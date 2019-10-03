@@ -25,5 +25,11 @@
    /* Number of independent statistics generated per run */
    uint nkps;
 
+   /* A pointer to the test itself (must be filled at initialization) */
+   int (*test)();
+
+   /* void pointer to a vector of additional test arguments */
+   void *targs;
+
  } Dtest;
 

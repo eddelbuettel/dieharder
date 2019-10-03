@@ -39,7 +39,7 @@
  * This determines the number of samples that go into building the kprob[]
  * table.
  */
-#define KCNT 10000000000
+#define KCNT 1000000000000L
 #define KTBLSIZE 41
 
 /*
@@ -108,7 +108,7 @@ double kprob[41] = {
  * This is the full scale table -- something like 10^11 samples went into
  * building it, using all four "good" rng's above.
  */
-double kprob[41] = {
+double kprob_orig[41] = {
 0.00000000e+00, 5.04750000e-09, 6.02750000e-08, 4.85600000e-07, 2.95277750e-06, 1.44486175e-05, 
 5.90652150e-05, 2.06498620e-04, 6.27678690e-04, 1.67988137e-03, 3.99620540e-03, 8.51586863e-03, 
 1.63523276e-02, 2.84322640e-02, 4.49370192e-02, 6.47662520e-02, 8.53358330e-02, 1.03002036e-01, 
@@ -117,7 +117,35 @@ double kprob[41] = {
 5.23845965e-04, 1.87623133e-04, 6.08442950e-05, 1.77866925e-05, 4.65595750e-06, 1.09139000e-06, 
 2.26025000e-07, 4.06075000e-08, 6.64500000e-09, 9.07500000e-10, 9.00000000e-11 };
 
-void marsaglia_tsang_gcd(Test **test, int irun)
+double kprob1[KTBLSIZE] = {
+0.0, 6.05359673641e-09, 5.89061528581e-08, 4.8032961797e-07, 2.95718200574e-06, 1.44296791438e-05,
+5.90975396473e-05, 0.000206532422501, 0.000627402914834, 0.00167920626739, 0.00399624579679, 0.00851591071312,
+0.0163514101916, 0.0284297291721, 0.0449405030918, 0.0647657727973, 0.0853352192988, 0.103003382707,
+0.114073939881, 0.116038943668, 0.108533219692, 0.0933620445648, 0.0739014379387, 0.053795814061,
+0.0360227392605, 0.022158237645, 0.0125126319501, 0.00647749635542, 0.00306979287487, 0.00132933422023,
+0.000524417963001, 0.000187318073629, 6.04786910257e-05, 1.77870970261e-05, 4.671746866e-06, 1.06613151754e-06,
+2.33296304995e-07, 4.00468707178e-08, 9.08039510462e-09, 6.98491931124e-10, 0};
+
+double kprob[KTBLSIZE] = {
+	0.0,   5.39e-09,  6.077e-08, 4.8421e-07, 2.94869e-06, 1.443266e-05,
+	5.908569e-05, 0.00020658047, 0.00062764766, 0.00167993762, 0.00399620143, 0.00851629626,
+	0.01635214339, 0.02843154488, 0.04493723812, 0.06476525706, 0.08533638862, 0.1030000214,
+	0.11407058851, 0.11604146948, 0.10853040184, 0.09336837411, 0.07389607162, 0.05380182248,
+	0.03601960159, 0.02215902902, 0.01251328472, 0.00647884418, 0.00306981507, 0.00132828179,
+	0.00052381841, 0.00018764452, 6.084138e-05, 1.779885e-05, 4.66795e-06, 1.09504e-06,
+	2.2668e-07,  4.104e-08,   6.42e-09,    8.4e-10,    1.4e-10 };
+
+double kprob2[KTBLSIZE] = {
+          0.0,  5.213e-09, 6.0704e-08, 4.8521e-07, 2.95083e-06, 1.4447958e-05,
+ 5.9070059e-05, 0.000206521906, 0.000627679842, 0.001679797186, 0.003996414492, 0.008515785524,
+ 0.016352439788, 0.028432147703, 0.044937745833, 0.064765999943, 0.085335932168, 0.103001938773,
+ 0.114069284452, 0.116042509045, 0.108530663851, 0.093367044789, 0.073896153625, 0.053801064832,
+ 0.036018738358, 0.022158331272, 0.012513639927, 0.006478573777, 0.003069820497, 0.001328600857,
+ 0.000523884717, 0.000187620922, 6.0831732e-05, 1.7787961e-05, 4.66037e-06, 1.090656e-06,
+ 2.26719e-07, 4.1078e-08,  6.431e-09,    8.8e-10,    1.2e-10,};
+
+
+int marsaglia_tsang_gcd(Test **test, int irun)
 {
 
  unsigned long long int t,ktbl[KTBLSIZE];
@@ -126,6 +154,12 @@ void marsaglia_tsang_gcd(Test **test, int irun)
  static double gnorm = 6.0/(PI*PI);
  static uint gtblsize = 0;
  Vtest vtest_k,vtest_u;
+
+ /*
+  * For output only
+  */
+ test[0]->ntuple = 0;
+ test[1]->ntuple = 0;
 
  /* Make data tables for one-time entry -- do not delete.
  uint nbin = 50;
@@ -211,14 +245,16 @@ void marsaglia_tsang_gcd(Test **test, int irun)
   * This is where I formulate my own probability table, using
   * a mix of the best RNGs I have available.  Of course this ultimately
   * begs many questions...
+  *
  printf("double kprob[KTBLSIZE] = {\n");
  for(i=0;i<KTBLSIZE;i++){
-   printf(" %10.8f,",(double)ktbl[i]/KCNT);
+   printf(" %10.12g,",(double)ktbl[i]/KCNT);
    if((i+1)%6 == 0) printf("\n");
  }
  printf("};\n");
 
  return;
+  *
   */
 
  /*
@@ -288,10 +324,12 @@ void marsaglia_tsang_gcd(Test **test, int irun)
  Vtest_destroy(&vtest_k);
  Vtest_destroy(&vtest_u);
 
- if(verbose == D_USER_TEMPLATE || verbose == D_ALL){
-   printf("# user_marsaglia_tsang_gcd(): ks_pvalue_k[%u] = %10.5f  ks_pvalue_w[%u] = %10.5f\n",kspi,ks_pvalue[kspi],ks_pvalue2[kspi]);
+ MYDEBUG(D_MARSAGLIA_TSANG_GCD){
+   printf("# marsaglia_tsang_gcd(): ks_pvalue_k[%u] = %10.5f  ks_pvalue_w[%u] = %10.5f\n",kspi,ks_pvalue[kspi],kspi,ks_pvalue2[kspi]);
  }
 
  kspi++;
+
+ return(0);
 
 }

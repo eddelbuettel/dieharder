@@ -128,11 +128,12 @@ char b5s[] = {
 
 /*
  * The following are needed to generate the test statistic.
+ * Note that sqrt(5000) = 70.710678118654752440084436210485
  */
-
 const double mu=2500, std=70.7106781;
+
 /*
- * Vector of probabilities for each integer.
+ * Vector of probabilities for each integer.  (All exact, btw.)
  * 37.0/256.0,56.0/256.0,70.0/256.0,56.0/256.0,37.0/256.0
  */
 const double ps[]={
@@ -144,14 +145,15 @@ const double ps[]={
 
 #define LSHIFT5(old,new) (old*5 + new)
 
-void diehard_count_1s_stream(Test **test, int irun)
+int diehard_count_1s_stream(Test **test, int irun)
 {
 
- uint i,j,k,index5,index4,letter,t;
+ uint i,j,k,index5=0,index4,letter,t;
  uint boffset;
  uint count5[3125],count4[625];
  Vtest vtest4,vtest5;
  Xtest ptest;
+ uint overlap = 1; /* leftovers/cruft */
 
  /*
   * Count a Stream of 1's is a very complex way of generating a statistic.
@@ -185,6 +187,11 @@ void diehard_count_1s_stream(Test **test, int irun)
  }
 
  /*
+  * for display only.  0 means "ignored".
+  */
+ test[0]->ntuple = 0;
+
+ /*
   * This is basically a pair of parallel vtests, with a final test
   * statistic generated from their difference (somehow).  We therefore
   * create two vtests, one for four digit base 5 integers and one for
@@ -195,7 +202,7 @@ void diehard_count_1s_stream(Test **test, int irun)
  ptest.y = 2500.0;
  ptest.sigma = sqrt(5000.0);
 
- Vtest_create(&vtest4,625,"diehard_count_the_1s",gsl_rng_name(rng));
+ Vtest_create(&vtest4,625);
  vtest4.cutoff = 5.0;
  for(i=0;i<625;i++){
    j = i;
@@ -223,7 +230,7 @@ void diehard_count_1s_stream(Test **test, int irun)
    /* printf(" = %f\n",vtest4.y[i]); */
  }
 
- Vtest_create(&vtest5,3125,"diehard_count_the_1s",gsl_rng_name(rng));
+ Vtest_create(&vtest5,3125);
  vtest5.cutoff = 5.0;
  for(i=0;i<3125;i++){
    j = i;
@@ -258,28 +265,37 @@ void diehard_count_1s_stream(Test **test, int irun)
      dumpbits(&i,32);
    }
    /* 1st byte */
-   j = get_bit_ntuple_from_uint(i,8,0x000000FF,0);
+   /*
+    * Bauer fix.  I don't think he likes my getting ntuples sequentially
+    * from the stream in diehard tests, which is fair enough...;-)
+    * In the raw bit distribution tests, however, it is essential.
+    * j = get_bit_ntuple_from_uint(i,8,0x000000FF,0);
+    */
+   j = get_bit_ntuple_from_whole_uint(i,8,0x000000FF,0);
    index5 = b5s[j];
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
      dumpbits(&j,8);
    }
    /* 2nd byte */
-   j = get_bit_ntuple_from_uint(i,8,0x000000FF,8);
+   /* Cruft:  See above.  j = get_bit_ntuple_from_uint(i,8,0x000000FF,8); */
+   j = get_bit_ntuple_from_whole_uint(i,8,0x000000FF,8);
    index5 = LSHIFT5(index5,b5s[j]);
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
      dumpbits(&j,8);
    }
    /* 3rd byte */
-   j = get_bit_ntuple_from_uint(i,8,0x000000FF,16);
+   /* Cruft:  See above. j = get_bit_ntuple_from_uint(i,8,0x000000FF,16); */
+   j = get_bit_ntuple_from_whole_uint(i,8,0x000000FF,16);
    index5 = LSHIFT5(index5,b5s[j]);
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
      dumpbits(&j,8);
    }
    /* 4th byte */
-   j = get_bit_ntuple_from_uint(i,8,0x000000FF,24);
+   /* Cruft:  See above. j = get_bit_ntuple_from_uint(i,8,0x000000FF,24); */
+   j = get_bit_ntuple_from_whole_uint(i,8,0x000000FF,24);
    index5 = LSHIFT5(index5,b5s[j]);
    if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
      printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
@@ -317,7 +333,8 @@ void diehard_count_1s_stream(Test **test, int irun)
      /*
       * get next byte from the last rand we generated.
       */
-     j = get_bit_ntuple_from_uint(i,8,0x000000FF,boffset);
+     /* Cruft:  See above.  j = get_bit_ntuple_from_uint(i,8,0x000000FF,boffset); */
+     j = get_bit_ntuple_from_whole_uint(i,8,0x000000FF,boffset);
      index5 = LSHIFT5(index5,b5s[j]);
      /*
       * I THINK that this basically throws away the sixth digit in the
@@ -349,7 +366,8 @@ void diehard_count_1s_stream(Test **test, int irun)
        /*
         * get next byte from the last rand we generated.
         */
-       j = get_bit_ntuple_from_uint(i,8,0x000000FF,boffset);
+       /* Cruft:  See above. j = get_bit_ntuple_from_uint(i,8,0x000000FF,boffset); */
+       j = get_bit_ntuple_from_whole_uint(i,8,0x000000FF,boffset);
        index5 = LSHIFT5(index5,b5s[j]);
        if(verbose == D_DIEHARD_COUNT_1S_STREAM || verbose == D_ALL){
          printf("b5s[%u] = %u, index5 = %u\n",j,b5s[j],index5);
@@ -395,6 +413,10 @@ void diehard_count_1s_stream(Test **test, int irun)
    printf("# diehard_count_1s_stream(): test[0]->pvalues[%u] = %10.5f\n",irun,test[0]->pvalues[irun]);
  }
 
+ Vtest_destroy(&vtest4);
+ Vtest_destroy(&vtest5);
+
+ return(0);
 
 }
 

@@ -9,7 +9,7 @@ AC_PREREQ(2.59)
 # Be sure to set DIEHARDER_LT_VERSION below at the same time
 # you change this:
 #==================================================================
-AC_INIT([dieharder], [2.28.1])
+AC_INIT([dieharder], [3.31.0])
 
 AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_SRCDIR([dieharder.abs])
@@ -29,10 +29,14 @@ AC_DEFINE([RELEASED], [], [Description])
 # 
 # dieharder-1.0    libdieharder 0:0:0
 #==================================================================
+# This command "should" keep libtool up to date.
+AC_CONFIG_MACRO_DIR([m4])
 LT_INIT
 AC_SUBST([LIBTOOL_DEPS])
-DIEHARDER_LT_VERSION="2:28:1"
+DIEHARDER_LT_VERSION="3:31:0"
 AC_SUBST(DIEHARDER_LT_VERSION)
+DIEHARDER_LIB_VERSION=3.31.0
+AC_SUBST(DIEHARDER_LIB_VERSION)
 
 case "$VERSION" in
     *+)
@@ -56,7 +60,6 @@ AC_LANG(C)
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
-AC_PROG_RANLIB
 
 #==================================================================
 # OK, these five macros prevent my personal path from appearing
@@ -94,17 +97,54 @@ AC_C_INLINE
 
 DIEHARDER_CFLAGS="-I$includedir"
 DIEHARDER_LIBS="-L$libdir -ldieharder"
+ACLOCAL_AMFLAGS="-I m4"
 
 AC_SUBST(DIEHARDER_CFLAGS)
 AC_SUBST(DIEHARDER_LIBS)
+AC_SUBST(ACLOCAL_AMFLAGS)
 
 #==================================================================
-# Checks for libraries.
-# FIXME: Replace `main' with a function in `-lgsl':
+# Checks for libraries, and headers.  Test for dependency libraries
+# FIRST in reverse order that you need -lwhatever to appear on
+# compile line as it accumulates libraries to build e.g.
+#   -lgsl -lgslcblas
+# for the SECOND test, required (in that order) to succeed.
 #==================================================================
-AC_CHECK_LIB([gsl], [main])
-# FIXME: Replace `main' with a function in `-lgslcblas':
-AC_CHECK_LIB([gslcblas], [main])
+AC_CHECK_HEADER([gsl/gsl_sf_gamma.h],,[AC_MSG_ERROR([Couldn't find GSL headers.  Please install the gsl-devel package.])])
+AC_CHECK_LIB([gslcblas], [main],,[AC_MSG_ERROR([Couldn't find libgsl. Please install the gsl package.])])
+AC_CHECK_LIB([gsl],[gsl_sf_gamma])
+
+
+#==================================================================
+# Check if we're a little-endian or a big-endian system, needed by
+# brg_endian.h in the build of rng_threefish.  This is a very
+# certain test, and therefore is checked FIRST in this header file.
+#==================================================================
+AC_DEFUN([AC_C_ENDIAN],
+[AC_CACHE_CHECK(for endianness, ac_cv_c_endian,
+[
+  AC_RUN_IFELSE(
+    [AC_LANG_PROGRAM([], [dnl
+        long val = 1;
+        char *c = (char *) &val;
+        exit(*c == 1);
+    ])
+  ],[
+    ac_cv_c_endian=big
+  ],[
+    ac_cv_c_endian=little
+  ])
+])
+if test $ac_cv_c_endian = big; then
+  AC_SUBST(LITTLE_ENDIAN,0) 
+fi
+if test $ac_cv_c_endian = little; then
+  AC_SUBST(LITTLE_ENDIAN,1) 
+fi
+])
+
+AC_C_ENDIAN
+ 
 
 #==================================================================
 # Checks for typedefs, structures, and compiler characteristics.
@@ -121,6 +161,7 @@ AC_CONFIG_FILES([
  dieharder_version.h 
  dieharder.spec
  dieharder.html
+ dieharder-config
  dieharder/Makefile 
  include/Makefile
  libdieharder/Makefile 
