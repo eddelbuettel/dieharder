@@ -150,7 +150,6 @@ int diehard_count_1s_stream(Test **test, int irun)
 
  uint i,j,k,index5=0,index4,letter,t;
  uint boffset;
- uint count5[3125],count4[625];
  Vtest vtest4,vtest5;
  Xtest ptest;
  uint overlap = 1; /* leftovers/cruft */

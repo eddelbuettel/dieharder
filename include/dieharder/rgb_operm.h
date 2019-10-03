@@ -7,7 +7,7 @@
  */
 int rgb_operm(Test **test,int irun);
 
-static Dtest rgb_operm_dtest = {
+static Dtest rgb_operm_dtest __attribute__((unused)) = {
   "RGB Overlapping Permuations Test",
   "rgb_operm",
   "\n\
@@ -35,4 +35,4 @@ static Dtest rgb_operm_dtest = {
  * rgb_operm_k is the size of the overlapping window that is slid along
  * a data stream of rands from x_i to x_{i+k} to compute c[][].
  */
-uint rgb_operm_k;
+unsigned int rgb_operm_k;

@@ -206,7 +206,7 @@ static void file_input_set (void *vstate, unsigned long int s)
 
  if(verbose == D_FILE_INPUT || verbose == D_ALL){
    fprintf(stdout,"# file_input(): entering file_input_set\n");
-   fprintf(stdout,"# file_input(): state->fp = %p, seed = %lu\n",state->fp,s);
+   fprintf(stdout,"# file_input(): state->fp = %p, seed = %lu\n",(void*) state->fp,s);
  }
 
  /*
@@ -243,8 +243,8 @@ static void file_input_set (void *vstate, unsigned long int s)
     * OK, so if we get here, the file is open.
     */
    if(verbose == D_FILE_INPUT || verbose == D_ALL){
-     fprintf(stdout,"# file_input(): Opened %s for the first time at %p\n", filename,state->fp);
-     fprintf(stdout,"# file_input(): state->fp is %8p\n",state->fp);
+     fprintf(stdout,"# file_input(): Opened %s for the first time at %p\n", filename,(void*) state->fp);
+     fprintf(stdout,"# file_input(): state->fp is %8p\n",(void*) state->fp);
      fprintf(stdout,"# file_input(): Parsing header:\n");
    }
    state->rptr = 0;  /* No rands read yet */

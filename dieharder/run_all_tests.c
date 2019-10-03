@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: run_all_tests.c 504 2009-11-16 16:51:55Z david.astgtciv $
+ * $Id: run_all_tests.c 529 2011-04-01 17:49:31Z rgbatduke $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -22,8 +22,7 @@ void run_all_tests()
  /*
   * The nt variables control ntuple loops for the -a(ll) display only.
   */
- int i,ntmin,ntmax,ntsave;
- int error = 0;
+ int ntmin,ntmax,ntsave;
 
  /*
   * This isn't QUITE a simple loop because -a is a dieharder-only function,

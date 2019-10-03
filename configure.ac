@@ -9,7 +9,7 @@ AC_PREREQ(2.59)
 # Be sure to set DIEHARDER_LT_VERSION below at the same time
 # you change this:
 #==================================================================
-AC_INIT([dieharder], [3.31.0])
+AC_INIT([dieharder], [3.31.1])
 
 AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_SRCDIR([dieharder.abs])
@@ -33,9 +33,9 @@ AC_DEFINE([RELEASED], [], [Description])
 AC_CONFIG_MACRO_DIR([m4])
 LT_INIT
 AC_SUBST([LIBTOOL_DEPS])
-DIEHARDER_LT_VERSION="3:31:0"
+DIEHARDER_LT_VERSION="3:31:1"
 AC_SUBST(DIEHARDER_LT_VERSION)
-DIEHARDER_LIB_VERSION=3.31.0
+DIEHARDER_LIB_VERSION=3.31.1
 AC_SUBST(DIEHARDER_LIB_VERSION)
 
 case "$VERSION" in
@@ -58,6 +58,7 @@ AC_CANONICAL_HOST
 #==================================================================
 AC_LANG(C)
 AC_PROG_CC
+AM_PROG_CC_C_O
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
@@ -96,10 +97,14 @@ AC_C_VOLATILE
 AC_C_INLINE
 
 DIEHARDER_CFLAGS="-I$includedir"
+dieharder_CFLAGS="-std=c99 -Wall -pedantic -I$includedir"
+libdieharder_lo_CFLAGS="-Wall -pedantic -I$includedir"
 DIEHARDER_LIBS="-L$libdir -ldieharder"
 ACLOCAL_AMFLAGS="-I m4"
 
 AC_SUBST(DIEHARDER_CFLAGS)
+AC_SUBST(dieharder_CFLAGS)
+AC_SUBST(libdieharder_lo_CFLAGS)
 AC_SUBST(DIEHARDER_LIBS)
 AC_SUBST(ACLOCAL_AMFLAGS)
 
@@ -165,6 +170,8 @@ AC_CONFIG_FILES([
  dieharder/Makefile 
  include/Makefile
  libdieharder/Makefile 
+ manual/Makefile
+ manual/macros.tex
  Makefile])
 
 AC_OUTPUT

@@ -1,10 +1,9 @@
 /*
  *  R : A Computer Language for Statistical Data Analysis
  *  Copyright (C) 1995, 1996  Robert Gentleman and Ross Ihaka
- *  Copyright (C) 1997--2003  Robert Gentleman, Ross Ihaka and the
- *                            R Development Core Team
+ *  Copyright (C) 1997--2007  The R Development Core Team
  *
- *  Copyright (C) 2006 Dirk Eddelbuettel		dieharder adaptation
+ *  Copyright (C) 2006 - 2011 Dirk Eddelbuettel		(dieharder adaptation)
  * 
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -18,8 +17,8 @@
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street Fifth Floor, Boston, MA 02110-1301  USA
+ *  along with this program; if not, a copy is available at
+ *  http://www.r-project.org/Licenses/
  */
 
 /*
@@ -54,7 +53,7 @@ static void r_mersenne_twister_set (void *vstate, unsigned long int s);
 static void r_knuth_taocp_set (void *vstate, unsigned long int s);
 static void r_knuth_taocp2_set (void *vstate, unsigned long int s);
 
-typedef unsigned long int Int32;
+typedef unsigned int Int32; /* in Random.h */
 
 typedef void * (*DL_FUNC)();
 
@@ -122,7 +121,7 @@ typedef enum {
 #include <R_ext/Rdynload.h>
 
 static DL_FUNC User_unif_fun, User_unif_init, User_unif_nseed, 
-    User_unif_seedloc;
+	User_unif_seedloc;
 
 DL_FUNC  User_norm_fun; /* also in ../nmath/snorm.c */
 #endif
@@ -175,9 +174,9 @@ RNGTAB RNG_Table[] =
 #define I3 (RNG_Table[RNG_kind].i_seed[2])
 
 static void Randomize(RNGtype kind);
-static double MT_genrand();
-static Int32 KT_next();
-static void RNG_Init_KT(Int32);
+static double MT_genrand(void);
+static Int32 KT_next(void);
+static void RNG_Init_R_KT(Int32);
 static void RNG_Init_KT2(Int32);
 #define KT_pos (RNG_Table[KNUTH_TAOCP].i_seed[100])
 
@@ -189,7 +188,8 @@ static double fixup(double x)
     return x;
 }
 
-static double unif_rand(void) 	/* made static to ensure will be called */
+
+double unif_rand(void)
 {
     double value;
 
@@ -270,7 +270,7 @@ static void FixupSeeds(RNGtype RNG_kind, int initial)
     case MERSENNE_TWISTER:
 	if(initial) I1 = 624;
 	 /* No action unless user has corrupted .Random.seed */
-	if(I1 <= 0) I1 = 624; 
+	if(I1 <= 0) I1 = 624;
 	/* check for all zeroes */
 	for (j = 1; j <= 624; j++)
 	    if(RNG_Table[RNG_kind].i_seed[j] != 0) {
@@ -289,7 +289,7 @@ static void FixupSeeds(RNGtype RNG_kind, int initial)
 		notallzero = 1;
 		break;
 	    }
-	if(!notallzero) Randomize(RNG_kind);	
+	if(!notallzero) Randomize(RNG_kind);
 	break;
     case USER_UNIF:
 	break;
@@ -326,7 +326,7 @@ static void RNG_Init(RNGtype kind, Int32 seed)
 	FixupSeeds(kind, 1);
 	break;
     case KNUTH_TAOCP:
-	RNG_Init_KT(seed);
+	RNG_Init_R_KT(seed);
 	break;
     case KNUTH_TAOCP2:
 	RNG_Init_KT2(seed);
@@ -381,12 +381,12 @@ r_rng_get (void *vstate)
 
 static double
 r_rng_get_double (void *vstate)
-{
+    {
   r_rng_tab_t *state = (r_rng_tab_t *) vstate;
   RNG_kind = state->kind;
   double u = unif_rand();
   return(u);
-}
+    }
 
 /* -------------------------------------- GNU R generator 1: wichmann_hill */
 static void
@@ -396,7 +396,7 @@ r_wichmann_hill_set (void *vstate, unsigned long int s)
   *state = RNG_Table[WICHMANN_HILL];
   RNGtype kind = state->kind;  
   Int32 seed = s;  /* FIXME: casting down from long seed to unsigned int */
-  RNG_Init(kind, seed);
+    RNG_Init(kind, seed);
   return;
 }
 
@@ -550,9 +550,9 @@ void GetRNGstate()
     int len_seed, j, tmp;
     SEXP seeds;
     RNGtype newRNG; N01type newN01;
-    
+
     /* look only in the workspace */
-    seeds = findVarInFrame(R_GlobalEnv, R_SeedsSymbol);
+	seeds = findVarInFrame(R_GlobalEnv, R_SeedsSymbol);
     if (seeds == R_UnboundValue) {
 	Randomize(RNG_kind);
     }
@@ -563,32 +563,32 @@ void GetRNGstate()
 	if (!isVector(seeds))
 	    error(_(".Random.seed is not a vector"));
 	tmp = INTEGER(seeds)[0];
-	if (tmp == NA_INTEGER)
-	    error(_(".Random.seed[1] is not a valid integer"));
+    if (tmp == NA_INTEGER)
+	error(_(".Random.seed[1] is not a valid integer"));
 	newRNG = tmp % 100;
 	newN01 = tmp / 100;
 	/*if (RNG_kind > USER_UNIF || RNG_kind < 0) {
 	    warning(".Random.seed was invalid: re-initializing");
 	    RNG_kind = RNG_DEFAULT;
 	    }*/
-	if (newN01 < 0 || newN01 > KINDERMAN_RAMAGE)
-	    error(_(".Random.seed[0] is not a valid Normal type"));
- 	switch(newRNG) {
- 	case WICHMANN_HILL:
- 	case MARSAGLIA_MULTICARRY:
- 	case SUPER_DUPER:
- 	case MERSENNE_TWISTER:
- 	case KNUTH_TAOCP:
- 	case KNUTH_TAOCP2:
-	    break;
- 	case USER_UNIF:
-	    if(!User_unif_fun)
-		error(_(".Random.seed[1] = 5 but no user-supplied generator"));
-	    break;
-	default:
-	    error(_(".Random.seed[1] is not a valid RNG kind (code)"));
-	}
-	RNG_kind = newRNG; N01_kind = newN01;
+    if (newN01 < 0 || newN01 > KINDERMAN_RAMAGE)
+	error(_(".Random.seed[0] is not a valid Normal type"));
+    switch(newRNG) {
+    case WICHMANN_HILL:
+    case MARSAGLIA_MULTICARRY:
+    case SUPER_DUPER:
+    case MERSENNE_TWISTER:
+    case KNUTH_TAOCP:
+    case KNUTH_TAOCP2:
+	break;
+    case USER_UNIF:
+	if(!User_unif_fun)
+	    error(_(".Random.seed[1] = 5 but no user-supplied generator"));
+	break;
+    default:
+	error(_(".Random.seed[1] is not a valid RNG kind (code)"));
+    }
+    RNG_kind = newRNG; N01_kind = newN01;
 	len_seed = RNG_Table[RNG_kind].n_seed;
 	/* Not sure whether this test is needed: wrong for USER_UNIF */
 	if(LENGTH(seeds) > 1 && LENGTH(seeds) < len_seed + 1)
@@ -613,15 +613,15 @@ void PutRNGstate()
     /* Copy out seeds to  .Random.seed  */
     int len_seed, j;
     SEXP seeds;
-    
+
     if (RNG_kind < 0 || RNG_kind > KNUTH_TAOCP2 ||
 	N01_kind < 0 || N01_kind > KINDERMAN_RAMAGE) {
 	warning("Internal .Random.seed is corrupt: not saving");
 	return;
     }
-    
+
     len_seed = RNG_Table[RNG_kind].n_seed;
-   
+
     PROTECT(seeds = allocVector(INTSXP, len_seed + 1));
 
     INTEGER(seeds)[0] = RNG_kind + 100 * N01_kind;
@@ -668,7 +668,7 @@ static void Norm_kind(N01type kind)
 	if (!User_norm_fun) error(_("'user_norm_rand' not in load table"));
     }
     GetRNGstate(); /* might not be initialized */
-    if (kind == BOX_MULLER) 
+    if (kind == BOX_MULLER)
 	BM_norm_keep = 0.0; /* zap Box-Muller history */
     N01_kind = kind;
     PutRNGstate();
@@ -803,7 +803,7 @@ MT_sgenrand(Int32 seed)
     (seed_array[0]&UPPER_MASK), seed_array[1], ..., seed_array[N-1]
    can take any values except all zeros.                             */
 
-static double MT_genrand()
+static double MT_genrand(void)
 {
     Int32 y;
     static Int32 mag01[2]={0x0, MATRIX_A};
@@ -812,23 +812,23 @@ static double MT_genrand()
     mti = dummyvec[0];
 
     if (mti >= N) { /* generate N words at one time */
-        int kk;
+	int kk;
 
-        if (mti == N+1)   /* if sgenrand() has not been called, */
-            MT_sgenrand(4357); /* a default initial seed is used   */
+	if (mti == N+1)   /* if sgenrand() has not been called, */
+	    MT_sgenrand(4357); /* a default initial seed is used   */
 
-        for (kk = 0; kk < N - M; kk++) {
-            y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
-            mt[kk] = mt[kk+M] ^ (y >> 1) ^ mag01[y & 0x1];
-        }
-        for (; kk < N - 1; kk++) {
-            y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
-            mt[kk] = mt[kk+(M-N)] ^ (y >> 1) ^ mag01[y & 0x1];
-        }
-        y = (mt[N-1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-        mt[N-1] = mt[M-1] ^ (y >> 1) ^ mag01[y & 0x1];
+	for (kk = 0; kk < N - M; kk++) {
+	    y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
+	    mt[kk] = mt[kk+M] ^ (y >> 1) ^ mag01[y & 0x1];
+	}
+	for (; kk < N - 1; kk++) {
+	    y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
+	    mt[kk] = mt[kk+(M-N)] ^ (y >> 1) ^ mag01[y & 0x1];
+	}
+	y = (mt[N-1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
+	mt[N-1] = mt[M-1] ^ (y >> 1) ^ mag01[y & 0x1];
 
-        mti = 0;
+	mti = 0;
     }
 
     y = mt[mti++];
@@ -841,45 +841,27 @@ static double MT_genrand()
     return ( (double)y * 2.3283064365386963e-10 ); /* reals: [0,1)-interval */
 }
 
+/*
+   The following code was taken from earlier versions of
+   http://www-cs-faculty.stanford.edu/~knuth/programs/rng.c-old
+   http://www-cs-faculty.stanford.edu/~knuth/programs/rng.c
+*/
+
+
 #define long Int32
-#define Void void
-#define void static void
 #define ran_arr_buf       R_KT_ran_arr_buf
 #define ran_arr_cycle     R_KT_ran_arr_cycle
 #define ran_arr_ptr       R_KT_ran_arr_ptr
 #define ran_arr_sentinel  R_KT_ran_arr_sentinel
 #define ran_x             dummyvec
 
-/* ===================  Knuth TAOCP ========================== */
-
-         /* Please do NOT alter this part of the code */
-
-/*    This program by D E Knuth is in the public domain and freely copyable
- *    AS LONG AS YOU MAKE ABSOLUTELY NO CHANGES!
- *    It is explained in Seminumerical Algorithms, 3rd edition, Section 3.6
- *    (or in the errata to the 2nd edition --- see
- *        http://www-cs-faculty.stanford.edu/~knuth/taocp.html
- *    in the changes to pages 171 and following of Volume 2).              */
-
-/*    If you find any bugs, please report them immediately to
- *                 taocp@cs.stanford.edu
- *    (and you will be rewarded if the bug is genuine). Thanks!            */
-
-/************ see the book for explanations and caveats! *******************/
-
-/* the old C calling conventions are used here, for reasons of portability */
-
 #define KK 100                     /* the long lag */
 #define LL  37                     /* the short lag */
 #define MM (1L<<30)                 /* the modulus */
+#define TT  70   /* guaranteed separation between streams */
 #define mod_diff(x,y) (((x)-(y))&(MM-1)) /* subtraction mod MM */
-
-/*long ran_x[KK]; */                   /* the generator state */
-
-/* void ran_array(long aa[],int n) */
-void ran_array(aa,n)    /* put n new random numbers in aa */
-  long *aa;   /* destination */
-  int n;      /* array length (must be at least KK) */
+#define is_odd(x)  ((x)&1)          /* units bit of x */
+static void ran_array(long aa[],int n)    /* put n new random numbers in aa */
 {
   register int i,j;
   for (j=0;j<KK;j++) aa[j]=ran_x[j];
@@ -887,80 +869,26 @@ void ran_array(aa,n)    /* put n new random numbers in aa */
   for (i=0;i<LL;i++,j++) ran_x[i]=mod_diff(aa[j-KK],aa[j-LL]);
   for (;i<KK;i++,j++) ran_x[i]=mod_diff(aa[j-KK],ran_x[i-LL]);
 }
-
-#define TT  70   /* guaranteed separation between streams */
-#define is_odd(x)  ((x)&1)          /* units bit of x */
-#define evenize(x) ((x)&(MM-2))   /* make x even */
-
-/* void ran_start(long seed) */
-void ran_start(seed)    /* do this before using ran_array */
-  long seed;            /* selector for different streams */
-{
-  register int t,j;
-  long x[KK+KK-1];              /* the preparation buffer */
-  register long ss=evenize(seed+2);
-  for (j=0;j<KK;j++) {
-    x[j]=ss;                      /* bootstrap the buffer */
-    ss<<=1; if (ss>=MM) ss-=MM-2; /* cyclic shift 29 bits */
-  }
-  for (;j<KK+KK-1;j++) x[j]=0;
-  x[1]++;              /* make x[1] (and only x[1]) odd */
-  ss=seed&(MM-1);
-  t=TT-1; while (t) {
-    for (j=KK-1;j>0;j--) x[j+j]=x[j];  /* "square" */
-    for (j=KK+KK-2;j>KK-LL;j-=2) x[KK+KK-1-j]=evenize(x[j]);
-    for (j=KK+KK-2;j>=KK;j--) if(is_odd(x[j])) {
-      x[j-(KK-LL)]=mod_diff(x[j-(KK-LL)],x[j]);
-      x[j-KK]=mod_diff(x[j-KK],x[j]);
-    }
-    if (is_odd(ss)) {              /* "multiply by z" */
-      for (j=KK;j>0;j--)  x[j]=x[j-1];
-      x[0]=x[KK];            /* shift the buffer cyclically */
-      if (is_odd(x[KK])) x[LL]=mod_diff(x[LL],x[KK]);
-    }
-    if (ss) ss>>=1; else t--;
-  }
-  for (j=0;j<LL;j++) ran_x[j+KK-LL]=x[j];
-  for (;j<KK;j++) ran_x[j-LL]=x[j];
-}
-
-/* the following routines are from exercise 3.6--15 */
-/* after calling ran_start, get new randoms by, e.g., "x=ran_arr_next()" */
-
 #define QUALITY 1009 /* recommended quality level for high-res use */
 static long ran_arr_buf[QUALITY];
 static long ran_arr_sentinel=(long)-1;
 static long *ran_arr_ptr=&ran_arr_sentinel; /* the next random number, or -1 */
 
-#define ran_arr_next() (*ran_arr_ptr>=0? *ran_arr_ptr++: ran_arr_cycle())
-static long ran_arr_cycle()
+static long ran_arr_cycle(void)
 {
   ran_array(ran_arr_buf,QUALITY);
-  ran_arr_buf[100]=-1;
+  ran_arr_buf[KK]=-1;
   ran_arr_ptr=ran_arr_buf+1;
   return ran_arr_buf[0];
 }
 
-/* ===================== end of Knuth's code ====================== */
-
-static Int32 KT_next()
-{
-    if(KT_pos >= 100) {
-	ran_arr_cycle();
-	KT_pos = 0;
-    }
-    return ran_x[(KT_pos)++];
-}
-
-Void RNG_Init_KT(Int32 seed)
-{
-    ran_start(seed % 1073741821);
-    KT_pos = 100;
-}
-
-#define ran_start ran_start2002
-
 /* ===================  Knuth TAOCP  2002 ========================== */
+
+/*    This program by D E Knuth is in the public domain and freely copyable.
+ *    It is explained in Seminumerical Algorithms, 3rd edition, Section 3.6
+ *    (or in the errata to the 2nd edition --- see
+ *        http://www-cs-faculty.stanford.edu/~knuth/taocp.html
+ *    in the changes to Volume 2 on pages 171 and following).              */
 
 /*    N.B. The MODIFICATIONS introduced in the 9th printing (2002) are
       included here; there's no backwards compatibility with the original. */
@@ -981,7 +909,7 @@ void ran_start(seed)    /* do this before using ran_array */
     ss<<=1; if (ss>=MM) ss-=MM-2; /* cyclic shift 29 bits */
   }
   x[1]++;              /* make x[1] (and only x[1]) odd */
-  for (ss=seed&(MM-1),t=TT-1; t; ) {       
+  for (ss=seed&(MM-1),t=TT-1; t; ) {
     for (j=KK-1;j>0;j--) x[j+j]=x[j], x[j+j-1]=0; /* "square" */
     for (j=KK+KK-2;j>=KK;j--)
       x[j-(KK-LL)]=mod_diff(x[j-(KK-LL)],x[j]),
@@ -1000,8 +928,22 @@ void ran_start(seed)    /* do this before using ran_array */
 }
 /* ===================== end of Knuth's code ====================== */
 
+static void RNG_Init_KT2(Int32 seed)
+{
+    ran_start(seed % 1073741821);
+    KT_pos = 100;
+}
 
-Void RNG_Init_KT2(Int32 seed)
+static Int32 KT_next(void)
+{
+    if(KT_pos >= 100) {
+	ran_arr_cycle();
+	KT_pos = 0;
+    }
+    return ran_x[(KT_pos)++];
+}
+
+static void RNG_Init_R_KT(Int32 seed)
 {
     ran_start(seed % 1073741821);
     KT_pos = 100;

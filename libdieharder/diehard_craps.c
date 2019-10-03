@@ -35,7 +35,7 @@ uint roll(){
 int diehard_craps(Test **test, int irun)
 {
 
- uint i,j;
+ uint i;
  uint point,throw,tries,wins;
  double sum,p;
  Xtest ptest;

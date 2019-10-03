@@ -76,7 +76,7 @@ int rgb_minimum_distance(Test **test, int irun)
   * Fischler's suggested algorithm here that is NlogN instead of doing
   * the straightforward N^2 algorithm, but we'll see.
   */
- dTuple point,*points;
+ dTuple *points;
  double earg,qarg,dist,mindist,dvolume;
 
  rgb_mindist_avg = 0.0;

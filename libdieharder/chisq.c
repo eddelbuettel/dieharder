@@ -41,10 +41,10 @@
  * the number of degrees of freedom of the fit.
  */
 
-double chisq_poisson(uint *observed,double lambda,int kmax,uint nsamp)
+double chisq_poisson(unsigned int *observed,double lambda,int kmax,unsigned int nsamp)
 {
 
- uint i,j,k;
+ unsigned int k;
  double *expected;
  double delchisq,chisq,pvalue;
 
@@ -104,7 +104,7 @@ double chisq_poisson(uint *observed,double lambda,int kmax,uint nsamp)
 double chisq_pearson(double *observed,double *expected,int kmax)
 {
 
- uint i,j,k;
+ unsigned int k;
  double delchisq,chisq,pvalue;
 
  /*
@@ -146,11 +146,11 @@ double chisq_pearson(double *observed,double *expected,int kmax)
  * It automatically cuts off the tails where bin membership isn't large
  * enough to give a good result.
  */
-double chisq_binomial(double *observed,double prob,uint kmax,uint nsamp)
+double chisq_binomial(double *observed,double prob,unsigned int kmax,unsigned int nsamp)
 {
 
- uint n,nmax,ndof;
- double expected,delchisq,chisq,pvalue,bprob,obstotal,exptotal;
+ unsigned int n,nmax,ndof;
+ double expected,delchisq,chisq,pvalue,obstotal,exptotal;
 
  chisq = 0.0;
  obstotal = 0.0;
@@ -202,14 +202,14 @@ double chisq_binomial(double *observed,double prob,uint kmax,uint nsamp)
  * Contributed by David Bauer to do a Pearson chisq on a 2D
  * histogram.
  */
-double chisq2d(uint *obs, uint rows, uint columns, uint N) {
+double chisq2d(unsigned int *obs, unsigned int rows, unsigned int columns, unsigned int N) {
 	double chisq = 0.0;
-	uint i, j, k;
-	uint ndof = (rows - 1) * (columns - 1);
+	unsigned int i, j, k;
+	unsigned int ndof = (rows - 1) * (columns - 1);
 
 	for (i = 0; i < rows; i++) {
 		for (j = 0; j < columns; j++) {
-			uint sum1 = 0, sum2 = 0;
+			unsigned int sum1 = 0, sum2 = 0;
 			double expected, top;
 			for (k = 0; k < columns; k++) sum1 += obs[i * columns + k];
 			for (k = 0; k < rows; k++) sum2 += obs[k * columns + j];
@@ -226,10 +226,10 @@ double chisq2d(uint *obs, uint rows, uint columns, uint N) {
  * Contributed by David Bauer, copied from chisq_poisson, with trivial
  * modifications to change it to use the geometric distribution.
  */
-double chisq_geometric(uint *observed,double prob,int kmax,uint nsamp)
+double chisq_geometric(unsigned int *observed,double prob,int kmax,unsigned int nsamp)
 {
 
- uint i,j,k;
+ unsigned int k;
  double *expected;
  double delchisq,chisq,pvalue;
 

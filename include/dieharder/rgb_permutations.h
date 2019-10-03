@@ -7,7 +7,7 @@
  */
 int rgb_permutations(Test **test,int irun);
 
-static Dtest rgb_permutations_dtest = {
+static Dtest rgb_permutations_dtest __attribute__((unused)) = {
   "RGB Permutations Test",
   "rgb_permutations",
   "\n\

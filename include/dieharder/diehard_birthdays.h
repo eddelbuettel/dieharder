@@ -7,7 +7,7 @@
  */
 int diehard_birthdays(Test **test, int irun);
 
-static Dtest diehard_birthdays_dtest = {
+static Dtest diehard_birthdays_dtest __attribute__((unused)) = {
   "Diehard Birthdays Test",
   "diehard_birthdays",
   "\n\

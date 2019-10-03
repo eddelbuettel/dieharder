@@ -80,7 +80,7 @@ int diehard_parking_lot(Test **test, int irun)
   */
  Cars parked[12000];
  uint k,n,i,crashed;
- double xtry,ytry,knorm;
+ double xtry,ytry;
  Xtest ptest;
 
  /*

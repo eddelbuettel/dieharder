@@ -1,7 +1,5 @@
 /*
  *========================================================================
- * $Id: dieharder.c 473 2008-09-22 07:29:33Z rgbatduke $
- *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
  */
@@ -21,8 +19,6 @@
  */
 int main(int argc, char *argv[]) 
 {
-
- int i;
 
  /*
   * set_globals picks the default values that control the CLI/UI (not the

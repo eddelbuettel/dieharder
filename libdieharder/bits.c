@@ -1,16 +1,6 @@
 /*
  *========================================================================
- * $Id: bits.c 254 2006-10-24 22:37:20Z rgb $
- *
  * See copyright in copyright.h and the accompanying file COPYING
- *========================================================================
- */
-
-/*
- *========================================================================
- * This should be a nice, big case switch where we add EACH test
- * we might want to do and either just configure and do it or
- * prompt for input (if absolutely necessary) and then do it.
  *========================================================================
  */
 
@@ -47,7 +37,7 @@
  * where of course the strings are actually returned as e.g.
  *     00000000000000000000000000000110  (unsigned int).
  */
-uint get_bit_ntuple(uint *bitstring,uint bslen,uint blen,uint boffset)
+unsigned int get_bit_ntuple(unsigned int *bitstring,unsigned int bslen,unsigned int blen,unsigned int boffset)
 {
 
  unsigned int b,rlen;
@@ -58,7 +48,7 @@ uint get_bit_ntuple(uint *bitstring,uint bslen,uint blen,uint boffset)
   * Some tests for failure or out of bounds.  8*blen has to be less than
   * sizeof(uint).
   */
- if(blen > 8*sizeof(uint)) blen = 8*sizeof(uint);
+ if(blen > 8*sizeof(unsigned int)) blen = 8*sizeof(unsigned int);
  /*
   * Now that blen is sane, we can make a mask for the eventual return
   * value of length blen.
@@ -89,7 +79,7 @@ uint get_bit_ntuple(uint *bitstring,uint bslen,uint blen,uint boffset)
   * from the RIGHT is to be found in bitstring[2]. Put this uint
   * into result to work on further.
   */
- ioffset = bslen - (uint) boffset/rmax_bits - 1;
+ ioffset = bslen - (unsigned int) boffset/rmax_bits - 1;
  result = bitstring[ioffset];
  if(verbose == D_BITS || verbose == D_ALL){
    printf("bitstring[%d] = %u\n",ioffset,result);
@@ -185,17 +175,17 @@ uint get_bit_ntuple(uint *bitstring,uint bslen,uint blen,uint boffset)
 /*
  * dumpbits only can dump <= 8*sizeof(unsigned int) bits at a time.
  */
-void dumpbits(uint *data, unsigned int nbits)
+void dumpbits(unsigned int *data, unsigned int nbits)
 {
 
- uint i,j;
- uint mask;
+ unsigned int i,j;
+ unsigned int mask;
 
  if(nbits > 8*sizeof(unsigned int)) {
    nbits = 8*sizeof(unsigned int);
  }
  
- mask = (uint)pow(2,nbits-1);
+ mask = (unsigned int)pow(2,nbits-1);
  for(i=0;i<nbits;i++){
    if(verbose == -1){
      printf("\nmask = %u = %04x :",mask,mask);
@@ -211,7 +201,7 @@ void dumpbits(uint *data, unsigned int nbits)
  * dumpbitwin is being rewritten to dump the rightmost nbits
  * from a uint, only.
  */
-void dumpbitwin(uint data, uint nbits)
+void dumpbitwin(unsigned int data, unsigned int nbits)
 {
 
  while (nbits > 0){
@@ -221,13 +211,13 @@ void dumpbitwin(uint data, uint nbits)
 
 }
 
-void dumpuintbits(uint *data, unsigned int nuints)
+void dumpuintbits(unsigned int *data, unsigned int nuints)
 {
 
- uint i;
+ unsigned int i;
  printf("|");
  for(i=0;i<nuints;i++) {
-  dumpbits(&data[i],sizeof(uint)*CHAR_BIT);
+  dumpbits(&data[i],sizeof(unsigned int)*CHAR_BIT);
   printf("|");
  }
 
@@ -284,12 +274,10 @@ void cycle(unsigned int *data, unsigned int nbits)
  * This is still a good idea, but we have to modify it so that it ONLY
  * gets VALID bits by their absolute index.
  */
-int get_bit(uint *rand_uint, unsigned int n)
+int get_bit(unsigned int *rand_uint, unsigned int n)
 {
 
- int i;
  unsigned int index,offset,mask;
- static unsigned last_rand;
 
  /*
   * This routine is designed to get the nth VALID bit of an input uint
@@ -313,7 +301,7 @@ int get_bit(uint *rand_uint, unsigned int n)
  
 }
 
-int get_int_bit(uint i, uint n)
+int get_int_bit(unsigned int i, unsigned int n)
 {
 
  unsigned int mask;
@@ -323,8 +311,8 @@ int get_int_bit(uint i, uint n)
   * limited checking to ensure that n is in the range 0-sizeof(uint)
   * Note
   */
- if(n < 0 || n > 8*sizeof(uint)){
-   fprintf(stderr,"Error: bit offset %u exceeds length %lu of uint.\n",n,8*sizeof(uint));
+ if(n < 0 || n > 8*sizeof(unsigned int)){
+   fprintf(stderr,"Error: bit offset %u exceeds length %lu of uint.\n",n,8*sizeof(unsigned int));
    exit(0);
  }
 
@@ -352,7 +340,7 @@ int get_int_bit(uint i, uint n)
 void dumpbits_left(unsigned int *data, unsigned int nbits)
 {
 
- int i,j;
+ int i;
  unsigned int mask;
 
  if(nbits > 8*sizeof(unsigned int)) {
@@ -405,7 +393,7 @@ unsigned int bit2uint(char *abit,unsigned int blen)
 
 }
 
-void fill_uint_buffer(uint *data,uint buflength)
+void fill_uint_buffer(unsigned int *data,unsigned int buflength)
 {
 
  /*
@@ -416,14 +404,14 @@ void fill_uint_buffer(uint *data,uint buflength)
   * is worth it to create a routine to do this once and for all.
   */
 
- uint bufbits,bcnt,bdelta;
- uint i,tmp1,tmp2,mask;
+ unsigned int bufbits,bdelta;
+ unsigned int i,tmp1,tmp2,mask;
 
  /*
   * Number of bits we must generate.
   */
- bufbits = buflength*sizeof(uint)*CHAR_BIT;
- bdelta = sizeof(uint)*CHAR_BIT - rmax_bits;
+ bufbits = buflength*sizeof(unsigned int)*CHAR_BIT;
+ bdelta = sizeof(unsigned int)*CHAR_BIT - rmax_bits;
  mask = 0;
  for(i=0;i<bdelta;i++) {
   mask = mask<<1;
@@ -513,10 +501,10 @@ void fill_uint_buffer(uint *data,uint buflength)
  *  01234567890123456789012345678901
  *  00011111110000000000000000000000
  */
-uint b_umask(uint bstart,uint bstop)
+unsigned int b_umask(unsigned int bstart,unsigned int bstop)
 {
 
- uint b,mask,blen;
+ unsigned int b,mask,blen;
 
  if(bstart < 0 || bstop > 31 || bstop < bstart){
    printf("b_umask() error: bstart <= bstop must be in range 0-31.\n");
@@ -559,10 +547,10 @@ uint b_umask(uint bstart,uint bstop)
  *      & 00101000000000000000000000000000
  *  shift 10100000000000000000000000000000
  */
-uint b_window(uint input,uint bstart,uint bstop,uint boffset)
+unsigned int b_window(unsigned int input,unsigned int bstart,unsigned int bstop,unsigned int boffset)
 {
 
- uint b,mask,output;
+ unsigned int mask,output;
  int shift;
 
  if(bstart < 0 || bstop > 31 || bstop < bstart){
@@ -594,18 +582,18 @@ uint b_window(uint input,uint bstart,uint bstop,uint boffset)
 /*
  * Rotate the uint left (with periodic BCs)
  */
-uint b_rotate_left(uint input,uint shift)
+unsigned int b_rotate_left(unsigned int input,unsigned int shift)
 {
 
- uint tmp;
+ unsigned int tmp;
 
- dumpbits(&input,sizeof(uint)*CHAR_BIT);
+ dumpbits(&input,sizeof(unsigned int)*CHAR_BIT);
  tmp = b_window(input,0,shift-1,32-shift);
- dumpbits(&tmp,sizeof(uint)*CHAR_BIT);
+ dumpbits(&tmp,sizeof(unsigned int)*CHAR_BIT);
  input = input << shift;
- dumpbits(&input,sizeof(uint)*CHAR_BIT);
+ dumpbits(&input,sizeof(unsigned int)*CHAR_BIT);
  input += tmp;
- dumpbits(&input,sizeof(uint)*CHAR_BIT);
+ dumpbits(&input,sizeof(unsigned int)*CHAR_BIT);
 
  return input;
 
@@ -614,27 +602,27 @@ uint b_rotate_left(uint input,uint shift)
 /*
  * Rotate the uint right (with periodic BCs)
  */
-uint b_rotate_right(uint input, uint shift)
+unsigned int b_rotate_right(unsigned int input, unsigned int shift)
 {
 
- uint tmp;
+ unsigned int tmp;
 
  if(shift == 0) return(input);
  MYDEBUG(D_BITS) {
    printf("Rotate right %d\n",shift);
-   dumpbits(&input,sizeof(uint)*CHAR_BIT);printf("|");
+   dumpbits(&input,sizeof(unsigned int)*CHAR_BIT);printf("|");
  }
  tmp = b_window(input,32-shift,31,0);
  MYDEBUG(D_BITS) {
-   dumpbits(&tmp,sizeof(uint)*CHAR_BIT);printf("\n");
+   dumpbits(&tmp,sizeof(unsigned int)*CHAR_BIT);printf("\n");
  }
  input = input >> shift;
  MYDEBUG(D_BITS) {
-   dumpbits(&input,sizeof(uint)*CHAR_BIT);printf("|");
+   dumpbits(&input,sizeof(unsigned int)*CHAR_BIT);printf("|");
  }
  input += tmp;
  MYDEBUG(D_BITS) {
-   dumpbits(&input,sizeof(uint)*CHAR_BIT);printf("\n\n");
+   dumpbits(&input,sizeof(unsigned int)*CHAR_BIT);printf("\n\n");
  }
 
  return(input);
@@ -671,8 +659,8 @@ uint b_rotate_right(uint input, uint shift)
  * BUT, we're not going to mess with that NOW unless we must.  The routine
  * below is AFAIK tested and reliable, if not optimal.
  */
-void get_ntuple_cyclic(uint *input,uint ilen,
-    uint *output,uint jlen,uint ntuple,uint offset)
+void get_ntuple_cyclic(unsigned int *input,unsigned int ilen,
+    unsigned int *output,unsigned int jlen,unsigned int ntuple,unsigned int offset)
 {
 
  /* important bitlevel indices */
@@ -684,7 +672,7 @@ void get_ntuple_cyclic(uint *input,uint ilen,
  /*
   * Now we set all the bit indices.
   */
- bu = sizeof(uint)*CHAR_BIT;   /* index/size of uint in bits */
+ bu = sizeof(unsigned int)*CHAR_BIT;   /* index/size of uint in bits */
  bs = offset%bu;               /* starting bit */
  be = (offset + ntuple)%bu;    /* ending bit */
  if(be == 0) be = bu;          /* point PAST end of last bit */
@@ -711,7 +699,7 @@ void get_ntuple_cyclic(uint *input,uint ilen,
  /*
   * Always zero output
   */
- memset(output,0,jlen*sizeof(uint));
+ memset(output,0,jlen*sizeof(unsigned int));
 
  /*
   * Number of bits left to parse out
@@ -910,14 +898,13 @@ void get_ntuple_cyclic(uint *input,uint ilen,
  * by the calling routine.
  */
 
-static uint bits_rand[2];   /* A buffer that can handle partial returns */
+static unsigned int bits_rand[2];   /* A buffer that can handle partial returns */
 static int bleft = -1; /* Number of bits we still need in rand[1] */
 
-uint get_uint_rand(gsl_rng *gsl_rng)
+unsigned int get_uint_rand(gsl_rng *gsl_rng)
 {
 
- int i,j;
- static uint bl,bu,tmp;
+ static unsigned int bl,bu,tmp;
 
  /*
   * First call -- initialize/fill bits_rand from current rng.  bl and bu
@@ -925,7 +912,7 @@ uint get_uint_rand(gsl_rng *gsl_rng)
   */
  if(bleft == -1){
    /* e.g. 32 */
-   bu = sizeof(uint)*CHAR_BIT;
+   bu = sizeof(unsigned int)*CHAR_BIT;
    /* e.g. 32 - 31 = 1 for a generator that returns 31 bits */
    bl = bu - rmax_bits;
    /* For the first call, we start with bits_rand[1] all or partially filled */
@@ -1040,8 +1027,8 @@ uint get_uint_rand(gsl_rng *gsl_rng)
  * one-page range.
  */
 #define BRBUF 6
-static uint bits_randbuf[BRBUF];
-static uint bits_output[BRBUF];
+static unsigned int bits_randbuf[BRBUF];
+static unsigned int bits_output[BRBUF];
 /* pointer to line containing LAST return */
 static int brindex = -1;
 /* pointer to region being backfilled */
@@ -1049,11 +1036,11 @@ static int iclear = -1;
 /* pointer to the last (most significant) returned bit */
 static int bitindex = -1;
 
-void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng)
+void get_rand_bits(void *result,unsigned int rsize,unsigned int nbits,gsl_rng *gsl_rng)
 {
 
- int i,j,offset;
- uint bu;
+ int i,offset;
+ unsigned int bu;
  char *output,*resultp;
 
  /*
@@ -1069,7 +1056,7 @@ void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng)
   * more bits than the result buffer will hold.  We return 0 if nbits = 0.
   * We cannot return more bits than bits_randbuf[] will hold.
   */
- bu = sizeof(uint)*CHAR_BIT;
+ bu = sizeof(unsigned int)*CHAR_BIT;
  if(nbits == 0) return;  /* Handle a "dumb call" */
  if(nbits > (BRBUF-2)*bu){
    fprintf(stderr,"Warning:  get_rand_bits capacity exceeded!\n");
@@ -1197,9 +1184,9 @@ void get_rand_bits(void *result,uint rsize,uint nbits,gsl_rng *gsl_rng)
    resultp[i] = output[i];
    MYDEBUG(D_BITS) {
      printf(" Returning: result[%d} = ",i);
-     dumpbits((uint *)&resultp[i],8);
+     dumpbits((unsigned int *)&resultp[i],8);
      printf(" output[%d} = ",i);
-     dumpbits((uint *)&output[i],8);
+     dumpbits((unsigned int *)&output[i],8);
      printf("\n");
    }
  }
@@ -1221,8 +1208,8 @@ void mybitadd(char *dst, int doffset, char *src, int soffset, int slen)
 {
 
  int sindex,dindex;
- int margin,sblen;
- uint tmp;
+ int sblen;
+ unsigned int tmp;
  char *btmp;
 
  btmp = (char *)(&tmp + 2);  /* we only need the last two bytes of tmp */
@@ -1237,7 +1224,7 @@ void mybitadd(char *dst, int doffset, char *src, int soffset, int slen)
    sindex,soffset,dindex,doffset,sblen);
  while(slen > 0){
    tmp = 0;
-   tmp = (uint) src[sindex++];   /* Put current source byte into workspace. */
+   tmp = (unsigned int) src[sindex++];   /* Put current source byte into workspace. */
    tmp = 255;
    printf("Source byte %2d= ",sindex-1);
    /* dumpbitwin((char *)&tmp,4,0,32); */
@@ -1285,14 +1272,14 @@ void mybitadd(char *dst, int doffset, char *src, int soffset, int slen)
 
 }
 
-static uint pattern_output[BRBUF];
+/* static unsigned int pattern_output[BRBUF]; */
 
-void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng)
+void get_rand_pattern(void *result,unsigned int rsize,int *pattern,gsl_rng *gsl_rng)
 {
 
  int i,j,pindex,poffset;
- uint bu,nbits,tmpuint;
- char *output,*resultp;
+ unsigned int bu,nbits,tmpuint;
+ char *resultp;
 
  MYDEBUG(D_BITS) {
    printf("# get_rand_pattern: Initializing with rsize = %d\n",rsize);
@@ -1330,7 +1317,7 @@ void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng)
   * more bits than the result buffer will hold.  We return 0 if nbits = 0.
   * We cannot return more bits than bits_randbuf[] or result[] will hold.
   */
- bu = sizeof(uint)*CHAR_BIT;
+ bu = sizeof(unsigned int)*CHAR_BIT;
  if(nbits == 0) return;  /* Handle a "dumb call" */
  if(nbits > (BRBUF-2)*bu){
    fprintf(stderr,"Warning:  get_rand_bits capacity exceeded!\n");
@@ -1379,7 +1366,7 @@ void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng)
      j = pattern[i];
      while(j>bu) {
 
-       get_rand_bits(&tmpuint,sizeof(uint),bu,rng);
+       get_rand_bits(&tmpuint,sizeof(unsigned int),bu,rng);
        /*
         * Pack this whole uint into result at the offset.
 	*/
@@ -1389,11 +1376,11 @@ void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng)
         * Decrement j, increment pindex, poffset remains unchanged.
         */
        j -= bu;
-       pindex += sizeof(uint);
+       pindex += sizeof(unsigned int);
 
      }
 
-     get_rand_bits(&tmpuint,sizeof(uint),j,rng);
+     get_rand_bits(&tmpuint,sizeof(unsigned int),j,rng);
      /*
       * Pack this partial uint into resultp
       */
@@ -1410,12 +1397,12 @@ void get_rand_pattern(void *result,uint rsize,int *pattern,gsl_rng *gsl_rng)
      j = -pattern[i];
      while(j>bu) {
        /* skip whole uint's worth */
-       get_rand_bits(&tmpuint,sizeof(uint),bu,rng);
+       get_rand_bits(&tmpuint,sizeof(unsigned int),bu,rng);
        j -= bu;
 
      }
      /* skip final remaining <bu chunk */
-     get_rand_bits(&tmpuint,sizeof(uint),j,rng);
+     get_rand_bits(&tmpuint,sizeof(unsigned int),j,rng);
 
    } else {
 

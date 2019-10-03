@@ -19,7 +19,7 @@ uint rgb_permutations_k;
 int rgb_permutations(Test **test,int irun)
 {
 
- uint i,j,k,permindex=0,t;
+ uint i,k,permindex=0,t;
  Vtest vtest;
  double *testv;
  size_t ps[4096];

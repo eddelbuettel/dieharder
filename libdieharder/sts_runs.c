@@ -21,11 +21,11 @@
 int sts_runs(Test **test, int irun)
 {
 
- int i,b,t;
- uint nbits,bitstring,value;
+ int b,t;
+ uint value;
  uint *rand_int;
  Xtest ptest;
- double pks_monobit,pones,c00,c01,c10,c11;;
+ double pones,c00,c01,c10,c11;;
 
  /*
   * for display only.  2 means sts_runs tests 2-tuples.

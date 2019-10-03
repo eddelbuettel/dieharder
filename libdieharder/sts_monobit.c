@@ -34,8 +34,8 @@
 int sts_monobit(Test **test, int irun)
 {
 
- int i,b,bsamples,bit;
- uint bitstring,blens,nbits;
+ int i;
+ uint blens,nbits;
  Xtest ptest;
 
  /*

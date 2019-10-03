@@ -25,7 +25,7 @@
 #define RotL(x,N)    (rmax_mask & (((x) << (N)) | ((x) >> (rmax_bits-(N)))))
 #define CYCLES 4
 
-static double targetData1[] = {
+static double targetData1[] __attribute__((unused)) = {
  0,0,0,0,0.00000000,0.04446648,0.08890238,0.11821510,0.13166032,0.13135398,0.12074333,0.10339043,0.08300095,0.06272901,0.04470878,0.02987510,0.01872015,0.01095902,0.00597167,0.00298869,0.00138878,0.00059125,0.00022524,0.00007782,0.00002346,0.00000634,0.00000133,0.00000035,0.00000003,0.00000001,0.00000000,0.00000000
 };
 // n = 64, 0, 0.04446648, 0.08890238, ....
@@ -34,19 +34,19 @@ static double targetData[] = {
 0.0, 0.0, 0.0, 0.0, 0.13333333, 0.20000000, 0.20634921, 0.17857143, 0.13007085, 0.08183633, 0.04338395, 0.01851828, 0.00617270, 0.00151193, 0.00023520, 0.00001680, 0.00000000, 0.00000000, 0.00000000, 0.00000000
 };
 
-inline int insert(double x, double *array, uint startVal);
+inline int insert(double x, double *array, unsigned int startVal);
 
 int dab_filltree(Test **test,int irun) {
  int size = (ntuple == 0) ? 32 : ntuple;
- uint target = sizeof(targetData)/sizeof(double);
+ unsigned int target = sizeof(targetData)/sizeof(double);
  int startVal = (size / 2) - 1;
  double *array = (double *) malloc(sizeof(double) * size);
  double *counts, *expected;
  int i, j;
  double x;
- uint start = 0;
- uint end = 0;
- uint rotAmount = 0;
+ unsigned int start = 0;
+ unsigned int end = 0;
+ unsigned int rotAmount = 0;
  double *positionCounts;
 
  counts = (double *) malloc(sizeof(double) * target);
@@ -74,7 +74,7 @@ int dab_filltree(Test **test,int irun) {
    memset(array, 0, sizeof(double) * size);
    i = 0;
    do {
-     uint v = gsl_rng_get(rng);
+     unsigned int v = gsl_rng_get(rng);
 
      x = ((double) RotL(v, rotAmount)) / rmax_mask;
      i++;
@@ -105,7 +105,7 @@ int dab_filltree(Test **test,int irun) {
 }
 
 
-inline int insert(double x, double *array, uint startVal) {
+inline int insert(double x, double *array, unsigned int startVal) {
  uint d = (startVal + 1) / 2;
  uint i = startVal;
  while (d > 0) {

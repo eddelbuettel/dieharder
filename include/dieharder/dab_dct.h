@@ -7,7 +7,7 @@
  */
 int dab_dct(Test **test, int irun);
 
-static Dtest dab_dct_dtest = {
+static Dtest dab_dct_dtest __attribute__((unused)) = {
   "DAB DCT",
   "dab_dct",
   "\

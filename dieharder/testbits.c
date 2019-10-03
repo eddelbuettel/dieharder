@@ -19,8 +19,8 @@
 void testbits()
 {
 
- uint input[4],output[4];
- uint tuple,off;
+ unsigned int input[4],output[4];
+ unsigned int tuple,off;
  int pattern[10];
 
  off = get_uint_rand(rng);
@@ -208,7 +208,7 @@ void testbits()
  tuple = 32;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");
@@ -217,7 +217,7 @@ void testbits()
  tuple = 32;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");
@@ -226,7 +226,7 @@ void testbits()
  tuple = 64;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");
@@ -234,7 +234,7 @@ void testbits()
  tuple = 16;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");
@@ -242,7 +242,7 @@ void testbits()
  tuple = 16;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");
@@ -250,7 +250,7 @@ void testbits()
  tuple = 16;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");
@@ -258,7 +258,7 @@ void testbits()
  tuple = 32;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");
@@ -266,7 +266,7 @@ void testbits()
  tuple = 24;
  printf("Getting a %d-tuple from circulating buffer\n",tuple);
  printf("==============================================================================\n");
- get_rand_bits((void *)output,4*sizeof(uint),tuple,rng);
+ get_rand_bits((void *)output,4*sizeof(unsigned int),tuple,rng);
  dumpuintbits(&output[0],2);printf("\n");
  dumpuintbits(&output[2],2);printf("\n");
  printf("==================================================================\n\n");

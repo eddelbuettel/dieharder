@@ -148,6 +148,9 @@ rm -rf $RPM_BUILD_ROOT
 # The dieharder binary
 %attr(755,root,root) /usr/bin/dieharder
 
+# This is supposed to be installed by/for the GBT?
+%attr(755,root,root) /usr/bin/dieharder-config
+
 # The dieharder man page
 %attr(644,root,root) /usr/share/man/man1/dieharder.1.gz
 

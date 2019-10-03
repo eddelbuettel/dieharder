@@ -22,6 +22,7 @@ man3_MANS = libdieharder.3
 lib_LTLIBRARIES = libdieharder.la
 libdieharder_la_LIBADD = -lgsl -lgslcblas -lm
 libdieharder_la_LDFLAGS = -version-number @DIEHARDER_LT_VERSION@
+libdieharder_la_CFLAGS = -std=c99 -Wall -pedantic
 
 # Sources
 # The shell script is the easy way to do this, by far.  But it may not
@@ -114,7 +115,7 @@ DEFINES = -DVERSION=$(VERSION) # -DLITTLE_ENDIAN=$(LITTLE_ENDIAN)
 
 # Compile flags (use fairly standard -O3 as default)
 AM_CPPFLAGS = $(DEFINES) -I ${top_srcdir}/include -I ${includedir}
-AM_CFLAGS = -O3 -Wall -Wno-unused-variable
+AM_CFLAGS = -O3 -Wall -pedantic -Wno-unused-variable
 
 #========================================================================
 # The only safe place to do commits is in the toplevel directory

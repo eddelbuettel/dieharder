@@ -48,7 +48,10 @@ subdir = libdieharder
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	COPYING
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -79,31 +82,65 @@ am__base_list = \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(man3dir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libdieharder_la_DEPENDENCIES =
-am_libdieharder_la_OBJECTS = bits.lo chisq.lo countx.lo \
-	dab_bytedistrib.lo dab_dct.lo dab_filltree.lo dab_filltree2.lo \
-	dab_monobit2.lo diehard_2dsphere.lo diehard_3dsphere.lo \
-	diehard_birthdays.lo diehard_bitstream.lo \
-	diehard_count_1s_byte.lo diehard_count_1s_stream.lo \
-	diehard_craps.lo diehard_dna.lo diehard_operm5.lo \
-	diehard_opso.lo diehard_oqso.lo diehard_parking_lot.lo \
-	diehard_rank_32x32.lo diehard_rank_6x8.lo diehard_runs.lo \
-	diehard_squeeze.lo diehard_sums.lo dieharder_rng_types.lo \
-	dieharder_test_types.lo histogram.lo kstest.lo \
-	marsaglia_tsang_gcd.lo marsaglia_tsang_gorilla.lo parse.lo \
-	prob.lo random_seed.lo rank.lo rgb_bitdist.lo \
-	rgb_kstest_test.lo rgb_lagged_sums.lo rgb_minimum_distance.lo \
-	rgb_permutations.lo rgb_persist.lo rgb_timing.lo rngav.lo \
-	rng_aes.lo rijndael-alg-fst.lo rng_ca.lo rng_dev_random.lo \
-	rng_dev_arandom.lo rng_dev_urandom.lo rng_file_input.lo \
-	rng_file_input_raw.lo rngs_gnu_r.lo rng_kiss.lo rng_jenkins.lo \
-	rng_superkiss.lo rng_stdin_input_raw.lo rng_threefish.lo \
-	rng_uvag.lo rng_XOR.lo sample.lo skein_block64.lo \
-	skein_block_ref.lo std_test.lo sts_monobit.lo sts_runs.lo \
-	sts_serial.lo timing.lo Vtest.lo version.lo Xtest.lo
+am_libdieharder_la_OBJECTS = libdieharder_la-bits.lo \
+	libdieharder_la-chisq.lo libdieharder_la-countx.lo \
+	libdieharder_la-dab_bytedistrib.lo libdieharder_la-dab_dct.lo \
+	libdieharder_la-dab_filltree.lo \
+	libdieharder_la-dab_filltree2.lo \
+	libdieharder_la-dab_monobit2.lo \
+	libdieharder_la-diehard_2dsphere.lo \
+	libdieharder_la-diehard_3dsphere.lo \
+	libdieharder_la-diehard_birthdays.lo \
+	libdieharder_la-diehard_bitstream.lo \
+	libdieharder_la-diehard_count_1s_byte.lo \
+	libdieharder_la-diehard_count_1s_stream.lo \
+	libdieharder_la-diehard_craps.lo \
+	libdieharder_la-diehard_dna.lo \
+	libdieharder_la-diehard_operm5.lo \
+	libdieharder_la-diehard_opso.lo \
+	libdieharder_la-diehard_oqso.lo \
+	libdieharder_la-diehard_parking_lot.lo \
+	libdieharder_la-diehard_rank_32x32.lo \
+	libdieharder_la-diehard_rank_6x8.lo \
+	libdieharder_la-diehard_runs.lo \
+	libdieharder_la-diehard_squeeze.lo \
+	libdieharder_la-diehard_sums.lo \
+	libdieharder_la-dieharder_rng_types.lo \
+	libdieharder_la-dieharder_test_types.lo \
+	libdieharder_la-histogram.lo libdieharder_la-kstest.lo \
+	libdieharder_la-marsaglia_tsang_gcd.lo \
+	libdieharder_la-marsaglia_tsang_gorilla.lo \
+	libdieharder_la-parse.lo libdieharder_la-prob.lo \
+	libdieharder_la-random_seed.lo libdieharder_la-rank.lo \
+	libdieharder_la-rgb_bitdist.lo \
+	libdieharder_la-rgb_kstest_test.lo \
+	libdieharder_la-rgb_lagged_sums.lo \
+	libdieharder_la-rgb_minimum_distance.lo \
+	libdieharder_la-rgb_permutations.lo \
+	libdieharder_la-rgb_persist.lo libdieharder_la-rgb_timing.lo \
+	libdieharder_la-rngav.lo libdieharder_la-rng_aes.lo \
+	libdieharder_la-rijndael-alg-fst.lo libdieharder_la-rng_ca.lo \
+	libdieharder_la-rng_dev_random.lo \
+	libdieharder_la-rng_dev_arandom.lo \
+	libdieharder_la-rng_dev_urandom.lo \
+	libdieharder_la-rng_file_input.lo \
+	libdieharder_la-rng_file_input_raw.lo \
+	libdieharder_la-rngs_gnu_r.lo libdieharder_la-rng_kiss.lo \
+	libdieharder_la-rng_jenkins.lo \
+	libdieharder_la-rng_superkiss.lo \
+	libdieharder_la-rng_stdin_input_raw.lo \
+	libdieharder_la-rng_threefish.lo libdieharder_la-rng_uvag.lo \
+	libdieharder_la-rng_XOR.lo libdieharder_la-sample.lo \
+	libdieharder_la-skein_block64.lo \
+	libdieharder_la-skein_block_ref.lo libdieharder_la-std_test.lo \
+	libdieharder_la-sts_monobit.lo libdieharder_la-sts_runs.lo \
+	libdieharder_la-sts_serial.lo libdieharder_la-timing.lo \
+	libdieharder_la-Vtest.lo libdieharder_la-version.lo \
+	libdieharder_la-Xtest.lo
 libdieharder_la_OBJECTS = $(am_libdieharder_la_OBJECTS)
 libdieharder_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(libdieharder_la_LDFLAGS) $(LDFLAGS) -o $@
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(libdieharder_la_CFLAGS) \
+	$(CFLAGS) $(libdieharder_la_LDFLAGS) $(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -144,8 +181,8 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LIB_VERSION = 3.31.0
-DIEHARDER_LT_VERSION = 3:31:0
+DIEHARDER_LIB_VERSION = 3.31.1
+DIEHARDER_LT_VERSION = 3:31:1
 DSYMUTIL = 
 DUMPBIN = 
 ECHO_C = 
@@ -181,10 +218,10 @@ OTOOL64 =
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 3.31.0
+PACKAGE_STRING = dieharder 3.31.1
 PACKAGE_TARNAME = dieharder
 PACKAGE_URL = 
-PACKAGE_VERSION = 3.31.0
+PACKAGE_VERSION = 3.31.1
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -196,7 +233,7 @@ STRIP = strip
 
 # This is automagically set in the toplevel build.  Do not edit by
 # hand.
-VERSION = 3.31.0
+VERSION = 3.31.1
 abs_builddir = /home/rgb/Src/Projects/dieharder/libdieharder
 abs_srcdir = /home/rgb/Src/Projects/dieharder/libdieharder
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -217,6 +254,7 @@ build_vendor = unknown
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
+dieharder_CFLAGS = -std=c99 -Wall -pedantic -I${prefix}/include
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
@@ -229,6 +267,7 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /home/rgb/Src/Projects/dieharder/install-sh
+libdieharder_lo_CFLAGS = -Wall -pedantic -I${prefix}/include
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -258,7 +297,8 @@ man3_MANS = libdieharder.3
 # Library definitions
 lib_LTLIBRARIES = libdieharder.la
 libdieharder_la_LIBADD = -lgsl -lgslcblas -lm
-libdieharder_la_LDFLAGS = -version-number 3:31:0
+libdieharder_la_LDFLAGS = -version-number 3:31:1
+libdieharder_la_CFLAGS = -std=c99 -Wall -pedantic
 
 # Sources
 # The shell script is the easy way to do this, by far.  But it may not
@@ -352,7 +392,7 @@ DEFINES = -DVERSION=$(VERSION) # -DLITTLE_ENDIAN=$(LITTLE_ENDIAN)
 
 # Compile flags (use fairly standard -O3 as default)
 AM_CPPFLAGS = $(DEFINES) -I ${top_srcdir}/include -I ${includedir}
-AM_CFLAGS = -O3 -Wall -Wno-unused-variable
+AM_CFLAGS = -O3 -Wall -pedantic -Wno-unused-variable
 
 #========================================================================
 # The only safe place to do commits is in the toplevel directory
@@ -434,76 +474,76 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-include ./$(DEPDIR)/Vtest.Plo
-include ./$(DEPDIR)/Xtest.Plo
-include ./$(DEPDIR)/bits.Plo
-include ./$(DEPDIR)/chisq.Plo
-include ./$(DEPDIR)/countx.Plo
-include ./$(DEPDIR)/dab_bytedistrib.Plo
-include ./$(DEPDIR)/dab_dct.Plo
-include ./$(DEPDIR)/dab_filltree.Plo
-include ./$(DEPDIR)/dab_filltree2.Plo
-include ./$(DEPDIR)/dab_monobit2.Plo
-include ./$(DEPDIR)/diehard_2dsphere.Plo
-include ./$(DEPDIR)/diehard_3dsphere.Plo
-include ./$(DEPDIR)/diehard_birthdays.Plo
-include ./$(DEPDIR)/diehard_bitstream.Plo
-include ./$(DEPDIR)/diehard_count_1s_byte.Plo
-include ./$(DEPDIR)/diehard_count_1s_stream.Plo
-include ./$(DEPDIR)/diehard_craps.Plo
-include ./$(DEPDIR)/diehard_dna.Plo
-include ./$(DEPDIR)/diehard_operm5.Plo
-include ./$(DEPDIR)/diehard_opso.Plo
-include ./$(DEPDIR)/diehard_oqso.Plo
-include ./$(DEPDIR)/diehard_parking_lot.Plo
-include ./$(DEPDIR)/diehard_rank_32x32.Plo
-include ./$(DEPDIR)/diehard_rank_6x8.Plo
-include ./$(DEPDIR)/diehard_runs.Plo
-include ./$(DEPDIR)/diehard_squeeze.Plo
-include ./$(DEPDIR)/diehard_sums.Plo
-include ./$(DEPDIR)/dieharder_rng_types.Plo
-include ./$(DEPDIR)/dieharder_test_types.Plo
-include ./$(DEPDIR)/histogram.Plo
-include ./$(DEPDIR)/kstest.Plo
-include ./$(DEPDIR)/marsaglia_tsang_gcd.Plo
-include ./$(DEPDIR)/marsaglia_tsang_gorilla.Plo
-include ./$(DEPDIR)/parse.Plo
-include ./$(DEPDIR)/prob.Plo
-include ./$(DEPDIR)/random_seed.Plo
-include ./$(DEPDIR)/rank.Plo
-include ./$(DEPDIR)/rgb_bitdist.Plo
-include ./$(DEPDIR)/rgb_kstest_test.Plo
-include ./$(DEPDIR)/rgb_lagged_sums.Plo
-include ./$(DEPDIR)/rgb_minimum_distance.Plo
-include ./$(DEPDIR)/rgb_permutations.Plo
-include ./$(DEPDIR)/rgb_persist.Plo
-include ./$(DEPDIR)/rgb_timing.Plo
-include ./$(DEPDIR)/rijndael-alg-fst.Plo
-include ./$(DEPDIR)/rng_XOR.Plo
-include ./$(DEPDIR)/rng_aes.Plo
-include ./$(DEPDIR)/rng_ca.Plo
-include ./$(DEPDIR)/rng_dev_arandom.Plo
-include ./$(DEPDIR)/rng_dev_random.Plo
-include ./$(DEPDIR)/rng_dev_urandom.Plo
-include ./$(DEPDIR)/rng_file_input.Plo
-include ./$(DEPDIR)/rng_file_input_raw.Plo
-include ./$(DEPDIR)/rng_jenkins.Plo
-include ./$(DEPDIR)/rng_kiss.Plo
-include ./$(DEPDIR)/rng_stdin_input_raw.Plo
-include ./$(DEPDIR)/rng_superkiss.Plo
-include ./$(DEPDIR)/rng_threefish.Plo
-include ./$(DEPDIR)/rng_uvag.Plo
-include ./$(DEPDIR)/rngav.Plo
-include ./$(DEPDIR)/rngs_gnu_r.Plo
-include ./$(DEPDIR)/sample.Plo
-include ./$(DEPDIR)/skein_block64.Plo
-include ./$(DEPDIR)/skein_block_ref.Plo
-include ./$(DEPDIR)/std_test.Plo
-include ./$(DEPDIR)/sts_monobit.Plo
-include ./$(DEPDIR)/sts_runs.Plo
-include ./$(DEPDIR)/sts_serial.Plo
-include ./$(DEPDIR)/timing.Plo
-include ./$(DEPDIR)/version.Plo
+include ./$(DEPDIR)/libdieharder_la-Vtest.Plo
+include ./$(DEPDIR)/libdieharder_la-Xtest.Plo
+include ./$(DEPDIR)/libdieharder_la-bits.Plo
+include ./$(DEPDIR)/libdieharder_la-chisq.Plo
+include ./$(DEPDIR)/libdieharder_la-countx.Plo
+include ./$(DEPDIR)/libdieharder_la-dab_bytedistrib.Plo
+include ./$(DEPDIR)/libdieharder_la-dab_dct.Plo
+include ./$(DEPDIR)/libdieharder_la-dab_filltree.Plo
+include ./$(DEPDIR)/libdieharder_la-dab_filltree2.Plo
+include ./$(DEPDIR)/libdieharder_la-dab_monobit2.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_2dsphere.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_3dsphere.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_birthdays.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_bitstream.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_count_1s_byte.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_count_1s_stream.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_craps.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_dna.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_operm5.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_opso.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_oqso.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_parking_lot.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_rank_32x32.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_rank_6x8.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_runs.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_squeeze.Plo
+include ./$(DEPDIR)/libdieharder_la-diehard_sums.Plo
+include ./$(DEPDIR)/libdieharder_la-dieharder_rng_types.Plo
+include ./$(DEPDIR)/libdieharder_la-dieharder_test_types.Plo
+include ./$(DEPDIR)/libdieharder_la-histogram.Plo
+include ./$(DEPDIR)/libdieharder_la-kstest.Plo
+include ./$(DEPDIR)/libdieharder_la-marsaglia_tsang_gcd.Plo
+include ./$(DEPDIR)/libdieharder_la-marsaglia_tsang_gorilla.Plo
+include ./$(DEPDIR)/libdieharder_la-parse.Plo
+include ./$(DEPDIR)/libdieharder_la-prob.Plo
+include ./$(DEPDIR)/libdieharder_la-random_seed.Plo
+include ./$(DEPDIR)/libdieharder_la-rank.Plo
+include ./$(DEPDIR)/libdieharder_la-rgb_bitdist.Plo
+include ./$(DEPDIR)/libdieharder_la-rgb_kstest_test.Plo
+include ./$(DEPDIR)/libdieharder_la-rgb_lagged_sums.Plo
+include ./$(DEPDIR)/libdieharder_la-rgb_minimum_distance.Plo
+include ./$(DEPDIR)/libdieharder_la-rgb_permutations.Plo
+include ./$(DEPDIR)/libdieharder_la-rgb_persist.Plo
+include ./$(DEPDIR)/libdieharder_la-rgb_timing.Plo
+include ./$(DEPDIR)/libdieharder_la-rijndael-alg-fst.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_XOR.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_aes.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_ca.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_dev_arandom.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_dev_random.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_dev_urandom.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_file_input.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_file_input_raw.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_jenkins.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_kiss.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_stdin_input_raw.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_superkiss.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_threefish.Plo
+include ./$(DEPDIR)/libdieharder_la-rng_uvag.Plo
+include ./$(DEPDIR)/libdieharder_la-rngav.Plo
+include ./$(DEPDIR)/libdieharder_la-rngs_gnu_r.Plo
+include ./$(DEPDIR)/libdieharder_la-sample.Plo
+include ./$(DEPDIR)/libdieharder_la-skein_block64.Plo
+include ./$(DEPDIR)/libdieharder_la-skein_block_ref.Plo
+include ./$(DEPDIR)/libdieharder_la-std_test.Plo
+include ./$(DEPDIR)/libdieharder_la-sts_monobit.Plo
+include ./$(DEPDIR)/libdieharder_la-sts_runs.Plo
+include ./$(DEPDIR)/libdieharder_la-sts_serial.Plo
+include ./$(DEPDIR)/libdieharder_la-timing.Plo
+include ./$(DEPDIR)/libdieharder_la-version.Plo
 
 .c.o:
 	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -525,6 +565,496 @@ include ./$(DEPDIR)/version.Plo
 #	source='$<' object='$@' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(LTCOMPILE) -c -o $@ $<
+
+libdieharder_la-bits.lo: bits.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-bits.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-bits.Tpo -c -o libdieharder_la-bits.lo `test -f 'bits.c' || echo '$(srcdir)/'`bits.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-bits.Tpo $(DEPDIR)/libdieharder_la-bits.Plo
+#	source='bits.c' object='libdieharder_la-bits.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-bits.lo `test -f 'bits.c' || echo '$(srcdir)/'`bits.c
+
+libdieharder_la-chisq.lo: chisq.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-chisq.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-chisq.Tpo -c -o libdieharder_la-chisq.lo `test -f 'chisq.c' || echo '$(srcdir)/'`chisq.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-chisq.Tpo $(DEPDIR)/libdieharder_la-chisq.Plo
+#	source='chisq.c' object='libdieharder_la-chisq.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-chisq.lo `test -f 'chisq.c' || echo '$(srcdir)/'`chisq.c
+
+libdieharder_la-countx.lo: countx.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-countx.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-countx.Tpo -c -o libdieharder_la-countx.lo `test -f 'countx.c' || echo '$(srcdir)/'`countx.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-countx.Tpo $(DEPDIR)/libdieharder_la-countx.Plo
+#	source='countx.c' object='libdieharder_la-countx.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-countx.lo `test -f 'countx.c' || echo '$(srcdir)/'`countx.c
+
+libdieharder_la-dab_bytedistrib.lo: dab_bytedistrib.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-dab_bytedistrib.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-dab_bytedistrib.Tpo -c -o libdieharder_la-dab_bytedistrib.lo `test -f 'dab_bytedistrib.c' || echo '$(srcdir)/'`dab_bytedistrib.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-dab_bytedistrib.Tpo $(DEPDIR)/libdieharder_la-dab_bytedistrib.Plo
+#	source='dab_bytedistrib.c' object='libdieharder_la-dab_bytedistrib.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-dab_bytedistrib.lo `test -f 'dab_bytedistrib.c' || echo '$(srcdir)/'`dab_bytedistrib.c
+
+libdieharder_la-dab_dct.lo: dab_dct.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-dab_dct.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-dab_dct.Tpo -c -o libdieharder_la-dab_dct.lo `test -f 'dab_dct.c' || echo '$(srcdir)/'`dab_dct.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-dab_dct.Tpo $(DEPDIR)/libdieharder_la-dab_dct.Plo
+#	source='dab_dct.c' object='libdieharder_la-dab_dct.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-dab_dct.lo `test -f 'dab_dct.c' || echo '$(srcdir)/'`dab_dct.c
+
+libdieharder_la-dab_filltree.lo: dab_filltree.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-dab_filltree.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-dab_filltree.Tpo -c -o libdieharder_la-dab_filltree.lo `test -f 'dab_filltree.c' || echo '$(srcdir)/'`dab_filltree.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-dab_filltree.Tpo $(DEPDIR)/libdieharder_la-dab_filltree.Plo
+#	source='dab_filltree.c' object='libdieharder_la-dab_filltree.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-dab_filltree.lo `test -f 'dab_filltree.c' || echo '$(srcdir)/'`dab_filltree.c
+
+libdieharder_la-dab_filltree2.lo: dab_filltree2.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-dab_filltree2.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-dab_filltree2.Tpo -c -o libdieharder_la-dab_filltree2.lo `test -f 'dab_filltree2.c' || echo '$(srcdir)/'`dab_filltree2.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-dab_filltree2.Tpo $(DEPDIR)/libdieharder_la-dab_filltree2.Plo
+#	source='dab_filltree2.c' object='libdieharder_la-dab_filltree2.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-dab_filltree2.lo `test -f 'dab_filltree2.c' || echo '$(srcdir)/'`dab_filltree2.c
+
+libdieharder_la-dab_monobit2.lo: dab_monobit2.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-dab_monobit2.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-dab_monobit2.Tpo -c -o libdieharder_la-dab_monobit2.lo `test -f 'dab_monobit2.c' || echo '$(srcdir)/'`dab_monobit2.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-dab_monobit2.Tpo $(DEPDIR)/libdieharder_la-dab_monobit2.Plo
+#	source='dab_monobit2.c' object='libdieharder_la-dab_monobit2.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-dab_monobit2.lo `test -f 'dab_monobit2.c' || echo '$(srcdir)/'`dab_monobit2.c
+
+libdieharder_la-diehard_2dsphere.lo: diehard_2dsphere.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_2dsphere.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_2dsphere.Tpo -c -o libdieharder_la-diehard_2dsphere.lo `test -f 'diehard_2dsphere.c' || echo '$(srcdir)/'`diehard_2dsphere.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_2dsphere.Tpo $(DEPDIR)/libdieharder_la-diehard_2dsphere.Plo
+#	source='diehard_2dsphere.c' object='libdieharder_la-diehard_2dsphere.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_2dsphere.lo `test -f 'diehard_2dsphere.c' || echo '$(srcdir)/'`diehard_2dsphere.c
+
+libdieharder_la-diehard_3dsphere.lo: diehard_3dsphere.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_3dsphere.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_3dsphere.Tpo -c -o libdieharder_la-diehard_3dsphere.lo `test -f 'diehard_3dsphere.c' || echo '$(srcdir)/'`diehard_3dsphere.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_3dsphere.Tpo $(DEPDIR)/libdieharder_la-diehard_3dsphere.Plo
+#	source='diehard_3dsphere.c' object='libdieharder_la-diehard_3dsphere.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_3dsphere.lo `test -f 'diehard_3dsphere.c' || echo '$(srcdir)/'`diehard_3dsphere.c
+
+libdieharder_la-diehard_birthdays.lo: diehard_birthdays.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_birthdays.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_birthdays.Tpo -c -o libdieharder_la-diehard_birthdays.lo `test -f 'diehard_birthdays.c' || echo '$(srcdir)/'`diehard_birthdays.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_birthdays.Tpo $(DEPDIR)/libdieharder_la-diehard_birthdays.Plo
+#	source='diehard_birthdays.c' object='libdieharder_la-diehard_birthdays.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_birthdays.lo `test -f 'diehard_birthdays.c' || echo '$(srcdir)/'`diehard_birthdays.c
+
+libdieharder_la-diehard_bitstream.lo: diehard_bitstream.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_bitstream.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_bitstream.Tpo -c -o libdieharder_la-diehard_bitstream.lo `test -f 'diehard_bitstream.c' || echo '$(srcdir)/'`diehard_bitstream.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_bitstream.Tpo $(DEPDIR)/libdieharder_la-diehard_bitstream.Plo
+#	source='diehard_bitstream.c' object='libdieharder_la-diehard_bitstream.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_bitstream.lo `test -f 'diehard_bitstream.c' || echo '$(srcdir)/'`diehard_bitstream.c
+
+libdieharder_la-diehard_count_1s_byte.lo: diehard_count_1s_byte.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_count_1s_byte.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_count_1s_byte.Tpo -c -o libdieharder_la-diehard_count_1s_byte.lo `test -f 'diehard_count_1s_byte.c' || echo '$(srcdir)/'`diehard_count_1s_byte.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_count_1s_byte.Tpo $(DEPDIR)/libdieharder_la-diehard_count_1s_byte.Plo
+#	source='diehard_count_1s_byte.c' object='libdieharder_la-diehard_count_1s_byte.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_count_1s_byte.lo `test -f 'diehard_count_1s_byte.c' || echo '$(srcdir)/'`diehard_count_1s_byte.c
+
+libdieharder_la-diehard_count_1s_stream.lo: diehard_count_1s_stream.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_count_1s_stream.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_count_1s_stream.Tpo -c -o libdieharder_la-diehard_count_1s_stream.lo `test -f 'diehard_count_1s_stream.c' || echo '$(srcdir)/'`diehard_count_1s_stream.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_count_1s_stream.Tpo $(DEPDIR)/libdieharder_la-diehard_count_1s_stream.Plo
+#	source='diehard_count_1s_stream.c' object='libdieharder_la-diehard_count_1s_stream.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_count_1s_stream.lo `test -f 'diehard_count_1s_stream.c' || echo '$(srcdir)/'`diehard_count_1s_stream.c
+
+libdieharder_la-diehard_craps.lo: diehard_craps.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_craps.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_craps.Tpo -c -o libdieharder_la-diehard_craps.lo `test -f 'diehard_craps.c' || echo '$(srcdir)/'`diehard_craps.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_craps.Tpo $(DEPDIR)/libdieharder_la-diehard_craps.Plo
+#	source='diehard_craps.c' object='libdieharder_la-diehard_craps.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_craps.lo `test -f 'diehard_craps.c' || echo '$(srcdir)/'`diehard_craps.c
+
+libdieharder_la-diehard_dna.lo: diehard_dna.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_dna.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_dna.Tpo -c -o libdieharder_la-diehard_dna.lo `test -f 'diehard_dna.c' || echo '$(srcdir)/'`diehard_dna.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_dna.Tpo $(DEPDIR)/libdieharder_la-diehard_dna.Plo
+#	source='diehard_dna.c' object='libdieharder_la-diehard_dna.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_dna.lo `test -f 'diehard_dna.c' || echo '$(srcdir)/'`diehard_dna.c
+
+libdieharder_la-diehard_operm5.lo: diehard_operm5.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_operm5.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_operm5.Tpo -c -o libdieharder_la-diehard_operm5.lo `test -f 'diehard_operm5.c' || echo '$(srcdir)/'`diehard_operm5.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_operm5.Tpo $(DEPDIR)/libdieharder_la-diehard_operm5.Plo
+#	source='diehard_operm5.c' object='libdieharder_la-diehard_operm5.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_operm5.lo `test -f 'diehard_operm5.c' || echo '$(srcdir)/'`diehard_operm5.c
+
+libdieharder_la-diehard_opso.lo: diehard_opso.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_opso.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_opso.Tpo -c -o libdieharder_la-diehard_opso.lo `test -f 'diehard_opso.c' || echo '$(srcdir)/'`diehard_opso.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_opso.Tpo $(DEPDIR)/libdieharder_la-diehard_opso.Plo
+#	source='diehard_opso.c' object='libdieharder_la-diehard_opso.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_opso.lo `test -f 'diehard_opso.c' || echo '$(srcdir)/'`diehard_opso.c
+
+libdieharder_la-diehard_oqso.lo: diehard_oqso.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_oqso.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_oqso.Tpo -c -o libdieharder_la-diehard_oqso.lo `test -f 'diehard_oqso.c' || echo '$(srcdir)/'`diehard_oqso.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_oqso.Tpo $(DEPDIR)/libdieharder_la-diehard_oqso.Plo
+#	source='diehard_oqso.c' object='libdieharder_la-diehard_oqso.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_oqso.lo `test -f 'diehard_oqso.c' || echo '$(srcdir)/'`diehard_oqso.c
+
+libdieharder_la-diehard_parking_lot.lo: diehard_parking_lot.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_parking_lot.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_parking_lot.Tpo -c -o libdieharder_la-diehard_parking_lot.lo `test -f 'diehard_parking_lot.c' || echo '$(srcdir)/'`diehard_parking_lot.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_parking_lot.Tpo $(DEPDIR)/libdieharder_la-diehard_parking_lot.Plo
+#	source='diehard_parking_lot.c' object='libdieharder_la-diehard_parking_lot.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_parking_lot.lo `test -f 'diehard_parking_lot.c' || echo '$(srcdir)/'`diehard_parking_lot.c
+
+libdieharder_la-diehard_rank_32x32.lo: diehard_rank_32x32.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_rank_32x32.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_rank_32x32.Tpo -c -o libdieharder_la-diehard_rank_32x32.lo `test -f 'diehard_rank_32x32.c' || echo '$(srcdir)/'`diehard_rank_32x32.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_rank_32x32.Tpo $(DEPDIR)/libdieharder_la-diehard_rank_32x32.Plo
+#	source='diehard_rank_32x32.c' object='libdieharder_la-diehard_rank_32x32.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_rank_32x32.lo `test -f 'diehard_rank_32x32.c' || echo '$(srcdir)/'`diehard_rank_32x32.c
+
+libdieharder_la-diehard_rank_6x8.lo: diehard_rank_6x8.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_rank_6x8.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_rank_6x8.Tpo -c -o libdieharder_la-diehard_rank_6x8.lo `test -f 'diehard_rank_6x8.c' || echo '$(srcdir)/'`diehard_rank_6x8.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_rank_6x8.Tpo $(DEPDIR)/libdieharder_la-diehard_rank_6x8.Plo
+#	source='diehard_rank_6x8.c' object='libdieharder_la-diehard_rank_6x8.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_rank_6x8.lo `test -f 'diehard_rank_6x8.c' || echo '$(srcdir)/'`diehard_rank_6x8.c
+
+libdieharder_la-diehard_runs.lo: diehard_runs.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_runs.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_runs.Tpo -c -o libdieharder_la-diehard_runs.lo `test -f 'diehard_runs.c' || echo '$(srcdir)/'`diehard_runs.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_runs.Tpo $(DEPDIR)/libdieharder_la-diehard_runs.Plo
+#	source='diehard_runs.c' object='libdieharder_la-diehard_runs.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_runs.lo `test -f 'diehard_runs.c' || echo '$(srcdir)/'`diehard_runs.c
+
+libdieharder_la-diehard_squeeze.lo: diehard_squeeze.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_squeeze.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_squeeze.Tpo -c -o libdieharder_la-diehard_squeeze.lo `test -f 'diehard_squeeze.c' || echo '$(srcdir)/'`diehard_squeeze.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_squeeze.Tpo $(DEPDIR)/libdieharder_la-diehard_squeeze.Plo
+#	source='diehard_squeeze.c' object='libdieharder_la-diehard_squeeze.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_squeeze.lo `test -f 'diehard_squeeze.c' || echo '$(srcdir)/'`diehard_squeeze.c
+
+libdieharder_la-diehard_sums.lo: diehard_sums.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-diehard_sums.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-diehard_sums.Tpo -c -o libdieharder_la-diehard_sums.lo `test -f 'diehard_sums.c' || echo '$(srcdir)/'`diehard_sums.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-diehard_sums.Tpo $(DEPDIR)/libdieharder_la-diehard_sums.Plo
+#	source='diehard_sums.c' object='libdieharder_la-diehard_sums.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-diehard_sums.lo `test -f 'diehard_sums.c' || echo '$(srcdir)/'`diehard_sums.c
+
+libdieharder_la-dieharder_rng_types.lo: dieharder_rng_types.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-dieharder_rng_types.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-dieharder_rng_types.Tpo -c -o libdieharder_la-dieharder_rng_types.lo `test -f 'dieharder_rng_types.c' || echo '$(srcdir)/'`dieharder_rng_types.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-dieharder_rng_types.Tpo $(DEPDIR)/libdieharder_la-dieharder_rng_types.Plo
+#	source='dieharder_rng_types.c' object='libdieharder_la-dieharder_rng_types.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-dieharder_rng_types.lo `test -f 'dieharder_rng_types.c' || echo '$(srcdir)/'`dieharder_rng_types.c
+
+libdieharder_la-dieharder_test_types.lo: dieharder_test_types.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-dieharder_test_types.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-dieharder_test_types.Tpo -c -o libdieharder_la-dieharder_test_types.lo `test -f 'dieharder_test_types.c' || echo '$(srcdir)/'`dieharder_test_types.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-dieharder_test_types.Tpo $(DEPDIR)/libdieharder_la-dieharder_test_types.Plo
+#	source='dieharder_test_types.c' object='libdieharder_la-dieharder_test_types.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-dieharder_test_types.lo `test -f 'dieharder_test_types.c' || echo '$(srcdir)/'`dieharder_test_types.c
+
+libdieharder_la-histogram.lo: histogram.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-histogram.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-histogram.Tpo -c -o libdieharder_la-histogram.lo `test -f 'histogram.c' || echo '$(srcdir)/'`histogram.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-histogram.Tpo $(DEPDIR)/libdieharder_la-histogram.Plo
+#	source='histogram.c' object='libdieharder_la-histogram.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-histogram.lo `test -f 'histogram.c' || echo '$(srcdir)/'`histogram.c
+
+libdieharder_la-kstest.lo: kstest.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-kstest.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-kstest.Tpo -c -o libdieharder_la-kstest.lo `test -f 'kstest.c' || echo '$(srcdir)/'`kstest.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-kstest.Tpo $(DEPDIR)/libdieharder_la-kstest.Plo
+#	source='kstest.c' object='libdieharder_la-kstest.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-kstest.lo `test -f 'kstest.c' || echo '$(srcdir)/'`kstest.c
+
+libdieharder_la-marsaglia_tsang_gcd.lo: marsaglia_tsang_gcd.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-marsaglia_tsang_gcd.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-marsaglia_tsang_gcd.Tpo -c -o libdieharder_la-marsaglia_tsang_gcd.lo `test -f 'marsaglia_tsang_gcd.c' || echo '$(srcdir)/'`marsaglia_tsang_gcd.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-marsaglia_tsang_gcd.Tpo $(DEPDIR)/libdieharder_la-marsaglia_tsang_gcd.Plo
+#	source='marsaglia_tsang_gcd.c' object='libdieharder_la-marsaglia_tsang_gcd.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-marsaglia_tsang_gcd.lo `test -f 'marsaglia_tsang_gcd.c' || echo '$(srcdir)/'`marsaglia_tsang_gcd.c
+
+libdieharder_la-marsaglia_tsang_gorilla.lo: marsaglia_tsang_gorilla.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-marsaglia_tsang_gorilla.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-marsaglia_tsang_gorilla.Tpo -c -o libdieharder_la-marsaglia_tsang_gorilla.lo `test -f 'marsaglia_tsang_gorilla.c' || echo '$(srcdir)/'`marsaglia_tsang_gorilla.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-marsaglia_tsang_gorilla.Tpo $(DEPDIR)/libdieharder_la-marsaglia_tsang_gorilla.Plo
+#	source='marsaglia_tsang_gorilla.c' object='libdieharder_la-marsaglia_tsang_gorilla.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-marsaglia_tsang_gorilla.lo `test -f 'marsaglia_tsang_gorilla.c' || echo '$(srcdir)/'`marsaglia_tsang_gorilla.c
+
+libdieharder_la-parse.lo: parse.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-parse.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-parse.Tpo -c -o libdieharder_la-parse.lo `test -f 'parse.c' || echo '$(srcdir)/'`parse.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-parse.Tpo $(DEPDIR)/libdieharder_la-parse.Plo
+#	source='parse.c' object='libdieharder_la-parse.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-parse.lo `test -f 'parse.c' || echo '$(srcdir)/'`parse.c
+
+libdieharder_la-prob.lo: prob.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-prob.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-prob.Tpo -c -o libdieharder_la-prob.lo `test -f 'prob.c' || echo '$(srcdir)/'`prob.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-prob.Tpo $(DEPDIR)/libdieharder_la-prob.Plo
+#	source='prob.c' object='libdieharder_la-prob.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-prob.lo `test -f 'prob.c' || echo '$(srcdir)/'`prob.c
+
+libdieharder_la-random_seed.lo: random_seed.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-random_seed.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-random_seed.Tpo -c -o libdieharder_la-random_seed.lo `test -f 'random_seed.c' || echo '$(srcdir)/'`random_seed.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-random_seed.Tpo $(DEPDIR)/libdieharder_la-random_seed.Plo
+#	source='random_seed.c' object='libdieharder_la-random_seed.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-random_seed.lo `test -f 'random_seed.c' || echo '$(srcdir)/'`random_seed.c
+
+libdieharder_la-rank.lo: rank.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rank.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rank.Tpo -c -o libdieharder_la-rank.lo `test -f 'rank.c' || echo '$(srcdir)/'`rank.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rank.Tpo $(DEPDIR)/libdieharder_la-rank.Plo
+#	source='rank.c' object='libdieharder_la-rank.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rank.lo `test -f 'rank.c' || echo '$(srcdir)/'`rank.c
+
+libdieharder_la-rgb_bitdist.lo: rgb_bitdist.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rgb_bitdist.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rgb_bitdist.Tpo -c -o libdieharder_la-rgb_bitdist.lo `test -f 'rgb_bitdist.c' || echo '$(srcdir)/'`rgb_bitdist.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rgb_bitdist.Tpo $(DEPDIR)/libdieharder_la-rgb_bitdist.Plo
+#	source='rgb_bitdist.c' object='libdieharder_la-rgb_bitdist.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rgb_bitdist.lo `test -f 'rgb_bitdist.c' || echo '$(srcdir)/'`rgb_bitdist.c
+
+libdieharder_la-rgb_kstest_test.lo: rgb_kstest_test.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rgb_kstest_test.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rgb_kstest_test.Tpo -c -o libdieharder_la-rgb_kstest_test.lo `test -f 'rgb_kstest_test.c' || echo '$(srcdir)/'`rgb_kstest_test.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rgb_kstest_test.Tpo $(DEPDIR)/libdieharder_la-rgb_kstest_test.Plo
+#	source='rgb_kstest_test.c' object='libdieharder_la-rgb_kstest_test.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rgb_kstest_test.lo `test -f 'rgb_kstest_test.c' || echo '$(srcdir)/'`rgb_kstest_test.c
+
+libdieharder_la-rgb_lagged_sums.lo: rgb_lagged_sums.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rgb_lagged_sums.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rgb_lagged_sums.Tpo -c -o libdieharder_la-rgb_lagged_sums.lo `test -f 'rgb_lagged_sums.c' || echo '$(srcdir)/'`rgb_lagged_sums.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rgb_lagged_sums.Tpo $(DEPDIR)/libdieharder_la-rgb_lagged_sums.Plo
+#	source='rgb_lagged_sums.c' object='libdieharder_la-rgb_lagged_sums.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rgb_lagged_sums.lo `test -f 'rgb_lagged_sums.c' || echo '$(srcdir)/'`rgb_lagged_sums.c
+
+libdieharder_la-rgb_minimum_distance.lo: rgb_minimum_distance.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rgb_minimum_distance.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rgb_minimum_distance.Tpo -c -o libdieharder_la-rgb_minimum_distance.lo `test -f 'rgb_minimum_distance.c' || echo '$(srcdir)/'`rgb_minimum_distance.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rgb_minimum_distance.Tpo $(DEPDIR)/libdieharder_la-rgb_minimum_distance.Plo
+#	source='rgb_minimum_distance.c' object='libdieharder_la-rgb_minimum_distance.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rgb_minimum_distance.lo `test -f 'rgb_minimum_distance.c' || echo '$(srcdir)/'`rgb_minimum_distance.c
+
+libdieharder_la-rgb_permutations.lo: rgb_permutations.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rgb_permutations.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rgb_permutations.Tpo -c -o libdieharder_la-rgb_permutations.lo `test -f 'rgb_permutations.c' || echo '$(srcdir)/'`rgb_permutations.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rgb_permutations.Tpo $(DEPDIR)/libdieharder_la-rgb_permutations.Plo
+#	source='rgb_permutations.c' object='libdieharder_la-rgb_permutations.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rgb_permutations.lo `test -f 'rgb_permutations.c' || echo '$(srcdir)/'`rgb_permutations.c
+
+libdieharder_la-rgb_persist.lo: rgb_persist.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rgb_persist.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rgb_persist.Tpo -c -o libdieharder_la-rgb_persist.lo `test -f 'rgb_persist.c' || echo '$(srcdir)/'`rgb_persist.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rgb_persist.Tpo $(DEPDIR)/libdieharder_la-rgb_persist.Plo
+#	source='rgb_persist.c' object='libdieharder_la-rgb_persist.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rgb_persist.lo `test -f 'rgb_persist.c' || echo '$(srcdir)/'`rgb_persist.c
+
+libdieharder_la-rgb_timing.lo: rgb_timing.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rgb_timing.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rgb_timing.Tpo -c -o libdieharder_la-rgb_timing.lo `test -f 'rgb_timing.c' || echo '$(srcdir)/'`rgb_timing.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rgb_timing.Tpo $(DEPDIR)/libdieharder_la-rgb_timing.Plo
+#	source='rgb_timing.c' object='libdieharder_la-rgb_timing.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rgb_timing.lo `test -f 'rgb_timing.c' || echo '$(srcdir)/'`rgb_timing.c
+
+libdieharder_la-rngav.lo: rngav.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rngav.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rngav.Tpo -c -o libdieharder_la-rngav.lo `test -f 'rngav.c' || echo '$(srcdir)/'`rngav.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rngav.Tpo $(DEPDIR)/libdieharder_la-rngav.Plo
+#	source='rngav.c' object='libdieharder_la-rngav.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rngav.lo `test -f 'rngav.c' || echo '$(srcdir)/'`rngav.c
+
+libdieharder_la-rng_aes.lo: rng_aes.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_aes.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_aes.Tpo -c -o libdieharder_la-rng_aes.lo `test -f 'rng_aes.c' || echo '$(srcdir)/'`rng_aes.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_aes.Tpo $(DEPDIR)/libdieharder_la-rng_aes.Plo
+#	source='rng_aes.c' object='libdieharder_la-rng_aes.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_aes.lo `test -f 'rng_aes.c' || echo '$(srcdir)/'`rng_aes.c
+
+libdieharder_la-rijndael-alg-fst.lo: rijndael-alg-fst.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rijndael-alg-fst.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rijndael-alg-fst.Tpo -c -o libdieharder_la-rijndael-alg-fst.lo `test -f 'rijndael-alg-fst.c' || echo '$(srcdir)/'`rijndael-alg-fst.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rijndael-alg-fst.Tpo $(DEPDIR)/libdieharder_la-rijndael-alg-fst.Plo
+#	source='rijndael-alg-fst.c' object='libdieharder_la-rijndael-alg-fst.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rijndael-alg-fst.lo `test -f 'rijndael-alg-fst.c' || echo '$(srcdir)/'`rijndael-alg-fst.c
+
+libdieharder_la-rng_ca.lo: rng_ca.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_ca.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_ca.Tpo -c -o libdieharder_la-rng_ca.lo `test -f 'rng_ca.c' || echo '$(srcdir)/'`rng_ca.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_ca.Tpo $(DEPDIR)/libdieharder_la-rng_ca.Plo
+#	source='rng_ca.c' object='libdieharder_la-rng_ca.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_ca.lo `test -f 'rng_ca.c' || echo '$(srcdir)/'`rng_ca.c
+
+libdieharder_la-rng_dev_random.lo: rng_dev_random.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_dev_random.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_dev_random.Tpo -c -o libdieharder_la-rng_dev_random.lo `test -f 'rng_dev_random.c' || echo '$(srcdir)/'`rng_dev_random.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_dev_random.Tpo $(DEPDIR)/libdieharder_la-rng_dev_random.Plo
+#	source='rng_dev_random.c' object='libdieharder_la-rng_dev_random.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_dev_random.lo `test -f 'rng_dev_random.c' || echo '$(srcdir)/'`rng_dev_random.c
+
+libdieharder_la-rng_dev_arandom.lo: rng_dev_arandom.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_dev_arandom.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_dev_arandom.Tpo -c -o libdieharder_la-rng_dev_arandom.lo `test -f 'rng_dev_arandom.c' || echo '$(srcdir)/'`rng_dev_arandom.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_dev_arandom.Tpo $(DEPDIR)/libdieharder_la-rng_dev_arandom.Plo
+#	source='rng_dev_arandom.c' object='libdieharder_la-rng_dev_arandom.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_dev_arandom.lo `test -f 'rng_dev_arandom.c' || echo '$(srcdir)/'`rng_dev_arandom.c
+
+libdieharder_la-rng_dev_urandom.lo: rng_dev_urandom.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_dev_urandom.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_dev_urandom.Tpo -c -o libdieharder_la-rng_dev_urandom.lo `test -f 'rng_dev_urandom.c' || echo '$(srcdir)/'`rng_dev_urandom.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_dev_urandom.Tpo $(DEPDIR)/libdieharder_la-rng_dev_urandom.Plo
+#	source='rng_dev_urandom.c' object='libdieharder_la-rng_dev_urandom.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_dev_urandom.lo `test -f 'rng_dev_urandom.c' || echo '$(srcdir)/'`rng_dev_urandom.c
+
+libdieharder_la-rng_file_input.lo: rng_file_input.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_file_input.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_file_input.Tpo -c -o libdieharder_la-rng_file_input.lo `test -f 'rng_file_input.c' || echo '$(srcdir)/'`rng_file_input.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_file_input.Tpo $(DEPDIR)/libdieharder_la-rng_file_input.Plo
+#	source='rng_file_input.c' object='libdieharder_la-rng_file_input.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_file_input.lo `test -f 'rng_file_input.c' || echo '$(srcdir)/'`rng_file_input.c
+
+libdieharder_la-rng_file_input_raw.lo: rng_file_input_raw.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_file_input_raw.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_file_input_raw.Tpo -c -o libdieharder_la-rng_file_input_raw.lo `test -f 'rng_file_input_raw.c' || echo '$(srcdir)/'`rng_file_input_raw.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_file_input_raw.Tpo $(DEPDIR)/libdieharder_la-rng_file_input_raw.Plo
+#	source='rng_file_input_raw.c' object='libdieharder_la-rng_file_input_raw.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_file_input_raw.lo `test -f 'rng_file_input_raw.c' || echo '$(srcdir)/'`rng_file_input_raw.c
+
+libdieharder_la-rngs_gnu_r.lo: rngs_gnu_r.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rngs_gnu_r.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rngs_gnu_r.Tpo -c -o libdieharder_la-rngs_gnu_r.lo `test -f 'rngs_gnu_r.c' || echo '$(srcdir)/'`rngs_gnu_r.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rngs_gnu_r.Tpo $(DEPDIR)/libdieharder_la-rngs_gnu_r.Plo
+#	source='rngs_gnu_r.c' object='libdieharder_la-rngs_gnu_r.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rngs_gnu_r.lo `test -f 'rngs_gnu_r.c' || echo '$(srcdir)/'`rngs_gnu_r.c
+
+libdieharder_la-rng_kiss.lo: rng_kiss.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_kiss.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_kiss.Tpo -c -o libdieharder_la-rng_kiss.lo `test -f 'rng_kiss.c' || echo '$(srcdir)/'`rng_kiss.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_kiss.Tpo $(DEPDIR)/libdieharder_la-rng_kiss.Plo
+#	source='rng_kiss.c' object='libdieharder_la-rng_kiss.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_kiss.lo `test -f 'rng_kiss.c' || echo '$(srcdir)/'`rng_kiss.c
+
+libdieharder_la-rng_jenkins.lo: rng_jenkins.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_jenkins.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_jenkins.Tpo -c -o libdieharder_la-rng_jenkins.lo `test -f 'rng_jenkins.c' || echo '$(srcdir)/'`rng_jenkins.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_jenkins.Tpo $(DEPDIR)/libdieharder_la-rng_jenkins.Plo
+#	source='rng_jenkins.c' object='libdieharder_la-rng_jenkins.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_jenkins.lo `test -f 'rng_jenkins.c' || echo '$(srcdir)/'`rng_jenkins.c
+
+libdieharder_la-rng_superkiss.lo: rng_superkiss.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_superkiss.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_superkiss.Tpo -c -o libdieharder_la-rng_superkiss.lo `test -f 'rng_superkiss.c' || echo '$(srcdir)/'`rng_superkiss.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_superkiss.Tpo $(DEPDIR)/libdieharder_la-rng_superkiss.Plo
+#	source='rng_superkiss.c' object='libdieharder_la-rng_superkiss.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_superkiss.lo `test -f 'rng_superkiss.c' || echo '$(srcdir)/'`rng_superkiss.c
+
+libdieharder_la-rng_stdin_input_raw.lo: rng_stdin_input_raw.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_stdin_input_raw.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_stdin_input_raw.Tpo -c -o libdieharder_la-rng_stdin_input_raw.lo `test -f 'rng_stdin_input_raw.c' || echo '$(srcdir)/'`rng_stdin_input_raw.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_stdin_input_raw.Tpo $(DEPDIR)/libdieharder_la-rng_stdin_input_raw.Plo
+#	source='rng_stdin_input_raw.c' object='libdieharder_la-rng_stdin_input_raw.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_stdin_input_raw.lo `test -f 'rng_stdin_input_raw.c' || echo '$(srcdir)/'`rng_stdin_input_raw.c
+
+libdieharder_la-rng_threefish.lo: rng_threefish.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_threefish.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_threefish.Tpo -c -o libdieharder_la-rng_threefish.lo `test -f 'rng_threefish.c' || echo '$(srcdir)/'`rng_threefish.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_threefish.Tpo $(DEPDIR)/libdieharder_la-rng_threefish.Plo
+#	source='rng_threefish.c' object='libdieharder_la-rng_threefish.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_threefish.lo `test -f 'rng_threefish.c' || echo '$(srcdir)/'`rng_threefish.c
+
+libdieharder_la-rng_uvag.lo: rng_uvag.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_uvag.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_uvag.Tpo -c -o libdieharder_la-rng_uvag.lo `test -f 'rng_uvag.c' || echo '$(srcdir)/'`rng_uvag.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_uvag.Tpo $(DEPDIR)/libdieharder_la-rng_uvag.Plo
+#	source='rng_uvag.c' object='libdieharder_la-rng_uvag.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_uvag.lo `test -f 'rng_uvag.c' || echo '$(srcdir)/'`rng_uvag.c
+
+libdieharder_la-rng_XOR.lo: rng_XOR.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-rng_XOR.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-rng_XOR.Tpo -c -o libdieharder_la-rng_XOR.lo `test -f 'rng_XOR.c' || echo '$(srcdir)/'`rng_XOR.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-rng_XOR.Tpo $(DEPDIR)/libdieharder_la-rng_XOR.Plo
+#	source='rng_XOR.c' object='libdieharder_la-rng_XOR.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-rng_XOR.lo `test -f 'rng_XOR.c' || echo '$(srcdir)/'`rng_XOR.c
+
+libdieharder_la-sample.lo: sample.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-sample.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-sample.Tpo -c -o libdieharder_la-sample.lo `test -f 'sample.c' || echo '$(srcdir)/'`sample.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-sample.Tpo $(DEPDIR)/libdieharder_la-sample.Plo
+#	source='sample.c' object='libdieharder_la-sample.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-sample.lo `test -f 'sample.c' || echo '$(srcdir)/'`sample.c
+
+libdieharder_la-skein_block64.lo: skein_block64.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-skein_block64.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-skein_block64.Tpo -c -o libdieharder_la-skein_block64.lo `test -f 'skein_block64.c' || echo '$(srcdir)/'`skein_block64.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-skein_block64.Tpo $(DEPDIR)/libdieharder_la-skein_block64.Plo
+#	source='skein_block64.c' object='libdieharder_la-skein_block64.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-skein_block64.lo `test -f 'skein_block64.c' || echo '$(srcdir)/'`skein_block64.c
+
+libdieharder_la-skein_block_ref.lo: skein_block_ref.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-skein_block_ref.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-skein_block_ref.Tpo -c -o libdieharder_la-skein_block_ref.lo `test -f 'skein_block_ref.c' || echo '$(srcdir)/'`skein_block_ref.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-skein_block_ref.Tpo $(DEPDIR)/libdieharder_la-skein_block_ref.Plo
+#	source='skein_block_ref.c' object='libdieharder_la-skein_block_ref.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-skein_block_ref.lo `test -f 'skein_block_ref.c' || echo '$(srcdir)/'`skein_block_ref.c
+
+libdieharder_la-std_test.lo: std_test.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-std_test.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-std_test.Tpo -c -o libdieharder_la-std_test.lo `test -f 'std_test.c' || echo '$(srcdir)/'`std_test.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-std_test.Tpo $(DEPDIR)/libdieharder_la-std_test.Plo
+#	source='std_test.c' object='libdieharder_la-std_test.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-std_test.lo `test -f 'std_test.c' || echo '$(srcdir)/'`std_test.c
+
+libdieharder_la-sts_monobit.lo: sts_monobit.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-sts_monobit.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-sts_monobit.Tpo -c -o libdieharder_la-sts_monobit.lo `test -f 'sts_monobit.c' || echo '$(srcdir)/'`sts_monobit.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-sts_monobit.Tpo $(DEPDIR)/libdieharder_la-sts_monobit.Plo
+#	source='sts_monobit.c' object='libdieharder_la-sts_monobit.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-sts_monobit.lo `test -f 'sts_monobit.c' || echo '$(srcdir)/'`sts_monobit.c
+
+libdieharder_la-sts_runs.lo: sts_runs.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-sts_runs.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-sts_runs.Tpo -c -o libdieharder_la-sts_runs.lo `test -f 'sts_runs.c' || echo '$(srcdir)/'`sts_runs.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-sts_runs.Tpo $(DEPDIR)/libdieharder_la-sts_runs.Plo
+#	source='sts_runs.c' object='libdieharder_la-sts_runs.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-sts_runs.lo `test -f 'sts_runs.c' || echo '$(srcdir)/'`sts_runs.c
+
+libdieharder_la-sts_serial.lo: sts_serial.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-sts_serial.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-sts_serial.Tpo -c -o libdieharder_la-sts_serial.lo `test -f 'sts_serial.c' || echo '$(srcdir)/'`sts_serial.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-sts_serial.Tpo $(DEPDIR)/libdieharder_la-sts_serial.Plo
+#	source='sts_serial.c' object='libdieharder_la-sts_serial.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-sts_serial.lo `test -f 'sts_serial.c' || echo '$(srcdir)/'`sts_serial.c
+
+libdieharder_la-timing.lo: timing.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-timing.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-timing.Tpo -c -o libdieharder_la-timing.lo `test -f 'timing.c' || echo '$(srcdir)/'`timing.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-timing.Tpo $(DEPDIR)/libdieharder_la-timing.Plo
+#	source='timing.c' object='libdieharder_la-timing.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-timing.lo `test -f 'timing.c' || echo '$(srcdir)/'`timing.c
+
+libdieharder_la-Vtest.lo: Vtest.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-Vtest.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-Vtest.Tpo -c -o libdieharder_la-Vtest.lo `test -f 'Vtest.c' || echo '$(srcdir)/'`Vtest.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-Vtest.Tpo $(DEPDIR)/libdieharder_la-Vtest.Plo
+#	source='Vtest.c' object='libdieharder_la-Vtest.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-Vtest.lo `test -f 'Vtest.c' || echo '$(srcdir)/'`Vtest.c
+
+libdieharder_la-version.lo: version.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-version.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-version.Tpo -c -o libdieharder_la-version.lo `test -f 'version.c' || echo '$(srcdir)/'`version.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-version.Tpo $(DEPDIR)/libdieharder_la-version.Plo
+#	source='version.c' object='libdieharder_la-version.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-version.lo `test -f 'version.c' || echo '$(srcdir)/'`version.c
+
+libdieharder_la-Xtest.lo: Xtest.c
+	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -MT libdieharder_la-Xtest.lo -MD -MP -MF $(DEPDIR)/libdieharder_la-Xtest.Tpo -c -o libdieharder_la-Xtest.lo `test -f 'Xtest.c' || echo '$(srcdir)/'`Xtest.c
+	$(am__mv) $(DEPDIR)/libdieharder_la-Xtest.Tpo $(DEPDIR)/libdieharder_la-Xtest.Plo
+#	source='Xtest.c' object='libdieharder_la-Xtest.lo' libtool=yes \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libdieharder_la_CFLAGS) $(CFLAGS) -c -o libdieharder_la-Xtest.lo `test -f 'Xtest.c' || echo '$(srcdir)/'`Xtest.c
 
 mostlyclean-libtool:
 	-rm -f *.lo

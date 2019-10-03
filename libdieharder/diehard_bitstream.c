@@ -44,7 +44,7 @@
 int diehard_bitstream(Test **test, int irun)
 {
 
- uint i,j,t,boffset,coffset,uoffset;
+ uint i,j,t,boffset,coffset;
  Xtest ptest;
  char *w;
  uint *bitstream,w20,wscratch,newbyte;

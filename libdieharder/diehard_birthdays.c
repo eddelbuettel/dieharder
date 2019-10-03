@@ -50,8 +50,7 @@ static unsigned int nms,nbits,kmax;
 int diehard_birthdays(Test **test, int irun)
 {
 
- uint i,j,k,t,m,mnext,ns;
- uint bitstring,offset;
+ uint i,k,t,m,mnext;
  uint *js;
  uint rand_uint[NMS];
  

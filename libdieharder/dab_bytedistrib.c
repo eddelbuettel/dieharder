@@ -32,11 +32,11 @@
 
 int dab_bytedistrib(Test **test,int irun) {
  Vtest vtest;
- uint t,i,j;
- uint counts[TABLE_SIZE];
+ unsigned int t,i,j;
+ unsigned int counts[TABLE_SIZE];
 
  /* Zero the counters */
- memset(counts, 0, sizeof(uint) * TABLE_SIZE);
+ memset(counts, 0, sizeof(unsigned int) * TABLE_SIZE);
 
  test[0]->ntuple = 0;  // Not used currently
 
@@ -46,7 +46,7 @@ int dab_bytedistrib(Test **test,int irun) {
      /*
       * Generate a word; this word will be used for SAMP_PER_WORD bytes.
       */
-     uint word = gsl_rng_get(rng);
+     unsigned int word = gsl_rng_get(rng);
      unsigned char currentShift = 0;
      for (j = 0; j < SAMP_PER_WORD; j++) {
 
@@ -61,7 +61,7 @@ int dab_bytedistrib(Test **test,int irun) {
         * SAMP_PER_WORD==3 and a variety of rmax_bits values).
         */
        unsigned char shiftAmount = ((j+1) * (rmax_bits - 8)) / (SAMP_PER_WORD - 1);
-       uint v = word & 0x0ff;    /* v is the byte sampled from the word */
+       unsigned int v = word & 0x0ff;    /* v is the byte sampled from the word */
        word >>= shiftAmount - currentShift;
        currentShift += shiftAmount;
 

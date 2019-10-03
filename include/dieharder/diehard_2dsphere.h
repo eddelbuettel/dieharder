@@ -7,7 +7,7 @@
  */
 int diehard_2dsphere(Test **test,int irun);
 
-static Dtest diehard_2dsphere_dtest = {
+static Dtest diehard_2dsphere_dtest __attribute__((unused)) = {
   "Diehard Minimum Distance (2d Circle) Test",
   "diehard_2dsphere",
   "\

@@ -70,13 +70,13 @@
   * Global shared counters for the new types of rngs in the organization
   * defined above.
   */
- uint dh_num_rngs;           /* dh rngs available in dieharder */
- uint dh_num_gsl_rngs;       /* GSL rngs available in dieharder */
- uint dh_num_dieharder_rngs; /* dh rngs available in libdieharder */
- uint dh_num_R_rngs;         /* R-derived rngs available in libdieharder */
- uint dh_num_hardware_rngs;  /* hardware rngs supported in libdieharder */
- uint dh_num_user_rngs;      /* user-added rngs */
- uint dh_num_reserved_rngs;  /* ngs added in reserved space by new UI */
+ unsigned int dh_num_rngs;           /* dh rngs available in dieharder */
+ unsigned int dh_num_gsl_rngs;       /* GSL rngs available in dieharder */
+ unsigned int dh_num_dieharder_rngs; /* dh rngs available in libdieharder */
+ unsigned int dh_num_R_rngs;         /* R-derived rngs available in libdieharder */
+ unsigned int dh_num_hardware_rngs;  /* hardware rngs supported in libdieharder */
+ unsigned int dh_num_user_rngs;      /* user-added rngs */
+ unsigned int dh_num_reserved_rngs;  /* ngs added in reserved space by new UI */
 
  gsl_rng *rng;                  /* global gsl random number generator */
 

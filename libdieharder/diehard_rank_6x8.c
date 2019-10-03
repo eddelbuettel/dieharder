@@ -34,9 +34,8 @@ int diehard_rank_6x8(Test **test, int irun)
 {
 
 
- int i,j,k,t,rank,offset;
- double r,smax,s;
- uint bitstring,rmask,mask;
+ int i,t,rank;
+ uint bitstring;
  uint **mtx;
  Vtest vtest;
 

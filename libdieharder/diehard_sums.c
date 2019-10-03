@@ -51,11 +51,11 @@
 int diehard_sums(Test **test, int irun)
 {
 
- int i,j,k,m,t;
+ int m,t;
  double mean,std;
  double *x,*y,*rand_list;
  double newrand;
- double a,b,qq,p,h;
+ double a,b;
 
  /*
   * for display only.  0 means "ignored".

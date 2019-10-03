@@ -42,7 +42,7 @@
 int diehard_opso(Test **test, int irun)
 {
 
- uint i,j0=0,k0=0,j,k,boffset = 0,t;
+ uint j0=0,k0=0,j,k,t;
  Xtest ptest;
  /*
   * Fixed test size for speed and as per diehard.

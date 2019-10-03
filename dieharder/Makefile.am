@@ -40,7 +40,6 @@ dieharder_SOURCES = \
 	output_rnds.c \
 	parsecl.c \
 	rdieharder.c \
-	rng_empty_random.c \
 	run_all_tests.c \
 	run_test.c \
 	set_globals.c \
@@ -48,6 +47,7 @@ dieharder_SOURCES = \
 	time_rng.c \
 	user_template.c
 
+#	rng_empty_random.c \
 #	run_rgb_bitdist.c
 #	run_rgb_lagged_sums.c
 #	run_rgb_minimum_distance.c

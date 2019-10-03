@@ -7,7 +7,7 @@
  */
 int diehard_rank_6x8(Test **test,int irun);
 
-static Dtest diehard_rank_6x8_dtest = {
+static Dtest diehard_rank_6x8_dtest __attribute__((unused)) = {
   "Diehard 6x8 Binary Rank Test",
   "diehard_rank_6x8",
   "\n\

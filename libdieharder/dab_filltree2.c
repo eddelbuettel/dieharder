@@ -27,7 +27,7 @@
 
 typedef unsigned char uchar;
 
-static double targetData1[32] = {  // size=32, generated from 3e9 samples
+static double targetData1[32] __attribute__((unused)) = {  // size=32, generated from 3e9 samples
 0.00000000000e+00, 0.00000000000e+00, 0.00000000000e+00, 0.00000000000e+00,
 9.76265666667e-04, 3.90648133333e-03, 9.42791500000e-03, 1.77898240000e-02,
 2.88606903333e-02, 4.21206876667e-02, 5.67006123333e-02, 7.13000270000e-02,
@@ -38,7 +38,7 @@ static double targetData1[32] = {  // size=32, generated from 3e9 samples
 2.63546666667e-05, 3.51800000000e-06, 2.42333333333e-07, 0.00000000000e+00
 };
 
-static double targetData2[64] = {  // size=64, generated from 3e9 samples
+static double targetData2[64] __attribute__((unused)) = {  // size=64, generated from 3e9 samples
 0.00000000000e+00, 0.00000000000e+00, 0.00000000000e+00, 0.00000000000e+00,
 0.00000000000e+00, 3.03990000000e-05, 1.52768666667e-04, 4.47074666667e-04,
 1.00459133333e-03, 1.91267566667e-03, 3.25090066667e-03, 5.08490633333e-03,

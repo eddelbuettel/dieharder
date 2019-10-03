@@ -29,7 +29,7 @@ void add_ui_tests()
   */
  i = 600;
  dh_num_user_tests = 0;
- ADD_TEST(&user_template);
+ ADD_TEST(&user_template_dtest);
  dh_num_user_tests++;
 
  /*

@@ -7,7 +7,7 @@
  */
 int sts_monobit(Test **test,int irun);
 
-static Dtest sts_monobit_dtest = {
+static Dtest sts_monobit_dtest __attribute__((unused)) = {
   "STS Monobit Test",
   "sts_monobit",
   "\

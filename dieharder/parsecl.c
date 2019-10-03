@@ -1,12 +1,12 @@
 /*
- * $Id: parsecl.c 519 2011-03-09 14:03:50Z rgbatduke $
+ * $Id: parsecl.c 529 2011-04-01 17:49:31Z rgbatduke $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *
  */
 
 #include "dieharder.h"
-
+#include <getopt.h>
 /*
  * parsecl parses the command line for the dieharder CLI to:
  *
@@ -21,7 +21,6 @@
  * routines.
  */
 
-static int set_table = 1;
 char table_entry[TLENGTH];
 int show_flags = 0;
 
@@ -37,10 +36,9 @@ void parsecl(int argc, char **argv)
   * strategies.
   */
 
- int imax,i,c,errflg=0;
+ int i,c,errflg=0;
  int itmp;
- uint utmp;
- int tflag_tmp = 0,dtest_tmp,gen_tmp;
+ int tflag_tmp = 0,dtest_tmp,gen_tmp=17;
  extern char *optarg;
  extern int optind, opterr, optopt;
  char *endptr;

@@ -75,6 +75,7 @@ static void uvag_set (void *vstate, unsigned long int s);
 
 typedef struct
   {
+  int i;
   }
 uvag_state_t;
 
@@ -120,7 +121,7 @@ uvag_get_double (void *vstate)
 static void uvag_set (void *vstate, unsigned long int s) {
 
  /* Initialize automaton using specified seed. */
- uvag_state_t *state = (uvag_state_t *) vstate;
+ uvag_state_t *state __attribute__((unused)) = (uvag_state_t *) vstate;
  
  uint i, array_len = 255 + WORD, tot, seed_seed, tmp8;
  unsigned char key[256], *kp, temp;

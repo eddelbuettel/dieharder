@@ -39,10 +39,13 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/dieharder-config.in $(srcdir)/dieharder.html.in \
 	$(srcdir)/dieharder.spec.in $(srcdir)/dieharder_version.h.in \
 	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	config.guess config.sub depcomp install-sh ltmain.sh missing \
-	mkinstalldirs
+	compile config.guess config.sub depcomp install-sh ltmain.sh \
+	missing mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
@@ -124,8 +127,8 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DIEHARDER_CFLAGS = -I${prefix}/include
 DIEHARDER_LIBS = -L${exec_prefix}/lib -ldieharder
-DIEHARDER_LIB_VERSION = 3.31.0
-DIEHARDER_LT_VERSION = 3:31:0
+DIEHARDER_LIB_VERSION = 3.31.1
+DIEHARDER_LT_VERSION = 3:31:1
 DSYMUTIL = 
 DUMPBIN = 
 ECHO_C = 
@@ -161,10 +164,10 @@ OTOOL64 =
 PACKAGE = dieharder
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = dieharder
-PACKAGE_STRING = dieharder 3.31.0
+PACKAGE_STRING = dieharder 3.31.1
 PACKAGE_TARNAME = dieharder
 PACKAGE_URL = 
-PACKAGE_VERSION = 3.31.0
+PACKAGE_VERSION = 3.31.1
 PATH_SEPARATOR = :
 RANLIB = ranlib
 RELEASE = 1
@@ -178,7 +181,7 @@ STRIP = strip
 # This is revision information, automagically set from autoconf.  The
 # actual version information is set ONLY in configure.ac
 #========================================================================
-VERSION = 3.31.0
+VERSION = 3.31.1
 abs_builddir = /home/rgb/Src/Projects/dieharder
 abs_srcdir = /home/rgb/Src/Projects/dieharder
 abs_top_builddir = /home/rgb/Src/Projects/dieharder
@@ -199,6 +202,7 @@ build_vendor = unknown
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
+dieharder_CFLAGS = -std=c99 -Wall -pedantic -I${prefix}/include
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
@@ -211,6 +215,7 @@ htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
 install_sh = ${SHELL} /home/rgb/Src/Projects/dieharder/install-sh
+libdieharder_lo_CFLAGS = -Wall -pedantic -I${prefix}/include
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -326,8 +331,8 @@ REPOPATH = /var/www/html/fc/6/local/
 #========================================================================
 # This target takes the dieharder sources and "magically" transforms
 # them into RDieHarder sources.
-RDHTAR = RDieHarder_3.31.0.tar
-RDHPKG = RDieHarder_3.31.0.tar.gz
+RDHTAR = RDieHarder_3.31.1.tar
+RDHPKG = RDieHarder_3.31.1.tar.gz
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 

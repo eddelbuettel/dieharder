@@ -32,8 +32,7 @@
 int diehard_rank_32x32(Test **test, int irun)
 {
 
- int i,j,k,t,rank;
- double r,smax,s;
+ int i,t,rank;
  uint bitstring;
  /* uint mtx[32][1]; */
  uint **mtx;

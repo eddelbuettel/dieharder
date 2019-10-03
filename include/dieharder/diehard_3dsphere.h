@@ -7,7 +7,7 @@
  */
 int diehard_3dsphere(Test **test,int irun);
 
-static Dtest diehard_3dsphere_dtest = {
+static Dtest diehard_3dsphere_dtest __attribute__((unused)) = {
   "Diehard 3d Sphere (Minimum Distance) Test",
   "diehard_3dsphere",
   "\

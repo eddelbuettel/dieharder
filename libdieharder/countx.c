@@ -28,7 +28,7 @@ typedef struct ranctx { u4 a; u4 b; u4 c; u4 d;} ranctx;
 
 #define rot(x,k) ((x<<k)|(x>>(32-k)))
 
-static u4 iii = 0;
+/* static u4 iii = 0; */
 
 static u4 ranval( ranctx *x ) {
   u4 e;
@@ -73,7 +73,7 @@ static u4 ftab[] = {
   2, 2, 2, 2, 2, 2, 2, 2
 };
 
-/* initialize the data collection array */
+/* initialize the data collection array -- UNUSED (yet)
 static void datainit2( u8 *data, u4 index, u4 depth, u4 terms)
 {
   u4 i;
@@ -86,6 +86,7 @@ static void datainit2( u8 *data, u4 index, u4 depth, u4 terms)
       datainit2(data, index+i, depth+1, terms);
   }
 }
+ */
 
 static void datainit( u8 *data, u4 terms)
 {

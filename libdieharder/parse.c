@@ -42,7 +42,7 @@ int split(char *inbuffer)
  delim[3] = (char) 10;		/* LF */
  delim[4] = (char) 13;		/* CR */
  delim[5] = ':';		/* : needed to parse /proc/net/dev or passwd */
- delim[6] = (char) NULL;        /* terminator */
+ delim[6] = (char) 0;           /* terminator */
 
  
  nextval = strtok(inbuffer,delim);
@@ -65,7 +65,7 @@ int split(char *inbuffer)
  }
 
  /* Null the last field */
- bzero(splitbuf[i],PBUF);
+ memset(splitbuf[i],0,PBUF);
  if(verbose){
    printf("split(): Terminated split field[%d] = %s.\n",i,splitbuf[i]);
    printf("split(): Returning %d as the field count\n",i);
@@ -102,7 +102,7 @@ int parse(char *inbuffer,char **outfields,int maxfields,int maxfieldlength)
  delim[3] = (char) 10;		/* LF */
  delim[4] = (char) 13;		/* CR */
  delim[5] = ':';		/* : needed to parse /proc/net/dev or passwd */
- delim[6] = (char) NULL;        /* terminator */
+ delim[6] = (char) 0;           /* terminator */
 
  
  nextval = strtok(inbuffer,delim);
@@ -122,7 +122,7 @@ int parse(char *inbuffer,char **outfields,int maxfields,int maxfieldlength)
  }
 
  /* Null the last field */
- bzero(outfields[i],maxfieldlength);
+ memset(outfields[i],0,maxfieldlength);
  if(verbose){
    printf("parse(): Terminated field[%d] = %s.\n",i,outfields[i]);
  }
@@ -134,7 +134,6 @@ int parse(char *inbuffer,char **outfields,int maxfields,int maxfieldlength)
 void chop(char *buf)
 {
 
- int i=-1;
  /* Advance to end of string */
  while(*buf != 0) buf++;
  buf--;

@@ -41,8 +41,8 @@ void run_test()
 int execute_test(int dtest_num)
 {
 
- int i,j,k;
- uint need_more_p;
+ int i;
+ unsigned int need_more_p;
  double smallest_p;
  /*
   * Declare the results struct.
@@ -57,12 +57,12 @@ int execute_test(int dtest_num)
    if(Seed == 0){
      seed = random_seed();
      MYDEBUG(D_SEED){
-       fprintf(stdout,"# execute_test(): Generating random seed %u\n",seed);
+       fprintf(stdout,"# execute_test(): Generating random seed %lu\n",seed);
      }
    } else {
      seed = Seed;
      MYDEBUG(D_SEED){
-       fprintf(stdout,"# execute_test(): Setting fixed seed %u\n",seed);
+       fprintf(stdout,"# execute_test(): Setting fixed seed %lu\n",seed);
      }
    }
    gsl_rng_set(rng,seed);
@@ -134,6 +134,8 @@ int execute_test(int dtest_num)
  }
 
  destroy_test(dh_test_types[dtest_num],dieharder_test);
+
+ return(0);
 
 }
 

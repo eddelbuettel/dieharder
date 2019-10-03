@@ -19,9 +19,6 @@
 void Xtest_eval(Xtest *xtest)
 {
 
- int i;
- double chi;
-
  /*
   * This routine evaluates the p-value from the xtest data.
   * x, y, sigma all must be filled in by the calling routine.

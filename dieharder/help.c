@@ -1,6 +1,6 @@
 /*
  *========================================================================
- * $Id: help.c 522 2011-03-10 16:00:48Z rgbatduke $
+ * $Id: help.c 529 2011-04-01 17:49:31Z rgbatduke $
  *
  * See copyright in copyright.h and the accompanying file COPYING
  *========================================================================
@@ -60,8 +60,8 @@ dieharder [-a] [-d dieharder test number] [-f filename] [-B]\n\
           [-s seed strategy] [-S random number seed]\n\
           [-t number of test samples] [-v verbose flag]\n\
           [-W weak] [-X fail] [-Y Xtrategy]\n\
-          [-x xvalue] [-y yvalue] [-z zvalue]\n\
-\n\
+          [-x xvalue] [-y yvalue] [-z zvalue]\n");
+fprintf(stdout, "\n\
   -a - runs all the tests with standard/default options to create a report\n\
   -d test number -  selects specific diehard test.\n\
   -f filename - generators 201 or 202 permit either raw binary or \n\
@@ -132,8 +132,8 @@ dieharder [-a] [-d dieharder test number] [-f filename] [-B]\n\
      default value of 10000.  Read the test synopses for suggested settings\n\
      for -t or use -a first.  Many tests will ignore -t as they require\n\
      a very specific number of samples to be used in generating their\n\
-     statistic.\n\
-  -W weak - sets the 'weak' threshold to make the test(s) more or less \n\
+     statistic.\n");
+fprintf(stdout, "  -W weak - sets the 'weak' threshold to make the test(s) more or less \n\
      forgiving during e.g. a test-to-destruction run.  Default is currently \n\
      0.005. \n\
   -X fail - sets the 'fail' threshold to make the test(s) more or less \n\
@@ -146,7 +146,7 @@ dieharder [-a] [-d dieharder test number] [-f filename] [-B]\n\
      0 - just run dieharder with the specified number of tsamples and\n\
      psamples, do not dynamically modify a run based on results.  This is\n\
      the way it has always run, and is still the default.\n\
-     \n\
+\n\
      1 - 'resolve ambiguity' (RA) mode.  If a test returns 'weak', this is \n\
      an undesired result.  What does that mean, after all?  If you run a long\n\
      test series, you will see occasional weak returns for a perfect\n\
@@ -167,8 +167,8 @@ dieharder [-a] [-d dieharder test number] [-f filename] [-B]\n\
      where or if a generator will .I ever fail a test (or test series).  -Y 2\n\
      causes psamples to be added 100 at a time until a test returns an\n\
      overall pvalue lower than the failure threshold or a specified maximum\n\
-     number of psamples (see -P) is reached.  \n\
-\n\
+     number of psamples (see -P) is reached.  \n");
+fprintf(stdout, "\n\
      Note well!  In this mode one may well fail due to the alternate\n\
      null hypothesis -- the test itself is a bad test and fails!  Many\n\
      dieharder tests, despite our best efforts, are numerically unstable or\n\
@@ -205,7 +205,7 @@ dieharder [-a] [-d dieharder test number] [-f filename] [-B]\n\
   incorrect or misleading.  In particular, 'Weak' pvalues should occur\n\
   one test in a hundred, and 'Failed' pvalues should occur one test in\n\
   a thousand -- that's what p MEANS.  Use them at your Own Risk!  Be Warned!\n\
-\n",QUOTEME(VERSION));
+\n");
 
  exit(0);
 
