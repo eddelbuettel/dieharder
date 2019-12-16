@@ -1,3 +1,13 @@
+dieharder (3.31.1.1-1) unstable; urgency=medium
+
+  * New upstream minor release as we are in a funny spot as this is now effectively
+    upstream with Robert being somewhat in active
+
+  * configure.ac: Apply patch to simplify and generalize endianness
+    testing, with a big thank you to Helmut Grohne	(Closes: #946774)
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Mon, 16 Dec 2019 08:54:48 -0600
+
 dieharder (3.31.1-8) unstable; urgency=medium
 
   * debian/control: Change Build-Depends: from texlive-generic-recommended
