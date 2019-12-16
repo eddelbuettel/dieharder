@@ -14,6 +14,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <sys/time.h>
+#include <stdint.h>
 
 /* This turns on uint macro in c99 */
 #define __USE_MISC 1

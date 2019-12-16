@@ -125,31 +125,35 @@ AC_CHECK_LIB([gsl],[gsl_sf_gamma])
 # brg_endian.h in the build of rng_threefish.  This is a very
 # certain test, and therefore is checked FIRST in this header file.
 #==================================================================
-AC_DEFUN([AC_C_ENDIAN],
-[AC_CACHE_CHECK(for endianness, ac_cv_c_endian,
-[
-  AC_RUN_IFELSE(
-    [AC_LANG_PROGRAM([], [dnl
-        long val = 1;
-        char *c = (char *) &val;
-        exit(*c == 1);
-    ])
-  ],[
-    ac_cv_c_endian=big
-  ],[
-    ac_cv_c_endian=little
-  ])
-])
-if test $ac_cv_c_endian = big; then
-  AC_SUBST(LITTLE_ENDIAN,0) 
-fi
-if test $ac_cv_c_endian = little; then
-  AC_SUBST(LITTLE_ENDIAN,1) 
-fi
-])
+## AC_DEFUN([AC_C_ENDIAN],
+## [AC_CACHE_CHECK(for endianness, ac_cv_c_endian,
+## [
+##   AC_RUN_IFELSE(
+##     [AC_LANG_PROGRAM([], [dnl
+##         long val = 1;
+##         char *c = (char *) &val;
+##         exit(*c == 1);
+##     ])
+##   ],[
+##     ac_cv_c_endian=big
+##   ],[
+##     ac_cv_c_endian=little
+##   ])
+## ])
+## if test $ac_cv_c_endian = big; then
+##   AC_SUBST(LITTLE_ENDIAN,0)
+## fi
+## if test $ac_cv_c_endian = little; then
+##   AC_SUBST(LITTLE_ENDIAN,1)
+## fi
+## ])
+##
+## AC_C_ENDIAN
+#
+# Per Debian bug report #946774 we can simply do this instead
+#
+AC_C_BIGENDIAN([AC_SUBST(LITTLE_ENDIAN,0)],[AC_SUBST(LITTLE_ENDIAN,1)])
 
-AC_C_ENDIAN
- 
 
 #==================================================================
 # Checks for typedefs, structures, and compiler characteristics.
