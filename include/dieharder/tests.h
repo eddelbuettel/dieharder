@@ -11,7 +11,6 @@
 #include <dieharder/rgb_kstest_test.h>
 #include <dieharder/rgb_lagged_sums.h>
 #include <dieharder/rgb_minimum_distance.h>
-#include <dieharder/rgb_operm.h>
 #include <dieharder/rgb_permutations.h>
 #include <dieharder/dab_bytedistrib.h>
 #include <dieharder/dab_dct.h>
@@ -80,7 +79,6 @@
    RGB_PERMUTATIONS,
    RGB_LAGGED_SUMS,
    RGB_LMN,
-   RGB_OPERM,
    DAB_BYTEDISTRIB,
    DAB_DCT,
    DAB_FILLTREE,
