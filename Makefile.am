@@ -40,6 +40,8 @@ MANUAL = manual
 MANTIME = manual.time
 RDIEHARDER = RDieHarder
 
+ACLOCAL_AMFLAGS = -I m4
+
 #========================================================================
 # Constructs used in project maintenance and installation.
 #

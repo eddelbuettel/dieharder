@@ -12,6 +12,16 @@ AC_PREREQ(2.59)
 AC_INIT([dieharder], [3.31.1])
 
 AM_INIT_AUTOMAKE([-Wall])
+#==================================================================
+# Checks for programs.
+#==================================================================
+AC_LANG(C)
+AC_PROG_CC
+AM_PROG_CC_C_O
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+AM_PROG_AR
+
 AC_CONFIG_SRCDIR([dieharder.abs])
 RELEASE=1
 AC_SUBST(RELEASE)
@@ -53,14 +63,6 @@ AC_SUBST(RELEASED)
 #==================================================================
 AC_CANONICAL_HOST
 
-#==================================================================
-# Checks for programs.
-#==================================================================
-AC_LANG(C)
-AC_PROG_CC
-AM_PROG_CC_C_O
-AC_PROG_INSTALL
-AC_PROG_MAKE_SET
 
 #==================================================================
 # OK, these five macros prevent my personal path from appearing
