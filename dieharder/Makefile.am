@@ -45,7 +45,8 @@ dieharder_SOURCES = \
 	set_globals.c \
 	testbits.c \
 	time_rng.c \
-	user_template.c
+	user_template.c \
+	globals.c
 
 #	rng_empty_random.c \
 #	run_rgb_bitdist.c

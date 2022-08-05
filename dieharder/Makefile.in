@@ -128,7 +128,8 @@ am_dieharder_OBJECTS = dieharder-add_ui_rngs.$(OBJEXT) \
 	dieharder-parsecl.$(OBJEXT) dieharder-rdieharder.$(OBJEXT) \
 	dieharder-run_all_tests.$(OBJEXT) dieharder-run_test.$(OBJEXT) \
 	dieharder-set_globals.$(OBJEXT) dieharder-testbits.$(OBJEXT) \
-	dieharder-time_rng.$(OBJEXT) dieharder-user_template.$(OBJEXT)
+	dieharder-time_rng.$(OBJEXT) dieharder-user_template.$(OBJEXT) \
+	dieharder-globals.$(OBJEXT)
 dieharder_OBJECTS = $(am_dieharder_OBJECTS)
 dieharder_DEPENDENCIES = ../libdieharder/libdieharder.la
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -158,7 +159,7 @@ am__depfiles_remade = ./$(DEPDIR)/dieharder-add_ui_rngs.Po \
 	./$(DEPDIR)/dieharder-choose_rng.Po \
 	./$(DEPDIR)/dieharder-dieharder.Po \
 	./$(DEPDIR)/dieharder-dieharder_exit.Po \
-	./$(DEPDIR)/dieharder-help.Po \
+	./$(DEPDIR)/dieharder-globals.Po ./$(DEPDIR)/dieharder-help.Po \
 	./$(DEPDIR)/dieharder-list_rngs.Po \
 	./$(DEPDIR)/dieharder-list_tests.Po \
 	./$(DEPDIR)/dieharder-output.Po \
@@ -400,7 +401,8 @@ dieharder_SOURCES = \
 	set_globals.c \
 	testbits.c \
 	time_rng.c \
-	user_template.c
+	user_template.c \
+	globals.c
 
 
 #	rng_empty_random.c \
@@ -531,6 +533,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dieharder-choose_rng.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dieharder-dieharder.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dieharder-dieharder_exit.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dieharder-globals.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dieharder-help.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dieharder-list_rngs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dieharder-list_tests.Po@am__quote@ # am--include-marker
@@ -824,6 +827,20 @@ dieharder-user_template.obj: user_template.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-user_template.obj `if test -f 'user_template.c'; then $(CYGPATH_W) 'user_template.c'; else $(CYGPATH_W) '$(srcdir)/user_template.c'; fi`
 
+dieharder-globals.o: globals.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-globals.o -MD -MP -MF $(DEPDIR)/dieharder-globals.Tpo -c -o dieharder-globals.o `test -f 'globals.c' || echo '$(srcdir)/'`globals.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/dieharder-globals.Tpo $(DEPDIR)/dieharder-globals.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='globals.c' object='dieharder-globals.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-globals.o `test -f 'globals.c' || echo '$(srcdir)/'`globals.c
+
+dieharder-globals.obj: globals.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -MT dieharder-globals.obj -MD -MP -MF $(DEPDIR)/dieharder-globals.Tpo -c -o dieharder-globals.obj `if test -f 'globals.c'; then $(CYGPATH_W) 'globals.c'; else $(CYGPATH_W) '$(srcdir)/globals.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/dieharder-globals.Tpo $(DEPDIR)/dieharder-globals.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='globals.c' object='dieharder-globals.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(dieharder_CFLAGS) $(CFLAGS) -c -o dieharder-globals.obj `if test -f 'globals.c'; then $(CYGPATH_W) 'globals.c'; else $(CYGPATH_W) '$(srcdir)/globals.c'; fi`
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
@@ -1003,6 +1020,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/dieharder-choose_rng.Po
 	-rm -f ./$(DEPDIR)/dieharder-dieharder.Po
 	-rm -f ./$(DEPDIR)/dieharder-dieharder_exit.Po
+	-rm -f ./$(DEPDIR)/dieharder-globals.Po
 	-rm -f ./$(DEPDIR)/dieharder-help.Po
 	-rm -f ./$(DEPDIR)/dieharder-list_rngs.Po
 	-rm -f ./$(DEPDIR)/dieharder-list_tests.Po
@@ -1066,6 +1084,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/dieharder-choose_rng.Po
 	-rm -f ./$(DEPDIR)/dieharder-dieharder.Po
 	-rm -f ./$(DEPDIR)/dieharder-dieharder_exit.Po
+	-rm -f ./$(DEPDIR)/dieharder-globals.Po
 	-rm -f ./$(DEPDIR)/dieharder-help.Po
 	-rm -f ./$(DEPDIR)/dieharder-list_rngs.Po
 	-rm -f ./$(DEPDIR)/dieharder-list_tests.Po

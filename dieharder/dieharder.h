@@ -24,8 +24,8 @@
  * blank the default because it is hard to specify a blank on the CL but
  * easy to specify the others?
  */
-unsigned int tflag,tflag_default;
-char table_separator;
+extern unsigned int tflag,tflag_default;
+extern char table_separator;
 #include "output.h"
 
 /*
@@ -33,17 +33,17 @@ char table_separator;
  * test number OR a test name; we have to sort that out when we
  * choose a test.
  */
-int dtest_num;
-char dtest_name[128];
-char generator_name[128];
+extern int dtest_num;
+extern char dtest_name[128];
+extern char generator_name[128];
 
 /*
  * user_template sources are here, not in library
  */
 #include "user_template.h"
 
-double rng_avg_time_nsec,rng_rands_per_second;
-double strategy;
+extern double rng_avg_time_nsec,rng_rands_per_second;
+extern double strategy;
 
 #ifdef RDIEHARDER
  Test **rdh_testptr;		/* kludge: need a global to report back to R */

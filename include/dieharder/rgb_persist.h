@@ -42,4 +42,4 @@ static Dtest rgb_persist_dtest __attribute__((unused)) = {
   0
 };
 
-unsigned int *rgb_persist_rand_uint;
+extern unsigned int *rgb_persist_rand_uint;
