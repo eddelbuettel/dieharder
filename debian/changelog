@@ -1,3 +1,13 @@
+dieharder (3.31.1.2-1) unstable; urgency=medium
+
+  * New upstream minor release accomodating gcc-10 and its treatment of
+    multiple definitions of global variables		(Closes: #957134)
+
+  * Based on new 'upstream' git repo at github.com/eddelbuettel/dieharder
+    which spawned off the salsa.debian.org repo for this package
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sat, 25 Jul 2020 12:36:49 -0500
+
 dieharder (3.31.1.1-1) unstable; urgency=medium
 
   * New upstream minor release as we are in a funny spot as this is now effectively
