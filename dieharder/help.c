@@ -32,7 +32,7 @@ void help()
 
  /* printf("OK, what is dtest_num = %u\n",dtest_num);*/
 
- if(dh_test_types[dtest_num]){
+ if(dtest_num>=0 && dtest_num < MAXTESTS && dh_test_types[dtest_num]){
    fprintf(stdout,"%s",dh_test_types[dtest_num]->description);
    Exit(0);
  } else {
