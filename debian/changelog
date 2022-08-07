@@ -1,3 +1,16 @@
+dieharder (3.31.1.3-1) unstable; urgency=medium
+
+  * New upstream minor release with
+    - bug fix by Milan Broz for 'dieharder -h' segfault	(Closes: #1016688)
+    - pull request #1 by Fabrice Fontaine adding static to two inline functions
+
+  * debian/control: Set Standards-Version: to current version 
+  * debian/control: Switch to virtual debhelper-compat (= 11)
+  * debian/compat: Removed
+  * debian/patches/build_setup: Removed
+
+ -- Dirk Eddelbuettel <edd@debian.org>  Sun, 07 Aug 2022 09:33:23 -0500
+
 dieharder (3.31.1.2-1) unstable; urgency=medium
 
   * New upstream minor release accomodating gcc-10 and its treatment of

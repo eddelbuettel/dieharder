@@ -2,8 +2,8 @@ Source: dieharder
 Section: devel
 Priority: optional
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
-Standards-Version: 4.4.0
-Build-Depends: debhelper (>= 10), libgsl-dev, automake, libtool, ghostscript, texlive-base, texlive-latex-base, texlive-plain-generic
+Standards-Version: 4.6.1
+Build-Depends: debhelper-compat (= 11), libgsl-dev, automake, libtool, ghostscript, texlive-base, texlive-latex-base, texlive-plain-generic
 Vcs-Browser: https://salsa.debian.org/edd/dieharder
 Vcs-Git: https://salsa.debian.org/edd/dieharder.git
 Homepage: http://webhome.phy.duke.edu/~rgb/General/dieharder.php
