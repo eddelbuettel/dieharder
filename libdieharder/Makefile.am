@@ -114,7 +114,7 @@ DEFINES = -DVERSION=$(VERSION) -DLITTLE_ENDIAN=$(LITTLE_ENDIAN)
 # CC = gcc
 
 # Compile flags (use fairly standard -O3 as default)
-AM_CPPFLAGS = $(DEFINES) -I ${top_srcdir}/include -I ${includedir}
+AM_CPPFLAGS = $(DEFINES) -I ${top_srcdir}/include
 AM_CFLAGS = -O3 -Wall -pedantic -Wno-unused-variable 
 
 #========================================================================
