@@ -65,7 +65,7 @@ DEFINES = -DVERSION=$(VERSION)
 # CC = gcc
 
 # Compile flags (use fairly standard -O3 as default)
-AM_CPPFLAGS = -I ${top_srcdir}/include $(DEFINES) -I ${includedir}
+AM_CPPFLAGS = -I ${top_srcdir}/include $(DEFINES)
 AM_CFLAGS = -O3
 
 # Load flags (optional)

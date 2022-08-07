@@ -96,9 +96,9 @@ AC_TYPE_SIZE_T
 AC_C_VOLATILE
 AC_C_INLINE
 
-DIEHARDER_CFLAGS="-I$includedir"
-dieharder_CFLAGS="-std=c99 -Wall -pedantic -I$includedir"
-libdieharder_lo_CFLAGS="-Wall -pedantic -I$includedir"
+DIEHARDER_CFLAGS=""
+dieharder_CFLAGS="-std=c99 -Wall -pedantic"
+libdieharder_lo_CFLAGS="-Wall -pedantic"
 DIEHARDER_LIBS="-L$libdir -ldieharder"
 ACLOCAL_AMFLAGS="-I m4"
 
