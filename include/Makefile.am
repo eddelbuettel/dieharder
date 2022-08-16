@@ -18,6 +18,7 @@ nobase_include_HEADERS = dieharder/copyright.h \
 	dieharder/diehard_opso.h \
 	dieharder/diehard_oqso.h \
 	dieharder/diehard_parking_lot.h \
+	dieharder/diehard_predict_mersenne.h \
 	dieharder/diehard_rank_32x32.h \
 	dieharder/diehard_rank_6x8.h \
 	dieharder/diehard_runs.h \

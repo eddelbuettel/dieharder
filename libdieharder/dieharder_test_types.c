@@ -97,6 +97,9 @@ void dieharder_test_types()
  ADD_TEST(&marsaglia_tsang_gcd_dtest);
  dh_num_diehard_tests++;
 
+ ADD_TEST(&diehard_predict_mersenne_dtest);
+ dh_num_diehard_tests++;
+
  MYDEBUG(D_TYPES){
    printf("# dieharder_test_types():  Found %u diehard tests.\n",dh_num_diehard_tests);
  }

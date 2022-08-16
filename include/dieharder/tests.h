@@ -36,6 +36,7 @@
 #include <dieharder/diehard_runs.h>
 #include <dieharder/diehard_craps.h>
 #include <dieharder/marsaglia_tsang_gcd.h>
+#include <dieharder/diehard_predict_mersenne.h>
 #include <dieharder/sts_monobit.h>
 #include <dieharder/sts_runs.h>
 #include <dieharder/sts_serial.h>

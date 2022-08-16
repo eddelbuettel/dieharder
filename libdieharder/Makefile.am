@@ -49,6 +49,7 @@ libdieharder_la_SOURCES = \
 	diehard_opso.c \
 	diehard_oqso.c \
 	diehard_parking_lot.c \
+	diehard_predict_mersenne.c \
 	diehard_rank_32x32.c \
 	diehard_rank_6x8.c \
 	diehard_runs.c \
