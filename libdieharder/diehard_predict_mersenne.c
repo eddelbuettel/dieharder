@@ -97,6 +97,7 @@ static unsigned CircularAdvance(unsigned const offset, unsigned const advance)
 }
 
 #define printf(...) /* nothing */
+#define always_printf(...) printf(__VA_ARGS__)
 
 int diehard_predict_mersenne(Test **test, int irun)
 {
@@ -106,18 +107,10 @@ int diehard_predict_mersenne(Test **test, int irun)
 	test[0]->ntuple = 0;
 
 	uint32_t *const samples_seen_so_far = malloc(SAMPLES_NEEDED * sizeof(*samples_seen_so_far));
-	
-	unsigned num_correct = 0, num_incorrect = 0;
-	
-	uint_fast64_t count_samples;
-	
-	unsigned i;
-	
-	printf("Waiting for %u previous inputs\n", (unsigned)SAMPLES_NEEDED);
-	
-	//fread(samples_seen_so_far, sizeof *samples_seen_so_far, sizeof(samples_seen_so_far)/sizeof(*samples_seen_so_far), stdin);
 
-	//memset(samples_seen_so_far,0,sizeof samples_seen_so_far);
+	unsigned num_correct = 0, num_incorrect = 0;
+
+	printf("Waiting for %u previous inputs\n", (unsigned)SAMPLES_NEEDED);
 
 	for( unsigned i = 0; i != SAMPLES_NEEDED; ++i )
 	{
@@ -126,18 +119,18 @@ int diehard_predict_mersenne(Test **test, int irun)
 		samples_seen_so_far[i] = untemper(tmp);
 	}
 
-	puts("Ready to predict");
+	printf("Ready to predict\n");
 	
 	printf("Third-last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 3u]);
 	printf("Second-last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 2u]);
 	printf("Last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 1u]);
 
-	for ( count_samples = 0; count_samples < (1000u - SAMPLES_NEEDED); ++count_samples )
+	for ( unsigned count_samples = 0; count_samples < (1000 - SAMPLES_NEEDED); ++count_samples )
 	{
 		unsigned const offset = count_samples % SAMPLES_NEEDED;
 
 		char const *status = 0;
-	
+
 		uint32_t predicted, actual;
 
 		uint32_t const alpha = samples_seen_so_far[ CircularAdvance(offset,param_m) ];
@@ -169,18 +162,28 @@ int diehard_predict_mersenne(Test **test, int irun)
 
 		if ( predicted == actual )
 		{
+			status = "CORRECT";
 			++num_correct;
 		}
 		else
 		{
+			status = "INACCURATE";
 			++num_incorrect;
 		}
 
 		printf("Sample Number: %" SCNuMAX " - Predicted %" SCNuMAX " got %" SCNuMAX " -- %s\n", (uintmax_t)count_samples, (uintmax_t)predicted, (uintmax_t)actual, status);
 	}
 
-	printf("Correct = %d, Incorrect = %d\n", num_correct, num_incorrect);
-	test[0]->pvalues[irun] = (0 != num_correct) ? 0.0 : 0.2;
+	always_printf("Correct = %d, Incorrect = %d\n", num_correct, num_incorrect);
+
+	if ( !(num_correct > 3u) )
+	{
+		test[0]->pvalues[irun] = 0.2;
+	}
+	else
+	{
+		test[0]->pvalues[irun] = 0.0;
+	}
 
 	free(samples_seen_so_far);
 
