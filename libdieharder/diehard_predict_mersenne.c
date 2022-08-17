@@ -96,8 +96,8 @@ static unsigned CircularAdvance(unsigned const offset, unsigned const advance)
 	return (offset + advance) % SAMPLES_NEEDED;
 }
 
-#define printf(...) /* nothing */
-#define always_printf(...) printf(__VA_ARGS__)
+//#define verbose_printf(...) printf(__VA_ARGS__)
+#define verbose_printf(...) /* nothing */
 
 int diehard_predict_mersenne(Test **test, int irun)
 {
@@ -110,7 +110,7 @@ int diehard_predict_mersenne(Test **test, int irun)
 
 	unsigned num_correct = 0, num_incorrect = 0;
 
-	printf("Waiting for %u previous inputs\n", (unsigned)SAMPLES_NEEDED);
+	verbose_printf("Waiting for %u previous inputs\n", (unsigned)SAMPLES_NEEDED);
 
 	for( unsigned i = 0; i != SAMPLES_NEEDED; ++i )
 	{
@@ -119,11 +119,11 @@ int diehard_predict_mersenne(Test **test, int irun)
 		samples_seen_so_far[i] = untemper(tmp);
 	}
 
-	printf("Ready to predict\n");
+	verbose_printf("Ready to predict\n");
 	
-	printf("Third-last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 3u]);
-	printf("Second-last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 2u]);
-	printf("Last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 1u]);
+	verbose_printf("Third-last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 3u]);
+	verbose_printf("Second-last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 2u]);
+	verbose_printf("Last element == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[SAMPLES_NEEDED - 1u]);
 
 	for ( unsigned count_samples = 0; count_samples < (1000 - SAMPLES_NEEDED); ++count_samples )
 	{
@@ -135,26 +135,26 @@ int diehard_predict_mersenne(Test **test, int irun)
 
 		uint32_t const alpha = samples_seen_so_far[ CircularAdvance(offset,param_m) ];
 
-		printf("Alpha == %" SCNuMAX "\n", (uintmax_t)alpha);
-		printf("Seen[0] == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[0]);
-		printf("Seen[1] == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[1]);
-		printf("upper(Seen[0]) == %" SCNuMAX "\n", (uintmax_t)upper(samples_seen_so_far[0]));
-		printf("lower(Seen[1]) == %" SCNuMAX "\n", (uintmax_t)lower(samples_seen_so_far[1]));
+		verbose_printf("Alpha == %" SCNuMAX "\n", (uintmax_t)alpha);
+		verbose_printf("Seen[0] == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[0]);
+		verbose_printf("Seen[1] == %" SCNuMAX "\n", (uintmax_t)samples_seen_so_far[1]);
+		verbose_printf("upper(Seen[0]) == %" SCNuMAX "\n", (uintmax_t)upper(samples_seen_so_far[0]));
+		verbose_printf("lower(Seen[1]) == %" SCNuMAX "\n", (uintmax_t)lower(samples_seen_so_far[1]));
 
 		uint32_t const prebeta =   upper(samples_seen_so_far[offset])
 		                         | lower(samples_seen_so_far[CircularAdvance(offset,1u)]);
 
-		printf("Prebeta == %" SCNuMAX "\n", (uintmax_t)prebeta);
+		verbose_printf("Prebeta == %" SCNuMAX "\n", (uintmax_t)prebeta);
 
 		uint32_t const beta = timesA(prebeta);
 
-		printf("Beta == %" SCNuMAX "\n", (uintmax_t)beta);
+		verbose_printf("Beta == %" SCNuMAX "\n", (uintmax_t)beta);
 
 		uint32_t const next_val = alpha ^ beta;
 
 		samples_seen_so_far[offset] = next_val;
 
-		printf("Next_val == %" SCNuMAX "\n", (uintmax_t)next_val);
+		verbose_printf("Next_val == %" SCNuMAX "\n", (uintmax_t)next_val);
 
 		predicted = temper(next_val);
 
@@ -171,18 +171,18 @@ int diehard_predict_mersenne(Test **test, int irun)
 			++num_incorrect;
 		}
 
-		printf("Sample Number: %" SCNuMAX " - Predicted %" SCNuMAX " got %" SCNuMAX " -- %s\n", (uintmax_t)count_samples, (uintmax_t)predicted, (uintmax_t)actual, status);
+		verbose_printf("Sample Number: %" SCNuMAX " - Predicted %" SCNuMAX " got %" SCNuMAX " -- %s\n", (uintmax_t)count_samples, (uintmax_t)predicted, (uintmax_t)actual, status);
 	}
 
-	always_printf("Correct = %d, Incorrect = %d\n", num_correct, num_incorrect);
+	printf("Correct = %" SCNuMAX ", Incorrect = %" SCNuMAX "\n", (uintmax_t)num_correct, (uintmax_t)num_incorrect);
 
-	if ( !(num_correct > 3u) )
+	if ( num_correct > 3u )
 	{
-		test[0]->pvalues[irun] = 0.2;
+		test[0]->pvalues[irun] = 0.0;
 	}
 	else
 	{
-		test[0]->pvalues[irun] = 0.0;
+		test[0]->pvalues[irun] = 0.2;
 	}
 
 	free(samples_seen_so_far);
