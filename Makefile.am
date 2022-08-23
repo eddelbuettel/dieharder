@@ -88,7 +88,7 @@ $(INCTIME):
 	(cd include; \
 	make)
 
-$(PROGTIME):
+$(PROGTIME): $(LIBTIME)
 	(cd $(PROGRAM); \
 	make)
 
