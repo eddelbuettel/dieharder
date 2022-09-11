@@ -178,7 +178,7 @@ int diehard_predict_mersenne(Test **test, int irun)
 		verbose_printf("Sample Number: %" SCNuMAX " - Predicted %" SCNuMAX " got %" SCNuMAX " -- %s\n", count_samples, (uintmax_t)predicted, (uintmax_t)actual, status);
 	}
 
-	printf("Correct = %" SCNuMAX ", Incorrect = %" SCNuMAX "\n", num_correct, num_incorrect);
+	verbose_printf("Correct = %" SCNuMAX ", Incorrect = %" SCNuMAX "\n", num_correct, num_incorrect);
 
 	if ( ((long double)num_correct / num_incorrect) > 0.007L )
 	{
