@@ -6,20 +6,17 @@
  *
  * This file provides the "one spot" for these _sole_ defintions.
  *
- * Dirk Eddelbuettel, Dec 2019
+ * Dirk Eddelbuettel, Dec 2019, Dec 2022
  */
 
 #include <sys/time.h>
-//#include <R.h>
-//#include <Rinternals.h>
+#include <sys/types.h>
 
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_vector.h>
 #include <gsl/gsl_matrix.h>
 
 #include <dieharder/Dtest.h>
-
-#define off_t unsigned int;
 
 /* dieharder.h */
 //SEXP result;		/* kludge: need a global to report back to main() and then R */
