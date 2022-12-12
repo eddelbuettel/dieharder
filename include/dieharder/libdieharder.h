@@ -18,6 +18,7 @@
 
 /* This turns on uint macro in c99 */
 #define __USE_MISC 1
+#define _GNU_SOURCE 1
 #include <stdint.h>
 #include <sys/types.h>
 #include <sys/stat.h>
