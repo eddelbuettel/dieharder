@@ -70,7 +70,7 @@ unsigned int sts;              /* sts test number */
 unsigned int Seed;             /* user selected seed.  Surpresses reseeding per sample.*/
 off_t tsamples;        /* Generally should be "a lot".  off_t is u_int64_t. */
 unsigned int user;             /* user defined test number */
-extern unsigned int verbose;          /* Default is not to be verbose. */
+unsigned int verbose;          /* Default is not to be verbose. */
 double Xweak;          /* "Weak" generator cut-off (one sided) */
 double Xfail;          /* "Unambiguous Fail" generator cut-off (one sided) */
 unsigned int Xtrategy;         /* Strategy used in TTD mode */
