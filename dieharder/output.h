@@ -21,10 +21,11 @@
    TSEED = 4096,
    TRATE = 8192,
    TNUM = 16384,
-   TNO_WHITE = 32768
+   TNO_WHITE = 32768,
+   TPSAMPLE_VALS = 65536
  } Table;
 
-#define TCNT 16
+#define TCNT 17
 
  /*
   * These should have a maximum length one can use in strncmp().
@@ -49,5 +50,6 @@
  "seed",
  "rate",
  "show_num",
- "no_whitespace"
+ "no_whitespace",
+ "psample_values"
  };

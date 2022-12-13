@@ -521,6 +521,17 @@ void output_table_line(Dtest *dtest,Test **test)
      field++;
    }
 
+   if(tflag & TPSAMPLE_VALS) {
+       fprintf(stdout , "\n#=============================================================================#\n");
+       fprintf(stdout , "#                          Values of test p-values                            #\n");
+       fprintf(stdout , "#=============================================================================#\n");
+       size_t iter = 0;
+       for(iter = 0 ; iter < test[i]->psamples ; ++iter) {
+           fprintf(stdout, "%c%10.8f%c\n", table_separator, test[i]->pvalues[iter], table_separator);
+       }
+       fprintf(stdout , "#=============================================================================#\n");
+   }
+
    /*
     * No separator at the end, just EOL
     */
