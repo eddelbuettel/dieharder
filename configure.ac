@@ -115,6 +115,7 @@ AC_SUBST(ACLOCAL_AMFLAGS)
 #   -lgsl -lgslcblas
 # for the SECOND test, required (in that order) to succeed.
 #==================================================================
+AC_CHECK_LIB([m],[log])
 AC_CHECK_HEADER([gsl/gsl_sf_gamma.h],,[AC_MSG_ERROR([Couldn't find GSL headers.  Please install the gsl-devel package.])])
 AC_CHECK_LIB([gslcblas], [main],,[AC_MSG_ERROR([Couldn't find libgsl. Please install the gsl package.])])
 AC_CHECK_LIB([gsl],[gsl_sf_gamma])

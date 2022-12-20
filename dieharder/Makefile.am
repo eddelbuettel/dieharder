@@ -26,7 +26,7 @@ VERSION=@VERSION@
 # SRCINCLUDES = $(shell ls *.h  2>&1 | sed -e "/\/bin\/ls:/d")
 bin_PROGRAMS = dieharder
 man1_MANS = dieharder.1
-dieharder_LDADD = ../libdieharder/libdieharder.la -lgsl -lgslcblas -lm
+dieharder_LDADD = ../libdieharder/libdieharder.la
 dieharder_SOURCES = \
 	add_ui_rngs.c \
 	add_ui_tests.c \
