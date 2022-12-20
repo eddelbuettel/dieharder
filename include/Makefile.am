@@ -33,7 +33,7 @@ nobase_include_HEADERS = dieharder/copyright.h \
 	dieharder/rgb_lagged_sums.h \
 	dieharder/rgb_lmn.h \
 	dieharder/rgb_minimum_distance.h \
-	dieharder/rgb_operm.h \
+	#dieharder/rgb_operm.h \
 	dieharder/rgb_persist.h \
 	dieharder/rgb_permutations.h \
 	dieharder/rgb_timing.h \
