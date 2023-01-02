@@ -22,10 +22,11 @@
    TRATE = 8192,
    TNUM = 16384,
    TNO_WHITE = 32768,
-   TPSAMPLE_VALS = 65536
+   TPSAMPLE_VALS = 65536,
+   TFILE_RNG_STAT = 131072
  } Table;
 
-#define TCNT 17
+#define TCNT 18
 
  /*
   * These should have a maximum length one can use in strncmp().
@@ -51,5 +52,6 @@
  "rate",
  "show_num",
  "no_whitespace",
- "psample_values"
+ "psample_values",
+ "file_rng_stat"
  };
