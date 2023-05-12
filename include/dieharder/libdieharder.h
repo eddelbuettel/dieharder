@@ -1,3 +1,6 @@
+#ifndef _LIBDIEHARDER_H_
+#define _LIBDIEHARDER_H_
+
 /*
  *========================================================================
  * See copyright in copyright.h and the accompanying file COPYING
@@ -26,7 +29,15 @@
 
 /* This turns on M_PI in math.h */
 #define __USE_BSD 1
+#ifdef __CYGWIN__
+#undef __BSD_VISIBLE
+#define __BSD_VISIBLE 1
+#endif /* __CYGWIN__ */
 #include <math.h>
+#ifdef __CYGWIN__
+#undef __BSD_VISIBLE
+#define __BSD_VISIBLE 0
+#endif /* __CYGWIN__ */
 #include <limits.h>
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
@@ -301,3 +312,7 @@ typedef struct {
   double c[RGB_MINIMUM_DISTANCE_MAXDIM];
 } dTuple;
  
+#ifdef __CYGWIN__
+typedef       unsigned int    uint;
+#endif /* __CYGWIN__ */
+#endif /* _LIBDIEHARDER_H_ */

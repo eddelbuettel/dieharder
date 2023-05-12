@@ -1,3 +1,5 @@
+#ifndef _DIEHARDER_COPYRIGHT_H_
+#define _DIEHARDER_COPYRIGHT_H_
 /*
  * $Id: copyright.h 222 2006-08-17 04:54:59Z rgb $
  *
@@ -14,4 +16,4 @@
  * PERFORMANCE OF THIS SOFTWARE.
  *
  */
-
+#endif /* _DIEHARDER_COPYRIGHT_H_ */
