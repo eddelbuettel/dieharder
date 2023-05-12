@@ -1,3 +1,6 @@
+#ifndef _LIBDIEHARDER_H_
+#define _LIBDIEHARDER_H_
+
 /*
  *========================================================================
  * See copyright in copyright.h and the accompanying file COPYING
@@ -301,3 +304,4 @@ typedef struct {
   double c[RGB_MINIMUM_DISTANCE_MAXDIM];
 } dTuple;
  
+#endif /* _LIBDIEHARDER_H_ */
