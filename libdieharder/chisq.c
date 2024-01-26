@@ -199,6 +199,52 @@ double chisq_binomial(double *observed,double prob,unsigned int kmax,unsigned in
 }
 
 /*
+ * Perform the g-test (related to Pearson's Chi Sq test), for a uniform
+ * distribution into a set of kmax bins.  Performs an additional
+ * correction, which restricts it to handling uniform distributions only.
+ */
+double chisq_uint_uniform_gtest(uint *observed,long numItems,int kmax)
+{
+ uint i,j,k;
+ double delchisq,chisq,pvalue;
+ double expected = (double) numItems / kmax;
+
+ chisq = 0.0;
+ for(k = 0;k < kmax;k++){
+   if (observed[k] == 0) continue;
+   delchisq = 2.0 * ((double) observed[k] * log((double) observed[k] / expected));
+   chisq += delchisq;
+   if(verbose){
+     printf("%u:  observed = %u,  expected = %f, delchisq = %f, chisq = %f\n",
+        k,observed[k],expected,delchisq,chisq);
+   }
+ }
+
+ if(verbose){
+   printf("Evaluated chisq = %f for %u k values\n",chisq,kmax);
+ }
+
+ /* Apply correction; from Wikipedia, citing Smith, P. J., Rae, D. S., Manderscheid,
+  * R. W. and Silbergeld, S. (1981). "Approximating the Moments and Distribution of
+  * the Likelihood Ratio Statistic for Multinomial Goodness of Fit"
+  */
+ chisq /= 1.0 + ((double) (kmax + 1) / (6.0 * numItems)) +
+     ((double) (kmax * kmax) / (6.0 * numItems * numItems));
+
+ /*
+  * Now evaluate the corresponding pvalue.  The only real question
+  * is what is the correct number of degrees of freedom.  We have
+  * kmax bins, so it should be kmax-1.
+  */
+ pvalue = gsl_sf_gamma_inc_Q((double)(kmax-1)/2.0,fabs(chisq)/2.0);
+ if(verbose){
+   printf("pvalue = %f in chisq_pearson.\n",pvalue);
+ }
+
+ return(pvalue);
+}
+
+/*
  * Contributed by David Bauer to do a Pearson chisq on a 2D
  * histogram.
  */

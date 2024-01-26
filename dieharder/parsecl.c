@@ -59,7 +59,8 @@ void parsecl(int argc, char **argv)
        all = YES;
        break;
      case 'B':
-       binary = 1;
+       output_format = 0;
+	   fprintf(stderr, "Warning: \"-B\" option is deprecated.  Use \"-O 0\" instead.\n");
        break;
      case 'c':
        /* printf("Setting separator to %c\n",optarg[0]); */

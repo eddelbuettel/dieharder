@@ -13,11 +13,13 @@
 #include <dieharder/rgb_minimum_distance.h>
 //#include <dieharder/rgb_operm.h>
 #include <dieharder/rgb_permutations.h>
+#include <dieharder/dab_birthdays1.h>
 #include <dieharder/dab_bytedistrib.h>
 #include <dieharder/dab_dct.h>
 #include <dieharder/dab_filltree.h>
 #include <dieharder/dab_filltree2.h>
 #include <dieharder/dab_monobit2.h>
+#include <dieharder/dab_opso2.h>
 #include <dieharder/diehard_birthdays.h>
 #include <dieharder/diehard_operm5.h>
 #include <dieharder/diehard_rank_32x32.h>
@@ -81,11 +83,13 @@
    RGB_LAGGED_SUMS,
    RGB_LMN,
    //RGB_OPERM,
+   DAB_BIRTHDAYS1,
    DAB_BYTEDISTRIB,
    DAB_DCT,
    DAB_FILLTREE,
    DAB_FILLTREE2,
    DAB_MONOBIT2,
+   DAB_OPSO2,
    N_RGB_TESTS
  } Rgb_Tests;
 

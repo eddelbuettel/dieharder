@@ -1,3 +1,11 @@
+2016-07-21  David Bauer <david.astgtciv@gmail.com>
+
+	* libdieharder/dab_filltree2.c: Updated to a g-test with correction
+	with exact computed target
+	* libdieharder/chisq.c: Correction applied
+	* include/dieharder/libdieharder.h: tie-in new generator
+
+
 ------------------------------------------------------------------------
 r529 | rgbatduke | 2011-04-01 13:49:31 -0400 (Fri, 01 Apr 2011) | 117 lines
 
