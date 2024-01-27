@@ -205,7 +205,7 @@ double chisq_binomial(double *observed,double prob,unsigned int kmax,unsigned in
  */
 double chisq_uint_uniform_gtest(uint *observed,long numItems,int kmax)
 {
- uint i,j,k;
+ uint k;
  double delchisq,chisq,pvalue;
  double expected = (double) numItems / kmax;
 

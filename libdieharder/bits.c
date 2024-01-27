@@ -404,13 +404,12 @@ void fill_uint_buffer(unsigned int *data,unsigned int buflength)
   * is worth it to create a routine to do this once and for all.
   */
 
- unsigned int bufbits,bdelta;
+ unsigned int bdelta;
  unsigned int i,tmp1,tmp2,mask;
 
  /*
   * Number of bits we must generate.
   */
- bufbits = buflength*sizeof(unsigned int)*CHAR_BIT;
  bdelta = sizeof(unsigned int)*CHAR_BIT - rmax_bits;
  mask = 0;
  for(i=0;i<bdelta;i++) {

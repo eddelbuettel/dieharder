@@ -27,7 +27,7 @@
 
 typedef unsigned char uchar;
 
-static double targetData1[32] = {  // size=32, exact
+static double targetData1[32] __attribute__((unused)) = {  // size=32, exact
 0,0,0,0,
 0.0009765625,0.00390625,0.009429931640625,0.0177898406982422,
 0.0288577079772949,0.0421273708343506,0.0566971004009247,0.0712958071380854,
@@ -38,7 +38,7 @@ static double targetData1[32] = {  // size=32, exact
 2.64480590945694E-05,3.54215077159411E-06,2.36143384772941E-07,0
 };
 
-static double targetData2[64] = {  // size=64, exact
+static double targetData2[64] __attribute__((unused)) = {  // size=64, exact
 0,0,0,0,
 0,3.0517578125E-05,0.000152587890625,0.000447511672973633,
 0.00100504606962204,0.00191331189125776,0.00325121614150703,0.00508295510371681,
