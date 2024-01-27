@@ -31,7 +31,7 @@
 int binary_rank(uint **mtx,int mrows,int ncols)
 {
 
- int i,j,k,m,n,s_uint,rank;
+ int i,j,k,m,n,s_uint;
  int col_ind,uint_col_max;
  uint mask,colchk;
  uint *rowp;
@@ -69,7 +69,6 @@ int binary_rank(uint **mtx,int mrows,int ncols)
    }
  }
 
- rank = 0;
  i = 0;
  mask = 1;
  /*

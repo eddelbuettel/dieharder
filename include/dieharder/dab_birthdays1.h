@@ -8,7 +8,7 @@
 int dab_birthdays1(Test **test, int irun);
 
 static Dtest dab_birthdays1_dtest __attribute__((unused)) = {
-  "Diehard Birthdays Test",
+  "DAB Diehard Birthdays Test",
   "dab_birthdays1",
   "\n\
 #==================================================================\n\

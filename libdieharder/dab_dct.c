@@ -286,7 +286,6 @@ double evalMostExtreme(double *pvalue, unsigned int num) {
  double ext = 1.0;
  int sign = 1;
  unsigned int i;
- unsigned int pos = 0;
 
  for (i = 0; i < num; i++) {
    double p = pvalue[i];
@@ -298,7 +297,6 @@ double evalMostExtreme(double *pvalue, unsigned int num) {
    if (p < ext) {
      ext = p;
      sign = cursign;
-     pos = i;
    }
  }
 

@@ -283,8 +283,8 @@ double p_ks_new(int n,double d)
   m=2*k-1;
   h=k-n*d;
   /* printf("p_ks_new:  n = %d  k = %d  m = %d  h = %f\n",n,k,m,h); */
-  H=(double*)malloc((m*m)*sizeof(double));
-  Q=(double*)malloc((m*m)*sizeof(double));
+  H=(double*)calloc((m*m),sizeof(double));
+  Q=(double*)calloc((m*m),sizeof(double));
   for(i=0;i<m;i++){
     for(j=0;j<m;j++){
       if(i-j+1<0){

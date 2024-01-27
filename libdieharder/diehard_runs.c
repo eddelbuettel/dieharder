@@ -80,7 +80,7 @@ int diehard_runs(Test **test, int irun)
  int i,j,k,t;
  unsigned int ucount,dcount;
  int upruns[RUN_MAX],downruns[RUN_MAX];
- double uv,dv,up_pks,dn_pks;
+ double uv,dv;
  uint first, last, next = 0;
 
  /*
@@ -162,12 +162,6 @@ int diehard_runs(Test **test, int irun)
  uv /= (double)test[0]->tsamples;
  dv /= (double)test[0]->tsamples;
 
- /*
-  * This NEEDS WORK!  It isn't right, somehow...
-  */
- up_pks = 1.0 - exp ( -0.5 * uv ) * ( 1.0 + 0.5 * uv + 0.125 * uv*uv );
- dn_pks = 1.0 - exp ( -0.5 * dv ) * ( 1.0 + 0.5 * dv + 0.125 * dv*dv );
- 
  MYDEBUG(D_DIEHARD_RUNS) {
    printf("uv = %f   dv = %f\n",uv,dv);
  }
