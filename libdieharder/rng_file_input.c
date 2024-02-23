@@ -49,6 +49,14 @@ static void file_input_set (void *vstate, unsigned long int s);
 uint file_input_get_rewind_cnt(gsl_rng *rng)
 {
   file_input_state_t *state = (file_input_state_t *) rng->state;
+
+  /*
+   * End of file was reached, but nothing was read yet (repeatedly).
+   * Do not report file rewind yet.
+   */
+  if (state->rewind_cnt > 0 && state->rptr == 0)
+    return state->rewind_cnt - 1;
+
   return state->rewind_cnt;
 }
 
