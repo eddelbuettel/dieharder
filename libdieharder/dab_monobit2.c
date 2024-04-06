@@ -42,6 +42,10 @@ int dab_monobit2(Test **test, int irun)
      if ( nsamp*gsl_ran_binomial_pdf(nmax/2,0.5,nmax) < 20 ) break;
    }
    ntup = j;
+ } else if (ntup >= BLOCK_MAX) {
+   fprintf(stderr,"Error:  Can only use ntup up to %i.\n", BLOCK_MAX-1);
+   fprintf(stderr,"        Read test description with dieharder -d 209 -h.\n");
+   exit(0);
  }
 
  test[0]->ntuple = ntup;
