@@ -18,6 +18,7 @@
 #include <string.h>
 #include <sys/time.h>
 #include <stdint.h>
+#include <inttypes.h>
 
 /* This turns on uint macro in c99 */
 #define __USE_MISC 1
@@ -248,7 +249,7 @@
   * file_input_raw.
   */
  unsigned int file_input_get_rewind_cnt(gsl_rng *rng);
- off_t file_input_get_rtot(gsl_rng *rng);
+ int64_t file_input_get_rtot(gsl_rng *rng);
  void file_input_set_rtot(gsl_rng *rng,unsigned int value);
 
  extern char filename[K];      /* Input file name */
@@ -259,7 +260,7 @@
   * automagically u_int64_t if FILE_OFFSET_BITS is 64, according to
   * legend.
   */
- extern off_t filecount;	/* number of rands in file */
+ extern int64_t filecount;	/* number of rands in file */
  extern char filetype;         /* file type */
 /*
  * This struct contains the data maintained on the operation of
@@ -274,9 +275,9 @@
  */
  typedef struct {
     FILE *fp;
-    off_t flen;
-    off_t rptr;
-    off_t rtot;
+    int64_t flen;
+    int64_t rptr;
+    int64_t rtot;
     unsigned int rewind_cnt;
   } file_input_state_t;
 

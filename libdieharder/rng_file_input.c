@@ -60,7 +60,7 @@ uint file_input_get_rewind_cnt(gsl_rng *rng)
   return state->rewind_cnt;
 }
 
-off_t
+int64_t
 file_input_get_rtot(gsl_rng *rng)
 {
   file_input_state_t *state = (file_input_state_t *) rng->state;
@@ -170,7 +170,7 @@ static unsigned long int file_input_get (void *vstate)
    state->rptr++;
    state->rtot++;
    if(verbose){
-     fprintf(stdout,"# file_input() %lu: %lu/%lu -> %u\n", state->rtot, state->rptr,state->flen,(uint)iret);
+     fprintf(stdout,"# file_input() %"PRId64": %"PRId64"/%"PRId64" -> %u\n", state->rtot, state->rptr,state->flen,(uint)iret);
    }
 
    /*
@@ -278,7 +278,7 @@ static void file_input_set (void *vstate, unsigned long int s)
      state->rewind_cnt++;
      if(verbose == D_FILE_INPUT || verbose == D_ALL){
        fprintf(stderr,"# file_input(): Rewinding %s at rtot = %u\n", filename,(uint) state->rtot);
-       fprintf(stderr,"# file_input(): Rewind count = %u, resetting rptr = %lu\n",state->rewind_cnt,state->rptr);
+       fprintf(stderr,"# file_input(): Rewind count = %u, resetting rptr = %"PRId64"\n",state->rewind_cnt,state->rptr);
      }
    } else {
      return;
@@ -325,16 +325,22 @@ static void file_input_set (void *vstate, unsigned long int s)
        }
      }
      if(strncmp(splitbuf[0],"count",5) == 0){
-       state->flen = atoi(splitbuf[1]);
+       if(sscanf(splitbuf[1], "%"SCNd64, &state->flen) != 1){
+         fprintf(stderr,"# file_input(): Error: invalid count value\n");
+         exit(0);
+       }
        filecount = state->flen;
        cnt++;
-       if(verbose){ 
+       if(verbose){
          fprintf(stdout,"# file_input(): cnt = %d\n",cnt);
-         fprintf(stdout,"# file_input(): state->flen set to %lu\n",state->flen);
+         fprintf(stdout,"# file_input(): state->flen set to %"PRId64"\n",state->flen);
        }
      }
      if(strncmp(splitbuf[0],"numbit",6) == 0){
-       filenumbits = atoi(splitbuf[1]);
+       if(sscanf(splitbuf[1], "%d", &filenumbits) != 1){
+         fprintf(stderr,"# file_input(): Error: invalid numbit value\n");
+         exit(0);
+       }
        cnt++;
        if(verbose){ 
          fprintf(stdout,"# file_input(): cnt = %d\n",cnt);
