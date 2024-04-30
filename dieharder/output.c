@@ -83,12 +83,12 @@ void output(Dtest *dtest,Test **test)
  if(strncmp("file_input",gsl_rng_name(rng),10) == 0){
    if(tflag & TFILE_RNG_STAT) {
      if(strncmp("file_input_raw",gsl_rng_name(rng),14) == 0){
-       fprintf(stdout,"# The %s %s %lu rands (%llu bytes) were used\n",
-               filename, gsl_rng_name(rng),file_input_get_rtot(rng),
+       fprintf(stdout,"# The %s %s %lld rands (%llu bytes) were used\n",
+               filename, gsl_rng_name(rng),(long long)file_input_get_rtot(rng),
                (unsigned long long)file_input_get_rtot(rng) * sizeof(uint));
      } else {
-       fprintf(stdout,"# The file %s %s %lu rands were used\n",
-               filename, gsl_rng_name(rng),file_input_get_rtot(rng));
+       fprintf(stdout,"# The file %s %s %lld rands were used\n",
+               filename, gsl_rng_name(rng),(long long)file_input_get_rtot(rng));
      }
      if(file_input_get_rewind_cnt(rng) == 0){
        fprintf(stdout,"# The file %s was rewound %u times\n",

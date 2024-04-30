@@ -170,7 +170,8 @@ static unsigned long int file_input_get (void *vstate)
    state->rptr++;
    state->rtot++;
    if(verbose){
-     fprintf(stdout,"# file_input() %lu: %lu/%lu -> %u\n", state->rtot, state->rptr,state->flen,(uint)iret);
+     fprintf(stdout,"# file_input() %lld: %lld/%lld -> %u\n",
+       (long long)state->rtot, (long long)state->rptr, (long long)state->flen, (uint)iret);
    }
 
    /*
@@ -277,8 +278,10 @@ static void file_input_set (void *vstate, unsigned long int s)
      state->rptr = 0;
      state->rewind_cnt++;
      if(verbose == D_FILE_INPUT || verbose == D_ALL){
-       fprintf(stderr,"# file_input(): Rewinding %s at rtot = %u\n", filename,(uint) state->rtot);
-       fprintf(stderr,"# file_input(): Rewind count = %u, resetting rptr = %lu\n",state->rewind_cnt,state->rptr);
+       fprintf(stderr,"# file_input(): Rewinding %s at rtot = %lld\n",
+         filename, (long long)state->rtot);
+       fprintf(stderr,"# file_input(): Rewind count = %u, resetting rptr = %lld\n",
+         state->rewind_cnt, (long long)state->rptr);
      }
    } else {
      return;
@@ -330,7 +333,7 @@ static void file_input_set (void *vstate, unsigned long int s)
        cnt++;
        if(verbose){ 
          fprintf(stdout,"# file_input(): cnt = %d\n",cnt);
-         fprintf(stdout,"# file_input(): state->flen set to %lu\n",state->flen);
+         fprintf(stdout,"# file_input(): state->flen set to %lld\n", (long long)state->flen);
        }
      }
      if(strncmp(splitbuf[0],"numbit",6) == 0){
