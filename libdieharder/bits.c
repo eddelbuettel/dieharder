@@ -312,7 +312,7 @@ int get_int_bit(unsigned int i, unsigned int n)
   * Note
   */
  if(n < 0 || n > 8*sizeof(unsigned int)){
-   fprintf(stderr,"Error: bit offset %u exceeds length %lu of uint.\n",n,8*sizeof(unsigned int));
+   fprintf(stderr,"Error: bit offset %u exceeds length %zu of uint.\n",n,8*sizeof(unsigned int));
    exit(0);
  }
 
