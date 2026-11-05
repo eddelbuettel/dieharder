@@ -70,7 +70,7 @@ double kstest(double *pvalue,int count)
    d1 = fabs(d1);
    d = fmax(d1,d2);
 
-   if(d1 > dmax) dmax = d1;
+   if(d > dmax) dmax = d;
    if(verbose == D_KSTEST || verbose == D_ALL){
      printf("%11.6f   %11.6f    %11.6f   %11.6f  %11.6f  %11.6f\n",pvalue[i-1],y,d,d1,d2,dmax);
    }
