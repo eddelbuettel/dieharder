@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
+    - name: dependencies
+      run: sudo apt update -qq && sudo apt install -y --no-install-recommends libgsl-dev
     - name: autogen.sh
       run: ./autogen.sh
     - name: configure
