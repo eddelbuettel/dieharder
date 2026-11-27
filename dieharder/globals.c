@@ -9,6 +9,7 @@
  * Dirk Eddelbuettel, Dec 2019, Dec 2022
  */
 
+#include <stdint.h>
 #include <sys/time.h>
 #include <sys/types.h>
 
@@ -93,7 +94,7 @@ char **fields;
 char filename[K];      /* Input file name */
 int fromfile;		/* set true if file is used for rands */
 int filenumbits;	/* number of bits per integer */
-off_t filecount;	/* number of rands in file */
+int64_t filecount;	/* number of rands in file */
 char filetype;         /* file type */
 
 const gsl_rng_type **types;       /* where all the rng types go */
