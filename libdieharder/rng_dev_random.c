@@ -24,7 +24,10 @@ dev_random_get (void *vstate)
   unsigned long int j;
 
   if(state->fp != NULL) {
-    fread(&j,sizeof(j),1,state->fp);
+    if(fread(&j,sizeof(j),1,state->fp) != 1){
+      fprintf(stderr,"Error: cannot read from /dev/random.  Exiting.\n");
+      exit(1);
+    }
     return j;
   } else {
     fprintf(stderr,"Error: /dev/random not open.  Exiting.\n");
